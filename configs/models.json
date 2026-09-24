@@ -1,0 +1,20 @@
+{
+  "klein": {
+    "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+    "revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+    "pipeline": "Flux2KleinPipeline",
+    "steps": 50,
+    "guidance_scale": 4.0,
+    "dtype": "bfloat16",
+    "license": "Apache-2.0"
+  },
+  "sdxl": {
+    "model_id": "stabilityai/stable-diffusion-xl-base-1.0",
+    "revision": "462165984030d82259a11f4367a4eed129e94a7b",
+    "pipeline": "StableDiffusionXLPipeline",
+    "steps": 40,
+    "guidance_scale": 5.0,
+    "dtype": "float16",
+    "license": "CreativeML-Open-RAIL++-M"
+  }
+}

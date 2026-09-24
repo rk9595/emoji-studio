@@ -1,0 +1,32 @@
+{
+  "status": "planned_not_authorized",
+  "experiment": "lora_100_step_quality_pilot_v1",
+  "purpose": "Measure whether the object-only adapter improves the intended style without unacceptable semantic regressions.",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "trainer_revision": "d035dcd7cc7c88e0a154609b62887d50bba9fdc2",
+  "trainer_sha256": "de02782d47ce4535eb9efad49bd90de1ddf9bebcd4313d344d3b1bbb5d536c53",
+  "export_hash": "0eaf81532ebbc8d382d5f709df179f00652914a097001a61ffaa629fe1739581",
+  "resolution": 512,
+  "rank": 16,
+  "learning_rate": 0.00005,
+  "batch_size": 1,
+  "gradient_accumulation": 4,
+  "max_steps": 100,
+  "checkpoint_steps": 25,
+  "checkpoint_adapters": [25, 50, 75, 100],
+  "mixed_precision": "bf16",
+  "gradient_checkpointing": true,
+  "train_text_encoder": false,
+  "push_to_hub": false,
+  "evaluation": {
+    "benchmark": "benchmarks/lora-quality-eval.json",
+    "seeds": [0, 1],
+    "steps": 50,
+    "guidance_scale": 4.0,
+    "resolution": 512,
+    "expected_pairs": 12
+  },
+  "decision_rule": "Review matched pairs for style fidelity, prompt semantics, small-size readability, diversity, and regressions. Do not select the adapter from training loss alone.",
+  "note": "Configuration is locked for local preparation only. A fresh single-use cost/time authorization is required before GPU allocation."
+}

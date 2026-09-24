@@ -1,0 +1,49 @@
+{
+  "status": "failed_before_training_cleaned_up",
+  "attempted_at": "2026-09-20",
+  "authorization": {
+    "authorization_id": "quality20260920a",
+    "max_total_dollars": 1.0,
+    "max_hourly_dollars": 0.7,
+    "max_elapsed_seconds": 2700,
+    "single_use_consumed": true
+  },
+  "instance": {
+    "instance_id": 51770686,
+    "gpu": "RTX PRO 5000",
+    "gpu_memory_mib": 48935,
+    "cpu_ram_mb": 69972,
+    "hourly_dollars": 0.6944444444444444,
+    "provider_lifecycle_seconds": 179.59672808647156
+  },
+  "result": {
+    "remote_environment_installed": true,
+    "remote_tests_passed": false,
+    "model_weights_downloaded": false,
+    "trainer_started": false,
+    "optimizer_steps": 0,
+    "evaluation_images": 0,
+    "cause": "The minimal project upload omitted benchmarks/development.json and scripts/remote_train.sh, which are required by the full remote unit-test suite. Fourteen tests errored before the training command could start.",
+    "partial_logs_recovered": true
+  },
+  "cost": {
+    "credit_before": 6.747652681069894,
+    "credit_after_immediate_cleanup": 6.723912604369893,
+    "immediate_observed_credit_change": 0.02374007670000111,
+    "latest_credit_observed_before_replacement": 6.686362042369893,
+    "latest_observed_credit_change": 0.061290638700001176,
+    "billing_may_lag": true
+  },
+  "cleanup": {
+    "destroy_call_succeeded": true,
+    "independent_total_instances": 0
+  },
+  "hardening_after_failure": {
+    "project_bundle_now_includes_complete_configs_benchmarks_and_scripts": true,
+    "workspace_unit_tests": 55,
+    "extracted_bundle_unit_tests": 55,
+    "ruff": "passed",
+    "retry_requires_new_single_use_authorization": true
+  },
+  "evidence": "artifacts/vast-quality-pilot/emoji-quality-a6baf53cb2"
+}

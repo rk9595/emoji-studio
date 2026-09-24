@@ -1,0 +1,100 @@
+{
+  "status": "completed_ai_visual_reviewed",
+  "completed_at": "2026-09-21T12:49:41.462127+00:00",
+  "conclusion": "style_learning_demonstrated_not_production_safe",
+  "training": {
+    "optimizer_steps": 100,
+    "optimizer_step_seconds_total": 108.6112,
+    "training_process_seconds": 312.4376,
+    "peak_observed_gpu_memory_mib": 15982,
+    "final_adapter": "runs/lora-quality-pilot/pytorch_lora_weights.safetensors",
+    "final_adapter_sha256": "d28456bd713d44836e7a5b323708c5ccf39f967386a6e5a1ccf43b65e4c6c63b",
+    "finite_tensor_count": 120,
+    "checkpoint_adapter_steps": [25, 50, 75, 100],
+    "step_100_matches_final_tensors": true
+  },
+  "evaluation": {
+    "matched_pairs": 12,
+    "images": 24,
+    "base_images": 12,
+    "adapted_images": 12,
+    "resolution": 512,
+    "inference_steps": 50,
+    "seeds": [0, 1],
+    "process_seconds": 356.7402,
+    "image_generation_seconds_min": 13.4725,
+    "image_generation_seconds_max": 16.6801,
+    "image_generation_seconds_mean": 14.4795875,
+    "all_checksums_verified": true
+  },
+  "visual_review": {
+    "reviewer": "OpenAI Codex AI visual review",
+    "blinded": false,
+    "independent_human_review": false,
+    "reference_images_consulted": true,
+    "summary": "The adapted samples consistently move toward the references' soft, simplified plastic forms and reduced realistic shading. Every concept remains recognizable, but simplification removes useful detail and harms the unseen bicycle's mechanical geometry.",
+    "rows": [
+      {
+        "prompt_id": "dev-heldout-01",
+        "concept": "Backpack",
+        "assessment": "positive_style_shift_with_detail_tradeoff",
+        "notes": "Both adapted seeds retain the pink backpack, yellow zipper bar, handle and front pocket. Materials and shadows are simpler and closer to the reference, while zipper and side detail are reduced."
+      },
+      {
+        "prompt_id": "dev-heldout-02",
+        "concept": "Books",
+        "assessment": "mixed",
+        "notes": "All samples retain exactly three green, pink and blue books. Adaptation makes the forms smoother and more reference-like but suppresses visible page edges, especially relative to base seed 0."
+      },
+      {
+        "prompt_id": "dev-heldout-03",
+        "concept": "Umbrella",
+        "assessment": "small_positive_style_shift",
+        "notes": "Both adapted seeds preserve the purple canopy, brown hooked handle and clear silhouette. Changes are subtle and mainly simplify highlights and panel shapes."
+      },
+      {
+        "prompt_id": "dev-heldout-04",
+        "concept": "Alarm clock",
+        "assessment": "positive_style_shift",
+        "notes": "Adaptation replaces metallic realism with the reference-like pink and yellow toy-plastic language while preserving a readable clock in both seeds. The face is deliberately simpler."
+      },
+      {
+        "prompt_id": "dev-generalization-01",
+        "concept": "Unseen bicycle",
+        "assessment": "semantic_regression",
+        "notes": "Both adapted seeds remain recognizable red bicycles with two wheels, but crank, pedal, fork or frame geometry is less coherent than the paired base images."
+      },
+      {
+        "prompt_id": "dev-regression-01",
+        "concept": "Excluded-domain raised hand",
+        "assessment": "no_material_semantic_regression",
+        "notes": "Both adapted seeds retain one palm-facing hand with five distinguishable fingers. The style becomes slightly softer without anatomy loss in this control."
+      }
+    ],
+    "aggregate": {
+      "recognizable_concepts": "12/12 adapted images",
+      "heldout_identity_retained": "8/8 adapted images",
+      "unseen_bicycle_geometry_regressions": "2/2 adapted images",
+      "hand_anatomy_retained": "2/2 adapted images",
+      "catastrophic_concept_or_sample_collapse_observed": false,
+      "production_ready": false
+    }
+  },
+  "cost_and_cleanup": {
+    "replacement_authorization_max_dollars": 0.9,
+    "replacement_credit_change_at_cleanup": 0.3151572184000102,
+    "replacement_latest_observed_credit_change": 0.3473632394000177,
+    "first_attempt_observed_change_at_replacement_start": 0.061290638700001176,
+    "combined_latest_observed_change": 0.40865387810001863,
+    "billing_may_lag": true,
+    "replacement_provider_lifecycle_seconds": 1197.9675636291504,
+    "remaining_instances": 0
+  },
+  "limitations": [
+    "This is an unblinded AI review of a 12-pair development set, not an independent human evaluation or sealed final test.",
+    "Only the step-100 adapter was rendered; the retained step-25, step-50 and step-75 adapters have not been compared visually.",
+    "The 16 training and four validation images originate at 256 pixels and remain too small and narrow for production claims.",
+    "A style-only object pilot does not establish improved two-hand interaction semantics."
+  ],
+  "recommendation": "Keep the result as evidence that the pipeline and style adaptation work. Do not promote the step-100 adapter as a universal default. Obtain a blinded human review and, before paying for more training, decide whether the bicycle/detail regressions justify a compact comparison of the retained earlier checkpoints."
+}

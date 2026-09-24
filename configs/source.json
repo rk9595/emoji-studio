@@ -1,0 +1,21 @@
+{
+  "repository": "microsoft/fluentui-emoji",
+  "revision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+  "license": "MIT",
+  "variant": "3D",
+  "priority_concepts": [
+    "Clapping hands", "Folded hands", "Handshake", "Raising hands", "Raised hand",
+    "Waving hand", "Thumbs up", "Thumbs down", "Victory hand", "Oncoming fist",
+    "Left-facing fist", "Right-facing fist", "Pinched fingers", "Pinching hand",
+    "Smiling face", "Grinning face", "Grinning face with sweat", "Face with tears of joy",
+    "Slightly smiling face", "Upside-down face", "Melting face", "Winking face",
+    "Thinking face", "Face with raised eyebrow", "Face with rolling eyes", "Unamused face",
+    "Relieved face", "Sleepy face", "Sleeping face", "Tired face", "Weary face",
+    "Pleading face", "Face holding back tears", "Smiling face with tear", "Exploding head",
+    "Brain", "Battery", "Low battery", "Light bulb", "Hot beverage", "Hourglass not done",
+    "Laptop", "Mobile phone", "Gear", "Wrench", "Adhesive bandage", "Rocket",
+    "Sparkles", "Party popper", "Wrapped gift", "Seedling", "Potted plant",
+    "Watering can", "Tulip", "Sunflower", "Gloves", "Backpack", "Books",
+    "Pencil", "Alarm clock", "Umbrella", "Cloud", "Sun", "Rainbow"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "split": "development",
+  "purpose": "Fixed before/after development evaluation for the first object-style LoRA pilot; not a sealed final test set.",
+  "prompts": [
+    {
+      "id": "dev-heldout-01",
+      "category": "heldout_object",
+      "mode": "emoji",
+      "prompt": "A compact pink backpack with a rounded front pocket and yellow zipper accents, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Recognizable single backpack",
+        "Pink body with yellow accents",
+        "Clear rounded silhouette at small size",
+        "No text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-heldout-02",
+      "category": "heldout_object",
+      "mode": "emoji",
+      "prompt": "Three overlapping upright books with green, pink, and blue covers, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly three recognizable books",
+        "Green, pink, and blue covers remain distinct",
+        "Visible page edges and clean overlap",
+        "No text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-heldout-03",
+      "category": "heldout_object",
+      "mode": "emoji",
+      "prompt": "An open purple umbrella with curved canopy panels and a brown hooked handle, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Recognizable single open umbrella",
+        "Purple canopy and brown hooked handle",
+        "Clean curved silhouette",
+        "No text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-heldout-04",
+      "category": "heldout_object",
+      "mode": "emoji",
+      "prompt": "A round pink alarm clock with two yellow bells and a pale face, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Recognizable single alarm clock",
+        "Round pink body with two yellow bells",
+        "Readable clock face without written text",
+        "No extra objects"
+      ]
+    },
+    {
+      "id": "dev-generalization-01",
+      "category": "unseen_object",
+      "mode": "emoji",
+      "prompt": "A small red bicycle with two clear wheels and a black seat, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Recognizable single bicycle",
+        "Exactly two distinct wheels",
+        "Frame remains coherent",
+        "No text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-regression-01",
+      "category": "excluded_domain_control",
+      "mode": "emoji",
+      "prompt": "A single raised open hand with five distinguishable fingers and the palm facing the viewer, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly one hand",
+        "Five distinguishable fingers",
+        "Palm faces the viewer",
+        "No text or extra objects"
+      ]
+    }
+  ]
+}

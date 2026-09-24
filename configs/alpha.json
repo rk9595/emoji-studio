@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "max_testers": 10,
+  "default_daily_image_quota": 20,
+  "default_requests_per_minute": 4,
+  "retention_days": 7,
+  "gpu_idle_seconds": 600,
+  "trial_generation_cap": 100,
+  "success_criteria": {
+    "minimum_usable_fraction": 0.7,
+    "maximum_failure_fraction": 0.05,
+    "maximum_warm_cost_per_image_dollars": 0.03
+  }
+}

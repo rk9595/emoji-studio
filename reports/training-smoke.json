@@ -1,0 +1,84 @@
+{
+  "status": "completed_final_adapter_recovered",
+  "completed_at": "2026-09-20T08:15:07.980516+00:00",
+  "authorization": {
+    "max_total_dollars": 3.0,
+    "max_hourly_dollars": 0.7,
+    "max_elapsed_seconds": 5400,
+    "one_gpu_only": true,
+    "pilot_100_steps_authorized": false
+  },
+  "successful_instance": {
+    "instance_id": 51717764,
+    "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+    "gpu_memory_bytes": 50754289664,
+    "cuda": "12.8",
+    "hourly_dollars": 0.6544444444444444,
+    "remote_workload_seconds": 256.6099,
+    "provider_lifecycle_seconds": 630.9516942501068
+  },
+  "checks": {
+    "full_trainer_import": true,
+    "first_optimizer_step": true,
+    "checkpoint_1_saved": true,
+    "checkpoint_1_reloaded": true,
+    "second_optimizer_step": true,
+    "checkpoint_2_saved_remotely": true,
+    "final_adapter_finite": true,
+    "target_categories_verified": true,
+    "adapter_changed_after_resume": true,
+    "final_adapter_loaded_for_inference": true,
+    "inference_completed": true,
+    "inference_image_recovered": false
+  },
+  "measurements": {
+    "first_optimizer_step_seconds": 1.2104,
+    "resumed_optimizer_step_seconds": 1.1646,
+    "training_peak_observed_gpu_memory_mib": 16002,
+    "adapter_inference_wall_seconds": 16.3606,
+    "adapter_inference_generation_seconds": 10.2017,
+    "adapter_inference_peak_allocated_bytes": 8386422784
+  },
+  "final_adapter": {
+    "path": "runs/lora-pilot-smoke/pytorch_lora_weights.safetensors",
+    "sha256": "25b4c831d894b2e1c322f21411315270c249b405014162833cd110e67939657f",
+    "tensor_count": 120,
+    "target_categories": [
+      "to_k",
+      "to_out",
+      "to_q",
+      "to_qkv_mlp_proj",
+      "to_v"
+    ]
+  },
+  "adapter_inference_receipt": {
+    "prompt": "A compact blue backpack, 3D emoji illustration, centered on a white background",
+    "seed": 0,
+    "steps": 4,
+    "guidance_scale": 4.0,
+    "adapter_sha256": "25b4c831d894b2e1c322f21411315270c249b405014162833cd110e67939657f",
+    "image_sha256": "4809d1fb3be3116a8ef52a95107dd6342447d1a2fc0d4c02ff90f85991e4c3fe",
+    "image_recovered": false
+  },
+  "cost": {
+    "credit_before_all_attempts": 7.089205108769882,
+    "credit_after_all_attempts": 6.747652681069894,
+    "cumulative_observed_change": 0.341552427699988,
+    "billing_may_lag": true
+  },
+  "cleanup": {
+    "all_attempt_cleanup_calls_succeeded": true,
+    "independent_final_total_instances": 0
+  },
+  "evidence": {
+    "completed_remote_report": "runs/training-smoke-report.json",
+    "successful_attempt": "artifacts/vast-training/emoji-training-7f4d8791c5",
+    "remote_training_log": "artifacts/vast-training/emoji-training-7f4d8791c5/recovered/training.log"
+  },
+  "limitations": [
+    "Only two optimizer steps were run; this is a technical validation, not a quality result.",
+    "The inference image was generated and checksum-recorded remotely but was not recovered before instance destruction.",
+    "Checkpoint 2 full optimizer state was not recovered; checkpoint 1 state and the final step-2 adapter are durable locally.",
+    "A 100-step pilot requires a new authorization."
+  ]
+}

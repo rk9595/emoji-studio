@@ -1,0 +1,79 @@
+{
+  "status": "superseded_by_completed_quality_pilot",
+  "prepared_at": "2026-09-20",
+  "experiment": "lora_100_step_quality_pilot_v1",
+  "locked_inputs": {
+    "export_hash": "0eaf81532ebbc8d382d5f709df179f00652914a097001a61ffaa629fe1739581",
+    "trainer_sha256": "de02782d47ce4535eb9efad49bd90de1ddf9bebcd4313d344d3b1bbb5d536c53",
+    "config_sha256": "4da69ff011745d37ec9dccbe48927eb1ef9d71dba7a2525cd060505fab6dcc18",
+    "evaluation_sha256": "d469cfc1f2ba996a30afd7c1c70d4d89b71e7b55eabbd8118070954073887864"
+  },
+  "training": {
+    "optimizer_steps": 100,
+    "gradient_accumulation": 4,
+    "resolution": 512,
+    "rank": 16,
+    "learning_rate": 0.00005,
+    "checkpoint_adapter_steps": [25, 50, 75, 100],
+    "text_encoder_trained": false,
+    "push_to_hub": false
+  },
+  "evaluation": {
+    "development_prompts": 6,
+    "seeds": [0, 1],
+    "matched_pairs": 12,
+    "total_images": 24,
+    "conditions": ["base", "adapted"],
+    "inference_steps": 50,
+    "resolution": 512,
+    "categories": {
+      "heldout_validation_concepts": 4,
+      "unseen_object_control": 1,
+      "excluded_domain_regression_control": 1
+    },
+    "review_dimensions": [
+      "style fidelity",
+      "prompt semantics",
+      "small-size readability",
+      "sample diversity",
+      "regressions"
+    ]
+  },
+  "safety": {
+    "single_use_authorization_required": true,
+    "one_gpu_only": true,
+    "hard_max_total_dollars": 2.0,
+    "hard_max_hourly_dollars": 0.7,
+    "hard_max_elapsed_seconds": 3600,
+    "independent_credit_guard": true,
+    "independent_elapsed_guard": true,
+    "ownership_checked_cleanup": true,
+    "compact_periodic_adapter_snapshots": true,
+    "full_optimizer_state_promised_after_teardown": false
+  },
+  "planning_estimate": {
+    "basis": "Two-step smoke measured about 1.2 seconds per optimizer step, 16,002 MiB sampled peak VRAM, and a 10.2-second four-step adapter image on one RTX PRO 5000 Blackwell. Setup and 24 fifty-step images dominate this pilot.",
+    "proposed_max_total_dollars": 1.0,
+    "proposed_max_hourly_dollars": 0.7,
+    "proposed_max_elapsed_seconds": 2700,
+    "estimate_is_not_authorization": true
+  },
+  "local_verification": {
+    "unit_tests": 55,
+    "ruff": "passed",
+    "uv_lock_check": "passed",
+    "quality_training_run": false,
+    "cloud_allocation": true,
+    "active_instances": 0
+  },
+  "first_attempt": {
+    "report": "reports/quality-pilot-attempt-1.json",
+    "result": "failed_before_training_cleaned_up",
+    "optimizer_steps": 0,
+    "evaluation_images": 0,
+    "latest_observed_credit_change": 0.061290638700001176,
+    "remaining_instances": 0,
+    "single_use_authorization_consumed": true,
+    "bundle_fix_verified_locally_and_from_extracted_archive": true
+  }
+}

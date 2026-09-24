@@ -1,0 +1,14 @@
+{
+  "status": "selected_by_blinded_human_review",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "adapter_path": "runs/lora-quality-pilot/adapters/step-25.safetensors",
+  "adapter_sha256": "2c7b15de79e9ac0bf59488068c9ec0f3444dec44899005499de87c2b28e93076",
+  "selected_step": 25,
+  "selection_report": "runs/checkpoint-selection/selection.json",
+  "selection_review_id": "879855b75437bf49efaf02eab22d028ffd9764e147aac50112f7343b80f05438",
+  "resolution": 512,
+  "steps": 50,
+  "guidance_scale": 4.0,
+  "style_suffix": ", a single centered 3D emoji sticker, soft rounded shapes, clean readable silhouette, plain light background, no text"
+}

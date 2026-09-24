@@ -1,0 +1,20 @@
+{
+  "status": "locked_pending_authorized_run",
+  "experiment": "lora_checkpoint_selection_v1",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "benchmark": "benchmarks/checkpoint-selection.json",
+  "checkpoints": [
+    {"step": 25, "path": "runs/lora-quality-pilot/adapters/step-25.safetensors", "sha256": "2c7b15de79e9ac0bf59488068c9ec0f3444dec44899005499de87c2b28e93076"},
+    {"step": 50, "path": "runs/lora-quality-pilot/adapters/step-50.safetensors", "sha256": "4fa7587194d8642d39a47078658daba2401c8e169712e42a5ce0018373e0c26a"},
+    {"step": 75, "path": "runs/lora-quality-pilot/adapters/step-75.safetensors", "sha256": "85224ed37fde4e62c480ddfc713a8baddc09e7bc203929eac1786a0b9262d657"},
+    {"step": 100, "path": "runs/lora-quality-pilot/adapters/step-100.safetensors", "sha256": "cba4f6b52b18b4819c181e4b5e49730c882f828b620bacd10640a533213ec5f9"}
+  ],
+  "seeds": [17, 29],
+  "steps": 50,
+  "guidance_scale": 4.0,
+  "resolution": 512,
+  "expected_prompts": 6,
+  "expected_images": 48,
+  "selection_rule": "Use blinded pairwise human preference. Prefer the earliest checkpoint among statistically tied candidates, and reject any checkpoint with repeated severe geometry regressions."
+}

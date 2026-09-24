@@ -1,0 +1,588 @@
+{
+  "version": 1,
+  "split": "development",
+  "description": "40 development prompts. Not a held-out final evaluation. Reference concepts are visual anchors, never generated results.",
+  "prompts": [
+    {
+      "id": "dev-gesture-01",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "An unmistakable high-five between two different hands, with a tiny burst where the palms meet.",
+      "criteria": [
+        "Exactly two distinct hands",
+        "Palms contact at one point",
+        "Reads as a high-five rather than praying"
+      ],
+      "references": [
+        "Folded hands",
+        "Clapping hands"
+      ]
+    },
+    {
+      "id": "dev-gesture-02",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "Two hands making a careful pinky promise.",
+      "criteria": [
+        "Two hands",
+        "Little fingers hooked together",
+        "Other fingers do not merge"
+      ],
+      "references": [
+        "Handshake"
+      ]
+    },
+    {
+      "id": "dev-gesture-03",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "A hand gently pressing a pause button.",
+      "criteria": [
+        "One hand touching one button",
+        "Pause symbol visible without words",
+        "Contact is clear"
+      ],
+      "references": [
+        "Raised hand"
+      ]
+    },
+    {
+      "id": "dev-gesture-04",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "A thumbs-up hand wearing a tiny adhesive bandage.",
+      "criteria": [
+        "Recognizable thumbs-up",
+        "Bandage attached to the thumb",
+        "No extra fingers"
+      ],
+      "references": [
+        "Thumbs up",
+        "Adhesive bandage"
+      ]
+    },
+    {
+      "id": "dev-gesture-05",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "A hand giving a reluctant thumbs-up, with a drooping wrist.",
+      "criteria": [
+        "Thumb points upward",
+        "Wrist visibly droops",
+        "Gesture stays recognizable at small size"
+      ],
+      "references": [
+        "Thumbs up"
+      ]
+    },
+    {
+      "id": "dev-gesture-06",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "Two fists bumping, with one small spark at contact.",
+      "criteria": [
+        "Two fists facing each other",
+        "Knuckles meet",
+        "One localized contact spark"
+      ],
+      "references": [
+        "Left-facing fist",
+        "Right-facing fist"
+      ]
+    },
+    {
+      "id": "dev-gesture-07",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "A hand holding an almost empty coffee cup with a shaky grip.",
+      "criteria": [
+        "Hand grips cup handle or body",
+        "Cup is nearly empty",
+        "Trembling suggested economically"
+      ],
+      "references": [
+        "Hot beverage"
+      ]
+    },
+    {
+      "id": "dev-gesture-08",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "Two hands cautiously passing a fragile glass heart.",
+      "criteria": [
+        "Two distinct hands",
+        "One glass-like heart between them",
+        "Reads as passing or receiving"
+      ],
+      "references": [
+        "Handshake"
+      ]
+    },
+    {
+      "id": "dev-gesture-09",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "A hand pinching an impossibly tiny amount of patience, shown as one tiny glowing dot.",
+      "criteria": [
+        "Thumb and index finger almost touch",
+        "One tiny dot between fingertips",
+        "Simple silhouette"
+      ],
+      "references": [
+        "Pinching hand"
+      ]
+    },
+    {
+      "id": "dev-gesture-10",
+      "category": "gesture",
+      "mode": "emoji",
+      "prompt": "Two hands forming a small roof over a seedling.",
+      "criteria": [
+        "Hands form protective roof",
+        "Seedling underneath",
+        "Plant does not grow from hands"
+      ],
+      "references": [
+        "Raising hands",
+        "Seedling"
+      ]
+    },
+    {
+      "id": "dev-reaction-01",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face whose brain is buffering, with a small loading ring above its head.",
+      "criteria": [
+        "Yellow face",
+        "One loading ring above head",
+        "Expression suggests stalled thought"
+      ],
+      "references": [
+        "Brain",
+        "Thinking face"
+      ]
+    },
+    {
+      "id": "dev-reaction-02",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face looking reluctantly impressed: raised eyebrow and a tiny approving smile.",
+      "criteria": [
+        "Raised eyebrow",
+        "Small approving smile",
+        "Both doubt and admiration suggested"
+      ],
+      "references": [
+        "Face with raised eyebrow"
+      ]
+    },
+    {
+      "id": "dev-reaction-03",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face running out of social battery, with a nearly empty battery beside its cheek.",
+      "criteria": [
+        "Tired expression",
+        "Nearly empty battery",
+        "Face and battery remain distinct"
+      ],
+      "references": [
+        "Battery",
+        "Tired face"
+      ]
+    },
+    {
+      "id": "dev-reaction-04",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face smiling politely through exhaustion.",
+      "criteria": [
+        "Polite smile",
+        "Clearly exhausted eyes",
+        "No text needed"
+      ],
+      "references": [
+        "Slightly smiling face",
+        "Weary face"
+      ]
+    },
+    {
+      "id": "dev-reaction-05",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face realizing it forgot why it entered the room.",
+      "criteria": [
+        "Confused pause",
+        "Eyes searching or unfocused",
+        "No excessive question marks"
+      ],
+      "references": [
+        "Thinking face"
+      ]
+    },
+    {
+      "id": "dev-reaction-06",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face proud of a terrible workaround, with a bandage on a cracked light bulb.",
+      "criteria": [
+        "Proud expression",
+        "Cracked light bulb",
+        "Bandage visibly repairs crack"
+      ],
+      "references": [
+        "Light bulb",
+        "Adhesive bandage"
+      ]
+    },
+    {
+      "id": "dev-reaction-07",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face trying to look calm while visibly panicking.",
+      "criteria": [
+        "Composed mouth",
+        "Wide or strained eyes",
+        "One restrained panic cue"
+      ],
+      "references": [
+        "Grinning face with sweat"
+      ]
+    },
+    {
+      "id": "dev-reaction-08",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face experiencing a tiny victory, with a very small party hat.",
+      "criteria": [
+        "Modest happy expression",
+        "Small party hat",
+        "Celebration is deliberately restrained"
+      ],
+      "references": [
+        "Party popper"
+      ]
+    },
+    {
+      "id": "dev-reaction-09",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face choosing silence, with a small zipper closing its mouth.",
+      "criteria": [
+        "Recognizable face",
+        "Zipper at mouth",
+        "Calm expression rather than injury"
+      ],
+      "references": [
+        "Slightly smiling face"
+      ]
+    },
+    {
+      "id": "dev-reaction-10",
+      "category": "reaction",
+      "mode": "emoji",
+      "prompt": "A yellow face looking hopeful but keeping one eye cautiously open.",
+      "criteria": [
+        "Hopeful expression",
+        "One eye open and one closed",
+        "Expression remains clear at 64 pixels"
+      ],
+      "references": [
+        "Winking face"
+      ]
+    },
+    {
+      "id": "dev-object-01",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "A coffee cup with a low-battery indicator on its side.",
+      "criteria": [
+        "Recognizable cup",
+        "Low-battery symbol on cup",
+        "No text"
+      ],
+      "references": [
+        "Hot beverage",
+        "Low battery"
+      ]
+    },
+    {
+      "id": "dev-object-02",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "A light bulb held together with a neat strip of tape.",
+      "criteria": [
+        "Recognizable bulb",
+        "Tape holds an apparent crack",
+        "Simple isolated object"
+      ],
+      "references": [
+        "Light bulb",
+        "Adhesive bandage"
+      ]
+    },
+    {
+      "id": "dev-object-03",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "A tiny rocket tangled in its own charging cable.",
+      "criteria": [
+        "Rocket",
+        "Cable visibly loops around it",
+        "Tangle reads without many thin lines"
+      ],
+      "references": [
+        "Rocket"
+      ]
+    },
+    {
+      "id": "dev-object-04",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "An hourglass filled with tiny coffee beans.",
+      "criteria": [
+        "Hourglass silhouette",
+        "Coffee beans inside chambers",
+        "No beans floating outside"
+      ],
+      "references": [
+        "Hourglass not done",
+        "Hot beverage"
+      ]
+    },
+    {
+      "id": "dev-object-05",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "A laptop wearing a small graduation cap.",
+      "criteria": [
+        "Laptop",
+        "Cap rests on screen edge",
+        "Both recognizable at small size"
+      ],
+      "references": [
+        "Laptop"
+      ]
+    },
+    {
+      "id": "dev-object-06",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "A cloud carrying a small umbrella over itself.",
+      "criteria": [
+        "Cloud",
+        "Umbrella above cloud",
+        "Clear visual relation"
+      ],
+      "references": [
+        "Cloud",
+        "Umbrella"
+      ]
+    },
+    {
+      "id": "dev-object-07",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "A battery with a seedling growing from its top.",
+      "criteria": [
+        "Battery silhouette",
+        "Plant emerges from top",
+        "Simple two-part composition"
+      ],
+      "references": [
+        "Battery",
+        "Seedling"
+      ]
+    },
+    {
+      "id": "dev-object-08",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "A gift box tied with a charging cable instead of ribbon.",
+      "criteria": [
+        "Gift box",
+        "Cable wraps around box",
+        "Plug makes cable identity clear"
+      ],
+      "references": [
+        "Wrapped gift"
+      ]
+    },
+    {
+      "id": "dev-object-09",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "A heart-shaped gear with one missing tooth.",
+      "criteria": [
+        "Heart-shaped outline",
+        "Gear teeth around edge",
+        "One visibly missing tooth"
+      ],
+      "references": [
+        "Gear"
+      ]
+    },
+    {
+      "id": "dev-object-10",
+      "category": "object",
+      "mode": "emoji",
+      "prompt": "A pencil with a small rainbow emerging from its tip.",
+      "criteria": [
+        "One pencil",
+        "Rainbow emerges from tip",
+        "No unrelated background"
+      ],
+      "references": [
+        "Pencil",
+        "Rainbow"
+      ]
+    },
+    {
+      "id": "dev-sticker-01",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "An exhausted yellow character at a desk with one coffee cup and a single unfinished checklist.",
+      "criteria": [
+        "Exhausted seated character",
+        "Desk and one cup",
+        "Checklist uses marks, not lettering"
+      ],
+      "references": [
+        "Tired face",
+        "Hot beverage"
+      ]
+    },
+    {
+      "id": "dev-sticker-02",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "A proud gardener holding a pot with one tiny seedling.",
+      "criteria": [
+        "Gardener holds pot",
+        "One small seedling",
+        "Proud expression"
+      ],
+      "references": [
+        "Seedling",
+        "Potted plant"
+      ]
+    },
+    {
+      "id": "dev-sticker-03",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "A yellow character carrying a stack of books taller than itself.",
+      "criteria": [
+        "Character supports books",
+        "Stack taller than character",
+        "Pose communicates effort"
+      ],
+      "references": [
+        "Books"
+      ]
+    },
+    {
+      "id": "dev-sticker-04",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "A yellow character carefully watering a single stubborn sprout.",
+      "criteria": [
+        "Water reaches sprout",
+        "One sprout",
+        "Concentrated expression"
+      ],
+      "references": [
+        "Seedling"
+      ]
+    },
+    {
+      "id": "dev-sticker-05",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "A relieved yellow character closing a laptop at sunset.",
+      "criteria": [
+        "Character closing laptop",
+        "Relieved expression",
+        "Sunset represented simply"
+      ],
+      "references": [
+        "Laptop",
+        "Relieved face"
+      ]
+    },
+    {
+      "id": "dev-sticker-06",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "A yellow character celebrating repairing a cracked mug with a bandage.",
+      "criteria": [
+        "Cracked mug",
+        "Bandage covers crack",
+        "Proud celebratory pose"
+      ],
+      "references": [
+        "Hot beverage",
+        "Adhesive bandage"
+      ]
+    },
+    {
+      "id": "dev-sticker-07",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "A sleepy yellow character using a cloud as a pillow.",
+      "criteria": [
+        "Sleepy character",
+        "Head rests on cloud",
+        "Simple uncluttered composition"
+      ],
+      "references": [
+        "Sleeping face",
+        "Cloud"
+      ]
+    },
+    {
+      "id": "dev-sticker-08",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "A yellow character shielding a small plant from rain with an umbrella.",
+      "criteria": [
+        "Umbrella covers plant",
+        "Character holds umbrella",
+        "Rain stays secondary"
+      ],
+      "references": [
+        "Potted plant",
+        "Umbrella"
+      ]
+    },
+    {
+      "id": "dev-sticker-09",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "A yellow character presenting one tiny trophy with exaggerated pride.",
+      "criteria": [
+        "One tiny trophy",
+        "Presenting gesture",
+        "Proud expression"
+      ],
+      "references": [
+        "Party popper"
+      ]
+    },
+    {
+      "id": "dev-sticker-10",
+      "category": "sticker",
+      "mode": "sticker",
+      "prompt": "A yellow character untangling a charging cable with determined concentration.",
+      "criteria": [
+        "Character handling cable",
+        "Recognizable cable tangle",
+        "Focused expression"
+      ],
+      "references": [
+        "Mobile phone",
+        "Thinking face"
+      ]
+    }
+  ]
+}

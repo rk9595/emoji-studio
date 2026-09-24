@@ -1,0 +1,26 @@
+{
+  "split": "development",
+  "purpose": "Small diagnostic control set, not a held-out quality benchmark.",
+  "prompts": [
+    {
+      "id": "dev-control-01", "category": "control", "mode": "emoji",
+      "prompt": "A single apple with a stem and one leaf, isolated on a white background.",
+      "criteria": ["Exactly one recognizable apple", "Visible stem and leaf", "No repeated grid or extraneous objects"]
+    },
+    {
+      "id": "dev-control-02", "category": "control", "mode": "emoji",
+      "prompt": "A single raised open hand, palm facing the viewer, five fingers, isolated on a white background.",
+      "criteria": ["Exactly one hand", "Five distinguishable fingers", "Palm faces viewer"]
+    },
+    {
+      "id": "dev-gesture-01", "category": "gesture", "mode": "emoji",
+      "prompt": "An unmistakable high-five between two different hands, with a tiny burst where the palms meet.",
+      "criteria": ["Exactly two distinct hands", "Palms contact at one point", "Reads as a high-five rather than praying"]
+    },
+    {
+      "id": "dev-gesture-02", "category": "gesture", "mode": "emoji",
+      "prompt": "Two hands making a careful pinky promise.",
+      "criteria": ["Two hands", "Little fingers hooked together", "Other fingers do not merge"]
+    }
+  ]
+}

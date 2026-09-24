@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "users": [
+    {
+      "id": "example-admin",
+      "token_sha256": "1c8bfe8f801d79745c4631d09fff36c82aa19dfab18e5c85aa6c92af8e9f5ec9",
+      "daily_image_quota": 20,
+      "requests_per_minute": 4,
+      "admin": true
+    }
+  ]
+}

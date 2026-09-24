@@ -1,0 +1,54 @@
+{
+  "split": "development",
+  "purpose": "Concept-disjoint checkpoint selection for the first object-style LoRA. No prompt concept appears in the 16 training or 4 validation concepts. This is development evidence, not a sealed final test set.",
+  "prompts": [
+    {
+      "id": "dev-select-01",
+      "concept": "Pineapple",
+      "category": "organic_shape",
+      "mode": "emoji",
+      "prompt": "A ripe golden pineapple with a leafy green crown, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": ["Recognizable single pineapple", "Golden body and green crown", "Readable textured silhouette at 32 pixels", "No text or extra objects"]
+    },
+    {
+      "id": "dev-select-02",
+      "concept": "Ladybug",
+      "category": "organic_shape",
+      "mode": "emoji",
+      "prompt": "A bright red ladybug with black spots and six small legs, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": ["Recognizable single ladybug", "Red shell with distinct black spots", "Six legs without severe anatomy artifacts", "No text or extra objects"]
+    },
+    {
+      "id": "dev-select-03",
+      "concept": "Bicycle",
+      "category": "mechanical_geometry",
+      "mode": "emoji",
+      "prompt": "A small red bicycle with two clear wheels and a black seat, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": ["Recognizable single bicycle", "Exactly two distinct wheels", "Frame and handlebars remain coherent", "No text or extra objects"]
+    },
+    {
+      "id": "dev-select-04",
+      "concept": "Kick scooter",
+      "category": "mechanical_geometry",
+      "mode": "emoji",
+      "prompt": "A mint green kick scooter with two small wheels and upright handlebars, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": ["Recognizable single kick scooter", "Exactly two wheels", "Deck, stem, and handlebars connect coherently", "No text or extra objects"]
+    },
+    {
+      "id": "dev-select-05",
+      "concept": "Camera",
+      "category": "structured_object",
+      "mode": "emoji",
+      "prompt": "A compact teal instant camera with a round lens and a small rainbow stripe, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": ["Recognizable single instant camera", "Round lens remains centered and coherent", "Teal body with a small rainbow accent", "No written text or extra objects"]
+    },
+    {
+      "id": "dev-select-06",
+      "concept": "Teapot",
+      "category": "structured_object",
+      "mode": "emoji",
+      "prompt": "A round blue teapot with a curved spout, top lid, and yellow handle, rendered as a polished 3D emoji illustration, centered on a plain white background.",
+      "criteria": ["Recognizable single teapot", "Spout, lid, and handle are distinct", "Blue body with yellow handle", "No text or extra objects"]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-09-16T12:38:56.582457+00:00",
+  "data_ready": true,
+  "training_authorized": false,
+  "curation_hash": "6e32e75ff5798266e69ee2b73cf711e9ba720457aa9a6fdea8dd8f14334a223a",
+  "reference_manifest_hash": "4b8e8c77b292b78768df782c1f76dc558691417b775dc70ce271d4fe90f364fc",
+  "accepted_counts": {
+    "train": 16,
+    "validation": 4
+  },
+  "blocking_issues": [],
+  "note": "Data readiness is not permission to rent GPUs or launch training. Low-resolution acceptance does not add image detail."
+}

@@ -1,0 +1,107 @@
+{
+  "split": "development",
+  "purpose": "Frozen pre-training evaluation for high-five semantics. Do not copy these exact prompts or rendered outputs into the training split.",
+  "prompts": [
+    {
+      "id": "dev-highfive-01",
+      "category": "high_five_core",
+      "mode": "emoji",
+      "prompt": "Exactly two open hands meeting palm-to-palm in one unmistakable high-five, fingers pointing upward, wrists separated, no faces or text.",
+      "criteria": [
+        "Exactly two hands",
+        "Both hands have five readable fingers",
+        "Palms meet at one clear contact point",
+        "Reads as a high-five rather than folded hands or clapping",
+        "No extra limbs, faces, or text"
+      ]
+    },
+    {
+      "id": "dev-highfive-02",
+      "category": "high_five_core",
+      "mode": "emoji",
+      "prompt": "A left hand and a right hand entering from opposite sides and touching palms in a celebratory high-five, with a tiny golden impact burst at the contact point.",
+      "criteria": [
+        "Exactly one left and one right hand",
+        "Hands enter from opposite sides",
+        "Palms touch without merging",
+        "Small burst is centered on the contact point",
+        "No text or additional objects"
+      ]
+    },
+    {
+      "id": "dev-highfive-03",
+      "category": "high_five_skin_tone",
+      "mode": "emoji",
+      "prompt": "Two open hands with different skin tones completing a high-five, palms touching, fingers upright and clearly separated, isolated with no people or faces.",
+      "criteria": [
+        "Exactly two hands with visibly different skin tones",
+        "Five readable fingers per hand",
+        "One clear palm-to-palm contact",
+        "No detached or duplicated fingers",
+        "No faces, bodies, or text"
+      ]
+    },
+    {
+      "id": "dev-highfive-04",
+      "category": "high_five_silhouette",
+      "mode": "emoji",
+      "prompt": "A minimal side-view silhouette of two hands completing a high-five, one from the left and one from the right, with clean separated wrists and fingers.",
+      "criteria": [
+        "Recognizable high-five at 32 pixels",
+        "Two hands remain visually distinct",
+        "Wrists and fingers do not fuse",
+        "Contact occurs at the palms",
+        "No text or decorative clutter"
+      ]
+    },
+    {
+      "id": "dev-control-03",
+      "category": "single_hand_control",
+      "mode": "emoji",
+      "prompt": "Exactly one raised open hand with five separated fingers and its palm facing the viewer, no second hand, face, or text.",
+      "criteria": [
+        "Exactly one hand",
+        "Five separated fingers",
+        "Palm faces the viewer",
+        "No duplicated hand, face, or text"
+      ]
+    },
+    {
+      "id": "dev-control-04",
+      "category": "folded_hands_control",
+      "mode": "emoji",
+      "prompt": "Two hands pressed together vertically in a folded-hands gesture, wrists together and fingers pointing upward, no impact burst or text.",
+      "criteria": [
+        "Reads as folded hands rather than a high-five",
+        "Exactly two hands",
+        "Hands share the same vertical direction",
+        "No impact burst or text"
+      ]
+    },
+    {
+      "id": "dev-control-05",
+      "category": "handshake_control",
+      "mode": "emoji",
+      "prompt": "Exactly two hands clasping horizontally in a handshake, one entering from each side, with coherent thumbs and no extra fingers or text.",
+      "criteria": [
+        "Reads as a handshake rather than a high-five",
+        "Exactly two hands entering from opposite sides",
+        "Coherent clasp and thumbs",
+        "No extra fingers, arms, or text"
+      ]
+    },
+    {
+      "id": "dev-control-06",
+      "category": "clapping_control",
+      "mode": "emoji",
+      "prompt": "Exactly two open hands clapping with one hand in front of the other and small motion marks, five readable fingers per hand, no text.",
+      "criteria": [
+        "Reads as clapping rather than a high-five",
+        "Exactly two hands at different depths",
+        "Five readable fingers per hand",
+        "Motion marks do not obscure the hands",
+        "No text"
+      ]
+    }
+  ]
+}

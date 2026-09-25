@@ -110,27 +110,62 @@ def offer_allowed(offer, hourly_limit):
         return False
 
 
-def guard(path):
+def guard(path, *, clock=None, sleep=None):
+    clock, sleep = clock or time.time, sleep or time.sleep
     state = read_json(path)
     done = path.parent / "cleanup.json"
+    last_poll = None
+    credit_failed_since = None
+    stop_at = state["deadline_epoch"] - state.get("cleanup_lead_seconds", 0)
     while not done.exists():
+        timestamp = clock()
+        heartbeat = {"time": timestamp, "stop_at": stop_at}
+        if last_poll is not None:
+            heartbeat["poll_gap_seconds"] = timestamp - last_poll
+        last_poll = timestamp
         try:
-            expired = time.time() >= state["deadline_epoch"]
-            spent = state["credit_before"] - credit()
-            if expired or spent >= state["max_total_dollars"]:
+            # Deadline teardown must not depend on the billing endpoint succeeding.
+            reason = "deadline" if timestamp >= stop_at else None
+            if reason is None:
+                try:
+                    spent = state["credit_before"] - credit()
+                    heartbeat["observed_spent"] = spent
+                    credit_failed_since = None
+                    if spent >= state["max_total_dollars"]:
+                        reason = "credit_guard"
+                except Exception as error:
+                    credit_failed_since = (
+                        timestamp if credit_failed_since is None else credit_failed_since
+                    )
+                    heartbeat["credit_error"] = type(error).__name__
+                    if clock() - credit_failed_since >= 120:
+                        reason = "credit_unavailable"
+                # A slow credit request can itself cross the stop time.
+                if clock() >= stop_at:
+                    reason = "deadline"
+            heartbeat["stop_reason"] = reason
+            if reason:
                 result = destroy(state)
                 write_json(
                     path.parent / "guard-result.json",
                     {
-                        "reason": "deadline" if expired else "credit_guard",
+                        "reason": reason,
                         "result": result,
-                        "time": time.time(),
+                        "time": clock(),
+                        "deadline_epoch": state["deadline_epoch"],
+                        "poll_gap_seconds": heartbeat.get("poll_gap_seconds"),
                     },
                 )
                 return
         except Exception as error:
+            heartbeat["cleanup_error"] = type(error).__name__
             print(f"Guard retry: {type(error).__name__}", flush=True)
-        time.sleep(20)
+        try:
+            write_json(path.parent / "guard-heartbeat.json", heartbeat)
+        except OSError:
+            # A full local disk must not prevent the next cleanup attempt.
+            pass
+        sleep(min(20, max(1, stop_at - clock())))
 
 
 def build_archive(target):

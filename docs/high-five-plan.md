@@ -59,6 +59,11 @@ anatomy, and measure memory/runtime before planning the full dataset. Do not cop
 the frozen evaluation prompts into this candidate batch. No Qwen weights have been
 downloaded and no such run has been launched.
 
+The [four-image teacher trial is now implemented](../reports/high-five-teacher-preparation.md),
+including a locked sampler, independent workload timeout, verified snapshots and
+a separate single-use Vast launcher. It remains unexecuted pending a fresh compute
+limit and an eligible offer. It does not automatically accept its outputs for training.
+
 ## Baselines
 
 Render the same fixed seeds for:

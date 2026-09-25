@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment": "qwen_high_five_candidates_v1",
+  "model_id": "Qwen/Qwen-Image-2512",
+  "model_revision": "25468b98e3276ca6700de15c6628e51b7de54a26",
+  "model_license": "Apache-2.0",
+  "model_card_sha256": "db371596007403d9588e0d78d9798ecafa59bf7772fbdc12952e581b1562920b",
+  "width": 1328,
+  "height": 1328,
+  "steps": 50,
+  "true_cfg_scale": 4.0,
+  "negative_prompt": "extra hands, extra fingers, missing fingers, fused fingers, disconnected fingers, twisted wrists, praying, clapping, handshake, touching only fingertips, text, watermark, face, body",
+  "style": "A single polished 3D emoji icon with rounded soft shapes, clear natural hand anatomy, gentle shading, plain white background and generous margins. Show only the two hands and short forearms; no text or decorative objects.",
+  "candidates": [
+    {
+      "id": "qwen-hi5-001",
+      "seed": 101,
+      "pose_group": "candidate-wide-v-oblique",
+      "tone_pair": ["light", "dark"],
+      "description": "A celebratory high five between a light-skinned person's hand reaching diagonally upward from the lower left and a dark-skinned person's hand reaching diagonally upward from the lower right. The forearms form a broad V. Show the instant their palm surfaces press against one another above the middle of the icon, with fingers naturally fanned above the contact. Use an oblique view so one hand's back and the other hand's thumb edge are visible. Each hand has four fingers and one thumb."
+    },
+    {
+      "id": "qwen-hi5-002",
+      "seed": 202,
+      "pose_group": "candidate-offset-height",
+      "tone_pair": ["medium", "light"],
+      "description": "Two people exchange a high five. A medium-brown hand approaches from the left at a slightly higher angle, and a light-skinned hand rises from the lower right. The flat centers of their palms touch while their wrists remain apart. The fingers spread naturally into two coherent fans above the palms, with four fingers and a thumb on each hand. The camera looks slightly down at the touching palms and the short separated forearms."
+    },
+    {
+      "id": "qwen-hi5-003",
+      "seed": 303,
+      "pose_group": "candidate-shallow-three-quarter",
+      "tone_pair": ["dark", "medium"],
+      "description": "A dark-skinned hand and a medium-brown hand strike a friendly high five in a shallow three-quarter camera view. One forearm runs in from the left edge and bends upward at the wrist; the other arrives diagonally from below on the right. The palm surfaces make broad contact, while their thumbs and wrists remain separate. All visible digits connect naturally to their own hand, with four fingers and one thumb per hand."
+    },
+    {
+      "id": "qwen-hi5-004",
+      "seed": 404,
+      "pose_group": "candidate-asymmetric-golden",
+      "tone_pair": ["yellow", "yellow"],
+      "description": "Two golden-yellow hands from different people complete an energetic high five. Their forearms approach from opposite lower corners at unequal angles. The center of one palm presses into the center of the other, with both fans of fingers angled upward and the two wrists visibly far apart. Show a slightly rotated camera view, with clear depth between the hands and coherent thumbs. Each hand has exactly four fingers and one thumb."
+    }
+  ],
+  "note": "Four unreviewed candidate images only. No training or automatic curation acceptance. GPU memory and runtime are unmeasured."
+}

@@ -4,6 +4,26 @@ Updated 2026-09-25.
 
 ## Latest continuation
 
+Additional preparation, September 25:
+
+- Implemented the four-image Qwen candidate trial in
+  `configs/high-five-teacher-pilot.json`, `scripts/sample_interaction_teacher.py`,
+  `scripts/remote_teacher_pilot.py` and `scripts/vast_teacher_pilot.py`.
+- Fixed a real shared-watchdog defect: expired deadlines previously still depended
+  on a successful billing lookup. Added deadline-first cleanup, stale-credit
+  handling, heartbeat evidence and regression tests. This does not establish the
+  entire cause of the old late cleanup or guarantee billing caps during outages.
+- Trial launcher checks guard liveness, reserves three minutes and $0.15 for cleanup,
+  snapshots only committed images, and verifies checksums/dimensions before import.
+- All 102 tests and Ruff pass; the actual minimal upload archive was inspected.
+- No Qwen weights downloaded, no candidates sampled, no training, no GPU allocation.
+  A fresh API check showed zero instances and unchanged $6.1884668369 credit.
+- Proposed new scope is $1.50 total, <=$0.70/hour, one GPU, 60 minutes. The user was
+  asked asynchronously for this limit but has not answered it. Do not treat the
+  proposal or the old alpha budget as authorization. No matching 48 GB GPU / 128 GB
+  RAM offer was available during the read-only marketplace check.
+- Details and exact commands: `reports/high-five-teacher-preparation.md`.
+
 - Completed 32 matched base/style high-five/control renders on the existing GPU;
   verified every downloaded PNG. No new training steps.
 - Preliminary AI review found no clear high-five pass in either condition; human

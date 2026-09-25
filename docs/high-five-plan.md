@@ -8,6 +8,11 @@ The frozen development benchmark is `benchmarks/high-five-v1.json`. It contains 
 
 ## Evidence available now
 
+Update, September 25: the [32-image matched baseline](../reports/high-five-baseline.md)
+has completed and all image hashes are verified. Preliminary unblinded AI review
+found no clear high-five passes in either model condition. The existing object
+adapter remains the serving adapter; no interaction training has run.
+
 The licensed Fluent source inventory contains useful anatomy and contrast concepts, including raised hand, waving hand, clapping hands, folded hands, handshake, raising hands, left- and right-facing fists, and pushing hands. It does not contain an exact high-five concept in the reviewed source revision.
 
 Those neighboring gestures are suitable for controls and anatomy preservation. They are not positive high-five examples and must not be mislabeled as such.
@@ -27,6 +32,32 @@ Before training, curate or commission positive examples with explicit redistribu
 Synthetic examples may be considered only with recorded generator, prompt, model/version, date and applicable usage terms. AI-generated data must be visually reviewed; malformed fingers cannot become supervision.
 
 Do not train on the exact frozen benchmark prompts or its generated outputs.
+
+The executable data check is now:
+
+```sh
+uv run python scripts/prepare_interactions.py
+```
+
+Candidate records live in `configs/high-five-curation.json`. Each kept row needs a
+local image and SHA-256, an accurate caption, source/permission evidence, a review
+bound to that exact image hash, a pose group and a source lineage group. Related
+edits and recolors stay in the same split. `decision: pending` and `reject` never
+count toward readiness. Four Fluent controls have explicit AI reviews. Neither
+of the two imagegen reference candidates is admitted to training.
+
+The script checks at least eight distinct training pose groups and four validation
+pose groups, as well as the 24/8 image minimums and skin-tone coverage. These
+numbers are pilot requirements, not evidence that this amount of data is sufficient.
+
+For synthetic data, an open-model candidate source to test is
+[Qwen-Image-2512](https://huggingface.co/Qwen/Qwen-Image-2512), whose published model
+card declares Apache-2.0. The inspected revision is
+`25468b98e3276ca6700de15c6628e51b7de54a26`. This is a proposed teacher, not a proven
+high-five solution. Begin with a few novel compositions, inspect actual output
+anatomy, and measure memory/runtime before planning the full dataset. Do not copy
+the frozen evaluation prompts into this candidate batch. No Qwen weights have been
+downloaded and no such run has been launched.
 
 ## Baselines
 

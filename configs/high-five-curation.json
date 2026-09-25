@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "benchmark_sha256": "4d7d07c5188d2385657182fbec7215d32489ed93392b26fa05e7f4d3c1ae5bc8",
+  "rows": [
+    {
+      "id": "synthetic-high-five-001",
+      "path": "data/interactions/v1/candidates/high-five-001.png",
+      "sha256": "785131a5a8a4bbd4186f92d2b598ce04a4d3eaee748887d0a8d98eb0cc87ed4b",
+      "decision": "reject",
+      "split": null,
+      "gesture": "high_five",
+      "lineage_group": "synthetic-high-five-001",
+      "pose_group": "wide-v-three-quarter-001",
+      "tone_pair": [
+        "yellow",
+        "yellow"
+      ],
+      "caption": "Two golden hands from separate people meet in a high-five above widely separated forearms, rendered as a rounded 3D emoji on white.",
+      "source": {
+        "kind": "synthetic",
+        "origin": "Codex built-in image_gen",
+        "creator": "OpenAI image generation tool",
+        "generator": "image_gen",
+        "model_version": null,
+        "generated_at": "2026-09-24",
+        "prompt": "Use case: stylized-concept\nAsset type: one candidate emoji reference for a high-five interaction study, square composition.\nScene: plain white background.\nSubject: celebratory high five between two different people, showing only their two hands and short forearms. One forearm enters diagonally from bottom left; the other enters diagonally from bottom right. Their open palms strike together above center. Both wrists stay far apart, forming a wide V. Fingers fan upward; show four fingers and one thumb belonging coherently to each hand. Use a slight three-quarter view so both hands remain individually legible and the palm contact is clear. One hand warm golden yellow, the other slightly deeper amber.\nStyle: polished rounded 3D mobile emoji, soft clay-like material, simple smooth shading, crisp silhouette, generous white margins.\nConstraints: exactly two hands, five digits on each, no fused or detached fingers, no clasping or interlocked fingers, no prayer pose, no face, no body, no lettering, no decorative burst, no watermark. One icon only, no sheet or panel grid.",
+        "terms": null,
+        "terms_evidence": null,
+        "training_permitted": false,
+        "redistribution_permitted": false
+      },
+      "review": {
+        "reviewer": "Codex AI preliminary inspection; human review pending",
+        "image_sha256": "785131a5a8a4bbd4186f92d2b598ce04a4d3eaee748887d0a8d98eb0cc87ed4b",
+        "gesture_correct": null,
+        "anatomy_correct": null,
+        "readable_32px": null,
+        "caption_correct": null,
+        "palm_contact": null,
+        "wrists_separated": true,
+        "notes": "AI inspection: rear-hand fingers are obscured, so five digits on that hand cannot be verified. Not admitted to training."
+      }
+    },
+    {
+      "id": "synthetic-high-five-001-v2",
+      "path": "data/interactions/v1/candidates/high-five-001-v2.png",
+      "sha256": "17338905744f55181b020f54350478ddb355627dba71df5fc04185dc8ea3506e",
+      "decision": "pending",
+      "split": null,
+      "gesture": "high_five",
+      "lineage_group": "synthetic-high-five-001",
+      "pose_group": "wide-v-three-quarter-001",
+      "tone_pair": [
+        "yellow",
+        "yellow"
+      ],
+      "caption": "Two golden hands from separate people meet in a high-five above widely separated forearms, rendered as a rounded 3D emoji on white.",
+      "source": {
+        "kind": "synthetic",
+        "origin": "Codex built-in image_gen",
+        "creator": "OpenAI image generation tool",
+        "generator": "image_gen",
+        "model_version": null,
+        "generated_at": "2026-09-24",
+        "prompt": "Use case: precise-object-edit. Edit the attached high-five candidate. Keep the two different people's hands, broad V arrangement of forearms, the actual palm-to-palm high-five, golden yellow and amber palette, white background, and rounded polished 3D emoji style. Change only the finger staging and camera angle enough to make each hand's four fingers plus one thumb separately traceable to its own palm. Fan the rear amber hand's fingers slightly toward the upper right so they are not hidden directly behind the yellow hand. Keep anatomically coherent palm contact; no extra digits and no fused digits. Keep generous white space around the entire icon. One icon, no labels, no text, no burst.",
+        "terms": null,
+        "terms_evidence": null,
+        "training_permitted": false,
+        "redistribution_permitted": false
+      },
+      "review": {
+        "reviewer": "Codex AI preliminary inspection; human review pending",
+        "image_sha256": "17338905744f55181b020f54350478ddb355627dba71df5fc04185dc8ea3506e",
+        "gesture_correct": null,
+        "anatomy_correct": null,
+        "readable_32px": null,
+        "caption_correct": null,
+        "palm_contact": null,
+        "wrists_separated": true,
+        "notes": "AI inspection: rear finger separation improved and V wrists retained. Human gesture/anatomy/32px review and source training permissions remain pending. Same pose lineage as v1; not a second independent example."
+      }
+    },
+    {
+      "id": "fluent-db9daebe98bb43fb",
+      "path": "data/assets/db9daebe98bb43fb.png",
+      "sha256": "54075bd39fd3e1860ba39898d73e61096c0e0e633ac5e9840beefddaf1d75113",
+      "decision": "keep",
+      "split": "train",
+      "gesture": "clapping",
+      "lineage_group": "fluent-clapping",
+      "pose_group": "fluent-clapping",
+      "caption": "Two overlapping golden hands clapping diagonally, with three small blue motion marks above them, a rounded 3D emoji.",
+      "allow_low_resolution": true,
+      "source": {
+        "kind": "licensed_artwork",
+        "origin": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Clapping%20hands/Default/3D/clapping_hands_3d_default.png",
+        "creator": "Microsoft Corporation",
+        "terms": "MIT",
+        "terms_evidence": "data/sources/fluent/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/LICENSE",
+        "training_permitted": true,
+        "redistribution_permitted": true
+      },
+      "review": {
+        "reviewer": "Codex AI visual inspection, 2026-09-24; not human review",
+        "image_sha256": "54075bd39fd3e1860ba39898d73e61096c0e0e633ac5e9840beefddaf1d75113",
+        "gesture_correct": true,
+        "anatomy_correct": true,
+        "readable_32px": true,
+        "caption_correct": true,
+        "notes": "Inspected at native 256px, 64px and 32px. Natural digit occlusion is accepted for this control; not a high-five positive. Native 256px limitation acknowledged."
+      }
+    },
+    {
+      "id": "fluent-e30be1deb919f5ef",
+      "path": "data/assets/e30be1deb919f5ef.png",
+      "sha256": "69090ea19b7741e691f878fe3f1649a8d18f42fc59e1912ea799bf4e35045039",
+      "decision": "keep",
+      "split": "train",
+      "gesture": "folded_hands",
+      "lineage_group": "fluent-folded_hands",
+      "pose_group": "fluent-folded_hands",
+      "caption": "Golden folded hands held upright with touching wrists and purple sleeves, a symmetric rounded 3D emoji.",
+      "allow_low_resolution": true,
+      "source": {
+        "kind": "licensed_artwork",
+        "origin": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Folded%20hands/Default/3D/folded_hands_3d_default.png",
+        "creator": "Microsoft Corporation",
+        "terms": "MIT",
+        "terms_evidence": "data/sources/fluent/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/LICENSE",
+        "training_permitted": true,
+        "redistribution_permitted": true
+      },
+      "review": {
+        "reviewer": "Codex AI visual inspection, 2026-09-24; not human review",
+        "image_sha256": "69090ea19b7741e691f878fe3f1649a8d18f42fc59e1912ea799bf4e35045039",
+        "gesture_correct": true,
+        "anatomy_correct": true,
+        "readable_32px": true,
+        "caption_correct": true,
+        "notes": "Inspected at native 256px, 64px and 32px. Natural digit occlusion is accepted for this control; not a high-five positive. Native 256px limitation acknowledged."
+      }
+    },
+    {
+      "id": "fluent-97c439e2c03172b8",
+      "path": "data/assets/97c439e2c03172b8.png",
+      "sha256": "fd0c3ae54cf208f371636263f4c972b54ac929fef0455b9d15ce72c04fee0f2b",
+      "decision": "keep",
+      "split": "train",
+      "gesture": "handshake",
+      "lineage_group": "fluent-handshake",
+      "pose_group": "fluent-handshake",
+      "caption": "Two golden hands clasped in a handshake, with curved thumbs over the clasp, a rounded 3D emoji.",
+      "allow_low_resolution": true,
+      "source": {
+        "kind": "licensed_artwork",
+        "origin": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Handshake/3D/handshake_3d.png",
+        "creator": "Microsoft Corporation",
+        "terms": "MIT",
+        "terms_evidence": "data/sources/fluent/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/LICENSE",
+        "training_permitted": true,
+        "redistribution_permitted": true
+      },
+      "review": {
+        "reviewer": "Codex AI visual inspection, 2026-09-24; not human review",
+        "image_sha256": "fd0c3ae54cf208f371636263f4c972b54ac929fef0455b9d15ce72c04fee0f2b",
+        "gesture_correct": true,
+        "anatomy_correct": true,
+        "readable_32px": true,
+        "caption_correct": true,
+        "notes": "Inspected at native 256px, 64px and 32px. Natural digit occlusion is accepted for this control; not a high-five positive. Native 256px limitation acknowledged."
+      }
+    },
+    {
+      "id": "fluent-00b105b7004c67c3",
+      "path": "data/assets/00b105b7004c67c3.png",
+      "sha256": "70a05b72094c836ffc45fce31b551cb939daecf36526ad745f844fa7bc98f2ff",
+      "decision": "keep",
+      "split": "train",
+      "gesture": "raised_hand",
+      "lineage_group": "fluent-raised_hand",
+      "pose_group": "fluent-raised_hand",
+      "caption": "One upright golden open hand with four rounded fingers and a thumb on the right, palm toward the viewer, a rounded 3D emoji.",
+      "allow_low_resolution": true,
+      "source": {
+        "kind": "licensed_artwork",
+        "origin": "https://raw.githubusercontent.com/microsoft/fluentui-emoji/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Raised%20hand/Default/3D/raised_hand_3d_default.png",
+        "creator": "Microsoft Corporation",
+        "terms": "MIT",
+        "terms_evidence": "data/sources/fluent/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/LICENSE",
+        "training_permitted": true,
+        "redistribution_permitted": true
+      },
+      "review": {
+        "reviewer": "Codex AI visual inspection, 2026-09-24; not human review",
+        "image_sha256": "70a05b72094c836ffc45fce31b551cb939daecf36526ad745f844fa7bc98f2ff",
+        "gesture_correct": true,
+        "anatomy_correct": true,
+        "readable_32px": true,
+        "caption_correct": true,
+        "notes": "Inspected at native 256px, 64px and 32px. Natural digit occlusion is accepted for this control; not a high-five positive. Native 256px limitation acknowledged."
+      }
+    }
+  ]
+}

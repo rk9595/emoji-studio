@@ -1,6 +1,37 @@
 # Emoji Studio continuation handoff
 
-Updated 2026-09-24.
+Updated 2026-09-25.
+
+## Latest continuation
+
+- Completed 32 matched base/style high-five/control renders on the existing GPU;
+  verified every downloaded PNG. No new training steps.
+- Preliminary AI review found no clear high-five pass in either condition; human
+  review is pending. Step-25 seed-29 raised-hand control has six digits.
+- Local gallery: `runs/high-five-baseline-v1/review.html`. Public report:
+  `reports/high-five-baseline.md`, with four actual generated evidence images.
+- Added `scripts/evaluate_interactions.py`, `scripts/build_interaction_review.py`,
+  `scripts/prepare_interactions.py` and an interaction-specific data readiness check.
+- `configs/high-five-curation.json` contains four reviewed MIT controls and two
+  imagegen candidates (one rejected, one pending). Zero positive high-five examples
+  are accepted. Both synthetic candidates share one pose lineage. Do not train on
+  them or assume their training permissions/model version are known.
+- The pinned Fluent folded-hands metadata includes high-five search keywords;
+  captions must describe the actual gesture instead of copying those aliases.
+- All 89 local tests and Ruff passed during this continuation.
+- Existing instance 52434441 was destroyed by its guard. A September 25 v1 API
+  query verified zero instances. Do not reuse the stale session record or budget.
+- Whole manual-session observed credit change: $3.5573242985 against the intended
+  $3 cap. Guard destruction was recorded 59.50 minutes late; the cause is not fully
+  established. Investigate guard reliability before another unattended rental.
+- Previous manual-test `var/` was backed up privately under
+  `artifacts/vast-alpha-session/emoji-alpha-ddefe55507/saved-var`; the stale current
+  pointer was archived as `current.closed.json`. Do not publish private history.
+- Next: obtain an approved source of positive examples; an Apache-2.0 Qwen teacher
+  is a proposed candidate, not tested. Curate positives, satisfy pose-disjoint data
+  checks, then prepare a separate interaction adapter and a newly bounded GPU run.
+
+The sections below describe earlier milestones and historical session details.
 
 ## Completed
 

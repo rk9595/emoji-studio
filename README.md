@@ -18,6 +18,15 @@ The [real single-GPU service load test](reports/service-load-test.md) is complet
 
 For the current model's evidence-backed strengths and limitations, use the [prompt guide](docs/prompt-guide.md). A publication-oriented account of the full experiment is available as a [technical retrospective draft](docs/blog/what-a-small-image-lora-taught-us.md).
 
+The [high-five baseline](reports/high-five-baseline.md) now contains 32 verified
+base/step-25 images. Preliminary AI inspection found no clearly correct high-five
+in either set of eight, plus a six-digit hand regression in one adapted control.
+The interaction data check and review gallery are implemented; four licensed hand
+controls are curated, but positive high-five data is still missing. No interaction
+adapter has been trained. The same report records a $0.56 observed overrun in the
+old manual-test session and late watchdog cleanup; zero instances were verified
+on September 25.
+
 The two-step cloud lifecycle in `scripts/vast_train.py` requires a separate, unexpired, single-use authorization record. It permits one GPU only, independently checks the marketplace offer against the authorized hourly rate, enforces provider-credit and wall-clock guards, snapshots checkpoints locally, and destroys the owned instance on exit. The completed smoke ran one optimizer step, saved checkpoint 1, resumed for checkpoint 2, validated finite saved adapter tensors and target categories, then loaded that exact adapter for a four-step inference check. All instances are destroyed.
 
 The first serving vertical slice is implemented and exercised on a rented GPU: bearer authentication, request IDs, a persistent single-worker queue, deterministic seeds, lazy model/adapter caching, idle GPU unload, status polling, transparent PNG/WebP exports, pack requests, a browser UI, a small Python client, and Prometheus metrics. Private-alpha controls now add hashed per-user tokens, owner-isolated history and downloads, persistent daily and 100-image trial quotas, request rate limits, seven-day deletion, explicit feedback, user deletion, and an alpha decision report. The local deterministic mock integration test remains the inexpensive regression path.

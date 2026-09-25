@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "manifest_hash": "ed2c2305566e91cbe75ffac2182abc70f509bd6cc5c9cea202d56cbc40adab4a",
+  "benchmark_sha256": "4d7d07c5188d2385657182fbec7215d32489ed93392b26fa05e7f4d3c1ae5bc8",
+  "data_ready": false,
+  "training_authorized": false,
+  "accepted_counts": {
+    "train/clapping": 1,
+    "train/folded_hands": 1,
+    "train/handshake": 1,
+    "train/raised_hand": 1
+  },
+  "candidate_count": 6,
+  "blocking_issues": [
+    {
+      "id": "train",
+      "reasons": [
+        "need_24_reviewed_high_fives"
+      ]
+    },
+    {
+      "id": "train",
+      "reasons": [
+        "need_8_distinct_poses"
+      ]
+    },
+    {
+      "id": "train:light",
+      "reasons": [
+        "insufficient_tone_coverage"
+      ]
+    },
+    {
+      "id": "train:medium",
+      "reasons": [
+        "insufficient_tone_coverage"
+      ]
+    },
+    {
+      "id": "train:dark",
+      "reasons": [
+        "insufficient_tone_coverage"
+      ]
+    },
+    {
+      "id": "validation",
+      "reasons": [
+        "need_8_reviewed_high_fives"
+      ]
+    },
+    {
+      "id": "validation",
+      "reasons": [
+        "need_4_distinct_poses"
+      ]
+    },
+    {
+      "id": "validation:light",
+      "reasons": [
+        "insufficient_tone_coverage"
+      ]
+    },
+    {
+      "id": "validation:medium",
+      "reasons": [
+        "insufficient_tone_coverage"
+      ]
+    },
+    {
+      "id": "validation:dark",
+      "reasons": [
+        "insufficient_tone_coverage"
+      ]
+    }
+  ],
+  "note": "Checks validate recorded review and lineage, not visual truth. Human review remains necessary."
+}

@@ -18,10 +18,16 @@ Additional preparation, September 25:
 - All 102 tests and Ruff pass; the actual minimal upload archive was inspected.
 - No Qwen weights downloaded, no candidates sampled, no training, no GPU allocation.
   A fresh API check showed zero instances and unchanged $6.1884668369 credit.
-- Proposed new scope is $1.50 total, <=$0.70/hour, one GPU, 60 minutes. The user was
-  asked asynchronously for this limit but has not answered it. Do not treat the
-  proposal or the old alpha budget as authorization. No matching 48 GB GPU / 128 GB
-  RAM offer was available during the read-only marketplace check.
+- User approved $1.50 total, <=$0.70/hour, one GPU, 60 minutes (“yes continue”).
+  The hash-bound authorization is saved locally under `artifacts/vast-teacher-pilot/`.
+  The launcher was invoked and stopped before allocation: no matching offer.
+  Authorization is unconsumed, subject to its local expiry; the old alpha budget
+  remains closed. No GPU rental, Qwen output, or training occurred.
+- A broader read-only search found otherwise qualifying advertised offers around
+  $0.75837/hour and $0.77778/hour. No budget/filter was relaxed. Continuing requires
+  availability under $0.70/hour or approval to raise only the hourly ceiling to
+  $0.80 while retaining the $1.50 total / one-GPU / 60-minute limits. The launcher
+  and validation tests must be updated if that revised ceiling is approved.
 - Details and exact commands: `reports/high-five-teacher-preparation.md`.
 
 - Completed 32 matched base/style high-five/control renders on the existing GPU;

@@ -1,4 +1,4 @@
-# Qwen high-five candidate trial: prepared, not run
+# Qwen high-five candidate trial: approved, blocked at preflight
 
 September 25, 2026. No GPU was rented and no model weights were downloaded in this
 preparation. The account still showed zero instances and $6.1884668369 credit.
@@ -67,15 +67,29 @@ requires a fresh single-use record under `artifacts/vast-teacher-pilot/`, bound 
 the plan, launcher, watchdog and helper hashes. It consumes an attempt before
 calling the allocation API and never blindly retries an uncertain rental.
 
-Proposed next scope, **not yet approved**: one GPU, up to $1.50 total, at most
+Approved scope (user: “yes continue”): one GPU, up to $1.50 total, at most
 $0.70/hour including disk, and 60 elapsed minutes. Transfer charges count toward
 the observed-credit guard. The prior alpha budget is expired and is not reused.
+
+The approved launcher was invoked on September 25 and stopped at marketplace
+preflight, before allocation: no offer met all its requirements at $0.70/hour.
+The local hash-bound authorization remains unconsumed; no attempt record or rental
+was created. A broader read-only diagnostic found offers at approximately
+$0.75837/hour and $0.77778/hour that passed the other filters. Both advertised
+49,140 MB GPU RAM and more than 128,000 MB host RAM. Cheaper listings failed host
+RAM, reliability, or transfer-cost requirements. These are transient advertised
+offers, not verified runtime hardware. No filter or budget was relaxed.
+
+The remaining choice is to wait for an eligible offer under the approved ceiling,
+or obtain approval for a $0.80/hour ceiling while retaining the $1.50 total,
+one-GPU and 60-minute limits. The current launcher deliberately rejects a ceiling
+above $0.70; changing that validation and its tests requires the revised approval.
 
 Local verification: 102 tests and Ruff passed. The actual upload archive was built
 and inspected (27 entries, approximately 192 KB); it contains the locked workload,
 not account credentials, alpha-user records, source datasets or adapters. The initial
 draft plan was retained separately after the sampler gained image-dimension checks.
 
-Next: receive the new compute limit, find an offer within it, execute this four-image
+Next: resolve marketplace availability within an approved limit, execute this four-image
 trial, inspect anatomy and semantics, and only then decide whether to produce enough
 positives for the 24/8 training/validation data gate.

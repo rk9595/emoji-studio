@@ -1,12 +1,14 @@
 import copy
 import importlib.util
 import io
+import os
+import subprocess
 import tarfile
 import tempfile
 import time
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from PIL import Image
 
@@ -90,6 +92,18 @@ class TeacherPilotTest(unittest.TestCase):
             self.assertNotIn(f"{sampler.OUTPUT}/images/uncommitted.png", archive.getnames())
             self.assertIn(f"{sampler.OUTPUT}/{report['images'][0]['image']}", archive.getnames())
 
+    def test_worker_bootstraps_pinned_installer_before_environment(self):
+        with patch.object(remote, "ROOT", self.root), patch.dict(os.environ), \
+                patch.object(remote.subprocess, "run", return_value=Mock(returncode=0)) as run:
+            self.assertEqual(remote.worker(1200), 0)
+            commands = [call.args[0] for call in run.call_args_list]
+            self.assertEqual(commands[0][1:], ["-m", "pip", "install", "--target",
+                                              "/workspace/uv-cli", "uv==0.10.9"])
+            self.assertEqual(commands[1][1:], ["scripts/remote_environment.py"])
+            self.assertTrue(os.environ["PATH"].startswith("/workspace/uv-cli/bin" + os.pathsep))
+            self.assertEqual(os.environ["HF_HOME"], "/workspace/huggingface")
+        self.assertEqual((self.root / "teacher.exit").read_text(), "0")
+
     def test_upload_excludes_credentials_and_other_experiments(self):
         for name in cloud.FILES:
             path = self.root / name
@@ -111,6 +125,63 @@ class TeacherPilotTest(unittest.TestCase):
         self.assertNotIn("artifacts/private.json", names)
         self.assertIn("scripts/remote_teacher_pilot.py", names)
 
+    def test_resume_upload_includes_only_verified_completed_candidates(self):
+        self.test_upload_excludes_credentials_and_other_experiments()
+        report = self.report(1)
+        (self.output / "images/uncommitted.png").write_bytes(b"not committed")
+        archive_path = self.root / "resume.tar.gz"
+        with patch.object(cloud, "ROOT", self.root), \
+                patch.object(cloud, "make_plan", return_value=self.plan):
+            cloud.build_archive(archive_path)
+        with tarfile.open(archive_path) as archive:
+            names = archive.getnames()
+        self.assertIn(f"{sampler.OUTPUT}/report.json", names)
+        self.assertIn(f"{sampler.OUTPUT}/{report['images'][0]['image']}", names)
+        self.assertNotIn(f"{sampler.OUTPUT}/images/uncommitted.png", names)
+        (self.output / report["images"][0]["image"]).write_bytes(b"corrupt")
+        with patch.object(cloud, "ROOT", self.root), \
+                patch.object(cloud, "make_plan", return_value=self.plan):
+            with self.assertRaisesRegex(ValueError, "checksum"):
+                cloud.build_archive(archive_path)
+
+    def test_ssh_read_retries_transport_failure_but_not_remote_program_failure(self):
+        transport = subprocess.CalledProcessError(255, ["ssh"])
+        operation = Mock(side_effect=[transport, "recovered"])
+        with patch.object(cloud, "require_live_budget") as budget, \
+                patch.object(cloud.time, "sleep"):
+            self.assertEqual(cloud.read_with_retries(operation, {}, self.root), "recovered")
+            self.assertEqual(budget.call_count, 2)
+            operation = Mock(side_effect=subprocess.CalledProcessError(1, ["ssh"]))
+            with self.assertRaises(subprocess.CalledProcessError):
+                cloud.read_with_retries(operation, {}, self.root)
+            self.assertEqual(operation.call_count, 1)
+
+    def test_ssh_read_retries_are_bounded_and_cannot_cross_budget_guard(self):
+        operation = Mock(side_effect=subprocess.TimeoutExpired(["ssh"], 30))
+        with patch.object(cloud, "require_live_budget"), patch.object(cloud.time, "sleep"):
+            with self.assertRaises(subprocess.TimeoutExpired):
+                cloud.read_with_retries(operation, {}, self.root)
+            self.assertEqual(operation.call_count, 3)
+        operation.reset_mock()
+        with patch.object(cloud, "require_live_budget", side_effect=[None, TimeoutError]), \
+                patch.object(cloud.time, "sleep"):
+            with self.assertRaises(TimeoutError):
+                cloud.read_with_retries(operation, {}, self.root)
+            self.assertEqual(operation.call_count, 1)
+
+    def test_live_budget_rejects_expiry_stale_heartbeat_spend_and_shutdown(self):
+        state = {"deadline_epoch": 1400, "max_total_dollars": 1.10}
+        write_json(self.root / "guard-heartbeat.json", {"time": 990, "observed_spent": .20})
+        with patch.object(cloud.time, "time", return_value=1000):
+            cloud.require_live_budget(state, self.root)
+            with self.assertRaises(TimeoutError):
+                cloud.require_live_budget({**state, "deadline_epoch": 1240}, self.root)
+            for heartbeat in [{"time": 900}, {"time": 990, "observed_spent": 1.10},
+                              {"time": 990, "stop_reason": "credit_guard"}]:
+                write_json(self.root / "guard-heartbeat.json", heartbeat)
+                with self.assertRaises((RuntimeError, TimeoutError)):
+                    cloud.require_live_budget(state, self.root)
+
 
 class TeacherBudgetTest(unittest.TestCase):
     def setUp(self):
@@ -121,7 +192,7 @@ class TeacherBudgetTest(unittest.TestCase):
         self.auth = {
             "authorized": True, "experiment": "qwen_high_five_candidates_v1",
             **cloud.locked_inputs(), "authorization_id": "testteacher1",
-            "max_total_dollars": 1.50, "max_hourly_dollars": 0.70,
+            "max_total_dollars": 1.50, "max_hourly_dollars": 0.80,
             "max_elapsed_seconds": 3600, "expires_epoch": time.time() + 600,
         }
         self.patcher = patch.object(cloud, "ARTIFACT_ROOT", self.root)
@@ -141,7 +212,7 @@ class TeacherBudgetTest(unittest.TestCase):
     def test_budget_overrides_expiry_and_changed_inputs_are_rejected(self):
         original = dict(self.auth)
         for key, value in [("authorized", 1), ("max_total_dollars", 1.51),
-                           ("max_hourly_dollars", 0.71), ("max_elapsed_seconds", 3601),
+                           ("max_hourly_dollars", 0.81), ("max_elapsed_seconds", 3601),
                            ("expires_epoch", 0), ("guard_sha256", "changed")]:
             self.auth = {**original, key: value}
             with self.assertRaises(ValueError, msg=key):

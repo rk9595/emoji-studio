@@ -1,10 +1,33 @@
 # Emoji Studio continuation handoff
 
-Updated 2026-09-25.
+Updated 2026-09-26.
 
 ## Latest continuation
 
-Additional preparation, September 25:
+September 26 reconciliation and recovery preparation:
+
+- User approved raising the Qwen hourly ceiling to $0.80, with $1.50 total,
+  one GPU and 60 minutes unchanged. Trial rented one host at $0.7583703704/hour.
+- Recovered and checksum-verified one of four candidates; the following SSH status
+  poll failed with code 255 and the launcher destroyed the instance after 11.22 minutes.
+  Underlying transport failure cause unknown. Zero instances verified September 26.
+- Observed cost after later reconciliation: $0.2463501935; remaining credit
+  $5.9421166434. Original authorization consumed and time window expired.
+- Candidate has visible palm contact but occluded rear-hand fingers, photographic
+  style and small-size high-five/folded-hands ambiguity. Pending, not accepted for
+  training. No interaction training or new accepted positive examples.
+- Evidence and full result: `reports/high-five-teacher-pilot.md`. Local review page:
+  `runs/high-five-teacher-pilot-v1/review.html`. Last remote report says `running`
+  but is a preserved historical snapshot, not a live workload.
+- Added bounded, budget-aware retries for read-only SSH failures and verified
+  partial-result uploads so resumed sampling skips the saved candidate. Fresh
+  container bootstrap installs pinned uv. All 107 tests and Ruff passed.
+- Asked for a recovery limit: at most $1.25 additional spend, <=$0.80/hour, one GPU,
+  fresh 45-minute window, three remaining candidates. Approval pending; do not
+  allocate from the old consumed authorization. Combined observed spend remains
+  under the original $1.50 if the recovery limit holds.
+
+Historical preparation, September 25 (superseded by the result above):
 
 - Implemented the four-image Qwen candidate trial in
   `configs/high-five-teacher-pilot.json`, `scripts/sample_interaction_teacher.py`,

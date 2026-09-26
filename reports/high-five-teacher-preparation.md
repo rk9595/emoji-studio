@@ -1,4 +1,9 @@
-# Qwen high-five candidate trial: approved, blocked at preflight
+# Qwen high-five candidate trial: preparation record
+
+Update September 26: the user approved a $0.80/hour ceiling and the trial ran,
+recovering one candidate before an SSH failure. Cleanup succeeded. See the
+[actual trial report](high-five-teacher-pilot.md) for results, costs and recovery status.
+The preparation/preflight observations below are historical.
 
 September 25, 2026. No GPU was rented and no model weights were downloaded in this
 preparation. The account still showed zero instances and $6.1884668369 credit.
@@ -80,16 +85,13 @@ $0.75837/hour and $0.77778/hour that passed the other filters. Both advertised
 RAM, reliability, or transfer-cost requirements. These are transient advertised
 offers, not verified runtime hardware. No filter or budget was relaxed.
 
-The remaining choice is to wait for an eligible offer under the approved ceiling,
-or obtain approval for a $0.80/hour ceiling while retaining the $1.50 total,
-one-GPU and 60-minute limits. The current launcher deliberately rejects a ceiling
-above $0.70; changing that validation and its tests requires the revised approval.
+The user subsequently approved $0.80/hour while retaining the $1.50 total,
+one-GPU and 60-minute limits. Launcher validation and tests were updated accordingly;
+the earlier $0.70 authorization was superseded, not reused.
 
 Local verification: 102 tests and Ruff passed. The actual upload archive was built
 and inspected (27 entries, approximately 192 KB); it contains the locked workload,
 not account credentials, alpha-user records, source datasets or adapters. The initial
 draft plan was retained separately after the sampler gained image-dimension checks.
 
-Next: resolve marketplace availability within an approved limit, execute this four-image
-trial, inspect anatomy and semantics, and only then decide whether to produce enough
-positives for the 24/8 training/validation data gate.
+Current next step: see the actual trial report for the bounded recovery proposal.

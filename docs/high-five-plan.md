@@ -56,13 +56,15 @@ card declares Apache-2.0. The inspected revision is
 `25468b98e3276ca6700de15c6628e51b7de54a26`. This is a proposed teacher, not a proven
 high-five solution. Begin with a few novel compositions, inspect actual output
 anatomy, and measure memory/runtime before planning the full dataset. Do not copy
-the frozen evaluation prompts into this candidate batch. No Qwen weights have been
-downloaded and no such run has been launched.
+the frozen evaluation prompts into this candidate batch.
 
 The [four-image teacher trial is now implemented](../reports/high-five-teacher-preparation.md),
 including a locked sampler, independent workload timeout, verified snapshots and
-a separate single-use Vast launcher. It remains unexecuted pending a fresh compute
-limit and an eligible offer. It does not automatically accept its outputs for training.
+a separate single-use Vast launcher. The [first execution](../reports/high-five-teacher-pilot.md)
+recovered one candidate before an SSH failure; cleanup succeeded. The image shows
+palm contact but has ambiguous gesture readability and photographic style, so it
+is not admitted to training. A bounded recovery for the other three is awaiting
+approval. Trial outputs are never automatically accepted for training.
 
 ## Baselines
 

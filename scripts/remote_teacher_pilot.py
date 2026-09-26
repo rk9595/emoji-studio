@@ -38,7 +38,14 @@ def snapshot(stream, root=ROOT):
 def worker(seconds):
     code = 1
     try:
-        os.environ["PATH"] = str(Path.home() / ".local/bin") + os.pathsep + os.environ["PATH"]
+        os.environ.update(HF_HOME="/workspace/huggingface", UV_CACHE_DIR="/workspace/uv-cache",
+                          HF_HUB_DISABLE_TELEMETRY="1", HF_HUB_DOWNLOAD_TIMEOUT="120",
+                          PYTHONUNBUFFERED="1")
+        subprocess.run([
+            sys.executable, "-m", "pip", "install", "--target", "/workspace/uv-cli",
+            "uv==0.10.9",
+        ], cwd=ROOT, check=True)
+        os.environ["PATH"] = "/workspace/uv-cli/bin" + os.pathsep + os.environ["PATH"]
         subprocess.run([sys.executable, "scripts/remote_environment.py"], cwd=ROOT, check=True)
         code = subprocess.run([
             str(ROOT / ".venv/bin/python"), "scripts/sample_interaction_teacher.py", "run",

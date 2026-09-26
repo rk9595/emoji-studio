@@ -56,7 +56,7 @@ def load_authorization(path):
     if not isinstance(identifier, str) or not identifier.isascii() or not identifier.isalnum():
         raise ValueError("Invalid authorization ID")
     for key, lower, upper in [
-        ("max_total_dollars", 0.50, 1.50), ("max_hourly_dollars", 0.01, 0.70),
+        ("max_total_dollars", 0.50, 1.50), ("max_hourly_dollars", 0.01, 0.80),
         ("max_elapsed_seconds", 1800, 3600),
     ]:
         if not finite_number(auth[key]) or not lower <= auth[key] <= upper:
@@ -99,12 +99,56 @@ def offers(hourly):
 
 
 def build_archive(path):
-    if read_json(ROOT / OUTPUT / "plan.json") != make_plan():
+    plan = make_plan()
+    if read_json(ROOT / OUTPUT / "plan.json") != plan:
         raise ValueError("Local plan differs from locked inputs")
+    names = list(FILES)
+    if (ROOT / OUTPUT / "report.json").exists():
+        report = validate_report(ROOT / OUTPUT, plan, require_complete=False)
+        names.append(f"{OUTPUT}/report.json")
+        for row in report["images"]:
+            image = f"images/{row['job']['id']}.png"
+            if row["image"] != image:
+                raise ValueError("Unexpected resume image path")
+            names.append(f"{OUTPUT}/{image}")
     with tarfile.open(path, "w:gz") as archive:
-        for name in FILES:
+        for name in names:
             archive.add(ROOT / name, arcname=name,
                         filter=lambda row: None if "__pycache__" in row.name else row)
+
+
+def require_live_budget(state, folder):
+    current = time.time()
+    if current >= state["deadline_epoch"] - 240:
+        raise TimeoutError("Teacher pilot reached its cleanup reserve")
+    heartbeat = read_json(folder / "guard-heartbeat.json")
+    if current - heartbeat["time"] > 90:
+        raise RuntimeError("Budget watchdog heartbeat is stale")
+    if heartbeat.get("stop_reason") or (folder / "guard-result.json").exists():
+        raise RuntimeError("Budget watchdog has requested shutdown")
+    if heartbeat.get("observed_spent", 0) >= state["max_total_dollars"]:
+        raise TimeoutError("Teacher pilot credit guard reached")
+
+
+def read_with_retries(operation, state, folder):
+    """Retry only read-only SSH transport failures, never allocation or launch."""
+    for attempt in range(3):
+        require_live_budget(state, folder)
+        try:
+            return operation()
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
+            if isinstance(error, subprocess.CalledProcessError) and error.returncode != 255:
+                raise
+            event_path = folder / "transport-retries.json"
+            events = read_json(event_path) if event_path.exists() else []
+            events.append({"time": time.time(), "attempt": attempt + 1,
+                           "error_type": type(error).__name__,
+                           "returncode": getattr(error, "returncode", None)})
+            write_json(event_path, events)
+            if attempt == 2:
+                raise
+            print(f"Read-only SSH retry {attempt + 1}/2: {type(error).__name__}", flush=True)
+            time.sleep(5)
 
 
 def snapshot(ssh, folder, *, final=False):
@@ -203,22 +247,23 @@ def run(path):
                        check=True, timeout=30)
         last_snapshot = 0
         while time.time() < state["deadline_epoch"] - 240:
-            heartbeat = read_json(folder / "guard-heartbeat.json")
-            if time.time() - heartbeat["time"] > 90:
-                raise RuntimeError("Budget watchdog heartbeat is stale")
+            require_live_budget(state, folder)
             if state["credit_before"] - credit() >= state["max_total_dollars"]:
                 raise TimeoutError("Teacher pilot credit guard reached")
-            result = subprocess.run([*ssh, "cd /workspace/emoji-studio && "
-                                     "if test -f teacher.exit; then cat teacher.exit; fi"],
-                                    capture_output=True, text=True, timeout=30, check=True)
+            result = read_with_retries(lambda: subprocess.run(
+                [*ssh, "cd /workspace/emoji-studio && "
+                 "if test -f teacher.exit; then cat teacher.exit; fi"],
+                capture_output=True, text=True, timeout=30, check=True), state, folder)
             if result.stdout.strip():
-                snapshot(ssh, folder, final=result.stdout.strip() == "0")
+                read_with_retries(
+                    lambda: snapshot(ssh, folder, final=result.stdout.strip() == "0"),
+                    state, folder)
                 if result.stdout.strip() != "0":
                     raise RuntimeError("Remote teacher trial failed; saved its partial results")
                 print("Four candidates verified; training review remains pending", flush=True)
                 return
             if time.time() - last_snapshot >= 60:
-                snapshot(ssh, folder)
+                read_with_retries(lambda: snapshot(ssh, folder), state, folder)
                 last_snapshot = time.time()
                 report = ROOT / OUTPUT / "report.json"
                 count = len(read_json(report)["images"]) if report.exists() else 0

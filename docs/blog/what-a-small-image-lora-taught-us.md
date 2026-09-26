@@ -77,7 +77,7 @@ candidate source: a pinned Qwen-Image-2512 model generating four novel compositi
 This was data preparation, not another training run. The first rental recovered
 one image before an SSH read failed; a bounded recovery reused that image and
 generated the remaining three. All four originals are checksum-verified and both
-instances were destroyed. Combined observed cost was about $0.59.
+instances were destroyed. Combined observed cost was about $0.60.
 
 The result is more nuanced than “hands work” or “hands fail.” Three images showed
 photographic palms meeting, while the golden-yellow prompt produced a much more

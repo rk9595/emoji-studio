@@ -35,10 +35,11 @@ not regenerated. Its original RTX 4090 environment is preserved in the first-run
 archive; the combined report's top-level environment describes the recovery host.
 
 Recovery cleanup succeeded after 1,063.19 seconds (17.72 minutes), within the
-approved 45-minute window. The observed recovery credit change was $0.3433547678;
-combined with the first attempt, $0.5897049613. Combined allocated time was about
+approved 45-minute window. At cleanup the observed recovery credit change was
+$0.3433547678; a later reconciliation increased this to $0.3516625578, or
+$0.5980127513 combined with the first attempt. Combined allocated time was about
 28.94 minutes. Both attempts were within their respective limits. Current observed
-credit: $5.5987618756. These are credit deltas, not a finalized invoice.
+credit: $5.5904540856. These are credit deltas, not a finalized invoice.
 
 All four originals are published here without edits and match the SHA-256 receipts
 in [the captured sampler report](high-five-teacher-samples.json). Its image paths

@@ -10,8 +10,9 @@ Completed recovery, September 26:
   `emoji-teacher-f8981b33ff` finished all three missing candidates and verified the
   combined 4/4 report. Original candidate 001 was reused, not regenerated.
 - Cleanup confirmed after 17.72 minutes, zero instances verified independently.
-  Recovery observed cost $0.3433547678; combined Qwen trial $0.5897049613 and
-  28.94 allocated minutes. Observed remaining credit $5.5987618756; billing may lag.
+  Recovery observed cost after later reconciliation $0.3516625578; combined Qwen
+  trial $0.5980127513 and 28.94 allocated minutes. Observed remaining credit
+  $5.5904540856; billing may lag.
 - Candidate 004 is the strongest emoji-style lead. The other three are photographic.
   All remain pending human review: occluded rear-hand anatomy and small-size
   gesture ambiguity prevent treating this as proven high-five capability.

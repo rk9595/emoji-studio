@@ -1,0 +1,90 @@
+{
+  "plan_hash": "b7b32a23c3fe42b0af036e6bc3616ec6eb69473ae9ad8cfcd73fb620bfb5728c",
+  "created_at": "2026-09-25T14:04:29.263861+00:00",
+  "images": [
+    {
+      "job": {
+        "id": "qwen-hi5-001",
+        "seed": 101,
+        "pose_group": "candidate-wide-v-oblique",
+        "tone_pair": [
+          "light",
+          "dark"
+        ],
+        "description": "A celebratory high five between a light-skinned person's hand reaching diagonally upward from the lower left and a dark-skinned person's hand reaching diagonally upward from the lower right. The forearms form a broad V. Show the instant their palm surfaces press against one another above the middle of the icon, with fingers naturally fanned above the contact. Use an oblique view so one hand's back and the other hand's thumb edge are visible. Each hand has four fingers and one thumb.",
+        "prompt": "A celebratory high five between a light-skinned person's hand reaching diagonally upward from the lower left and a dark-skinned person's hand reaching diagonally upward from the lower right. The forearms form a broad V. Show the instant their palm surfaces press against one another above the middle of the icon, with fingers naturally fanned above the contact. Use an oblique view so one hand's back and the other hand's thumb edge are visible. Each hand has four fingers and one thumb. A single polished 3D emoji icon with rounded soft shapes, clear natural hand anatomy, gentle shading, plain white background and generous margins. Show only the two hands and short forearms; no text or decorative objects."
+      },
+      "image": "images/qwen-hi5-001.png",
+      "image_sha256": "dc37291fe3aa4ecaf4a731c0fd271b9a9002d9a0b3c62d3d95113b25db5b69d7",
+      "generated_at": "2026-09-25T14:10:21.709941+00:00",
+      "seconds": 151.65115289390087,
+      "peak_allocated_bytes": 41530719232,
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "qwen-hi5-002",
+        "seed": 202,
+        "pose_group": "candidate-offset-height",
+        "tone_pair": [
+          "medium",
+          "light"
+        ],
+        "description": "Two people exchange a high five. A medium-brown hand approaches from the left at a slightly higher angle, and a light-skinned hand rises from the lower right. The flat centers of their palms touch while their wrists remain apart. The fingers spread naturally into two coherent fans above the palms, with four fingers and a thumb on each hand. The camera looks slightly down at the touching palms and the short separated forearms.",
+        "prompt": "Two people exchange a high five. A medium-brown hand approaches from the left at a slightly higher angle, and a light-skinned hand rises from the lower right. The flat centers of their palms touch while their wrists remain apart. The fingers spread naturally into two coherent fans above the palms, with four fingers and a thumb on each hand. The camera looks slightly down at the touching palms and the short separated forearms. A single polished 3D emoji icon with rounded soft shapes, clear natural hand anatomy, gentle shading, plain white background and generous margins. Show only the two hands and short forearms; no text or decorative objects."
+      },
+      "image": "images/qwen-hi5-002.png",
+      "image_sha256": "5586134ce59e8145409cef7093c460d4b10eb56da7efade4d188074f1d78b462",
+      "generated_at": "2026-09-26T04:09:37.466131+00:00",
+      "seconds": 159.1377340760082,
+      "peak_allocated_bytes": 41529091072,
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "qwen-hi5-003",
+        "seed": 303,
+        "pose_group": "candidate-shallow-three-quarter",
+        "tone_pair": [
+          "dark",
+          "medium"
+        ],
+        "description": "A dark-skinned hand and a medium-brown hand strike a friendly high five in a shallow three-quarter camera view. One forearm runs in from the left edge and bends upward at the wrist; the other arrives diagonally from below on the right. The palm surfaces make broad contact, while their thumbs and wrists remain separate. All visible digits connect naturally to their own hand, with four fingers and one thumb per hand.",
+        "prompt": "A dark-skinned hand and a medium-brown hand strike a friendly high five in a shallow three-quarter camera view. One forearm runs in from the left edge and bends upward at the wrist; the other arrives diagonally from below on the right. The palm surfaces make broad contact, while their thumbs and wrists remain separate. All visible digits connect naturally to their own hand, with four fingers and one thumb per hand. A single polished 3D emoji icon with rounded soft shapes, clear natural hand anatomy, gentle shading, plain white background and generous margins. Show only the two hands and short forearms; no text or decorative objects."
+      },
+      "image": "images/qwen-hi5-003.png",
+      "image_sha256": "8f6a335c8803f87810ac4dada0aa3399052b06b1495a6467ec003c63c4d9372b",
+      "generated_at": "2026-09-26T04:11:54.417145+00:00",
+      "seconds": 136.9295938720461,
+      "peak_allocated_bytes": 41529053184,
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "qwen-hi5-004",
+        "seed": 404,
+        "pose_group": "candidate-asymmetric-golden",
+        "tone_pair": [
+          "yellow",
+          "yellow"
+        ],
+        "description": "Two golden-yellow hands from different people complete an energetic high five. Their forearms approach from opposite lower corners at unequal angles. The center of one palm presses into the center of the other, with both fans of fingers angled upward and the two wrists visibly far apart. Show a slightly rotated camera view, with clear depth between the hands and coherent thumbs. Each hand has exactly four fingers and one thumb.",
+        "prompt": "Two golden-yellow hands from different people complete an energetic high five. Their forearms approach from opposite lower corners at unequal angles. The center of one palm presses into the center of the other, with both fans of fingers angled upward and the two wrists visibly far apart. Show a slightly rotated camera view, with clear depth between the hands and coherent thumbs. Each hand has exactly four fingers and one thumb. A single polished 3D emoji icon with rounded soft shapes, clear natural hand anatomy, gentle shading, plain white background and generous margins. Show only the two hands and short forearms; no text or decorative objects."
+      },
+      "image": "images/qwen-hi5-004.png",
+      "image_sha256": "c51db19bc58a3a77f77cb8b699b5fc4bb4f9705a8f410aa394ec60a7d30aae4f",
+      "generated_at": "2026-09-26T04:13:49.943723+00:00",
+      "seconds": 115.52566066593863,
+      "peak_allocated_bytes": 41528901632,
+      "curation_decision": "pending"
+    }
+  ],
+  "status": "completed",
+  "environment": {
+    "torch": "2.10.0+cu128",
+    "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+    "cpu_offload": true,
+    "vae_tiling": true
+  },
+  "updated_at": "2026-09-26T04:13:49.944156+00:00"
+}

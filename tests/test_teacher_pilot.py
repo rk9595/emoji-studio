@@ -27,6 +27,7 @@ def load_script(name):
 sampler = load_script("sample_interaction_teacher")
 remote = load_script("remote_teacher_pilot")
 cloud = load_script("vast_teacher_pilot")
+gallery = load_script("build_teacher_review")
 
 
 class TeacherPilotTest(unittest.TestCase):
@@ -57,6 +58,30 @@ class TeacherPilotTest(unittest.TestCase):
         for job in self.plan["jobs"]:
             self.assertFalse(any(row["prompt"] in job["prompt"] for row in frozen))
         self.assertEqual(len({r["pose_group"] for r in self.plan["jobs"]}), 4)
+
+    def test_gallery_preserves_human_answers_when_remaining_images_arrive(self):
+        self.report(1)
+        gallery.build(self.output)
+        template = self.output / "human-review-template.json"
+        document = read_json(template)
+        document["images"][0]["notes"] = "Human answer to preserve"
+        write_json(template, document)
+        self.report(4)
+        gallery.build(self.output)
+        document = read_json(template)
+        self.assertEqual(len(document["images"]), 4)
+        self.assertEqual(document["images"][0]["notes"], "Human answer to preserve")
+        self.assertIn('width="32"', (self.output / "review.html").read_text())
+
+    def test_gallery_refuses_stale_human_review_binding(self):
+        self.report(1)
+        gallery.build(self.output)
+        template = self.output / "human-review-template.json"
+        document = read_json(template)
+        document["images"][0]["image_sha256"] = "stale"
+        write_json(template, document)
+        with self.assertRaisesRegex(ValueError, "another image"):
+            gallery.build(self.output)
 
     def test_report_requires_every_job_and_valid_dimensions(self):
         self.report(3)

@@ -61,10 +61,12 @@ the frozen evaluation prompts into this candidate batch.
 The [four-image teacher trial is now implemented](../reports/high-five-teacher-preparation.md),
 including a locked sampler, independent workload timeout, verified snapshots and
 a separate single-use Vast launcher. The [first execution](../reports/high-five-teacher-pilot.md)
-recovered one candidate before an SSH failure; cleanup succeeded. The image shows
-palm contact but has ambiguous gesture readability and photographic style, so it
-is not admitted to training. A bounded recovery for the other three is awaiting
-approval. Trial outputs are never automatically accepted for training.
+recovered one candidate before an SSH failure; cleanup succeeded. An approved
+recovery generated the other three and completed cleanup. All four are verified.
+The golden candidate is the most promising emoji-style output; the other three
+are photographic. Rear-hand visibility and gesture ambiguity still need human
+review. All remain pending and none are admitted to training. See the report for
+all four original PNGs, timings, cost and the reference-guided next-step proposal.
 
 ## Baselines
 

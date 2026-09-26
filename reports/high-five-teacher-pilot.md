@@ -1,12 +1,70 @@
-# Qwen high-five trial: one candidate recovered, not training-ready
+# Qwen high-five trial: four candidates verified, training review pending
 
-Updated September 26, 2026. The four-image trial ran on September 25 but was
-interrupted by an SSH read failure. One candidate was downloaded and verified.
-No interaction training ran and no positive example has been admitted to training.
+Updated September 26, 2026. All four candidates are now downloaded and verified.
+The first attempt recovered one image before an SSH failure; the approved recovery
+generated the other three and completed cleanup. No interaction training ran and
+no positive example has been admitted to training. Zero active instances confirmed.
 
-![Unedited Qwen candidate, seed 101](../docs/images/high-five-teacher/qwen-hi5-001.png)
+![Most promising emoji-style candidate, seed 404, pending review](../docs/images/high-five-teacher/qwen-hi5-004.png)
 
-## What actually ran
+## Completed recovery and preliminary review
+
+All observations below are unblinded AI inspection, not human labels or a success
+rate estimate. The first three images have photographic skin texture; only the
+golden-yellow candidate approaches the requested simplified 3D emoji appearance.
+
+| Candidate / original PNG | Seed | Inference time | Preliminary finding |
+| --- | --- | --- | --- |
+| [001](../docs/images/high-five-teacher/qwen-hi5-001.png) | 101 | 151.65 s | Palm contact, narrow upright silhouette, rear fingers obscured; photographic. |
+| [002](../docs/images/high-five-teacher/qwen-hi5-002.png) | 202 | 159.14 s | Convincing two-person palm contact; rear fingers partly hidden; photographic. |
+| [003](../docs/images/high-five-teacher/qwen-hi5-003.png) | 303 | 136.93 s | Close wrists and upright palms create folded-hands ambiguity; photographic. |
+| [004](../docs/images/high-five-teacher/qwen-hi5-004.png) | 404 | 115.53 s | Most promising emoji-style result: two golden hands, fanned fingers and palm overlap. Rear-hand anatomy and high-five versus clapping readability need review. |
+
+Candidate 004 has five apparent foreground digits, but overlap prevents confidently
+verifying every rear digit. Its forearms extend to the image edges and its wrists
+are close, rather than the requested short arms and widely separated wrists. At
+32/64 pixels it reads as two golden hands; the exact interaction remains open to
+interpretation. Do not call occlusion a proven anatomy defect, or call this a
+dependable high-five capability from one promising example.
+
+The three recovery images ran on an NVIDIA RTX PRO 5000 Blackwell, with the same
+pinned model, prompts, seeds and settings. Peak PyTorch-allocated memory was about
+38.68 GiB per image. Model download took about eight minutes on this host; inference
+times exclude setup/download/loading. Candidate 001 was reused byte-for-byte,
+not regenerated. Its original RTX 4090 environment is preserved in the first-run
+archive; the combined report's top-level environment describes the recovery host.
+
+Recovery cleanup succeeded after 1,063.19 seconds (17.72 minutes), within the
+approved 45-minute window. The observed recovery credit change was $0.3433547678;
+combined with the first attempt, $0.5897049613. Combined allocated time was about
+28.94 minutes. Both attempts were within their respective limits. Current observed
+credit: $5.5987618756. These are credit deltas, not a finalized invoice.
+
+All four originals are published here without edits and match the SHA-256 receipts
+in [the captured sampler report](high-five-teacher-samples.json). Its image paths
+are relative to the original run directory; the table above links the public copies.
+The local gallery and hash-bound human review template cover all four images:
+
+```sh
+uv run python scripts/sample_interaction_teacher.py verify
+uv run python scripts/build_teacher_review.py
+```
+
+The local gallery is `runs/high-five-teacher-pilot-v1/review.html`. Recovery receipts
+are in `artifacts/vast-teacher-pilot/emoji-teacher-f8981b33ff/`. The final report
+status is `completed`; its four curation decisions remain `pending`. No additional
+rental or dataset-expansion run is authorized by this completed recovery.
+
+Recommendation: review candidate 004 first, then test reference-guided stylization
+or a deliberately authored pose reference before scaling synthetic data generation.
+Natural-skin and golden prompts differed in composition as well as color, so this
+tiny trial does not isolate the cause of the style difference. It also does not
+show that another LoRA will solve the interaction. The 24-train/8-validation data
+gate still fails: zero accepted positives, four existing gesture controls.
+
+## First attempt (historical evidence)
+
+### What actually ran
 
 - Model: `Qwen/Qwen-Image-2512`, revision
   `25468b98e3276ca6700de15c6628e51b7de54a26`.
@@ -26,7 +84,7 @@ The pinned model card declares Apache-2.0; see the
 [preparation report](high-five-teacher-preparation.md) for source links and provenance.
 This is a synthetic diagnostic output, not a commissioned or human-reviewed example.
 
-## Preliminary visual review
+### Preliminary review of candidate 001
 
 Unblinded AI inspection at full resolution and in a browser at 32/64 pixels:
 
@@ -46,7 +104,7 @@ large and small sizes; `human-review-template.json` binds the review to its hash
 Do not derive a teacher pass rate from this one recovered image or compare it as a
 matched benchmark result: its prompt differs from the frozen FLUX evaluation.
 
-## Interruption and cleanup
+### Interruption and cleanup
 
 The user approved $1.50 total, one GPU, 60 minutes, and later raised only the hourly
 ceiling to $0.80. The rented offer cost $0.7583703704/hour including allocated disk;
@@ -57,7 +115,8 @@ The old launcher immediately entered cleanup instead of retrying that read.
 The underlying network/provider cause is unknown; the evidence does not show a
 model crash. The local report's `status: running` is its last saved remote state,
 not a currently running job. The report is preserved unchanged for provenance.
-The other three outputs were not recovered; do not claim they were generated.
+The other three outputs were not recovered in that attempt. They were subsequently
+generated during the September 26 recovery described above.
 
 Destruction was confirmed after 673.33 seconds (11.22 minutes). Initial observed
 credit change was $0.2454230576; a September 26 reconciliation showed $0.2463501935
@@ -69,7 +128,7 @@ Local receipts, archive and cleanup evidence are under
 are excluded from Git. The original authorization is consumed and its time window
 has expired. Do not silently reset its limits or launch another rental with it.
 
-## Recovery changes and next step
+## Recovery implementation and verification
 
 The launcher now retries only read-only SSH transport failures/timeouts, at most
 twice, and checks the cleanup deadline, watchdog freshness/shutdown and observed
@@ -82,8 +141,8 @@ so the sampler can skip the first candidate and generate the other three. Uncomm
 files, credentials and unrelated experiment data remain excluded. The original run
 also included a pinned `uv==0.10.9` bootstrap fix for fresh GPU containers.
 
-Local verification: 107 tests and Ruff passed. A proposed recovery asks for at most
-$1.25 additional spend, <=$0.80/hour, one GPU and a fresh 45-minute window. Combined
-observed spend would stay within $1.50, and combined allocated time within 60 minutes
-if both individual limits hold. Recovery approval is pending. Even four successful
-candidates would not satisfy the separate 24-train/8-validation data gate.
+Local verification: 109 tests and Ruff passed, including preserving human review
+answers when new candidate images arrive and rejecting stale review-image bindings.
+The user approved at most $1.25 additional spend, <=$0.80/hour, one GPU and a fresh
+45-minute window. One GPU was allocated at $0.7792592593/hour; recovery completed
+below those limits. The approved four-candidate workload is complete, not training.

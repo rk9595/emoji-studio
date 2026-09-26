@@ -1,7 +1,8 @@
 # Qwen high-five candidate trial: preparation record
 
-Update September 26: the user approved a $0.80/hour ceiling and the trial ran,
-recovering one candidate before an SSH failure. Cleanup succeeded. See the
+Update September 26: the trial and its approved recovery are complete. One candidate
+was recovered before an SSH failure, then three more on the recovery run. All four
+PNGs are verified, cleanup succeeded, and none are admitted to training. See the
 [actual trial report](high-five-teacher-pilot.md) for results, costs and recovery status.
 The preparation/preflight observations below are historical.
 

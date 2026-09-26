@@ -70,6 +70,30 @@ For memes, the image model should generate the illustration while HTML, Canvas o
 
 ## Reproducibility and sources
 
+### September 26 follow-up: testing a candidate teacher
+
+We completed a 32-image matched high-five/control baseline, then tested a separate
+candidate source: a pinned Qwen-Image-2512 model generating four novel compositions.
+This was data preparation, not another training run. The first rental recovered
+one image before an SSH read failed; a bounded recovery reused that image and
+generated the remaining three. All four originals are checksum-verified and both
+instances were destroyed. Combined observed cost was about $0.59.
+
+The result is more nuanced than “hands work” or “hands fail.” Three images showed
+photographic palms meeting, while the golden-yellow prompt produced a much more
+emoji-like result. The latter is a promising reference, not a proven solution:
+rear-hand fingers are partly hidden, wrists are close, and the gesture can still
+be ambiguous at small sizes. No image has been accepted into training, and the
+24-train/8-validation data gate remains closed. The four prompts also differed in
+composition, so this is not an isolated test of color wording.
+
+The next useful experiment is human review followed by reference-guided styling
+or explicit pose control—not treating a successful render as permission to train
+on unchecked anatomy. [All four originals, runtime measurements and cleanup
+evidence](../../reports/high-five-teacher-pilot.md) are in the repository.
+
+### Sources
+
 The repository contains the data audit, immutable experiment configs, evaluation reports, serving code and budgeted Vast lifecycle scripts. Training images, model adapters, credentials and cloud artifacts are deliberately excluded from source control.
 
 - [FLUX.2 Klein base 4B model card](https://huggingface.co/black-forest-labs/FLUX.2-klein-base-4B)

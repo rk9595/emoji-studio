@@ -4,6 +4,29 @@ Updated 2026-09-26.
 
 ## Latest continuation
 
+Completed recovery, September 26:
+
+- User approved $1.25 additional, <=$0.80/hour, one GPU and 45 minutes. Recovery
+  `emoji-teacher-f8981b33ff` finished all three missing candidates and verified the
+  combined 4/4 report. Original candidate 001 was reused, not regenerated.
+- Cleanup confirmed after 17.72 minutes, zero instances verified independently.
+  Recovery observed cost $0.3433547678; combined Qwen trial $0.5897049613 and
+  28.94 allocated minutes. Observed remaining credit $5.5987618756; billing may lag.
+- Candidate 004 is the strongest emoji-style lead. The other three are photographic.
+  All remain pending human review: occluded rear-hand anatomy and small-size
+  gesture ambiguity prevent treating this as proven high-five capability.
+- No interaction training; zero accepted positives and four existing controls.
+  Data gate still fails its 24/8 positive and pose-diversity requirements.
+- Four unedited evidence PNGs and findings: `reports/high-five-teacher-pilot.md`.
+  `scripts/build_teacher_review.py` rebuilds the local gallery at full/32/64px while
+  preserving hash-bound human answers. All 109 tests and Ruff pass.
+- Recovery authorization is consumed, workload complete and instance destroyed.
+  No further rental is authorized by this record. Next: human review of candidate
+  004 and a scoped reference-guided/pose-controlled experiment before dataset scale-up.
+
+Historical notes below describe earlier stages; the completed recovery supersedes
+their in-progress status.
+
 September 26 reconciliation and recovery preparation:
 
 - User approved raising the Qwen hourly ceiling to $0.80, with $1.50 total,
@@ -22,10 +45,11 @@ September 26 reconciliation and recovery preparation:
 - Added bounded, budget-aware retries for read-only SSH failures and verified
   partial-result uploads so resumed sampling skips the saved candidate. Fresh
   container bootstrap installs pinned uv. All 107 tests and Ruff passed.
-- Asked for a recovery limit: at most $1.25 additional spend, <=$0.80/hour, one GPU,
-  fresh 45-minute window, three remaining candidates. Approval pending; do not
-  allocate from the old consumed authorization. Combined observed spend remains
-  under the original $1.50 if the recovery limit holds.
+- User approved recovery: at most $1.25 additional spend, <=$0.80/hour, one GPU,
+  fresh 45-minute window, three remaining candidates. New allocation and watchdog
+  receipts: `artifacts/vast-teacher-pilot/emoji-teacher-f8981b33ff/`. Run in progress
+  at $0.7792592593/hour. Do not launch another instance or reset the deadline.
+  Combined observed spend remains under the original $1.50 if the recovery limit holds.
 
 Historical preparation, September 25 (superseded by the result above):
 

@@ -4,6 +4,36 @@ Updated 2026-09-26.
 
 ## Latest continuation
 
+Golden audition implementation:
+
+- Prepared a separate eight-job/four-prompt trial: `configs/high-five-golden-audition.json`
+  and `scripts/sample_golden_teacher.py`, plan
+  `6820fb673cc9a80a91b1d1883d932923bdc3dbec5a9bfbe68c8beeb3740958fa`.
+- Shared Vast launcher, remote worker and review gallery accept `--trial golden`.
+  New output: `runs/high-five-golden-audition-v1`; new private receipts/authorization
+  root: `artifacts/vast-golden-audition`. Never reuse the completed pilot's authorization.
+- Explicit caps for this trial: <=$1.25 total, <=$0.80/hour, one GPU, <=2700 seconds.
+  Asked user for fresh approval asynchronously; no answer yet, no authorization
+  file, no rental, no generated golden-audition images. Mock sampling tests are not
+  real outputs. Read-only check: zero instances, credit $5.5904540856, eligible offers.
+- Original pilot plan and four PNGs still verify unchanged; 004's human gesture and
+  style approvals survive gallery rebuilding. They do not auto-approve any variants.
+- All 119 tests and Ruff passed. The actual new upload archive was inspected and
+  a test recomputed the plan from its extracted sources.
+- See `docs/high-five-reference-brief.md` for exact commands, review boundaries and
+  the outstanding approval. Golden-only variants still cannot satisfy the broader
+  24/8 training gate and its skin-tone coverage requirements.
+
+Reference selection after recovery:
+
+- User approved candidate 004's high-five gesture, then confirmed its golden-yellow,
+  rounded 3D look as the target style. These two fields are true in the local
+  hash-bound human review; anatomy and explicit small-size checks remain unanswered.
+- Prepared `docs/high-five-reference-brief.md`: an eight-candidate/four-composition
+  audition proposal. This is a design brief, not an executable run or training set.
+  Existing text-only sampling does not become image-conditioned merely because 004
+  is a visual reference. No new compute authorization or rental; training gate unchanged.
+
 Completed recovery, September 26:
 
 - User approved $1.25 additional, <=$0.80/hour, one GPU and 45 minutes. Recovery

@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "src"))
 
+from remote_teacher_pilot import TRIALS  # noqa: E402
 from sample_interaction_teacher import OUTPUT, make_plan, sha256, validate_report  # noqa: E402
 from vast_alpha_session import start_guard, upload, wait_for_ssh  # noqa: E402
 from vast_smoke import IMAGE, credit, destroy, request  # noqa: E402
@@ -30,9 +31,22 @@ FILES = [
 ]
 
 
-def locked_inputs():
+def trial_plan(trial="pilot"):
+    if trial not in TRIALS:
+        raise ValueError("Unknown teacher trial")
+    if trial == "pilot":
+        return make_plan()
+    from sample_golden_teacher import make_plan as golden_plan
+    return golden_plan(ROOT)
+
+
+def artifact_root(trial="pilot"):
+    return ARTIFACT_ROOT if trial == "pilot" else ROOT / "artifacts/vast-golden-audition"
+
+
+def locked_inputs(trial="pilot"):
     return {
-        "plan_hash": make_plan()["plan_hash"],
+        "plan_hash": trial_plan(trial)["plan_hash"],
         "launcher_sha256": sha256(Path(__file__)),
         "guard_sha256": sha256(ROOT / "scripts/vast_train.py"),
         "api_helper_sha256": sha256(ROOT / "scripts/vast_smoke.py"),
@@ -42,11 +56,13 @@ def locked_inputs():
     }
 
 
-def load_authorization(path):
-    if not path.resolve().is_relative_to(ARTIFACT_ROOT.resolve()):
+def load_authorization(path, trial="pilot"):
+    root = artifact_root(trial)
+    if not path.resolve().is_relative_to(root.resolve()):
         raise ValueError("Authorization must be inside the teacher artifact directory")
     auth = read_json(path)
-    expected = {"authorized": True, "experiment": "qwen_high_five_candidates_v1", **locked_inputs()}
+    expected = {"authorized": True, "experiment": TRIALS[trial]["experiment"],
+                **locked_inputs(trial)}
     required = {*expected, "authorization_id", "max_total_dollars", "max_hourly_dollars",
                 "max_elapsed_seconds", "expires_epoch"}
     if (set(auth) != required or auth.get("authorized") is not True
@@ -55,15 +71,16 @@ def load_authorization(path):
     identifier = auth["authorization_id"]
     if not isinstance(identifier, str) or not identifier.isascii() or not identifier.isalnum():
         raise ValueError("Invalid authorization ID")
+    total_cap, elapsed_cap = (1.25, 2700) if trial == "golden" else (1.50, 3600)
     for key, lower, upper in [
-        ("max_total_dollars", 0.50, 1.50), ("max_hourly_dollars", 0.01, 0.80),
-        ("max_elapsed_seconds", 1800, 3600),
+        ("max_total_dollars", 0.50, total_cap), ("max_hourly_dollars", 0.01, 0.80),
+        ("max_elapsed_seconds", 1800, elapsed_cap),
     ]:
         if not finite_number(auth[key]) or not lower <= auth[key] <= upper:
             raise ValueError(f"Invalid {key}")
     if not finite_number(auth["expires_epoch"]) or time.time() >= auth["expires_epoch"]:
         raise ValueError("Authorization expired")
-    for prior in ARTIFACT_ROOT.glob("*/attempt.json"):
+    for prior in root.glob("*/attempt.json"):
         if read_json(prior).get("authorization_id") == identifier:
             raise ValueError("Authorization already consumed")
     return auth
@@ -98,19 +115,24 @@ def offers(hourly):
             if offer_allowed(r, hourly)]
 
 
-def build_archive(path):
-    plan = make_plan()
-    if read_json(ROOT / OUTPUT / "plan.json") != plan:
+def build_archive(path, trial="pilot"):
+    output = TRIALS[trial]["output"]
+    plan = trial_plan(trial)
+    if read_json(ROOT / output / "plan.json") != plan:
         raise ValueError("Local plan differs from locked inputs")
     names = list(FILES)
-    if (ROOT / OUTPUT / "report.json").exists():
-        report = validate_report(ROOT / OUTPUT, plan, require_complete=False)
-        names.append(f"{OUTPUT}/report.json")
+    if trial != "pilot":
+        names.remove(TRIALS["pilot"]["config"])
+        names.remove(f"{OUTPUT}/plan.json")
+        names.extend([TRIALS[trial]["config"], TRIALS[trial]["sampler"], f"{output}/plan.json"])
+    if (ROOT / output / "report.json").exists():
+        report = validate_report(ROOT / output, plan, require_complete=False)
+        names.append(f"{output}/report.json")
         for row in report["images"]:
             image = f"images/{row['job']['id']}.png"
             if row["image"] != image:
                 raise ValueError("Unexpected resume image path")
-            names.append(f"{OUTPUT}/{image}")
+            names.append(f"{output}/{image}")
     with tarfile.open(path, "w:gz") as archive:
         for name in names:
             archive.add(ROOT / name, arcname=name,
@@ -151,27 +173,28 @@ def read_with_retries(operation, state, folder):
             time.sleep(5)
 
 
-def snapshot(ssh, folder, *, final=False):
+def snapshot(ssh, folder, *, final=False, trial="pilot"):
+    relative = TRIALS[trial]["output"]
     path = folder / "results.download"
     with path.open("wb") as stream:
         subprocess.run([
             *ssh, "cd /workspace/emoji-studio && "
-                  "python3 scripts/remote_teacher_pilot.py --snapshot",
+                  f"python3 scripts/remote_teacher_pilot.py --snapshot --trial {trial}",
         ], stdout=stream, stderr=subprocess.PIPE, check=True, timeout=60)
     with tarfile.open(path) as archive:
         for member in archive.getmembers():
             if (member.name.startswith("/") or ".." in Path(member.name).parts
-                    or not (member.name == "teacher.log" or member.name == OUTPUT
-                            or member.name.startswith(OUTPUT + "/"))
+                    or not (member.name == "teacher.log" or member.name == relative
+                            or member.name.startswith(relative + "/"))
                     or not (member.isfile() or member.isdir())):
                 raise ValueError("Unexpected result archive member")
         with tempfile.TemporaryDirectory() as temp:
             archive.extractall(temp, filter="data")
-            output = Path(temp) / OUTPUT
-            if read_json(output / "plan.json") != make_plan():
+            output = Path(temp) / relative
+            if read_json(output / "plan.json") != trial_plan(trial):
                 raise ValueError("Remote plan differs from local plan")
             if (output / "report.json").exists():
-                validate_report(output, make_plan(), require_complete=final)
+                validate_report(output, trial_plan(trial), require_complete=final)
             elif final:
                 raise ValueError("No teacher report returned")
         # Preserve validated results locally, including partial progress.
@@ -179,8 +202,15 @@ def snapshot(ssh, folder, *, final=False):
     path.replace(folder / ("final-results.tar.gz" if final else "results.tar.gz"))
 
 
-def run(path):
-    auth = load_authorization(path)
+def run(path, trial="pilot"):
+    auth = load_authorization(path, trial)
+    plan = trial_plan(trial)
+    total = len(plan["jobs"])
+    output = TRIALS[trial]["output"]
+    if (ROOT / output / "report.json").exists():
+        saved = validate_report(ROOT / output, plan, require_complete=False)
+        if len(saved["images"]) == total:
+            raise ValueError("All candidate images already exist; refusing an unnecessary rental")
     if request("GET", "/v1/instances/").get("total_instances", 0):
         raise ValueError("An existing GPU instance must be reconciled first")
     balance = credit()
@@ -190,10 +220,10 @@ def run(path):
     if not available:
         raise ValueError("No compatible 48 GB GPU / 128 GB RAM offer inside the rate limit")
     offer = available[0]
-    folder = ARTIFACT_ROOT / ("emoji-teacher-" + uuid.uuid4().hex[:10])
+    folder = artifact_root(trial) / ("emoji-teacher-" + uuid.uuid4().hex[:10])
     folder.mkdir(parents=True)
     archive = folder / "project.tar.gz"
-    build_archive(archive)
+    build_archive(archive, trial)
     identity = folder / "id_ed25519"
     subprocess.run(["ssh-keygen", "-q", "-t", "ed25519", "-N", "", "-f", str(identity)],
                    check=True, timeout=30)
@@ -203,7 +233,7 @@ def run(path):
         "credit_before": balance, "authorized_total_dollars": auth["max_total_dollars"],
         "max_total_dollars": auth["max_total_dollars"] - 0.15,
         "deadline_epoch": time.time() + auth["max_elapsed_seconds"],
-        "cleanup_lead_seconds": 180, "offer": offer, **locked_inputs(),
+        "cleanup_lead_seconds": 180, "offer": offer, "trial": trial, **locked_inputs(trial),
     }
     write_json(folder / "attempt.json", state)
     ssh = None
@@ -243,7 +273,7 @@ def run(path):
         if seconds < 900:
             raise TimeoutError("Insufficient time remains after setup")
         subprocess.run([*ssh, "cd /workspace/emoji-studio && python3 "
-                        f"scripts/remote_teacher_pilot.py --seconds {seconds}"],
+                        f"scripts/remote_teacher_pilot.py --seconds {seconds} --trial {trial}"],
                        check=True, timeout=30)
         last_snapshot = 0
         while time.time() < state["deadline_epoch"] - 240:
@@ -256,18 +286,18 @@ def run(path):
                 capture_output=True, text=True, timeout=30, check=True), state, folder)
             if result.stdout.strip():
                 read_with_retries(
-                    lambda: snapshot(ssh, folder, final=result.stdout.strip() == "0"),
+                    lambda: snapshot(ssh, folder, final=result.stdout.strip() == "0", trial=trial),
                     state, folder)
                 if result.stdout.strip() != "0":
                     raise RuntimeError("Remote teacher trial failed; saved its partial results")
-                print("Four candidates verified; training review remains pending", flush=True)
+                print(f"{total} candidates verified; training review remains pending", flush=True)
                 return
             if time.time() - last_snapshot >= 60:
-                read_with_retries(lambda: snapshot(ssh, folder), state, folder)
+                read_with_retries(lambda: snapshot(ssh, folder, trial=trial), state, folder)
                 last_snapshot = time.time()
-                report = ROOT / OUTPUT / "report.json"
+                report = ROOT / output / "report.json"
                 count = len(read_json(report)["images"]) if report.exists() else 0
-                print(f"Candidate progress: {count}/4", flush=True)
+                print(f"Candidate progress: {count}/{total}", flush=True)
             time.sleep(15)
         raise TimeoutError("Teacher pilot reached its cleanup reserve")
     finally:
@@ -300,5 +330,6 @@ def run(path):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--authorization", type=Path, required=True)
+    parser.add_argument("--trial", choices=TRIALS, default="pilot")
     args = parser.parse_args()
-    run(args.authorization)
+    run(args.authorization, args.trial)

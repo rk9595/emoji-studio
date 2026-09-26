@@ -1,5 +1,6 @@
 """Build an unblinded teacher gallery, preserving existing human review answers."""
 
+import argparse
 import html
 import sys
 from pathlib import Path
@@ -13,8 +14,9 @@ from sample_interaction_teacher import OUTPUT, make_plan, validate_report  # noq
 from emoji_studio.common import read_json, write_json  # noqa: E402
 
 
-def build(output):
-    plan = make_plan()
+def build(output, plan=None):
+    plan = make_plan() if plan is None else plan
+    total = len(plan["jobs"])
     report = validate_report(output, plan, require_complete=False)
     cards = []
     for row in report["images"]:
@@ -42,7 +44,7 @@ code{overflow-wrap:anywhere}
 <p>Unblinded diagnostic gallery, not a human evaluation. Source PNGs are unchanged.
 Inspect gesture, palm contact, wrist separation, anatomy, emoji style and readability.
 All images remain pending for training.</p>
-''' + f'<p>{len(report["images"])}/4 verified images. Last saved remote status: ' \
+''' + f'<p>{len(report["images"])}/{total} verified images. Last saved remote status: ' \
         + html.escape(report["status"]) + ' (not a live status check).</p><div class="grid">' \
         + "".join(cards) + "</div></html>"
     template = output / "human-review-template.json"
@@ -64,11 +66,19 @@ All images remain pending for training.</p>
             "wrists_separated": None, "readable_32px": None, "style_correct": None,
             "notes": "",
         })
-    document["trial_outcome"] = f'{len(report["images"])}/4 verified local images'
+    document["trial_outcome"] = f'{len(report["images"])}/{total} verified local images'
     (output / "review.html").write_text(page)
     write_json(template, document)
     print(output / "review.html")
 
 
 if __name__ == "__main__":
-    build(ROOT / OUTPUT)
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--trial", choices=["pilot", "golden"], default="pilot")
+    args = parser.parse_args()
+    if args.trial == "golden":
+        from sample_golden_teacher import OUTPUT as GOLDEN_OUTPUT
+        from sample_golden_teacher import make_plan as golden_plan
+        build(ROOT / GOLDEN_OUTPUT, golden_plan())
+    else:
+        build(ROOT / OUTPUT)

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "experiment": "qwen_high_five_golden_audition_v1",
+  "model_id": "Qwen/Qwen-Image-2512",
+  "model_revision": "25468b98e3276ca6700de15c6628e51b7de54a26",
+  "model_license": "Apache-2.0",
+  "model_card_sha256": "db371596007403d9588e0d78d9798ecafa59bf7772fbdc12952e581b1562920b",
+  "width": 1328,
+  "height": 1328,
+  "steps": 50,
+  "true_cfg_scale": 4.0,
+  "negative_prompt": "extra hands, extra fingers, missing fingers, fused fingers, disconnected fingers, twisted wrists, praying, clapping, handshake, touching only fingertips, text, watermark, face, body, photographic skin, skin pores, hair",
+  "style": "A single polished golden-yellow 3D emoji icon: smooth rounded hands, soft clay-like material, gentle shading, crisp silhouette and plain white background. Show only the two hands and short forearm stubs, with generous white margins around the complete icon. No lettering, faces, bodies, impact symbols or decorative objects.",
+  "reference": {
+    "job_id": "qwen-hi5-004",
+    "image_sha256": "c51db19bc58a3a77f77cb8b699b5fc4bb4f9705a8f410aa394ec60a7d30aae4f",
+    "use": "visual_review_only_not_model_input",
+    "human_gesture_approved": true,
+    "human_style_approved": true,
+    "anatomy_approved": null
+  },
+  "compositions": [
+    {
+      "id": "golden-a",
+      "pose_group": "audition-front-three-quarter",
+      "seeds": [1101, 1102],
+      "description": "Two golden-yellow hands from different people complete a celebratory high five. View the contact from a front three-quarter angle. The short forearms rise from unequal lower positions, one diagonally from the lower left and the other more upright from the lower right. Their palm centers meet while the thumbs remain readable on the outer edges. Fingers fan naturally above the contact, with four fingers and one thumb belonging coherently to each hand. Preserve distinct wrist contours and an energetic asymmetric silhouette."
+    },
+    {
+      "id": "golden-b",
+      "pose_group": "audition-elevated-offset",
+      "seeds": [1201, 1202],
+      "description": "An elevated camera looks down slightly on two golden-yellow hands striking a friendly high five. One hand reaches higher than the other, so the fans of fingers are naturally offset. The flat palm centers touch, and the contact boundary is visible along their edges. The two short forearms approach from opposite lower sides without crossing or clasping. Give each hand four fingers and one thumb, with natural depth and no merged anatomy."
+    },
+    {
+      "id": "golden-c",
+      "pose_group": "audition-low-oblique-wide-arms",
+      "seeds": [1301, 1302],
+      "description": "Show two golden-yellow hands meeting in a high five from a low oblique camera angle. The short arms approach along widely diverging diagonals, lifting their open palms toward a shared contact above center. The palms press together while the lower edges and wrist contours remain visually distinct. The fingers extend into natural fans beyond the contact, with four fingers and one thumb per hand. Keep the hands legible as separate objects rather than a single folded shape."
+    },
+    {
+      "id": "golden-d",
+      "pose_group": "audition-diagonal-horizontal-approach",
+      "seeds": [1401, 1402],
+      "description": "Two golden-yellow hands exchange an energetic diagonal high five above the center of the icon. One short forearm approaches nearly horizontally from the left, turning its palm toward the second hand rising diagonally from below on the right. The open palm centers make contact without interlocking fingers. Show four fingers and one thumb coherently connected to each hand. Use a rotated three-quarter view and natural finger spread to keep the striking gesture clear without motion marks."
+    }
+  ],
+  "note": "Eight text-only candidates in a new output directory. Four intended composition families are not proven output pose diversity. No automatic curation acceptance or training."
+}

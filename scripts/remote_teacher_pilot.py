@@ -10,10 +10,20 @@ import tarfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+TRIALS = {
+    "pilot": {"output": "runs/high-five-teacher-pilot-v1",
+              "sampler": "scripts/sample_interaction_teacher.py",
+              "config": "configs/high-five-teacher-pilot.json",
+              "experiment": "qwen_high_five_candidates_v1"},
+    "golden": {"output": "runs/high-five-golden-audition-v1",
+               "sampler": "scripts/sample_golden_teacher.py",
+               "config": "configs/high-five-golden-audition.json",
+               "experiment": "qwen_high_five_golden_audition_v1"},
+}
 
 
-def snapshot(stream, root=ROOT):
-    relative = "runs/high-five-teacher-pilot-v1"
+def snapshot(stream, root=ROOT, trial="pilot"):
+    relative = TRIALS[trial]["output"]
     output = root / relative
     report_path = output / "report.json"
     # Capture the report first. Its referenced PNGs were atomically published before it.
@@ -35,7 +45,7 @@ def snapshot(stream, root=ROOT):
             archive.add(log, arcname="teacher.log")
 
 
-def worker(seconds):
+def worker(seconds, trial="pilot"):
     code = 1
     try:
         os.environ.update(HF_HOME="/workspace/huggingface", UV_CACHE_DIR="/workspace/uv-cache",
@@ -48,7 +58,7 @@ def worker(seconds):
         os.environ["PATH"] = "/workspace/uv-cli/bin" + os.pathsep + os.environ["PATH"]
         subprocess.run([sys.executable, "scripts/remote_environment.py"], cwd=ROOT, check=True)
         code = subprocess.run([
-            str(ROOT / ".venv/bin/python"), "scripts/sample_interaction_teacher.py", "run",
+            str(ROOT / ".venv/bin/python"), TRIALS[trial]["sampler"], "run",
             "--max-seconds", str(min(3000, seconds)),
         ], cwd=ROOT).returncode
     finally:
@@ -61,21 +71,22 @@ def main():
     parser.add_argument("--seconds", type=int)
     parser.add_argument("--worker", action="store_true")
     parser.add_argument("--snapshot", action="store_true")
+    parser.add_argument("--trial", choices=TRIALS, default="pilot")
     args = parser.parse_args()
     if args.snapshot:
-        snapshot(sys.stdout.buffer)
+        snapshot(sys.stdout.buffer, trial=args.trial)
         return 0
     if args.seconds is None or not 900 <= args.seconds <= 3300:
         parser.error("seconds must be 900..3300")
     if args.worker:
-        return worker(args.seconds)
+        return worker(args.seconds, args.trial)
     # Exclusive marker prevents a repeated SSH request from starting duplicate work.
     with (ROOT / "teacher.launch.json").open("x") as marker:
         with (ROOT / "teacher.log").open("ab", buffering=0) as log:
             process = subprocess.Popen([
                 "timeout", "--signal=TERM", "--kill-after=30s", str(args.seconds),
                 sys.executable, str(Path(__file__).resolve()),
-                "--seconds", str(args.seconds), "--worker",
+                "--seconds", str(args.seconds), "--worker", "--trial", args.trial,
             ], cwd=ROOT, stdin=subprocess.DEVNULL, stdout=log, stderr=log,
                 start_new_session=True)
         json.dump({"pid": process.pid, "max_seconds": args.seconds}, marker)

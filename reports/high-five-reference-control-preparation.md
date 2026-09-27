@@ -1,4 +1,8 @@
-# High-five reference-control comparison: prepared, not run
+# High-five reference-control comparison: preparation protocol
+
+Historical preparation snapshot below. The trial subsequently received explicit
+approval and completed 8/8 outputs; see [results and cleanup](high-five-reference-control.md).
+Its authorization is consumed and cannot fund another rental.
 
 Prepared September 27, 2026. No new image generation, interaction training, compute
 authorization or GPU rental has occurred in this phase.

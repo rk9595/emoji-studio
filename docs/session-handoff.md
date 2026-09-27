@@ -4,7 +4,30 @@ Updated 2026-09-27.
 
 ## Latest continuation
 
-Reference-control phase prepared September 27 (not run):
+Reference-control run completed September 27:
+
+- User approved $1.25 additional, <=$0.80/hour, one GPU, 45 minutes. Fresh private
+  authorization: `artifacts/vast-reference-control/authorization-reference20260927a.json`.
+- Allocation `emoji-teacher-b54eb0e0e3`, instance 52886728, $0.6711111111/hour.
+  Created epoch 1790485506.585121; destroyed 1790486106.883870 after 10.01 minutes,
+  before absolute deadline 1790488206.585124. Launcher exited 0; 8/8 PNGs verified.
+- Later observed cost $0.1774972596; credit $4.9742964380. Fresh provider check:
+  zero instances. Approval is consumed/closed. Do not start another run from it.
+  Run receipts are under `artifacts/vast-reference-control/emoji-teacher-b54eb0e0e3`.
+  Result path remains `runs/high-five-reference-control-v1`. No training authorized.
+- Unblinded AI review: all four conditioned outputs closely preserve their source
+  pose; none clearly achieves requested shortening or elevated viewpoint. Text-only
+  controls vary, with ambiguous contact in several. Human review remains pending;
+  no inherited approvals or new-pose credit. Do not scale this unchanged recipe.
+- Public originals and receipts: `reports/high-five-reference-control.md`,
+  `reports/high-five-reference-samples.json`, `docs/images/high-five-reference/`.
+  Paired local gallery was opened; four pairs and all 26 image elements load.
+  The repo blog includes the result; the separate website blog has not been updated.
+- All 125 tests and Ruff pass; historical Qwen plans/results remain unchanged.
+  Training gate still has zero accepted high-five positives. Next: human review,
+  then choose a different controlled-data method before further paid generation.
+
+Historical reference-control preparation (superseded by completion above):
 
 - Added `configs/high-five-reference-control.json` and `scripts/sample_reference_control.py`.
   Eight samples: two selected sources x compact/elevated task x text/image condition.

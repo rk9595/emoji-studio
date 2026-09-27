@@ -1,0 +1,223 @@
+{
+  "plan_hash": "b7686bf8c93ad0722b5b33d04b9bc7c927d771a2a7459de7def8eb781192eeb1",
+  "created_at": "2026-09-27T05:06:34.030344+00:00",
+  "images": [
+    {
+      "job": {
+        "id": "ref-004-compact-text",
+        "pair_id": "ref-004-compact",
+        "condition": "text",
+        "reference_id": "004",
+        "reference_sha256": null,
+        "lineage": "qwen-hi5-004",
+        "task": "compact",
+        "seed": 2101,
+        "prompt": "Two golden-yellow rounded clay hands celebrating with a high-five, palms touching and wrists apart. Five digits belong to each hand, with natural occlusion at contact. Smooth 3D emoji, soft studio light, plain white background, no text, faces, extra limbs or decorations. Both short forearm ends and all fingertips fit inside the frame, with generous white margins. The fingers fan upward and the two forearms approach from the lower left and lower right. A front three-quarter view with short forearm stubs, approximately half a palm length below each wrist. The touching hands occupy the central two-thirds of the square."
+      },
+      "image": "images/ref-004-compact-text.png",
+      "image_sha256": "aa1c1c17f34579b96378c77450df20cf122c3ec960aa91ce20e2990b852d546b",
+      "generated_at": "2026-09-27T05:09:10.669990+00:00",
+      "seconds": 32.78872516192496,
+      "peak_allocated_bytes": 8395195392,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true,
+        "adapter": null
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "ref-004-compact-image",
+        "pair_id": "ref-004-compact",
+        "condition": "image",
+        "reference_id": "004",
+        "reference_sha256": "c51db19bc58a3a77f77cb8b699b5fc4bb4f9705a8f410aa394ec60a7d30aae4f",
+        "lineage": "qwen-hi5-004",
+        "task": "compact",
+        "seed": 2101,
+        "prompt": "Two golden-yellow rounded clay hands celebrating with a high-five, palms touching and wrists apart. Five digits belong to each hand, with natural occlusion at contact. Smooth 3D emoji, soft studio light, plain white background, no text, faces, extra limbs or decorations. Both short forearm ends and all fingertips fit inside the frame, with generous white margins. The fingers fan upward and the two forearms approach from the lower left and lower right. A front three-quarter view with short forearm stubs, approximately half a palm length below each wrist. The touching hands occupy the central two-thirds of the square."
+      },
+      "image": "images/ref-004-compact-image.png",
+      "image_sha256": "e997d86535d9a426198fd1990d3d2a5e2feafc100881d6d39070450e217e6c82",
+      "generated_at": "2026-09-27T05:10:10.278121+00:00",
+      "seconds": 59.60767425503582,
+      "peak_allocated_bytes": 9920078336,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true,
+        "adapter": null
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "ref-004-elevated-text",
+        "pair_id": "ref-004-elevated",
+        "condition": "text",
+        "reference_id": "004",
+        "reference_sha256": null,
+        "lineage": "qwen-hi5-004",
+        "task": "elevated",
+        "seed": 2102,
+        "prompt": "Two golden-yellow rounded clay hands celebrating with a high-five, palms touching and wrists apart. Five digits belong to each hand, with natural occlusion at contact. Smooth 3D emoji, soft studio light, plain white background, no text, faces, extra limbs or decorations. Both short forearm ends and all fingertips fit inside the frame, with generous white margins. The fingers fan upward and the two forearms approach from the lower left and lower right. A distinctly elevated three-quarter camera view looking down about 35 degrees onto the touching hands. The tops of the fingers and upper surfaces of both forearms are visible. The palms still meet, with the wrists spread apart."
+      },
+      "image": "images/ref-004-elevated-text.png",
+      "image_sha256": "818a4959e0d30751bb0cae065ffbffcf9622036d1daf4b9ee2d43f96ebc49b50",
+      "generated_at": "2026-09-27T05:10:41.395112+00:00",
+      "seconds": 31.116503956262022,
+      "peak_allocated_bytes": 8396375040,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true,
+        "adapter": null
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "ref-004-elevated-image",
+        "pair_id": "ref-004-elevated",
+        "condition": "image",
+        "reference_id": "004",
+        "reference_sha256": "c51db19bc58a3a77f77cb8b699b5fc4bb4f9705a8f410aa394ec60a7d30aae4f",
+        "lineage": "qwen-hi5-004",
+        "task": "elevated",
+        "seed": 2102,
+        "prompt": "Two golden-yellow rounded clay hands celebrating with a high-five, palms touching and wrists apart. Five digits belong to each hand, with natural occlusion at contact. Smooth 3D emoji, soft studio light, plain white background, no text, faces, extra limbs or decorations. Both short forearm ends and all fingertips fit inside the frame, with generous white margins. The fingers fan upward and the two forearms approach from the lower left and lower right. A distinctly elevated three-quarter camera view looking down about 35 degrees onto the touching hands. The tops of the fingers and upper surfaces of both forearms are visible. The palms still meet, with the wrists spread apart."
+      },
+      "image": "images/ref-004-elevated-image.png",
+      "image_sha256": "4d843506d39d19171f27be55d66a70b82edab1eb2385aad81feca9d64f5016cf",
+      "generated_at": "2026-09-27T05:11:41.355466+00:00",
+      "seconds": 59.95982774393633,
+      "peak_allocated_bytes": 9920078336,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true,
+        "adapter": null
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "ref-1401-compact-text",
+        "pair_id": "ref-1401-compact",
+        "condition": "text",
+        "reference_id": "1401",
+        "reference_sha256": null,
+        "lineage": "golden-d-1401",
+        "task": "compact",
+        "seed": 2201,
+        "prompt": "Two golden-yellow rounded clay hands celebrating with a high-five, palms touching and wrists apart. Five digits belong to each hand, with natural occlusion at contact. Smooth 3D emoji, soft studio light, plain white background, no text, faces, extra limbs or decorations. Both short forearm ends and all fingertips fit inside the frame, with generous white margins. The fingers point upward, one forearm approaches almost horizontally from the left and the other rises diagonally from the lower right. A front three-quarter view with short forearm stubs, approximately half a palm length below each wrist. The touching hands occupy the central two-thirds of the square."
+      },
+      "image": "images/ref-1401-compact-text.png",
+      "image_sha256": "91df53ecb0041e17b9c32b7de215f178e42e088148e1f90478551b43baf3f961",
+      "generated_at": "2026-09-27T05:12:11.916918+00:00",
+      "seconds": 30.56087638484314,
+      "peak_allocated_bytes": 8396375040,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true,
+        "adapter": null
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "ref-1401-compact-image",
+        "pair_id": "ref-1401-compact",
+        "condition": "image",
+        "reference_id": "1401",
+        "reference_sha256": "bf424e729d5a1e49a2c63294768edd6a86238c4ff05eef35940176544263d22d",
+        "lineage": "golden-d-1401",
+        "task": "compact",
+        "seed": 2201,
+        "prompt": "Two golden-yellow rounded clay hands celebrating with a high-five, palms touching and wrists apart. Five digits belong to each hand, with natural occlusion at contact. Smooth 3D emoji, soft studio light, plain white background, no text, faces, extra limbs or decorations. Both short forearm ends and all fingertips fit inside the frame, with generous white margins. The fingers point upward, one forearm approaches almost horizontally from the left and the other rises diagonally from the lower right. A front three-quarter view with short forearm stubs, approximately half a palm length below each wrist. The touching hands occupy the central two-thirds of the square."
+      },
+      "image": "images/ref-1401-compact-image.png",
+      "image_sha256": "03a9a77e8a7a4a388545ce4117f30cc33b30d9e1377aba509b037a7651f33e66",
+      "generated_at": "2026-09-27T05:13:11.489709+00:00",
+      "seconds": 59.57219435926527,
+      "peak_allocated_bytes": 9920078336,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true,
+        "adapter": null
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "ref-1401-elevated-text",
+        "pair_id": "ref-1401-elevated",
+        "condition": "text",
+        "reference_id": "1401",
+        "reference_sha256": null,
+        "lineage": "golden-d-1401",
+        "task": "elevated",
+        "seed": 2202,
+        "prompt": "Two golden-yellow rounded clay hands celebrating with a high-five, palms touching and wrists apart. Five digits belong to each hand, with natural occlusion at contact. Smooth 3D emoji, soft studio light, plain white background, no text, faces, extra limbs or decorations. Both short forearm ends and all fingertips fit inside the frame, with generous white margins. The fingers point upward, one forearm approaches almost horizontally from the left and the other rises diagonally from the lower right. A distinctly elevated three-quarter camera view looking down about 35 degrees onto the touching hands. The tops of the fingers and upper surfaces of both forearms are visible. The palms still meet, with the wrists spread apart."
+      },
+      "image": "images/ref-1401-elevated-text.png",
+      "image_sha256": "409684900d079aa7762e7884cceb22a83e6fb6c4e19bbe204a1c1c54a9aad9c0",
+      "generated_at": "2026-09-27T05:13:41.399953+00:00",
+      "seconds": 29.909606321249157,
+      "peak_allocated_bytes": 8396375040,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true,
+        "adapter": null
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "ref-1401-elevated-image",
+        "pair_id": "ref-1401-elevated",
+        "condition": "image",
+        "reference_id": "1401",
+        "reference_sha256": "bf424e729d5a1e49a2c63294768edd6a86238c4ff05eef35940176544263d22d",
+        "lineage": "golden-d-1401",
+        "task": "elevated",
+        "seed": 2202,
+        "prompt": "Two golden-yellow rounded clay hands celebrating with a high-five, palms touching and wrists apart. Five digits belong to each hand, with natural occlusion at contact. Smooth 3D emoji, soft studio light, plain white background, no text, faces, extra limbs or decorations. Both short forearm ends and all fingertips fit inside the frame, with generous white margins. The fingers point upward, one forearm approaches almost horizontally from the left and the other rises diagonally from the lower right. A distinctly elevated three-quarter camera view looking down about 35 degrees onto the touching hands. The tops of the fingers and upper surfaces of both forearms are visible. The palms still meet, with the wrists spread apart."
+      },
+      "image": "images/ref-1401-elevated-image.png",
+      "image_sha256": "78384a7eed2c179531972f5e1fed2f75b5d674bfbde5d327927827f63b803d06",
+      "generated_at": "2026-09-27T05:14:40.542563+00:00",
+      "seconds": 59.141935042105615,
+      "peak_allocated_bytes": 9920078336,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true,
+        "adapter": null
+      },
+      "curation_decision": "pending"
+    }
+  ],
+  "status": "completed",
+  "environment": {
+    "torch": "2.10.0+cu128",
+    "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+    "cpu_offload": true,
+    "vae_tiling": true,
+    "adapter": null
+  },
+  "updated_at": "2026-09-27T05:14:40.543251+00:00"
+}

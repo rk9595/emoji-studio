@@ -110,6 +110,10 @@ class ReferenceControlTest(unittest.TestCase):
         report = reference.validate_report(self.output, self.plan)
         self.assertTrue(all(r["curation_decision"] == "pending" for r in report["images"]))
         gallery.build(self.output, self.plan)
+        page = (self.output / "review.html").read_text()
+        self.assertEqual(page.count('<div class="pair">'), 4)
+        self.assertIn('Original 004', page)
+        self.assertIn('Original 1401', page)
         review = read_json(self.output / "human-review-template.json")
         self.assertTrue(all(r["gesture_correct"] is None for r in review["images"]))
 

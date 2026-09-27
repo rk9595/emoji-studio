@@ -108,17 +108,26 @@ has run. The useful lesson is that repeatable material/style does not prove pose
 control or produce a sufficiently diverse training set. [Evidence and next-step
 decision](../../reports/high-five-golden-audition.md) are recorded in the repository.
 
-### Next comparison prepared: give the model the reference pixels
+### September 27 follow-up: reference preservation is not pose control
 
-The user selected D-1401 as another keeper alongside original 004. We prepared
+The user selected D-1401 as another keeper alongside original 004. We completed
 four matched comparisons using the existing FLUX base model: identical prompts
 and seeds, with versus without the selected image as actual model input. The tasks
 separate compact framing from a requested change in camera angle. This uses the
 image-conditioning path in our pinned pipeline, not a new training run or pose
 skeleton. The style adapter is omitted from both conditions to isolate reference
-input. The comparison has not run yet; software tests are not visual evidence.
-[Protocol and compute boundary](../../reports/high-five-reference-control-preparation.md)
-are documented. Reference selection still does not certify anatomy or supply a
+input. All eight outputs were verified and the GPU was destroyed after 10 minutes.
+Later observed cost was about $0.18, bringing these three candidate/control trials
+to about $1.21 combined.
+
+The conditioned outputs closely preserved the source poses, but our unblinded
+review found no clear requested shortening or elevated-camera change. Text-only
+outputs varied more, sometimes losing clear palm contact. Retaining an attractive
+example is not the same as producing new, controlled interactions. We are not
+scaling this unchanged recipe or counting its variants as independent poses.
+[All eight outputs, measurements and limitations](../../reports/high-five-reference-control.md)
+are published. Human rubric review remains pending and no interaction training
+has run; reference selection still does not certify anatomy or supply a
 pose-diverse, held-out training set.
 
 ### Sources

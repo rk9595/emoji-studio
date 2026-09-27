@@ -2,6 +2,7 @@
 
 import argparse
 import html
+import os
 import sys
 from pathlib import Path
 
@@ -19,6 +20,7 @@ def build(output, plan=None):
     total = len(plan["jobs"])
     report = validate_report(output, plan, require_complete=False)
     cards = []
+    pairs = {}
     for row in report["images"]:
         job = row["job"]
         # Use the canonical verified path, never an arbitrary report-supplied URL.
@@ -39,6 +41,20 @@ def build(output, plan=None):
             f'<p>{html.escape(job["prompt"])}</p>'
             f'<p>PNG SHA-256: <code>{row["image_sha256"]}</code></p></article>'
         )
+        if "pair_id" in job:
+            pairs.setdefault(job["pair_id"], []).append(cards[-1])
+    content = '<div class="grid">' + "".join(cards) + '</div>'
+    if pairs:
+        sources = []
+        for ref in plan["config"]["references"]:
+            path = html.escape(os.path.relpath(ROOT / ref["path"], output), quote=True)
+            sources.append(f'<figure><img width="180" src="{path}" '
+                           f'alt="Original reference {html.escape(ref["id"])}">'
+                           f'<figcaption>Original {html.escape(ref["id"])}</figcaption></figure>')
+        content = '<div class="sources">' + "".join(sources) + '</div>' + "".join(
+            f'<section><h2>{html.escape(pair)}</h2><div class="pair">'
+            + "".join(rows) + '</div></section>' for pair, rows in pairs.items()
+        )
     page = '''<!doctype html><html lang="en"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>High-five candidate review</title><style>
@@ -47,13 +63,16 @@ body{font:15px system-ui;margin:24px;color:#171717;background:#eee}
 article{background:white;padding:16px;border-radius:12px}h2{font-size:16px}
 .large{width:100%;height:auto}p img{vertical-align:middle}p{line-height:1.5}
 code{overflow-wrap:anywhere}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:1100px}
+.sources{display:flex;flex-wrap:wrap}.sources figure{margin:12px}
+@media(max-width:700px){.pair{grid-template-columns:1fr}}
 </style><h1>High-five candidate review</h1>
 <p>Unblinded diagnostic gallery, not a human evaluation. Source PNGs are unchanged.
 Inspect gesture, palm contact, wrist separation, anatomy, emoji style and readability.
 All images remain pending for training.</p>
 ''' + f'<p>{len(report["images"])}/{total} verified images. Last saved remote status: ' \
-        + html.escape(report["status"]) + ' (not a live status check).</p><div class="grid">' \
-        + "".join(cards) + "</div></html>"
+        + html.escape(report["status"]) + ' (not a live status check).</p>' \
+        + content + "</html>"
     template = output / "human-review-template.json"
     document = read_json(template) if template.exists() else {
         "plan_hash": plan["plan_hash"], "reviewer": "", "reviewer_kind": "human", "images": [],

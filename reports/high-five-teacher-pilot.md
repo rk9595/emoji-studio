@@ -7,6 +7,12 @@ no positive example has been admitted to training. Zero active instances confirm
 
 ![Most promising emoji-style candidate, seed 404, pending review](../docs/images/high-five-teacher/qwen-hi5-004.png)
 
+Human follow-up: the project owner approved candidate 004's high-five gesture and
+golden-yellow rounded 3D style. Those two approvals are recorded against its exact
+image hash. Anatomy and explicit small-size checks remain unanswered; training
+admission is still pending. The [golden variation trial](../docs/high-five-reference-brief.md)
+uses this approved direction to test additional compositions.
+
 ## Completed recovery and preliminary review
 
 All observations below are unblinded AI inspection, not human labels or a success

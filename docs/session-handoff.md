@@ -1,8 +1,25 @@
 # Emoji Studio continuation handoff
 
-Updated 2026-09-26.
+Updated 2026-09-27.
 
 ## Latest continuation
+
+Golden audition completed and reconciled September 27:
+
+- All eight new images are generated, downloaded and checksum-verified. No new
+  training or automatic curation acceptance. All eight human reviews remain unanswered.
+- Instance 52748810 was destroyed successfully after 29.04 minutes. Fresh provider
+  check: zero instances. Later observed cost $0.4386603880; remaining credit
+  $5.1517936976. Combined Qwen trial spend $1.0366731393; billing may lag.
+- Unblinded AI review: golden style consistent, but A/B are visually close,
+  C is prayer/folded-hands-like, D offers more asymmetric arms. Do not count four
+  prompt labels as four proven pose groups. Rear fingers remain partly occluded.
+- Shortlist A-1101 and D-1401 for human comparison with original 004. No new paid
+  run authorized. Consider explicit pose/reference control before more bulk sampling.
+- Full report and eight unedited PNGs: `reports/high-five-golden-audition.md`.
+  Local gallery: `runs/high-five-golden-audition-v1/review.html`. Captured receipts:
+  `reports/high-five-golden-samples.json`. Private cost/cleanup receipts remain under
+  `artifacts/vast-golden-audition/emoji-teacher-d4ed3f2183/`.
 
 Golden audition implementation:
 
@@ -13,15 +30,17 @@ Golden audition implementation:
   New output: `runs/high-five-golden-audition-v1`; new private receipts/authorization
   root: `artifacts/vast-golden-audition`. Never reuse the completed pilot's authorization.
 - Explicit caps for this trial: <=$1.25 total, <=$0.80/hour, one GPU, <=2700 seconds.
-  Asked user for fresh approval asynchronously; no answer yet, no authorization
-  file, no rental, no generated golden-audition images. Mock sampling tests are not
-  real outputs. Read-only check: zero instances, credit $5.5904540856, eligible offers.
+  User approved. Completed allocation: instance 52748810, receipts under
+  `artifacts/vast-golden-audition/emoji-teacher-d4ed3f2183/`, $0.6844444444/hour.
+  Started epoch 1790427388.396656; absolute deadline 1790430088.396660, watchdog
+  cleanup was reserved three minutes earlier. Initial credit $5.5904540856.
+  Trial is completed and allocation destroyed; do not reuse its authorization.
 - Original pilot plan and four PNGs still verify unchanged; 004's human gesture and
   style approvals survive gallery rebuilding. They do not auto-approve any variants.
 - All 119 tests and Ruff passed. The actual new upload archive was inspected and
   a test recomputed the plan from its extracted sources.
 - See `docs/high-five-reference-brief.md` for exact commands, review boundaries and
-  the outstanding approval. Golden-only variants still cannot satisfy the broader
+  the run boundaries. Golden-only variants still cannot satisfy the broader
   24/8 training gate and its skin-tone coverage requirements.
 
 Reference selection after recovery:

@@ -1,5 +1,10 @@
 # High-five variation brief — approved direction, not a training dataset
 
+September 27 result: [the eight-image audition completed](../reports/high-five-golden-audition.md).
+All eight PNGs are verified and the GPU is destroyed. Golden styling was consistent,
+but pose diversity was limited and the low-angle pair looked like folded hands.
+Review A-1101 and D-1401 before planning further generation.
+
 September 26, 2026. The user approved candidate `qwen-hi5-004` as both a high-five
 gesture and the target golden-yellow, rounded 3D style. This is a reference selection,
 not approval of unseen fingers, every small-size criterion, or model reliability.
@@ -64,8 +69,10 @@ golden launcher rejects larger limits, reserves $0.15 and three minutes for clea
 and refuses a new rental if all eight images already exist. Marketplace availability
 was checked read-only: qualifying offers existed below $0.80/hour, zero instances
 were active, and credit was $5.5904540856. These observations are not a price guarantee.
-Fresh spending approval remains pending; no authorization record or rental has
-been created for this trial. The prior rental authorizations are consumed.
+The user subsequently approved this new limit. Trial `emoji-teacher-d4ed3f2183`
+completed on one GPU at $0.6844444444/hour; cleanup succeeded after 29.04 minutes.
+Its authorization is consumed and the GPU destroyed. The prior rental authorizations
+remain closed. Do not create another rental from this completed trial's approval.
 
 Local tests cover eight-job sampling through a mock pipeline, untouched historical
 plan hashes, prompt leakage, reference binding, trial-specific budget caps, archive
@@ -92,4 +99,5 @@ cannot satisfy that gate. Do not silently remove those requirements because the
 user selected a golden product style; a later dataset plan must address the broader
 evaluation scope explicitly.
 
-No new GPU allocation, generation or training is authorized or launched by this brief.
+This brief alone is not compute authorization. The separately approved golden
+audition generates review candidates only; it does not authorize training.

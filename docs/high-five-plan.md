@@ -68,6 +68,13 @@ are photographic. Rear-hand visibility and gesture ambiguity still need human
 review. All remain pending and none are admitted to training. See the report for
 all four original PNGs, timings, cost and the reference-guided next-step proposal.
 
+September 27: the user approved the original golden 004's gesture and style. A
+separate [eight-image golden audition](../reports/high-five-golden-audition.md) is
+now complete. Styling was consistent, but pose diversity remained limited and the
+low-angle pair looked like folded hands. All eight candidates remain unaccepted
+for training. Next: human comparison of A-1101 and D-1401, then consider a scoped
+pose/reference-control experiment rather than more unconstrained bulk sampling.
+
 ## Baselines
 
 Render the same fixed seeds for:

@@ -1,0 +1,214 @@
+{
+  "plan_hash": "6820fb673cc9a80a91b1d1883d932923bdc3dbec5a9bfbe68c8beeb3740958fa",
+  "created_at": "2026-09-26T13:01:28.054242+00:00",
+  "images": [
+    {
+      "job": {
+        "id": "golden-a-1101",
+        "seed": 1101,
+        "pose_group": "audition-front-three-quarter",
+        "tone_pair": [
+          "yellow",
+          "yellow"
+        ],
+        "description": "Two golden-yellow hands from different people complete a celebratory high five. View the contact from a front three-quarter angle. The short forearms rise from unequal lower positions, one diagonally from the lower left and the other more upright from the lower right. Their palm centers meet while the thumbs remain readable on the outer edges. Fingers fan naturally above the contact, with four fingers and one thumb belonging coherently to each hand. Preserve distinct wrist contours and an energetic asymmetric silhouette.",
+        "prompt": "Two golden-yellow hands from different people complete a celebratory high five. View the contact from a front three-quarter angle. The short forearms rise from unequal lower positions, one diagonally from the lower left and the other more upright from the lower right. Their palm centers meet while the thumbs remain readable on the outer edges. Fingers fan naturally above the contact, with four fingers and one thumb belonging coherently to each hand. Preserve distinct wrist contours and an energetic asymmetric silhouette. A single polished golden-yellow 3D emoji icon: smooth rounded hands, soft clay-like material, gentle shading, crisp silhouette and plain white background. Show only the two hands and short forearm stubs, with generous white margins around the complete icon. No lettering, faces, bodies, impact symbols or decorative objects."
+      },
+      "image": "images/golden-a-1101.png",
+      "image_sha256": "065db4e3250dbf696da781e251a29d9e6250a084354f90166e973d145021c9af",
+      "generated_at": "2026-09-26T13:10:56.814075+00:00",
+      "seconds": 131.37514736596495,
+      "peak_allocated_bytes": 41531268096,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "golden-a-1102",
+        "seed": 1102,
+        "pose_group": "audition-front-three-quarter",
+        "tone_pair": [
+          "yellow",
+          "yellow"
+        ],
+        "description": "Two golden-yellow hands from different people complete a celebratory high five. View the contact from a front three-quarter angle. The short forearms rise from unequal lower positions, one diagonally from the lower left and the other more upright from the lower right. Their palm centers meet while the thumbs remain readable on the outer edges. Fingers fan naturally above the contact, with four fingers and one thumb belonging coherently to each hand. Preserve distinct wrist contours and an energetic asymmetric silhouette.",
+        "prompt": "Two golden-yellow hands from different people complete a celebratory high five. View the contact from a front three-quarter angle. The short forearms rise from unequal lower positions, one diagonally from the lower left and the other more upright from the lower right. Their palm centers meet while the thumbs remain readable on the outer edges. Fingers fan naturally above the contact, with four fingers and one thumb belonging coherently to each hand. Preserve distinct wrist contours and an energetic asymmetric silhouette. A single polished golden-yellow 3D emoji icon: smooth rounded hands, soft clay-like material, gentle shading, crisp silhouette and plain white background. Show only the two hands and short forearm stubs, with generous white margins around the complete icon. No lettering, faces, bodies, impact symbols or decorative objects."
+      },
+      "image": "images/golden-a-1102.png",
+      "image_sha256": "c61220b1e397d7523b88413a121722041f5f76f021401aa39f41d70627137177",
+      "generated_at": "2026-09-26T13:12:59.051349+00:00",
+      "seconds": 122.22310027386993,
+      "peak_allocated_bytes": 41531268096,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "golden-b-1201",
+        "seed": 1201,
+        "pose_group": "audition-elevated-offset",
+        "tone_pair": [
+          "yellow",
+          "yellow"
+        ],
+        "description": "An elevated camera looks down slightly on two golden-yellow hands striking a friendly high five. One hand reaches higher than the other, so the fans of fingers are naturally offset. The flat palm centers touch, and the contact boundary is visible along their edges. The two short forearms approach from opposite lower sides without crossing or clasping. Give each hand four fingers and one thumb, with natural depth and no merged anatomy.",
+        "prompt": "An elevated camera looks down slightly on two golden-yellow hands striking a friendly high five. One hand reaches higher than the other, so the fans of fingers are naturally offset. The flat palm centers touch, and the contact boundary is visible along their edges. The two short forearms approach from opposite lower sides without crossing or clasping. Give each hand four fingers and one thumb, with natural depth and no merged anatomy. A single polished golden-yellow 3D emoji icon: smooth rounded hands, soft clay-like material, gentle shading, crisp silhouette and plain white background. Show only the two hands and short forearm stubs, with generous white margins around the complete icon. No lettering, faces, bodies, impact symbols or decorative objects."
+      },
+      "image": "images/golden-b-1201.png",
+      "image_sha256": "4508e8a8a28bffd984e33f07ad177e7ea9696bb8ef7e8d45cf9a3f78d309eb8a",
+      "generated_at": "2026-09-26T13:14:59.100109+00:00",
+      "seconds": 120.04819911113009,
+      "peak_allocated_bytes": 41530838016,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "golden-b-1202",
+        "seed": 1202,
+        "pose_group": "audition-elevated-offset",
+        "tone_pair": [
+          "yellow",
+          "yellow"
+        ],
+        "description": "An elevated camera looks down slightly on two golden-yellow hands striking a friendly high five. One hand reaches higher than the other, so the fans of fingers are naturally offset. The flat palm centers touch, and the contact boundary is visible along their edges. The two short forearms approach from opposite lower sides without crossing or clasping. Give each hand four fingers and one thumb, with natural depth and no merged anatomy.",
+        "prompt": "An elevated camera looks down slightly on two golden-yellow hands striking a friendly high five. One hand reaches higher than the other, so the fans of fingers are naturally offset. The flat palm centers touch, and the contact boundary is visible along their edges. The two short forearms approach from opposite lower sides without crossing or clasping. Give each hand four fingers and one thumb, with natural depth and no merged anatomy. A single polished golden-yellow 3D emoji icon: smooth rounded hands, soft clay-like material, gentle shading, crisp silhouette and plain white background. Show only the two hands and short forearm stubs, with generous white margins around the complete icon. No lettering, faces, bodies, impact symbols or decorative objects."
+      },
+      "image": "images/golden-b-1202.png",
+      "image_sha256": "47065afcf3b8b7d5256f18c5e83e116246821cdf5d7b3831f46cf252d9dd1ac5",
+      "generated_at": "2026-09-26T13:16:59.773513+00:00",
+      "seconds": 120.67283051088452,
+      "peak_allocated_bytes": 41530838016,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "golden-c-1301",
+        "seed": 1301,
+        "pose_group": "audition-low-oblique-wide-arms",
+        "tone_pair": [
+          "yellow",
+          "yellow"
+        ],
+        "description": "Show two golden-yellow hands meeting in a high five from a low oblique camera angle. The short arms approach along widely diverging diagonals, lifting their open palms toward a shared contact above center. The palms press together while the lower edges and wrist contours remain visually distinct. The fingers extend into natural fans beyond the contact, with four fingers and one thumb per hand. Keep the hands legible as separate objects rather than a single folded shape.",
+        "prompt": "Show two golden-yellow hands meeting in a high five from a low oblique camera angle. The short arms approach along widely diverging diagonals, lifting their open palms toward a shared contact above center. The palms press together while the lower edges and wrist contours remain visually distinct. The fingers extend into natural fans beyond the contact, with four fingers and one thumb per hand. Keep the hands legible as separate objects rather than a single folded shape. A single polished golden-yellow 3D emoji icon: smooth rounded hands, soft clay-like material, gentle shading, crisp silhouette and plain white background. Show only the two hands and short forearm stubs, with generous white margins around the complete icon. No lettering, faces, bodies, impact symbols or decorative objects."
+      },
+      "image": "images/golden-c-1301.png",
+      "image_sha256": "4198999602c4ed2a41d673f525c4c915e114140c08d7d997558fcfd359b5530f",
+      "generated_at": "2026-09-26T13:19:02.211593+00:00",
+      "seconds": 122.43744317535311,
+      "peak_allocated_bytes": 41531022336,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "golden-c-1302",
+        "seed": 1302,
+        "pose_group": "audition-low-oblique-wide-arms",
+        "tone_pair": [
+          "yellow",
+          "yellow"
+        ],
+        "description": "Show two golden-yellow hands meeting in a high five from a low oblique camera angle. The short arms approach along widely diverging diagonals, lifting their open palms toward a shared contact above center. The palms press together while the lower edges and wrist contours remain visually distinct. The fingers extend into natural fans beyond the contact, with four fingers and one thumb per hand. Keep the hands legible as separate objects rather than a single folded shape.",
+        "prompt": "Show two golden-yellow hands meeting in a high five from a low oblique camera angle. The short arms approach along widely diverging diagonals, lifting their open palms toward a shared contact above center. The palms press together while the lower edges and wrist contours remain visually distinct. The fingers extend into natural fans beyond the contact, with four fingers and one thumb per hand. Keep the hands legible as separate objects rather than a single folded shape. A single polished golden-yellow 3D emoji icon: smooth rounded hands, soft clay-like material, gentle shading, crisp silhouette and plain white background. Show only the two hands and short forearm stubs, with generous white margins around the complete icon. No lettering, faces, bodies, impact symbols or decorative objects."
+      },
+      "image": "images/golden-c-1302.png",
+      "image_sha256": "5a5a4c1a6aaebe37899c157970a5ebcfbb330231639837f03bf9e3ce40a2c388",
+      "generated_at": "2026-09-26T13:21:02.419719+00:00",
+      "seconds": 120.20741673791781,
+      "peak_allocated_bytes": 41531022336,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "golden-d-1401",
+        "seed": 1401,
+        "pose_group": "audition-diagonal-horizontal-approach",
+        "tone_pair": [
+          "yellow",
+          "yellow"
+        ],
+        "description": "Two golden-yellow hands exchange an energetic diagonal high five above the center of the icon. One short forearm approaches nearly horizontally from the left, turning its palm toward the second hand rising diagonally from below on the right. The open palm centers make contact without interlocking fingers. Show four fingers and one thumb coherently connected to each hand. Use a rotated three-quarter view and natural finger spread to keep the striking gesture clear without motion marks.",
+        "prompt": "Two golden-yellow hands exchange an energetic diagonal high five above the center of the icon. One short forearm approaches nearly horizontally from the left, turning its palm toward the second hand rising diagonally from below on the right. The open palm centers make contact without interlocking fingers. Show four fingers and one thumb coherently connected to each hand. Use a rotated three-quarter view and natural finger spread to keep the striking gesture clear without motion marks. A single polished golden-yellow 3D emoji icon: smooth rounded hands, soft clay-like material, gentle shading, crisp silhouette and plain white background. Show only the two hands and short forearm stubs, with generous white margins around the complete icon. No lettering, faces, bodies, impact symbols or decorative objects."
+      },
+      "image": "images/golden-d-1401.png",
+      "image_sha256": "bf424e729d5a1e49a2c63294768edd6a86238c4ff05eef35940176544263d22d",
+      "generated_at": "2026-09-26T13:23:00.294556+00:00",
+      "seconds": 117.87415561173111,
+      "peak_allocated_bytes": 41530991616,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true
+      },
+      "curation_decision": "pending"
+    },
+    {
+      "job": {
+        "id": "golden-d-1402",
+        "seed": 1402,
+        "pose_group": "audition-diagonal-horizontal-approach",
+        "tone_pair": [
+          "yellow",
+          "yellow"
+        ],
+        "description": "Two golden-yellow hands exchange an energetic diagonal high five above the center of the icon. One short forearm approaches nearly horizontally from the left, turning its palm toward the second hand rising diagonally from below on the right. The open palm centers make contact without interlocking fingers. Show four fingers and one thumb coherently connected to each hand. Use a rotated three-quarter view and natural finger spread to keep the striking gesture clear without motion marks.",
+        "prompt": "Two golden-yellow hands exchange an energetic diagonal high five above the center of the icon. One short forearm approaches nearly horizontally from the left, turning its palm toward the second hand rising diagonally from below on the right. The open palm centers make contact without interlocking fingers. Show four fingers and one thumb coherently connected to each hand. Use a rotated three-quarter view and natural finger spread to keep the striking gesture clear without motion marks. A single polished golden-yellow 3D emoji icon: smooth rounded hands, soft clay-like material, gentle shading, crisp silhouette and plain white background. Show only the two hands and short forearm stubs, with generous white margins around the complete icon. No lettering, faces, bodies, impact symbols or decorative objects."
+      },
+      "image": "images/golden-d-1402.png",
+      "image_sha256": "23464b1dd37a005aff5fb7a0505453c28c8da213b9f642a7b0372f286a7a1a71",
+      "generated_at": "2026-09-26T13:24:58.120306+00:00",
+      "seconds": 117.82504596794024,
+      "peak_allocated_bytes": 41530991616,
+      "environment": {
+        "torch": "2.10.0+cu128",
+        "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+        "cpu_offload": true,
+        "vae_tiling": true
+      },
+      "curation_decision": "pending"
+    }
+  ],
+  "status": "completed",
+  "environment": {
+    "torch": "2.10.0+cu128",
+    "gpu": "NVIDIA RTX PRO 5000 Blackwell",
+    "cpu_offload": true,
+    "vae_tiling": true
+  },
+  "updated_at": "2026-09-26T13:24:58.121040+00:00"
+}

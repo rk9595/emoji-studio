@@ -92,6 +92,22 @@ or explicit pose control—not treating a successful render as permission to tra
 on unchecked anatomy. [All four originals, runtime measurements and cleanup
 evidence](../../reports/high-five-teacher-pilot.md) are in the repository.
 
+### September 27 follow-up: consistency is not pose control
+
+After the user approved the golden candidate's gesture and style, we generated
+eight more images: four composition prompts with two seeds each. The entire batch
+retained golden, smooth 3D styling in our preliminary AI review. The poses were
+less diverse than the prompts suggested: the first two prompt families looked
+similar, the low-angle pair looked like folded hands, and only the diagonal-arm
+pair changed the approach appreciably. Rear-hand fingers were often hidden.
+
+All eight originals and receipts were recovered, and the GPU was destroyed after
+29 minutes. This audition cost about $0.44 by later observed credit change; the
+two Qwen candidate experiments together cost about $1.04. No interaction training
+has run. The useful lesson is that repeatable material/style does not prove pose
+control or produce a sufficiently diverse training set. [Evidence and next-step
+decision](../../reports/high-five-golden-audition.md) are recorded in the repository.
+
 ### Sources
 
 The repository contains the data audit, immutable experiment configs, evaluation reports, serving code and budgeted Vast lifecycle scripts. Training images, model adapters, credentials and cloud artifacts are deliberately excluded from source control.

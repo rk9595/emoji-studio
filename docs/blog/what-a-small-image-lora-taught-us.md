@@ -108,6 +108,19 @@ has run. The useful lesson is that repeatable material/style does not prove pose
 control or produce a sufficiently diverse training set. [Evidence and next-step
 decision](../../reports/high-five-golden-audition.md) are recorded in the repository.
 
+### Next comparison prepared: give the model the reference pixels
+
+The user selected D-1401 as another keeper alongside original 004. We prepared
+four matched comparisons using the existing FLUX base model: identical prompts
+and seeds, with versus without the selected image as actual model input. The tasks
+separate compact framing from a requested change in camera angle. This uses the
+image-conditioning path in our pinned pipeline, not a new training run or pose
+skeleton. The style adapter is omitted from both conditions to isolate reference
+input. The comparison has not run yet; software tests are not visual evidence.
+[Protocol and compute boundary](../../reports/high-five-reference-control-preparation.md)
+are documented. Reference selection still does not certify anatomy or supply a
+pose-diverse, held-out training set.
+
 ### Sources
 
 The repository contains the data audit, immutable experiment configs, evaluation reports, serving code and budgeted Vast lifecycle scripts. Training images, model adapters, credentials and cloud artifacts are deliberately excluded from source control.

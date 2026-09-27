@@ -19,6 +19,10 @@ TRIALS = {
                "sampler": "scripts/sample_golden_teacher.py",
                "config": "configs/high-five-golden-audition.json",
                "experiment": "qwen_high_five_golden_audition_v1"},
+    "reference": {"output": "runs/high-five-reference-control-v1",
+                  "sampler": "scripts/sample_reference_control.py",
+                  "config": "configs/high-five-reference-control.json",
+                  "experiment": "flux_high_five_reference_control_v1"},
 }
 
 

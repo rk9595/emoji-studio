@@ -1,4 +1,4 @@
-"""One separately budgeted Qwen candidate trial. Credentials remain local."""
+"""One separately budgeted candidate/control trial. Credentials remain local."""
 
 import argparse
 import math
@@ -36,11 +36,16 @@ def trial_plan(trial="pilot"):
         raise ValueError("Unknown teacher trial")
     if trial == "pilot":
         return make_plan()
+    if trial == "reference":
+        from sample_reference_control import make_plan as reference_plan
+        return reference_plan(ROOT)
     from sample_golden_teacher import make_plan as golden_plan
     return golden_plan(ROOT)
 
 
 def artifact_root(trial="pilot"):
+    if trial == "reference":
+        return ROOT / "artifacts/vast-reference-control"
     return ARTIFACT_ROOT if trial == "pilot" else ROOT / "artifacts/vast-golden-audition"
 
 
@@ -71,7 +76,7 @@ def load_authorization(path, trial="pilot"):
     identifier = auth["authorization_id"]
     if not isinstance(identifier, str) or not identifier.isascii() or not identifier.isalnum():
         raise ValueError("Invalid authorization ID")
-    total_cap, elapsed_cap = (1.25, 2700) if trial == "golden" else (1.50, 3600)
+    total_cap, elapsed_cap = (1.50, 3600) if trial == "pilot" else (1.25, 2700)
     for key, lower, upper in [
         ("max_total_dollars", 0.50, total_cap), ("max_hourly_dollars", 0.01, 0.80),
         ("max_elapsed_seconds", 1800, elapsed_cap),
@@ -125,6 +130,8 @@ def build_archive(path, trial="pilot"):
         names.remove(TRIALS["pilot"]["config"])
         names.remove(f"{OUTPUT}/plan.json")
         names.extend([TRIALS[trial]["config"], TRIALS[trial]["sampler"], f"{output}/plan.json"])
+    if trial == "reference":
+        names.extend(ref["path"] for ref in plan["config"]["references"])
     if (ROOT / output / "report.json").exists():
         report = validate_report(ROOT / output, plan, require_complete=False)
         names.append(f"{output}/report.json")

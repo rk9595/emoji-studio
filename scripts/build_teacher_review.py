@@ -24,8 +24,15 @@ def build(output, plan=None):
         # Use the canonical verified path, never an arbitrary report-supplied URL.
         path = html.escape(f"images/{job['id']}.png", quote=True)
         label = html.escape(job["id"])
+        comparison = (
+            f'<p>Condition: {html.escape(job["condition"])}; '
+            f'task: {html.escape(job["task"])}; '
+            f'source lineage: {html.escape(job["lineage"])}</p>'
+            if "condition" in job else ""
+        )
         cards.append(
             f'<article><h2>{label} · seed {job["seed"]}</h2>'
+            + comparison +
             f'<img class="large" src="{path}" alt="{label}">'
             f'<p>32 px <img width="32" height="32" src="{path}" alt="{label}"> '
             f'64 px <img width="64" height="64" src="{path}" alt="{label}"></p>'
@@ -34,13 +41,13 @@ def build(output, plan=None):
         )
     page = '''<!doctype html><html lang="en"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Qwen high-five teacher review</title><style>
+<title>High-five candidate review</title><style>
 body{font:15px system-ui;margin:24px;color:#171717;background:#eee}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
 article{background:white;padding:16px;border-radius:12px}h2{font-size:16px}
 .large{width:100%;height:auto}p img{vertical-align:middle}p{line-height:1.5}
 code{overflow-wrap:anywhere}
-</style><h1>Qwen high-five teacher review</h1>
+</style><h1>High-five candidate review</h1>
 <p>Unblinded diagnostic gallery, not a human evaluation. Source PNGs are unchanged.
 Inspect gesture, palm contact, wrist separation, anatomy, emoji style and readability.
 All images remain pending for training.</p>
@@ -65,6 +72,8 @@ All images remain pending for training.</p>
             "gesture_correct": None, "anatomy_correct": None, "palm_contact": None,
             "wrists_separated": None, "readable_32px": None, "style_correct": None,
             "notes": "",
+            **({"requested_edit_achieved": None, "distinct_viewpoint": None}
+               if "condition" in row["job"] else {}),
         })
     document["trial_outcome"] = f'{len(report["images"])}/{total} verified local images'
     (output / "review.html").write_text(page)
@@ -74,9 +83,13 @@ All images remain pending for training.</p>
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--trial", choices=["pilot", "golden"], default="pilot")
+    parser.add_argument("--trial", choices=["pilot", "golden", "reference"], default="pilot")
     args = parser.parse_args()
-    if args.trial == "golden":
+    if args.trial == "reference":
+        from sample_reference_control import OUTPUT as REFERENCE_OUTPUT
+        from sample_reference_control import make_plan as reference_plan
+        build(ROOT / REFERENCE_OUTPUT, reference_plan())
+    elif args.trial == "golden":
         from sample_golden_teacher import OUTPUT as GOLDEN_OUTPUT
         from sample_golden_teacher import make_plan as golden_plan
         build(ROOT / GOLDEN_OUTPUT, golden_plan())

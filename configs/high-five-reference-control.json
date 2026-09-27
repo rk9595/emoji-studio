@@ -1,0 +1,49 @@
+{
+  "experiment": "flux_high_five_reference_control_v1",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "model_card_sha256": "728ef6804ff3f38528c24ab9e3d168d579e77d57342c30ea01310eaa70e95016",
+  "model_license": "Apache-2.0",
+  "adapter": null,
+  "width": 1024,
+  "height": 1024,
+  "reference_size": 1024,
+  "reference_preprocessing": "RGB then Pillow LANCZOS resize to 1024 square; original files unchanged",
+  "steps": 50,
+  "guidance_scale": 4.0,
+  "style": "Two golden-yellow rounded clay hands celebrating with a high-five, palms touching and wrists apart. Five digits belong to each hand, with natural occlusion at contact. Smooth 3D emoji, soft studio light, plain white background, no text, faces, extra limbs or decorations. Both short forearm ends and all fingertips fit inside the frame, with generous white margins.",
+  "references": [
+    {
+      "id": "004",
+      "path": "docs/images/high-five-teacher/qwen-hi5-004.png",
+      "image_sha256": "c51db19bc58a3a77f77cb8b699b5fc4bb4f9705a8f410aa394ec60a7d30aae4f",
+      "lineage": "qwen-hi5-004",
+      "selection": "Human approved gesture and golden style; anatomy and small-size checks unanswered",
+      "composition": "The fingers fan upward and the two forearms approach from the lower left and lower right.",
+      "seed": 2101
+    },
+    {
+      "id": "1401",
+      "path": "docs/images/high-five-golden/golden-d-1401.png",
+      "image_sha256": "bf424e729d5a1e49a2c63294768edd6a86238c4ff05eef35940176544263d22d",
+      "lineage": "golden-d-1401",
+      "selection": "Human said 1401 looks good to me; overall keeper, individual rubric fields unanswered",
+      "composition": "The fingers point upward, one forearm approaches almost horizontally from the left and the other rises diagonally from the lower right.",
+      "seed": 2201
+    }
+  ],
+  "tasks": [
+    {
+      "id": "compact",
+      "description": "A front three-quarter view with short forearm stubs, approximately half a palm length below each wrist. The touching hands occupy the central two-thirds of the square.",
+      "seed_offset": 0,
+      "counts_as_new_pose": false
+    },
+    {
+      "id": "elevated",
+      "description": "A distinctly elevated three-quarter camera view looking down about 35 degrees onto the touching hands. The tops of the fingers and upper surfaces of both forearms are visible. The palms still meet, with the wrists spread apart.",
+      "seed_offset": 1,
+      "counts_as_new_pose": false
+    }
+  ]
+}

@@ -4,10 +4,41 @@ Updated 2026-09-27.
 
 ## Latest continuation
 
+Reference-control phase prepared September 27 (not run):
+
+- Added `configs/high-five-reference-control.json` and `scripts/sample_reference_control.py`.
+  Eight samples: two selected sources x compact/elevated task x text/image condition.
+  Matched prompts/seeds, unadapted pinned FLUX.2-klein-base-4B, 1024px, 50 steps,
+  guidance 4. Actual reference pixels passed via `image=`, verified in mock tests.
+- Shared cloud launcher, remote worker and gallery accept `--trial reference`.
+  New local output `runs/high-five-reference-control-v1`; private artifacts
+  `artifacts/vast-reference-control`. Both historical Qwen plans remain unchanged.
+  Locked plan: `b7686bf8c93ad0722b5b33d04b9bc7c927d771a2a7459de7def8eb781192eeb1`.
+- All 125 tests and Ruff passed. No new real outputs, no interaction training.
+  No approval or authorization file exists for this phase. Proposed fresh cap:
+  $1.25 additional, <=$0.80/hour, one GPU, <=45 minutes. Ask before rental.
+- Read-only provider check: zero instances, $5.1517936976 credit, three qualifying
+  offers below $0.80/hour. Neither the past approval nor remaining credit authorizes
+  new compute. See `reports/high-five-reference-control-preparation.md` for exact
+  commands, sources, scope and review boundaries.
+
+Human selection after opening the golden gallery:
+
+- User said “1401 looks good to me” when asked which candidate to keep as a
+  high-five emoji. Recorded `golden-d-1401` as a preferred visual reference in the
+  local human-review record, bound to PNG hash
+  `bf424e729d5a1e49a2c63294768edd6a86238c4ff05eef35940176544263d22d`.
+- Preferred references are now original `qwen-hi5-004` and `golden-d-1401`.
+  D-1401's individual rubric fields remain unanswered; this overall preference
+  does not certify occluded anatomy or admit the image to training.
+- No new GPU budget or run authorized. Next: prepare an explicit pose/reference
+  control comparison using the selected direction, not more bulk text-only variants.
+
 Golden audition completed and reconciled September 27:
 
 - All eight new images are generated, downloaded and checksum-verified. No new
-  training or automatic curation acceptance. All eight human reviews remain unanswered.
+  training or automatic curation acceptance. D-1401 was subsequently selected as
+  a reference; individual human rubric fields remain unanswered.
 - Instance 52748810 was destroyed successfully after 29.04 minutes. Fresh provider
   check: zero instances. Later observed cost $0.4386603880; remaining credit
   $5.1517936976. Combined Qwen trial spend $1.0366731393; billing may lag.

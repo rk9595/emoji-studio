@@ -1,4 +1,4 @@
-"""Render a fixed, matched base-versus-LoRA development evaluation on CUDA."""
+"""Render a fixed, matched base-versus-LoRA development evaluation on one GPU."""
 
 import argparse
 import hashlib
@@ -21,8 +21,8 @@ def sha256(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def evaluation_jobs(root=ROOT):
-    config = read_json(root / "configs/lora-quality-pilot.json")
+def evaluation_jobs(root=ROOT, config_path=None):
+    config = read_json(config_path or root / "configs/lora-quality-pilot.json")
     settings = config["evaluation"]
     benchmark_path = root / settings["benchmark"]
     benchmark = validate_benchmark(read_json(benchmark_path))
@@ -53,11 +53,11 @@ def completed_record(output, record, expected):
     return image_path.is_file() and sha256(image_path) == record.get("image_sha256")
 
 
-def evaluate(output, max_seconds):
+def evaluate(output, max_seconds, config_path=None, cpu_offload=True):
     import torch
     from diffusers import Flux2KleinPipeline
 
-    config, benchmark_path, pairs = evaluation_jobs(ROOT)
+    config, benchmark_path, pairs = evaluation_jobs(ROOT, config_path)
     adapter = output / "pytorch_lora_weights.safetensors"
     if not adapter.is_file():
         raise ValueError("Final adapter is missing")
@@ -72,12 +72,20 @@ def evaluate(output, max_seconds):
         "adapter_sha256": adapter_hash,
         "model_id": config["model_id"],
         "model_revision": config["model_revision"],
+        "environment": {
+            "backend": "rocm" if torch.version.hip else "cuda",
+            "cuda": torch.version.cuda,
+            "hip": torch.version.hip,
+            "gpu": torch.cuda.get_device_name(0),
+            "gpu_memory_bytes": torch.cuda.get_device_properties(0).total_memory,
+        },
         "settings": {
             "seeds": settings["seeds"],
             "steps": settings["steps"],
             "guidance_scale": settings["guidance_scale"],
             "resolution": settings["resolution"],
             "expected_pairs": settings["expected_pairs"],
+            "cpu_offload": cpu_offload,
         },
         "images": [],
     }
@@ -100,7 +108,10 @@ def evaluate(output, max_seconds):
         torch_dtype=torch.bfloat16,
         use_safetensors=True,
     )
-    pipeline.enable_model_cpu_offload()
+    if cpu_offload:
+        pipeline.enable_model_cpu_offload()
+    else:
+        pipeline.to("cuda")
     pipeline.set_progress_bar_config(disable=True)
 
     def check_deadline(pipe, step, timestep, callback_kwargs):
@@ -204,9 +215,17 @@ def evaluate(output, max_seconds):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=OUTPUT)
+    parser.add_argument("--output", type=Path)
     parser.add_argument("--max-seconds", type=int, required=True)
+    parser.add_argument("--config", type=Path, default=CONFIG)
+    parser.add_argument(
+        "--resident",
+        action="store_true",
+        help="Keep the pipeline resident on the GPU instead of enabling CPU offload.",
+    )
     args = parser.parse_args()
     if not 300 <= args.max_seconds <= 3600:
         parser.error("max-seconds must be between 300 and 3600")
-    evaluate(args.output.resolve(), args.max_seconds)
+    config_path = args.config.resolve()
+    output = args.output or ROOT / read_json(config_path).get("output", str(OUTPUT))
+    evaluate(output.resolve(), args.max_seconds, config_path, cpu_offload=not args.resident)

@@ -1,0 +1,12 @@
+.git
+.venv
+artifacts
+data
+docs
+reports
+runs
+var
+*.log
+*.exit
+__pycache__
+.ruff_cache

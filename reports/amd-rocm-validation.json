@@ -1,0 +1,60 @@
+{
+  "status": "completed",
+  "validated_at": "2026-10-11",
+  "platform": {
+    "cloud": "AMD Developer Cloud",
+    "region": "atl1",
+    "instance_size": "gpu-mi300x1-192gb-devcloud",
+    "gpu": "AMD Instinct MI300X VF",
+    "gpu_memory_bytes": 205822885888,
+    "backend": "rocm",
+    "hip": "7.2.26015",
+    "torch": "2.10.0+rocm7.2.0.gitb6ee5fde"
+  },
+  "model": {
+    "id": "black-forest-labs/FLUX.2-klein-base-4B",
+    "revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+    "serving_adapter_sha256": "2c7b15de79e9ac0bf59488068c9ec0f3444dec44899005499de87c2b28e93076"
+  },
+  "inference_smoke": {
+    "status": "completed",
+    "model_load_seconds": 20.7912,
+    "base_generation_seconds": 36.8493,
+    "adapted_generation_seconds": 3.9684,
+    "base_image_sha256": "8fe44fafb5e9a8b427ce157bd0b4c707379774af29adbae784e886ba776bb591",
+    "adapted_image_sha256": "88d4038fcddfd98299549828d5514f06cc48b9a7d329d2c08992b2bba622f232",
+    "report_sha256": "835a1cda0b6073dd8d5226728d2b5be59233c0d16ef5c829677a797d3a242234"
+  },
+  "training_smoke": {
+    "status": "completed",
+    "wall_seconds": 102.3631,
+    "first_step_seconds": 43.4375,
+    "resumed_step_seconds": 35.5229,
+    "adapter_inference_seconds": 19.3479,
+    "first_adapter_sha256": "d9b104510f84cf629af031b92ae5492cf530575d8f79ddf1c20fffbbf722baf9",
+    "final_adapter_sha256": "fc8fcd1acff17bb6129aecfa0cfdee3e091548ecbe1ad9744b2ec34c265eb70f",
+    "tensor_count": 120,
+    "all_tensors_finite": true,
+    "checkpoint_resume_validated": true,
+    "report_sha256": "855d870f6c24bd3585905fef2957075a4acf2e4e2b1dd35fc069bf6f04cfe66b"
+  },
+  "serving_benchmark": {
+    "status": "completed",
+    "wall_seconds": 100.6856,
+    "matched_pairs": 12,
+    "images": 24,
+    "base_warm_mean_seconds": 3.5469,
+    "adapted_mean_seconds": 3.9992,
+    "peak_allocated_bytes": 17066286080,
+    "peak_reserved_bytes": 17303601152,
+    "report_sha256": "0b63b99e1d485ad92fc65995abebcb6ec9d81c3a206494a29b62b91d0786beab",
+    "review_gallery_sha256": "db6c3ef3dadeccdedca64a40f65e2a1a711488ebeec52d8d297b12c3de61311b"
+  },
+  "conclusion": {
+    "inference_compatible": true,
+    "adapter_loading_compatible": true,
+    "training_compatible": true,
+    "checkpoint_resume_compatible": true,
+    "full_quality_training_run_performed": false
+  }
+}

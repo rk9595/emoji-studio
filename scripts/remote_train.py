@@ -1,4 +1,4 @@
-"""Run the bounded two-step LoRA save/resume smoke check on one CUDA GPU."""
+"""Run the bounded two-step LoRA save/resume smoke check on one GPU."""
 
 import argparse
 import hashlib
@@ -97,19 +97,37 @@ def training_args(root, max_steps, resume=False):
 
 
 def gpu_memory_mib():
-    result = subprocess.run(
-        [
-            "nvidia-smi",
-            "--query-compute-apps=used_memory",
-            "--format=csv,noheader,nounits",
-        ],
-        capture_output=True,
-        text=True,
-        timeout=10,
-        check=True,
-    )
-    values = [int(line.strip()) for line in result.stdout.splitlines() if line.strip().isdigit()]
-    return max(values, default=0)
+    try:
+        result = subprocess.run(
+            [
+                "nvidia-smi",
+                "--query-compute-apps=used_memory",
+                "--format=csv,noheader,nounits",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=True,
+        )
+        values = [
+            int(line.strip()) for line in result.stdout.splitlines() if line.strip().isdigit()
+        ]
+        return max(values, default=0)
+    except (OSError, subprocess.SubprocessError):
+        result = subprocess.run(
+            ["rocm-smi", "--showmeminfo", "vram", "--json"],
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=True,
+        )
+        cards = json.loads(result.stdout)
+        values = [
+            int(card["VRAM Total Used Memory (B)"]) // 1024**2
+            for card in cards.values()
+            if "VRAM Total Used Memory (B)" in card
+        ]
+        return max(values, default=0)
 
 
 def run_monitored(command, log_path, deadline, checkpoint_name=None):
@@ -222,7 +240,7 @@ def main(max_seconds):
         import torch
 
         if not torch.cuda.is_available() or not torch.cuda.is_bf16_supported():
-            raise ValueError("CUDA with BF16 support is required")
+            raise ValueError("A PyTorch GPU backend with BF16 support is required")
         spec = importlib.util.spec_from_file_location("pinned_klein_trainer", TRAINER)
         trainer_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(trainer_module)
@@ -231,7 +249,9 @@ def main(max_seconds):
             "platform": platform.platform(),
             "gpu": torch.cuda.get_device_name(0),
             "gpu_memory_bytes": torch.cuda.get_device_properties(0).total_memory,
+            "backend": "rocm" if torch.version.hip else "cuda",
             "cuda": torch.version.cuda,
+            "hip": torch.version.hip,
             "packages": {
                 name: importlib.metadata.version(name)
                 for name in [

@@ -1,0 +1,13 @@
+ARG ROCM_PYTORCH_IMAGE=rocm/pytorch:rocm7.2_ubuntu24.04_py3.13_pytorch_release_2.10.0
+FROM ${ROCM_PYTORCH_IMAGE}
+
+WORKDIR /workspace/emoji-studio
+
+COPY docker/rocm-requirements.txt /tmp/rocm-requirements.txt
+RUN python3 -m pip install --no-cache-dir -r /tmp/rocm-requirements.txt
+
+COPY pyproject.toml LICENSE README.md ./
+COPY src ./src
+RUN python3 -m pip install --no-deps .
+
+ENV HF_HOME=/model-cache

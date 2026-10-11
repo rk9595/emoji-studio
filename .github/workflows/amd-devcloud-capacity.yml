@@ -19,6 +19,7 @@ jobs:
     timeout-minutes: 3
     env:
       DIGITALOCEAN_TOKEN: ${{ secrets.AMD_DEV_CLOUD_TOKEN }}
+      DIGITALOCEAN_API_URL: https://api.devcloud.amd.com
       DROPLET_NAME: emoji-studio-mi300x-atl1
       DROPLET_REGION: atl1
       DROPLET_SIZE: gpu-mi300x1-192gb-devcloud
@@ -45,7 +46,7 @@ jobs:
           }
 
           existing_id="$({
-            api_get "https://api.digitalocean.com/v2/droplets?name=${DROPLET_NAME}"
+            api_get "${DIGITALOCEAN_API_URL}/v2/droplets?name=${DROPLET_NAME}"
           } | jq -r '.droplets[0].id // empty')"
 
           if [[ -n "${existing_id}" ]]; then
@@ -78,7 +79,7 @@ jobs:
             -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
             -H "Content-Type: application/json" \
             --data "${payload}" \
-            https://api.digitalocean.com/v2/droplets)"
+            "${DIGITALOCEAN_API_URL}/v2/droplets")"
 
           if [[ "${http_code}" == "202" ]]; then
             droplet_id="$(jq -r '.droplet.id' response.json)"

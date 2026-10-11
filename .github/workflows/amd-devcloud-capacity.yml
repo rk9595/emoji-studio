@@ -1,0 +1,108 @@
+name: AMD DevCloud capacity watcher
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: amd-devcloud-mi300x-launch
+  cancel-in-progress: false
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  launch-when-available:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      DIGITALOCEAN_TOKEN: ${{ secrets.AMD_DEV_CLOUD_TOKEN }}
+      DROPLET_NAME: emoji-studio-mi300x-atl1
+      DROPLET_REGION: atl1
+      DROPLET_SIZE: gpu-mi300x1-192gb-devcloud
+      DROPLET_IMAGE_ID: "222743415"
+      SSH_KEY_ID: "59134481"
+    steps:
+      - name: Validate secret
+        run: |
+          set -euo pipefail
+          if [[ -z "${DIGITALOCEAN_TOKEN}" ]]; then
+            echo "AMD_DEV_CLOUD_TOKEN is not configured"
+            exit 1
+          fi
+
+      - name: Create exactly one MI300X Droplet
+        id: launch
+        run: |
+          set -euo pipefail
+
+          api_get() {
+            curl --fail-with-body --silent --show-error \
+              -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
+              "$1"
+          }
+
+          existing_id="$({
+            api_get "https://api.digitalocean.com/v2/droplets?name=${DROPLET_NAME}"
+          } | jq -r '.droplets[0].id // empty')"
+
+          if [[ -n "${existing_id}" ]]; then
+            echo "Droplet already exists: ${existing_id}"
+            echo "created=true" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          payload="$(jq -cn \
+            --arg name "${DROPLET_NAME}" \
+            --arg region "${DROPLET_REGION}" \
+            --arg size "${DROPLET_SIZE}" \
+            --argjson image "${DROPLET_IMAGE_ID}" \
+            --argjson ssh_key "${SSH_KEY_ID}" \
+            '{
+              name: $name,
+              region: $region,
+              size: $size,
+              image: $image,
+              ssh_keys: [$ssh_key],
+              backups: false,
+              ipv6: true,
+              monitoring: true
+            }')"
+
+          http_code="$(curl --silent --show-error \
+            --output response.json \
+            --write-out '%{http_code}' \
+            --request POST \
+            -H "Authorization: Bearer ${DIGITALOCEAN_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data "${payload}" \
+            https://api.digitalocean.com/v2/droplets)"
+
+          if [[ "${http_code}" == "202" ]]; then
+            droplet_id="$(jq -r '.droplet.id' response.json)"
+            echo "Created ${DROPLET_NAME}: ${droplet_id}"
+            echo "created=true" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          message="$(jq -r '.message // "Unknown DigitalOcean API error"' response.json)"
+          if [[ "${http_code}" == "422" && "${message}" == "This size is unavailable." ]]; then
+            echo "MI300X capacity is not available yet; the next scheduled run will retry."
+            echo "created=false" >> "${GITHUB_OUTPUT}"
+            exit 0
+          fi
+
+          echo "DigitalOcean API returned HTTP ${http_code}: ${message}" >&2
+          exit 1
+
+      - name: Disable watcher after launch
+        if: steps.launch.outputs.created == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api \
+            --method PUT \
+            "repos/${GITHUB_REPOSITORY}/actions/workflows/amd-devcloud-capacity.yml/disable"

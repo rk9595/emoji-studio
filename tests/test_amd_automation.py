@@ -57,6 +57,13 @@ class ComparisonTest(unittest.TestCase):
 
 
 class CleanupTest(unittest.TestCase):
+    def test_readiness_requires_clean_sentinel_not_only_ssh_success(self):
+        for output in ("Initializing GPU image...", "Welcome\nEMOJI_OPS_READY_V1\n", ""):
+            with patch.object(campaign, "ssh", return_value=output):
+                self.assertFalse(campaign.remote_ready("test"))
+        with patch.object(campaign, "ssh", return_value="EMOJI_OPS_READY_V1\n"):
+            self.assertTrue(campaign.remote_ready("test"))
+
     def test_ownership_requires_name_and_tag(self):
         self.assertFalse(campaign.owned({"name": campaign.NAME, "tags": []}))
         self.assertFalse(campaign.owned({"name": "unrelated", "tags": [campaign.TAG]}))

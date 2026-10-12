@@ -18,8 +18,11 @@ Its API credential is not bundled with artifacts. Provider/API failures can dela
 deletion, so the $3 reserve is not an enforceable provider billing cap.
 
 Current experiment: 144 images; model and five adapters are checksum-locked in
-`configs/amd-comparison.json`. The first upload failed and was cleaned up; one
-recorded recovery is allowed in the same $3 reserve. No automatic third allocation.
+`configs/amd-comparison.json`. Two startup/transfer attempts were cleaned up; a
+final recorded recovery is allowed in the same $3 reserve with three attempts
+total. Readiness requires completed cloud initialization and a clean explicit
+sentinel. Prior runtime plus 75 minutes of new reserved runtime must fit the $3
+allowance. No automatic fourth allocation.
 The serving adapter is not changed by this experiment.
 
 ## Codex continuation and memory

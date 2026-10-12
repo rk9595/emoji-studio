@@ -16,8 +16,10 @@ The AMD comparison is one GPU at a time, six conditions, 144 matched images, at 
 $1.99/hour. Its controller deadline is 55 minutes and its independent VM deletion
 timer is 65 minutes after cloud initialization; reserve $3 with billing margin.
 This reserve is not a provider-enforced spending cap. The initial transfer failed
-and was cleaned up; one explicitly recorded recovery attempt is allowed within
-the same $3 reserve (two allocations total). No further automatic allocation.
+and was cleaned up; the second exposed unclean SSH during initialization. A final
+recorded recovery with a strict readiness sentinel is allowed within the same $3
+reserve (three attempts total), checked against prior runtime plus 75 minutes of
+new reserved runtime. No further automatic allocation.
 Existing overall AMD credit is $100;
 this is not a mandate to spend it continuously.
 

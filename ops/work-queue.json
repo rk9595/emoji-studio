@@ -10,5 +10,5 @@
     "Prepare the AMD web/API smoke and durable alpha deployment; publish a concrete scoped deployment plan before incurring new recurring hosting costs."
   ],
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "One GPU at a time, at most two attempts within the same $3 reserve. Attempt 1 failed at upload and was deleted; one recorded recovery is permitted. No further automatic paid retry."
+  "allocation_policy": "One GPU at a time, at most three attempts within the same $3 reserve. Two startup/transfer failures were deleted. Final recovery requires clean SSH readiness and a remaining-reserve check. No further automatic paid retry."
 }

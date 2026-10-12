@@ -161,6 +161,19 @@ def ssh(ip, text, timeout=60):
     return command(["ssh", *ssh_options(), f"root@{ip}", text], timeout=timeout)
 
 
+def remote_ready(ip):
+    marker = "EMOJI_OPS_READY_V1"
+    output = ssh(ip, "test -f /var/lib/cloud/instance/boot-finished && "
+                 "test -d /shared-docker && command -v rsync >/dev/null && "
+                 "docker inspect rocm >/dev/null && "
+                 "systemctl is-active --quiet emoji-ops-expiry.timer && "
+                 f"printf '{marker}\\n'", timeout=30)
+    if output.strip() != marker:
+        print(f"SSH initialization is not clean/ready: {output[-1200:]!r}", flush=True)
+        return False
+    return True
+
+
 def snapshot(ip):
     RESULTS.mkdir(exist_ok=True)
     transport = shlex.join(["ssh", *ssh_options()])
@@ -191,6 +204,11 @@ def run():
         return
     if len(state.get("previous_attempts", [])) >= config["max_allocations"]:
         raise ValueError("Campaign allocation limit reached")
+    previous_seconds = sum(max(0, item["cleanup_epoch"] - item["started_epoch"])
+                           for item in state.get("previous_attempts", []))
+    # Budget conservatively for 75 more minutes, including initialization and cleanup margin.
+    if (previous_seconds + 4500) * config["max_hourly_dollars"] / 3600 > config["spending_reserve_dollars"]:
+        raise ValueError("Insufficient remaining campaign reserve for another guarded attempt")
     if droplets():
         raise ValueError("An instance already exists for this campaign")
     sizes = api("GET", "/sizes?per_page=200")["sizes"]
@@ -226,14 +244,16 @@ def run():
                        if n["type"] == "public"), None)
             if ip:
                 try:
-                    ssh(ip, "test -d /shared-docker && command -v rsync && docker inspect rocm >/dev/null && systemctl is-active emoji-ops-expiry.timer")
-                    break
+                    if remote_ready(ip):
+                        break
                 except (subprocess.SubprocessError, OSError):
                     pass
             time.sleep(10)
         else:
             raise TimeoutError("GPU image or independent expiry timer did not become ready")
-        ssh(ip, f"mkdir -p {REMOTE}/runs/amd-comparison-v1")
+        created = ssh(ip, f"mkdir -p {REMOTE}/runs/amd-comparison-v1 && printf 'DIRECTORY_READY\\n'")
+        if created.strip() != "DIRECTORY_READY":
+            raise RuntimeError("Remote shell did not confirm working-directory creation")
         retry_command(["rsync", "-az", "--partial", "--timeout=60", "-e",
                        shlex.join(["ssh", *ssh_options()]), "inputs.tar.gz",
                        f"root@{ip}:{REMOTE}/inputs.tar.gz"], timeout=240)

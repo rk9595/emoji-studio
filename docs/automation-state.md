@@ -39,9 +39,17 @@ Attempt 1: GitHub run `38253774910`, droplet `608402117`, failed during SCP inpu
 transfer before GPU evaluation. Cleanup verified at 13:12:41 UTC; estimated GPU
 cost $0.083 (not a billing receipt). Evidence under
 `artifacts/amd-comparison-v1/attempt-1/`. Recovery replaces SCP with resumable rsync
-and preserves useful stderr diagnostics. Exactly one recovery attempt is queued
-within the same $3 reserve; two allocations total, never concurrently. Read the
-private release `state.json` for the recovery's live ID. No third allocation.
+and preserves useful stderr diagnostics.
+
+Attempt 2: run `38254409392`, droplet `608403269`, exposed rsync protocol mismatch
+from an unclean remote shell during initialization. Deleted at 13:19:17 UTC.
+Both attempts combined used about 373 seconds, approximately $0.207 at list rate.
+The final recovery requires `/var/lib/cloud/instance/boot-finished`, the expiry
+timer, and an exact clean SSH readiness sentinel before transfer. A regression
+test rejects success exit codes accompanied by initialization banners. The
+controller additionally reserves 75 minutes plus prior runtime inside the same
+$3 allowance. Three attempts maximum, never concurrently; no fourth allocation.
+Read private release `state.json` for the final recovery's live ID.
 
 No new collection training or serving-adapter promotion has occurred. Historical
 files include recovered user changes; commit only deliberately selected files.

@@ -1,0 +1,191 @@
+{
+  "split": "development",
+  "purpose": "Matched base-versus-broad-style diagnostic; heldout labels checked against collection split. Bicycle is trained, interactions are challenges, not a sealed test.",
+  "prompts": [
+    {
+      "id": "dev-collection-01",
+      "concept": "Grinning face with sweat",
+      "category": "heldout_expression",
+      "tone": "Default",
+      "mode": "emoji",
+      "prompt": "A grinning yellow face with smiling eyes and a single sweat drop, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Recognizable grin and sweat drop",
+        "Face remains coherent",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-02",
+      "concept": "Pleading face",
+      "category": "heldout_expression",
+      "tone": "Default",
+      "mode": "emoji",
+      "prompt": "A yellow pleading face with large watery eyes and a small downturned mouth, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Pleading expression remains distinct from smiling",
+        "Two coherent eyes",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-03",
+      "concept": "Crossed fingers",
+      "category": "heldout_tone_gesture",
+      "tone": "Light",
+      "mode": "emoji",
+      "prompt": "A single hand with light skin tone, with the index and middle fingers crossed, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly one hand",
+        "Index and middle fingers visibly crossed",
+        "Five anatomically plausible digits",
+        "Requested skin tone retained",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-04",
+      "concept": "Crossed fingers",
+      "category": "heldout_tone_gesture",
+      "tone": "Medium-Light",
+      "mode": "emoji",
+      "prompt": "A single hand with medium-light skin tone, with the index and middle fingers crossed, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly one hand",
+        "Index and middle fingers visibly crossed",
+        "Five anatomically plausible digits",
+        "Requested skin tone retained",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-05",
+      "concept": "Crossed fingers",
+      "category": "heldout_tone_gesture",
+      "tone": "Medium",
+      "mode": "emoji",
+      "prompt": "A single hand with medium skin tone, with the index and middle fingers crossed, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly one hand",
+        "Index and middle fingers visibly crossed",
+        "Five anatomically plausible digits",
+        "Requested skin tone retained",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-06",
+      "concept": "Crossed fingers",
+      "category": "heldout_tone_gesture",
+      "tone": "Medium-Dark",
+      "mode": "emoji",
+      "prompt": "A single hand with medium-dark skin tone, with the index and middle fingers crossed, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly one hand",
+        "Index and middle fingers visibly crossed",
+        "Five anatomically plausible digits",
+        "Requested skin tone retained",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-07",
+      "concept": "Crossed fingers",
+      "category": "heldout_tone_gesture",
+      "tone": "Dark",
+      "mode": "emoji",
+      "prompt": "A single hand with dark skin tone, with the index and middle fingers crossed, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly one hand",
+        "Index and middle fingers visibly crossed",
+        "Five anatomically plausible digits",
+        "Requested skin tone retained",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-08",
+      "concept": "Firefighter",
+      "category": "heldout_person",
+      "tone": "Medium",
+      "mode": "emoji",
+      "prompt": "A firefighter with medium skin tone wearing a firefighter helmet, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Recognizable firefighter helmet",
+        "Requested skin tone retained",
+        "Coherent face and body",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-09",
+      "concept": "Backpack",
+      "category": "heldout_object",
+      "tone": "Default",
+      "mode": "emoji",
+      "prompt": "A compact pink backpack with a rounded front pocket and yellow zipper accents, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Recognizable single backpack",
+        "Pink body and yellow accents",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-10",
+      "concept": "Bicycle",
+      "category": "trained_geometry_control",
+      "tone": "Default",
+      "mode": "emoji",
+      "prompt": "A small red bicycle with two clear wheels and a black seat, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly two distinct wheels",
+        "Connected coherent frame, fork and pedals",
+        "Recognizable bicycle",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-11",
+      "concept": "High five",
+      "category": "novel_composition_challenge",
+      "tone": "Default",
+      "mode": "emoji",
+      "prompt": "Two separate golden-yellow hands from two people meeting palm to palm in a celebratory high-five, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly two hands",
+        "Clear palm contact with fingers extended upward",
+        "Not folded praying hands or a handshake",
+        "No extra digits or limbs",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    },
+    {
+      "id": "dev-collection-12",
+      "concept": "Pinky promise",
+      "category": "novel_composition_challenge",
+      "tone": "Default",
+      "mode": "emoji",
+      "prompt": "Two separate hands with medium and dark skin tones linking only their little fingers in a pinky promise, rendered as a rounded 3D emoji illustration, centered on a plain white background.",
+      "criteria": [
+        "Exactly two hands",
+        "Only little fingers link",
+        "Other fingers curled naturally",
+        "Both requested skin tones visible",
+        "No extra digits or limbs",
+        "Clear silhouette at 32px",
+        "No unintended text or extra objects"
+      ]
+    }
+  ]
+}

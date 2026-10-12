@@ -1,0 +1,45 @@
+name: AMD comparison queue
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '43 * * * *'
+permissions:
+  contents: write
+concurrency:
+  group: amd-comparison-v1
+  cancel-in-progress: false
+jobs:
+  comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      AMD_DEV_CLOUD_TOKEN: ${{ secrets.AMD_DEV_CLOUD_TOKEN }}
+      AMD_SSH_KEY_ID: ${{ vars.AMD_SSH_KEY_ID }}
+      AMD_SSH_KEY_FILE: /tmp/emoji-ops-key
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dedicated SSH key
+        env:
+          SSH_KEY: ${{ secrets.AMD_SSH_PRIVATE_KEY }}
+        run: |
+          umask 077
+          printf '%s\n' "$SSH_KEY" > "$AMD_SSH_KEY_FILE"
+      - name: Process bounded comparison
+        run: python ops/amd_campaign.py run
+      - name: Reap overdue owned instances
+        if: always()
+        run: python ops/amd_campaign.py reap
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: controller-evidence-${{ github.run_id }}
+          path: |
+            state.json
+            results/report.json
+            results/worker.log
+          retention-days: 14

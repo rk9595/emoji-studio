@@ -1,0 +1,19 @@
+name: AMD expiry watchdog
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 * * * *'
+permissions:
+  contents: read
+jobs:
+  reap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      AMD_DEV_CLOUD_TOKEN: ${{ secrets.AMD_DEV_CLOUD_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python ops/amd_campaign.py reap

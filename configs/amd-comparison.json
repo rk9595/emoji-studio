@@ -1,0 +1,20 @@
+{
+  "experiment": "amd-adapter-comparison-v1",
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "benchmark": "benchmarks/collection-eval.json",
+  "seeds": [0, 1],
+  "steps": 50,
+  "guidance_scale": 4.0,
+  "resolution": 512,
+  "expected_images": 144,
+  "incumbent": "pilot-25",
+  "conditions": [
+    {"id": "base", "path": null, "sha256": null},
+    {"id": "pilot-25", "path": "runs/lora-quality-pilot/adapters/step-25.safetensors", "sha256": "2c7b15de79e9ac0bf59488068c9ec0f3444dec44899005499de87c2b28e93076"},
+    {"id": "collection-125", "path": "runs/lora-collection-v1/adapters/step-125.safetensors", "sha256": "bc826afa9eb1dc5ac97ea4759604bd4a270eb52319841debb244c6f58b1a09df"},
+    {"id": "collection-250", "path": "runs/lora-collection-v1/adapters/step-250.safetensors", "sha256": "98709d14bd0d2dca8f65f54bad9235c7705b6714af7ea98280cde6ba75be24ee"},
+    {"id": "collection-375", "path": "runs/lora-collection-v1/adapters/step-375.safetensors", "sha256": "7cf87fa7cafc80c617090e8dc83adfb403b710beac4ed85165fee77ddc7cf7d5"},
+    {"id": "collection-500", "path": "runs/lora-collection-v1/adapters/step-500.safetensors", "sha256": "40727b54724931a9dc7121810962c87b829c3b76f0cc470c0b63f7a99016da6c"}
+  ]
+}

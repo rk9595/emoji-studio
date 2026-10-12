@@ -1,0 +1,14 @@
+{
+  "status": "waiting_cloud",
+  "milestone": "Compare retained adapters and prepare private alpha",
+  "cloud_repository": "rk9595/emoji-studio-ops",
+  "cloud_release": "amd-comparison-v1",
+  "next_actions": [
+    "Download completed comparison and verify all 144 image hashes and cleanup receipt.",
+    "Review the blinded outputs and record an explicitly AI-authored diagnostic recommendation.",
+    "Audit gesture caption and sampling issues identified by the comparison.",
+    "Prepare the AMD web/API smoke and durable alpha deployment; publish a concrete scoped deployment plan before incurring new recurring hosting costs."
+  ],
+  "promotion_requires": "A documented quality decision; do not claim human review occurred.",
+  "allocation_policy": "One GPU at a time, at most two attempts within the same $3 reserve. Attempt 1 failed at upload and was deleted; one recorded recovery is permitted. No further automatic paid retry."
+}

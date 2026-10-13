@@ -1,0 +1,131 @@
+{
+  "status": "completed_metadata_audit",
+  "dataset": "collection-v2",
+  "manifest_sha256": "72b1f6ca95c26ad5663e9c8f25a019036b08e407248251abd504c99bc29d90ba",
+  "sampling_sha256": "5a74a7e8900bfe94ea2eb750ef10f1ebcea7f448a2c2f78fdbc0ec4f927076e9",
+  "training_images": 2493,
+  "training_draws": 2000,
+  "distinct_images_drawn": 954,
+  "groups": [
+    {
+      "group": "Activities",
+      "training_images": 69,
+      "draws": 218,
+      "distinct_drawn": 66,
+      "mean_draws_per_training_image": 3.1594
+    },
+    {
+      "group": "Animals & Nature",
+      "training_images": 121,
+      "draws": 224,
+      "distinct_drawn": 102,
+      "mean_draws_per_training_image": 1.8512
+    },
+    {
+      "group": "Flags",
+      "training_images": 6,
+      "draws": 235,
+      "distinct_drawn": 6,
+      "mean_draws_per_training_image": 39.1667
+    },
+    {
+      "group": "Food & Drink",
+      "training_images": 109,
+      "draws": 210,
+      "distinct_drawn": 91,
+      "mean_draws_per_training_image": 1.9266
+    },
+    {
+      "group": "Objects",
+      "training_images": 209,
+      "draws": 197,
+      "distinct_drawn": 128,
+      "mean_draws_per_training_image": 0.9426
+    },
+    {
+      "group": "People & Body",
+      "training_images": 1504,
+      "draws": 231,
+      "distinct_drawn": 203,
+      "mean_draws_per_training_image": 0.1536
+    },
+    {
+      "group": "Smileys & Emotion",
+      "training_images": 132,
+      "draws": 238,
+      "distinct_drawn": 111,
+      "mean_draws_per_training_image": 1.803
+    },
+    {
+      "group": "Symbols",
+      "training_images": 176,
+      "draws": 220,
+      "distinct_drawn": 118,
+      "mean_draws_per_training_image": 1.25
+    },
+    {
+      "group": "Travel & Places",
+      "training_images": 167,
+      "draws": 227,
+      "distinct_drawn": 129,
+      "mean_draws_per_training_image": 1.3593
+    }
+  ],
+  "concepts": [
+    {
+      "concept": "Crossed fingers",
+      "train_images": 0,
+      "validation_images": 6,
+      "training_draws": 0,
+      "captions": [
+        "crossed fingers, dark skin tone, isolated 3D emoji illustration",
+        "crossed fingers, isolated 3D emoji illustration",
+        "crossed fingers, light skin tone, isolated 3D emoji illustration",
+        "crossed fingers, medium skin tone, isolated 3D emoji illustration",
+        "crossed fingers, medium-dark skin tone, isolated 3D emoji illustration",
+        "crossed fingers, medium-light skin tone, isolated 3D emoji illustration"
+      ]
+    },
+    {
+      "concept": "Folded hands",
+      "train_images": 6,
+      "validation_images": 0,
+      "training_draws": 0,
+      "captions": [
+        "folded hands, dark skin tone, isolated 3D emoji illustration",
+        "folded hands, isolated 3D emoji illustration",
+        "folded hands, light skin tone, isolated 3D emoji illustration",
+        "folded hands, medium skin tone, isolated 3D emoji illustration",
+        "folded hands, medium-dark skin tone, isolated 3D emoji illustration",
+        "folded hands, medium-light skin tone, isolated 3D emoji illustration"
+      ]
+    },
+    {
+      "concept": "High five",
+      "train_images": 0,
+      "validation_images": 0,
+      "training_draws": 0,
+      "captions": []
+    },
+    {
+      "concept": "Pinky promise",
+      "train_images": 0,
+      "validation_images": 0,
+      "training_draws": 0,
+      "captions": []
+    },
+    {
+      "concept": "Bicycle",
+      "train_images": 1,
+      "validation_images": 0,
+      "training_draws": 1,
+      "captions": [
+        "bicycle, isolated 3D emoji illustration"
+      ]
+    }
+  ],
+  "caption_review_status": {
+    "metadata_checked_visual_details_not_individually_reviewed": 3144
+  },
+  "limitations": "Metadata and sampling audit only; not a visual annotation or quality score."
+}

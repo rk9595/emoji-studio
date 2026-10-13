@@ -18,8 +18,11 @@ timer is 65 minutes after cloud initialization; reserve $3 with billing margin.
 This reserve is not a provider-enforced spending cap. The initial transfer failed
 and was cleaned up; the second exposed unclean SSH during initialization. A final
 recorded recovery with a strict readiness sentinel is allowed within the same $3
-reserve (three attempts total), checked against prior runtime plus 75 minutes of
-new reserved runtime. No further automatic allocation.
+reserve. The October 13 user continuation authorizes completing the repair:
+attempt 3 uploaded successfully but failed on an unretried SSH checksum timeout.
+One fourth attempt is prepared with SSH multiplexing and bounded retries, checked
+against prior runtime plus 75 minutes of new reserved runtime in the same $3.
+Do not launch a fifth attempt; finish local recovery/diagnostics if this fails.
 Existing overall AMD credit is $100;
 this is not a mandate to spend it continuously.
 

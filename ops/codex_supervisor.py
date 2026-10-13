@@ -67,11 +67,19 @@ def save(state):
 
 def cloud_state(config):
     with tempfile.TemporaryDirectory(prefix="emoji-cloud-status-") as directory:
-        subprocess.run(
-            [config["gh"], "release", "download", "amd-comparison-v1",
-             "--repo", "rk9595/emoji-studio-ops", "--pattern", "state.json", "--dir", directory],
-            check=True, capture_output=True, timeout=45,
-        )
+        for attempt in range(3):
+            try:
+                subprocess.run(
+                    [config["gh"], "release", "download", "amd-comparison-v1",
+                     "--repo", "rk9595/emoji-studio-ops", "--pattern", "state.json",
+                     "--dir", directory, "--clobber"],
+                    check=True, capture_output=True, timeout=45,
+                )
+                break
+            except (subprocess.SubprocessError, OSError):
+                if attempt == 2:
+                    raise
+                time.sleep(5 * (attempt + 1))
         return json.loads((Path(directory) / "state.json").read_text())
 
 
@@ -116,7 +124,7 @@ def tick(config, diagnostic=False):
                 state["reason"] = "cloud_still_working"
                 save(state)
                 return
-        if status == "notLoaded":
+        if status in ("notLoaded", "systemError"):
             server.call("thread/resume", {"threadId": config["thread_id"]})
         elif status != "idle":
             state["reason"] = f"unsupported_thread_status:{status}"

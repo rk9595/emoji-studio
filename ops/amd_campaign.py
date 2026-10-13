@@ -154,11 +154,13 @@ runcmd:
 def ssh_options():
     return ["-i", os.environ["AMD_SSH_KEY_FILE"], "-o", "BatchMode=yes",
             "-o", "ConnectTimeout=15", "-o", "StrictHostKeyChecking=accept-new",
-            "-o", "ServerAliveInterval=10", "-o", "ServerAliveCountMax=3"]
+            "-o", "ServerAliveInterval=10", "-o", "ServerAliveCountMax=3",
+            "-o", "ControlMaster=auto", "-o", "ControlPersist=600",
+            "-o", "ControlPath=/tmp/emoji-ops-ssh-%C"]
 
 
 def ssh(ip, text, timeout=60):
-    return command(["ssh", *ssh_options(), f"root@{ip}", text], timeout=timeout)
+    return retry_command(["ssh", *ssh_options(), f"root@{ip}", text], timeout=timeout)
 
 
 def remote_ready(ip):
@@ -220,7 +222,7 @@ def run():
         if hashlib.file_digest(stream, "sha256").hexdigest() != config["input_sha256"]:
             raise ValueError("Input archive differs from lock")
     record(state, status="allocating", allocation_attempted=True, started_epoch=time.time())
-    droplet_id, ip = None, None
+    droplet_id, ip, worker_started = None, None, False
     try:
         try:
             response = api("POST", "/droplets", {
@@ -257,11 +259,18 @@ def run():
         retry_command(["rsync", "-az", "--partial", "--timeout=60", "-e",
                        shlex.join(["ssh", *ssh_options()]), "inputs.tar.gz",
                        f"root@{ip}:{REMOTE}/inputs.tar.gz"], timeout=240)
-        ssh(ip, f"cd {REMOTE} && sha256sum inputs.tar.gz", timeout=30)
         check = ssh(ip, f"sha256sum {REMOTE}/inputs.tar.gz").split()[0]
         if check != config["input_sha256"]:
             raise ValueError("Transferred input checksum mismatch")
-        ssh(ip, f"cd {REMOTE} && tar -xzf inputs.tar.gz --no-same-owner && nohup bash ops/remote_compare.sh >worker.log 2>&1 </dev/null &", timeout=30)
+        ssh(ip, f"cd {REMOTE} && tar -xzf inputs.tar.gz --no-same-owner", timeout=60)
+        launch = (
+            "if test \"$(systemctl show --property=LoadState --value emoji-comparison-worker.service)\" = loaded; "
+            "then true; else systemd-run --unit=emoji-comparison-worker "
+            f"--property=WorkingDirectory={REMOTE} /bin/bash -c "
+            + shlex.quote("exec bash ops/remote_compare.sh >worker.log 2>&1") + "; fi"
+        )
+        ssh(ip, launch, timeout=30)
+        worker_started = True
         record(state, status="running")
         while time.time() < deadline:
             time.sleep(45)
@@ -288,7 +297,7 @@ def run():
         record(state, status="failed", error=type(error).__name__)
         raise
     finally:
-        if ip:
+        if ip and worker_started:
             try:
                 snapshot(ip)
             except Exception as error:

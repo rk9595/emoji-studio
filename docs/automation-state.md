@@ -1,4 +1,4 @@
-# Current state — 2026-10-12
+# Current state — 2026-10-13
 
 User requested continued work toward private alpha, maximum automation, usage-reset
 continuation, and concise persistent memory. This file supersedes historical
@@ -49,7 +49,27 @@ timer, and an exact clean SSH readiness sentinel before transfer. A regression
 test rejects success exit codes accompanied by initialization banners. The
 controller additionally reserves 75 minutes plus prior runtime inside the same
 $3 allowance. Three attempts maximum, never concurrently; no fourth allocation.
-Read private release `state.json` for the final recovery's live ID.
+Attempt 3: run `38255542347`, droplet `608405707`, passed the strict readiness gate
+and uploaded all inputs, then stopped on an unretried SSH timeout during checksum
+verification. Deleted at 13:30:20 UTC. Three attempts used about 674 seconds,
+approximately $0.373 at list rate. All three deletions are confirmed; no images
+were rendered. October 13 user said continue. The repaired controller reuses one
+SSH connection, retries safe commands, and uses an idempotent systemd worker unit.
+Run `38352558272` is the fourth attempt inside the same $3 reserve (prior runtime
++ 75-minute reservation projects about $2.86). No fifth allocation.
+Read private release `state.json` for its live ID and outcome.
+
+Supervisor repair: systemError threads now follow thread/resume before turn/start;
+GitHub state reads retry transient failures. Live account/thread diagnostic passes.
+Regression tests cover both changes. Earlier overnight continuation did not occur:
+the Mac was often asleep, a cloud-state fetch failed, and systemError was previously
+unsupported. Do not claim uninterrupted 24/7 Codex execution.
+
+Coverage audit completed: `reports/collection-coverage-audit.{md,json}`.
+Crossed fingers: six validation images, zero training; folded hands: six train
+images but zero sampled draws; high-five/pinky promise absent; bicycle one draw.
+Six flags took 235 draws versus 231 across 1,504 People & Body images. This informs
+future data/sampler work; existing dataset and serving adapter remain unchanged.
 
 No new collection training or serving-adapter promotion has occurred. Historical
 files include recovered user changes; commit only deliberately selected files.

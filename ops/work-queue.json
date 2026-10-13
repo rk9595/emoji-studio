@@ -6,9 +6,9 @@
   "next_actions": [
     "Download completed comparison and verify all 144 image hashes and cleanup receipt.",
     "Review the blinded outputs and record an explicitly AI-authored diagnostic recommendation.",
-    "Audit gesture caption and sampling issues identified by the comparison.",
+    "Coverage audit is complete in reports/collection-coverage-audit.md; use it with the visual comparison to scope future data changes.",
     "Prepare the AMD web/API smoke and durable alpha deployment; publish a concrete scoped deployment plan before incurring new recurring hosting costs."
   ],
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "One GPU at a time, at most three attempts within the same $3 reserve. Two startup/transfer failures were deleted. Final recovery requires clean SSH readiness and a remaining-reserve check. No further automatic paid retry."
+  "allocation_policy": "October 13 continuation: one fourth attempt after verified upload success exposed an unretried checksum SSH timeout. SSH multiplexing/retries, one GPU at a time, same $3 total reserve. No fifth attempt."
 }

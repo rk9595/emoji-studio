@@ -57,6 +57,17 @@ class ComparisonTest(unittest.TestCase):
 
 
 class CleanupTest(unittest.TestCase):
+    def test_ssh_retries_transient_disconnect_and_reuses_transport(self):
+        import subprocess
+
+        with patch.dict("os.environ", {"AMD_SSH_KEY_FILE": "/tmp/test-key"}), \
+             patch.object(campaign, "command") as command, patch.object(campaign.time, "sleep"):
+            command.side_effect = [subprocess.CalledProcessError(255, "ssh"), "checksum\n"]
+            self.assertEqual(campaign.ssh("test", "sha256sum inputs.tar.gz"), "checksum\n")
+            self.assertEqual(command.call_count, 2)
+            self.assertIn("ControlMaster=auto", command.call_args.args[0])
+            self.assertIn("ControlPath=/tmp/emoji-ops-ssh-%C", command.call_args.args[0])
+
     def test_readiness_requires_clean_sentinel_not_only_ssh_success(self):
         for output in ("Initializing GPU image...", "Welcome\nEMOJI_OPS_READY_V1\n", ""):
             with patch.object(campaign, "ssh", return_value=output):
@@ -100,6 +111,23 @@ class CleanupTest(unittest.TestCase):
 
 
 class SupervisorTest(unittest.TestCase):
+    def test_system_error_is_resumed_when_work_is_ready(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "ops").mkdir()
+            (root / "ops/work-queue.json").write_text('{"status":"ready"}')
+            with patch.object(supervisor, "ROOT", root), \
+                 patch.object(supervisor, "RUNTIME", root), \
+                 patch.object(supervisor, "AppServer") as server:
+                client = server.return_value
+                client.call.side_effect = [
+                    {"thread": {"status": {"type": "systemError"}}},
+                    {"rateLimits": {"primary": {"usedPercent": 20}}}, {}, {},
+                ]
+                supervisor.tick({"enabled": True, "socket_path": "unused", "thread_id": "test"})
+                self.assertEqual([c.args[0] for c in client.call.call_args_list],
+                                 ["thread/read", "account/rateLimits/read", "thread/resume", "turn/start"])
+
     def test_waits_for_longest_exhausted_window(self):
         limits = {"rateLimits": {"primary": {"usedPercent": 100, "resetsAt": 5000},
                                   "secondary": {"usedPercent": 100, "resetsAt": 9000}}}

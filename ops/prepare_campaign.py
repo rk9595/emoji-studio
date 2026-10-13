@@ -27,7 +27,7 @@ def prepare():
     with target.open("rb") as stream:
         checksum = hashlib.file_digest(stream, "sha256").hexdigest()
     campaign = {"experiment": recipe["experiment"], "input_sha256": checksum,
-                "input_bytes": target.stat().st_size, "max_allocations": 3,
+                "input_bytes": target.stat().st_size, "max_allocations": 4,
                 "max_hourly_dollars": 1.99, "worker_deadline_seconds": 3300,
                 "independent_expiry_minutes": 65, "spending_reserve_dollars": 3,
                 "expires_epoch": int(time.time() + 3 * 86400),

@@ -12,19 +12,13 @@ Maintain those two small files after each meaningful milestone and before a turn
 ends. Keep durable links/hashes instead of repeating full logs. Never put tokens,
 private keys, or account secrets in memory, Git, reports, or prompts.
 
-The AMD comparison is one GPU at a time, six conditions, 144 matched images, at most
-$1.99/hour. Its controller deadline is 55 minutes and its independent VM deletion
-timer is 65 minutes after cloud initialization; reserve $3 with billing margin.
-This reserve is not a provider-enforced spending cap. The initial transfer failed
-and was cleaned up; the second exposed unclean SSH during initialization. A final
-recorded recovery with a strict readiness sentinel is allowed within the same $3
-reserve. The October 13 user continuation authorizes completing the repair:
-attempt 3 uploaded successfully but failed on an unretried SSH checksum timeout.
-One fourth attempt is prepared with SSH multiplexing and bounded retries, checked
-against prior runtime plus 75 minutes of new reserved runtime in the same $3.
-Do not launch a fifth attempt; finish local recovery/diagnostics if this fails.
-Existing overall AMD credit is $100;
-this is not a mandate to spend it continuously.
+The AMD comparison is complete: all 144 images verified, all four allocated
+instances deleted, approximately $0.99 estimated GPU cost against a $3 reserve.
+See `reports/amd-comparison-v1.md`. Do not reset it or launch a fifth attempt.
+Next work is offline implementation/testing and data planning, not new paid
+execution. Existing overall AMD credit is $100; it is not a mandate to spend it
+continuously. New cloud smoke/training needs a separately bounded allowance;
+persistent hosting needs a user-selected recurring budget and access arrangement.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

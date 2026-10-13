@@ -151,16 +151,20 @@ runcmd:
 '''
 
 
-def ssh_options():
-    return ["-i", os.environ["AMD_SSH_KEY_FILE"], "-o", "BatchMode=yes",
+def ssh_options(multiplex=True):
+    options = ["-i", os.environ["AMD_SSH_KEY_FILE"], "-o", "BatchMode=yes",
             "-o", "ConnectTimeout=15", "-o", "StrictHostKeyChecking=accept-new",
-            "-o", "ServerAliveInterval=10", "-o", "ServerAliveCountMax=3",
-            "-o", "ControlMaster=auto", "-o", "ControlPersist=600",
-            "-o", "ControlPath=/tmp/emoji-ops-ssh-%C"]
+            "-o", "ServerAliveInterval=10", "-o", "ServerAliveCountMax=3"]
+    if multiplex:
+        options += ["-o", "ControlMaster=auto", "-o", "ControlPersist=600",
+                    "-o", "ControlPath=/tmp/emoji-ops-ssh-%C"]
+    else:
+        options += ["-o", "ControlMaster=no", "-o", "ControlPath=none"]
+    return options
 
 
-def ssh(ip, text, timeout=60):
-    return retry_command(["ssh", *ssh_options(), f"root@{ip}", text], timeout=timeout)
+def ssh(ip, text, timeout=60, multiplex=True):
+    return retry_command(["ssh", *ssh_options(multiplex), f"root@{ip}", text], timeout=timeout)
 
 
 def remote_ready(ip):
@@ -169,7 +173,7 @@ def remote_ready(ip):
                  "test -d /shared-docker && command -v rsync >/dev/null && "
                  "docker inspect rocm >/dev/null && "
                  "systemctl is-active --quiet emoji-ops-expiry.timer && "
-                 f"printf '{marker}\\n'", timeout=30)
+                 f"printf '{marker}\\n'", timeout=30, multiplex=False)
     if output.strip() != marker:
         print(f"SSH initialization is not clean/ready: {output[-1200:]!r}", flush=True)
         return False

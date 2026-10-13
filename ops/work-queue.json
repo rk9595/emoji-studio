@@ -1,14 +1,15 @@
 {
-  "status": "waiting_cloud",
-  "milestone": "Compare retained adapters and prepare private alpha",
+  "status": "ready",
+  "milestone": "Offline durable-worker foundation and versioned quality-data proposal",
   "cloud_repository": "rk9595/emoji-studio-ops",
   "cloud_release": "amd-comparison-v1",
   "next_actions": [
-    "Download completed comparison and verify all 144 image hashes and cleanup receipt.",
-    "Review the blinded outputs and record an explicitly AI-authored diagnostic recommendation.",
-    "Coverage audit is complete in reports/collection-coverage-audit.md; use it with the visual comparison to scope future data changes.",
-    "Prepare the AMD web/API smoke and durable alpha deployment; publish a concrete scoped deployment plan before incurring new recurring hosting costs."
+    "Read docs/private-alpha-deployment-plan.md and implement its offline worker claim/heartbeat/lease-expiry/output-commit contract with simulated-worker tests; preserve existing local API behavior and do not provision anything.",
+    "Draft a versioned data/caption/sampler proposal using reports/collection-coverage-audit.md and reports/amd-comparison-v1.md; preserve existing training data, heldout split and serving adapter; do not invent visually verified captions.",
+    "Prepare a locked AMD web/API smoke plan and local validation path, but do not allocate a new GPU or reuse the completed comparison campaign.",
+    "After ready offline work is done, request the missing bounded GPU allowance and persistent-hosting budget/access choice; set waiting_user if those decisions are required to proceed."
   ],
+  "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "October 13 continuation: one fourth attempt after verified upload success exposed an unretried checksum SSH timeout. SSH multiplexing/retries, one GPU at a time, same $3 total reserve. No fifth attempt."
+  "allocation_policy": "Comparison is completed and consumed. No fifth attempt, state reset, new training or new paid hosting. Current ready queue is offline work only; new paid execution requires a separately bounded allowance."
 }

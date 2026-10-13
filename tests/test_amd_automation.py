@@ -72,8 +72,9 @@ class CleanupTest(unittest.TestCase):
         for output in ("Initializing GPU image...", "Welcome\nEMOJI_OPS_READY_V1\n", ""):
             with patch.object(campaign, "ssh", return_value=output):
                 self.assertFalse(campaign.remote_ready("test"))
-        with patch.object(campaign, "ssh", return_value="EMOJI_OPS_READY_V1\n"):
+        with patch.object(campaign, "ssh", return_value="EMOJI_OPS_READY_V1\n") as ssh:
             self.assertTrue(campaign.remote_ready("test"))
+            self.assertFalse(ssh.call_args.kwargs["multiplex"])
 
     def test_ownership_requires_name_and_tag(self):
         self.assertFalse(campaign.owned({"name": campaign.NAME, "tags": []}))

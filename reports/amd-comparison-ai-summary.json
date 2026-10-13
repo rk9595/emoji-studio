@@ -1,0 +1,47 @@
+{
+  "reviewer": "Codex AI visual diagnostic, not human review",
+  "method": "All 144 images inspected on 24 shuffled A-F contact sheets, with 32px thumbnails. Condition map withheld until this observation file was complete. Development prompts, not a sealed test; subjective ordinal scores, not calibrated probabilities.",
+  "scoring": {
+    "2": "Major requested details clearly present, no obvious material defect",
+    "1": "Recognizable but missing/ambiguous requested detail or uncertain geometry",
+    "0": "Major prompt failure or clearly defective geometry"
+  },
+  "config_sha256": "b6a91b856ae732fe7235efea11f17e0eb90f52584875282c8942aebc99f699cd",
+  "benchmark_sha256": "78305fd298229ac2739ec9bd8d07ab4e0f89833bb3b68c702e357d1d27caedc3",
+  "source_report_sha256": "e479b4652c2ec6492e6c91309e4141a65eb51d93341d49da0869da2de9ba9d38",
+  "observations_sha256": "1e872bc94c7d7617948cfd55ed7e0b06b1280e5a83103edf961feadd18ae35a9",
+  "map_sha256": "ccc96fa582df062dbdf0a398ae9150f4b918101d87ef5b94b3a62cc901276f26",
+  "verified_images": 144,
+  "conditions": {
+    "base": {
+      "major_failure": 14,
+      "partial_or_uncertain": 6,
+      "major_details_met": 4
+    },
+    "collection-125": {
+      "major_failure": 14,
+      "partial_or_uncertain": 7,
+      "major_details_met": 3
+    },
+    "collection-250": {
+      "major_failure": 15,
+      "partial_or_uncertain": 6,
+      "major_details_met": 3
+    },
+    "collection-375": {
+      "major_failure": 15,
+      "partial_or_uncertain": 7,
+      "major_details_met": 2
+    },
+    "collection-500": {
+      "major_failure": 15,
+      "partial_or_uncertain": 6,
+      "major_details_met": 3
+    },
+    "pilot-25": {
+      "major_failure": 14,
+      "partial_or_uncertain": 6,
+      "major_details_met": 4
+    }
+  }
+}

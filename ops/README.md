@@ -17,15 +17,19 @@ The VM has a root-only self-deletion guard that does not require GitHub connecti
 Its API credential is not bundled with artifacts. Provider/API failures can delay
 deletion, so the $3 reserve is not an enforceable provider billing cap.
 
-Current experiment: 144 images; model and five adapters are checksum-locked in
-`configs/amd-comparison.json`. Three attempts were cleaned up; the October 13
-continuation permits a fourth within the same $3 reserve. The third completed
-upload, then failed on an unretried SSH check. Transport now reuses one connection
-and retries safe checks; worker launch is idempotent through a named systemd unit.
-Readiness requires completed cloud initialization and a clean explicit
-sentinel. Prior runtime plus 75 minutes of new reserved runtime must fit the $3
-allowance. No fifth allocation.
-The serving adapter is not changed by this experiment.
+Completed October 13: all 144 images verified, all four allocated instances
+deleted, approximately $0.99 estimated GPU cost within the $3 reserve.
+See `reports/amd-comparison-v1.md`; private results and AI review are backed up
+in release assets. No fifth allocation or reset of the completed campaign.
+The serving adapter remains pilot step 25 after the AI diagnostic review.
+
+Transport retries safe checks and reuses connections only after readiness.
+Readiness uses fresh connections, completed cloud initialization and a clean
+explicit sentinel: a persistent connection opened during provider bootstrap can
+retain its temporary forced command even after the VM is ready. Worker launch
+is idempotent through a named systemd unit. The consumed terminal state prevents
+the scheduled controller from allocating again. Next queued work is offline;
+see `docs/private-alpha-deployment-plan.md` for the new-spending gates.
 
 ## Codex continuation and memory
 

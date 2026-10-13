@@ -1,0 +1,33 @@
+{
+  "reviewer": "Codex AI visual diagnostic, not human review",
+  "date": "2026-10-13",
+  "method": "All 144 images inspected on 24 shuffled A-F contact sheets, with 32px thumbnails. Condition map withheld until this observation file was complete. Development prompts, not a sealed test; subjective ordinal scores, not calibrated probabilities.",
+  "scoring": {"2": "Major requested details clearly present, no obvious material defect", "1": "Recognizable but missing/ambiguous requested detail or uncertain geometry", "0": "Major prompt failure or clearly defective geometry"},
+  "label_order": "ABCDEF",
+  "observations": {
+    "dev-collection-01-seed-0": {"scores": [1,2,0,1,0,1], "notes": "B has smiling eyes and forehead sweat, though drop is blobby. A/D/F place a tear-like drop below an open eye. C/E omit the drop."},
+    "dev-collection-01-seed-1": {"scores": [2,1,2,1,2,1], "notes": "A/C/E retain blue forehead sweat and smiling eyes. B/D/F have a yellow forehead protrusion, ambiguous as sweat at small size."},
+    "dev-collection-02-seed-0": {"scores": [1,1,1,1,1,1], "notes": "All are coherent sad faces, but watery pleading eyes are weak or missing."},
+    "dev-collection-02-seed-1": {"scores": [1,2,1,1,2,2], "notes": "B/E/F have upturned brows and glossy eyes, clearer pleading than the flat-eyed A/C/D."},
+    "dev-collection-03-seed-0": {"scores": [0,0,0,0,0,0], "notes": "All show a single raised finger rather than visibly crossed index and middle fingers."},
+    "dev-collection-03-seed-1": {"scores": [0,0,0,0,0,0], "notes": "All show a single raised finger. Some also have ambiguous digit counts."},
+    "dev-collection-04-seed-0": {"scores": [0,0,0,0,0,0], "notes": "All show a single raised finger, not crossed fingers; A/B darker than the others."},
+    "dev-collection-04-seed-1": {"scores": [0,0,0,0,0,0], "notes": "All show a single raised finger, not crossed fingers."},
+    "dev-collection-05-seed-0": {"scores": [0,0,0,0,0,0], "notes": "D has two parallel raised digits, not crossed. All others show one raised digit."},
+    "dev-collection-05-seed-1": {"scores": [0,0,0,0,0,0], "notes": "All show one raised digit; D/E visibly darker but still wrong gesture."},
+    "dev-collection-06-seed-0": {"scores": [0,0,0,0,0,0], "notes": "All retain a dark skin tone but show one raised digit rather than crossed fingers."},
+    "dev-collection-06-seed-1": {"scores": [0,0,0,0,0,0], "notes": "All show one raised digit rather than crossed fingers."},
+    "dev-collection-07-seed-0": {"scores": [0,0,0,0,0,0], "notes": "All retain dark tones but show one raised digit, not crossed fingers."},
+    "dev-collection-07-seed-1": {"scores": [0,0,0,0,0,0], "notes": "All show one raised digit, not crossed fingers."},
+    "dev-collection-08-seed-0": {"scores": [1,1,1,1,1,1], "notes": "All have coherent medium-tone faces and yellow/orange helmets. Firefighter identity is ambiguous with construction-worker hard hats, especially A/C/F."},
+    "dev-collection-08-seed-1": {"scores": [1,1,1,1,1,1], "notes": "Coherent faces and helmets throughout; black band improves detail but firefighter versus construction worker remains ambiguous."},
+    "dev-collection-09-seed-0": {"scores": [2,2,2,2,2,2], "notes": "All clearly recognizable single pink backpacks with rounded pockets and yellow zipper accents, including at 32px."},
+    "dev-collection-09-seed-1": {"scores": [2,2,2,2,2,2], "notes": "All retain requested colors and backpack silhouette. A has doubled zipper bars; E handle is mostly occluded, neither a major failure."},
+    "dev-collection-10-seed-0": {"scores": [1,0,1,1,1,1], "notes": "B handlebar visibly disconnected. All others recognizable with two wheels, but pedals/axle connections are missing or unclear. D/F have more mechanical detail but very small framing."},
+    "dev-collection-10-seed-1": {"scores": [1,1,1,1,1,1], "notes": "All recognizable red two-wheel bicycles, but no unambiguously complete pedal geometry. A retains spokes/tires; most others use pale rings, and C wheels look button-like."},
+    "dev-collection-11-seed-0": {"scores": [0,0,0,0,0,0], "notes": "All read as symmetrical folded/praying hands rather than an unambiguous high-five from two people. Some have fused or extra-looking fingertips."},
+    "dev-collection-11-seed-1": {"scores": [0,0,0,0,0,0], "notes": "All are folded/praying hands, explicitly excluded by the requested criterion."},
+    "dev-collection-12-seed-0": {"scores": [0,0,0,0,0,0], "notes": "None link only little fingers. A/B/C/E add bright pink finger-like objects; D/F resemble fist contact with thumbs down."},
+    "dev-collection-12-seed-1": {"scores": [0,0,0,0,0,0], "notes": "A/B/D/E touch bent index-like fingers or knuckles, not linked little fingers. C/F touch pink fingertips without linking; requested tone contrast is also weak."}
+  }
+}

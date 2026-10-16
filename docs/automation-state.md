@@ -1,10 +1,22 @@
-# Current state — 2026-10-13
+# Current state — 2026-10-16
 
 User requested continued private-alpha work, maximum automation, usage-reset
 continuation and concise memory. Read `ops/work-queue.json` next; older session
 handoffs are historical. Preserve recovered unrelated worktree changes.
 
-## Completed milestone
+## Completed milestones
+
+Offline worker foundation: `src/emoji_studio/worker_queue.py`, contract in
+`docs/worker-lease-contract.md`. Local SQLite, one running claim, token-fenced
+leases, heartbeats, bounded retries, atomic PNG/WebP pack commit, idempotent
+completion, owner-scoped/hash-checked downloads. 18 new tests including separate
+processes and transaction interruption; 57 focused tests passed overall.
+Not wired into FastAPI yet; no quota/spend ledger or remote worker endpoint.
+Existing service untouched. Lease expiry does not stop GPU billing.
+
+Versioned data/sampler proposal: `docs/collection-v3-proposal.md` (draft only).
+No data/caption/split edits, new images, model promotion or training. It separates
+coverage-only and new-gesture experiments and requires explicit full-pass coverage.
 
 AMD comparison finished: six conditions × 12 prompts × two seeds = 144 verified
 images, PyTorch 2.10/ROCm 7.2 MI300X, evaluation wall time 607.25 seconds.
@@ -33,10 +45,13 @@ existing data; draft versioned corrections before further training.
 
 `docs/private-alpha-deployment-plan.md` defines offline worker leases/recovery,
 durable control-plane integration, bounded AMD API smoke, then hosted alpha.
-Existing API/alpha/lifecycle/automation tests: 34 passed; review-integrity tests:
-5 passed. Live AMD API smoke and durable public deployment are not done.
+Next: transactional admission/usage ledger plus opt-in local API/worker integration,
+then prepare an AMD-specific API smoke plan. Legacy service smoke is NVIDIA/Vast
+specific (path, monitoring, $0.70 cap); do not reuse it unchanged for AMD.
+Live AMD API smoke and durable public deployment are not done.
 No new training, serving promotion, hosting, invitations or paid allocations.
-Queue ready work is local code/tests and a data/sampler proposal. Ask for a new
+Queue ready work is local integration/tests, smoke preparation and sampler preflight.
+Ask for a new
 bounded execution allowance/hosting choice only when that becomes the blocker.
 
 ## Automation
@@ -52,6 +67,6 @@ resumes idle/notLoaded/systemError states and requests compaction after six
 continuations only with a fresh durable handoff. Runtime under ignored
 `var/automation/`; same thread, no Codex credentials exported to cloud.
 Needs Mac awake and app-server available. Read-only diagnostics and active-thread
-skip passed; a real unattended turn dispatch is not yet proven end-to-end.
+skip passed; a scheduled continuation was received in this thread October 16.
 Do not claim uninterrupted 24/7 Codex execution. AMD token still needs eventual
 rotation; never expose credentials in prompts, logs, reports or Git.

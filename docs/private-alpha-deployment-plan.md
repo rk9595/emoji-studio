@@ -36,11 +36,11 @@ Vast-specific adapter as interchangeable.
 
 ## Ordered implementation gates
 
-1. **Offline worker contract — ready, no spending.** Define and test claim,
-   heartbeat, lease expiry, output commit, restart and failure transitions.
-   Exercise duplicate completion and late results after lease expiry. Preserve
-   local rendering and API compatibility. Use simulated workers; do not provision
-   infrastructure or silently introduce a new database service.
+1. **Offline worker contract — completed October 16, no spending.** Local SQLite
+   claim/heartbeat/lease expiry, atomic output commit, bounded failure/recovery,
+   restart and duplicate/late-result handling are implemented and tested.
+   See `docs/worker-lease-contract.md`. Simulated-worker and independent-process
+   tests passed; the existing local rendering/API path is unchanged.
 2. **Durable integration — local first.** Implement queue/storage adapters and
    transactional reservations. Test owner isolation, retries, retained usage
    after deletion, recovery after API/worker restart, and verified artifact
@@ -81,8 +81,8 @@ in this plan bypasses account limits or promises uninterrupted model reasoning.
 
 ## Parallel quality work without paid execution
 
-Draft a new, versioned collection/sampler specification from the coverage audit
-and blinded review. Preserve old data, sampling receipts and holdout integrity.
+Draft saved October 16 as `docs/collection-v3-proposal.md`, based on the coverage
+audit and blinded review. Preserve old data, sampling receipts and holdout integrity.
 Specify explicit finger identity/contact relationships and minimum exposures
 for supported concepts; cap tiny-group oversampling. Do not invent visual
 captions from labels, auto-approve reference images, or launch another training

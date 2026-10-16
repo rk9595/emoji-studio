@@ -41,10 +41,12 @@ Vast-specific adapter as interchangeable.
    restart and duplicate/late-result handling are implemented and tested.
    See `docs/worker-lease-contract.md`. Simulated-worker and independent-process
    tests passed; the existing local rendering/API path is unchanged.
-2. **Durable integration — local first.** Implement queue/storage adapters and
-   transactional reservations. Test owner isolation, retries, retained usage
-   after deletion, recovery after API/worker restart, and verified artifact
-   commit. Surface waiting-for-capacity/budget honestly in the UI.
+2. **Durable integration — local first.** Transactional image admission and
+   persistent daily/trial usage are now implemented in the standalone queue,
+   including concurrency and deletion/retry tests. API wiring, automatic retention
+   and financial reservations remain to do. Add opt-in queue/storage adapters and
+   test owner isolation and recovery through the actual API. Surface
+   waiting-for-capacity/budget honestly in the UI.
 3. **Bounded AMD API smoke — prepare before allocation.** Validate the actual
    serving code through a private SSH tunnel: reject missing credentials, submit
    deterministic generation, poll, download PNG/WebP, verify transparency and

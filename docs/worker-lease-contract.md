@@ -1,4 +1,4 @@
-# Offline worker contract v1 — October 16, 2026
+# Offline worker contract v2 — October 16, 2026
 
 Implemented in `src/emoji_studio/worker_queue.py`, tested in
 `tests/test_worker_queue.py`. This is a standalone, local control-plane building
@@ -14,10 +14,41 @@ queued --claim--> running --complete--> succeeded
                     +--permanent failure/limit---> failed
 ```
 
-`enqueue` accepts an already quota-approved logical job ID, owner, prompts and
-seeds. Identical resubmission is a no-op; changes under the same ID fail. Admission
-does not yet reserve user quota or money. The next API integration must make those
-reservations transactional with job creation, not call two independent stores.
+`enqueue` atomically admits a logical job and reserves image usage in the same
+SQLite transaction. It accepts the job ID, owner, prompts/seeds and a trusted
+control-plane daily limit (1–1,000 images, default 1,000). The global lifetime
+trial cap is persisted on first database creation (default 100); reopening with
+a different explicit cap fails rather than silently changing policy.
+
+An immutable usage ledger counts admitted images, including queued, failed and
+retried jobs. Daily limits use UTC calendar days; the global trial count never
+resets on a day boundary. Existing alpha semantics are preserved: failures do
+not refund usage, and retries do not charge again. Concurrent processes cannot
+oversubscribe either limit. Clock rollback before the latest admission fails
+closed for new admissions and usage reads. An identical repeated admission is
+acknowledged even if limits have since been exhausted/lowered; changed content
+under the same ID fails. Rejected packs reserve nothing, including partial packs.
+
+`usage` returns daily and trial counts/remaining values and the daily reset epoch.
+`QuotaExceeded` distinguishes daily and trial rejection for a future API adapter.
+Only trusted code supplies policy values; never accept limits from a request body.
+The upcoming API integration must use this atomic admission method directly,
+not separately check a file-backed counter and then enqueue.
+
+`delete` removes only the caller-owned terminal job and its output blobs, in one
+transaction. Queued/running jobs cannot be deleted. Minimal ledger metadata
+(owner, job ID, image count, admission epoch, payload hash and attempt limit)
+survives, without prompts, output bytes or lease tokens. The retained ID prevents
+deleted requests from being replayed as free work. Deletion is logical, not
+secure erasure of SQLite pages or backups; no deletion of existing user data or
+background retention has been performed during implementation.
+
+New databases use schema version 2. Legacy/unversioned databases with tables,
+future schema versions, missing policy/ledger structures and broken references
+fail closed. There is no automatic migration or accounting backfill. Keep old
+databases intact and design an explicit migration before using their jobs.
+The schema ties active job records to their usage reservation with a foreign key.
+No money is reserved by this image ledger; dispatcher spend accounting is separate.
 
 `claim` recovers expired work and returns an opaque token, attempt number and
 expiry. A database constraint permits only one running job across all connections
@@ -67,9 +98,11 @@ directory access remain the operator's responsibility.
   add worker authentication, request size limits, image decoding/metadata checks,
   model/adapter identity checks and a controlled transport. Hash integrity alone
   does not prove that a blob is a valid image or the intended generation.
-- Retention, deletion, quota/spend ledgers, migrations and API wiring are not
-  implemented here. Keep the existing service until those integration tests pass.
+- Automatic retention, financial reservations, migrations and API wiring are
+  not implemented here. Keep the existing service until integration tests pass.
 
 Tests simulate renderer exports, separate-process claim races, restarts,
 heartbeat renewal, exact expiry, retries, stale/forged authority, duplicate and
-conflicting completion, output corruption and mid-transaction failure.
+conflicting completion, output corruption and mid-transaction failure. Admission
+tests also cover competing daily/trial requests, simultaneous duplicate requests,
+UTC rollover, clock regression, persistence after deletion and transactional rollback.

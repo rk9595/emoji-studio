@@ -29,6 +29,15 @@ class Conflict(ValueError):
     """An idempotency key was reused with different content."""
 
 
+class QuotaExceeded(ValueError):
+    def __init__(self, scope, used, limit, *, resets_at=None):
+        super().__init__(f"{scope} image quota exceeded; {max(0, limit - used)} remaining")
+        self.scope = scope
+        self.used = used
+        self.limit = limit
+        self.resets_at = resets_at
+
+
 @dataclass(frozen=True)
 class Lease:
     job_id: str
@@ -50,7 +59,9 @@ def _integer(value, low, high):
 
 
 class WorkerQueue:
-    def __init__(self, path, *, clock=time.time):
+    def __init__(self, path, *, clock=time.time, trial_image_cap=None):
+        if trial_image_cap is not None:
+            _integer(trial_image_cap, 1, 100_000)
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.clock = clock
@@ -63,12 +74,31 @@ class WorkerQueue:
         else:
             os.close(descriptor)
         with self._transaction() as connection:
+            version = connection.execute("PRAGMA user_version").fetchone()[0]
+            tables = {
+                row[0]
+                for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")
+            }
+            if version not in (0, 2):
+                raise ValueError("Unsupported worker queue schema")
+            if (
+                version == 2
+                and not {"jobs", "artifacts", "usage_ledger", "queue_settings"} <= tables
+            ):
+                raise ValueError(
+                    "Incomplete worker queue schema; restore instead of resetting usage"
+                )
+            if version == 0 and tables:
+                raise ValueError(
+                    "Legacy or unversioned database requires an explicit usage-ledger migration"
+                )
             connection.execute("""CREATE TABLE IF NOT EXISTS jobs (
                 id TEXT PRIMARY KEY, owner TEXT NOT NULL, payload TEXT NOT NULL,
                 status TEXT NOT NULL CHECK(status IN ('queued','running','succeeded','failed')),
                 attempt INTEGER NOT NULL DEFAULT 0, max_attempts INTEGER NOT NULL,
                 worker TEXT, token TEXT, expires REAL, error TEXT,
-                created REAL NOT NULL, updated REAL NOT NULL
+                created REAL NOT NULL, updated REAL NOT NULL,
+                FOREIGN KEY(id) REFERENCES usage_ledger(job_id)
             )""")
             connection.execute("""CREATE UNIQUE INDEX IF NOT EXISTS one_running_job
                 ON jobs(status) WHERE status = 'running'""")
@@ -77,6 +107,34 @@ class WorkerQueue:
                 sha256 TEXT NOT NULL, content BLOB NOT NULL,
                 PRIMARY KEY(job_id, name)
             )""")
+            connection.execute("""CREATE TABLE IF NOT EXISTS usage_ledger (
+                job_id TEXT PRIMARY KEY, owner TEXT NOT NULL, payload_sha256 TEXT NOT NULL,
+                max_attempts INTEGER NOT NULL, images INTEGER NOT NULL CHECK(images BETWEEN 1 AND 16),
+                admitted REAL NOT NULL
+            )""")
+            connection.execute("""CREATE INDEX IF NOT EXISTS usage_by_owner_day
+                ON usage_ledger(owner,admitted)""")
+            connection.execute("""CREATE TABLE IF NOT EXISTS queue_settings (
+                id INTEGER PRIMARY KEY CHECK(id=1),
+                trial_image_cap INTEGER NOT NULL CHECK(trial_image_cap BETWEEN 1 AND 100000)
+            )""")
+            if connection.execute("PRAGMA foreign_key_check").fetchone():
+                raise ValueError("Inconsistent job/artifact/usage references; restore required")
+            settings = connection.execute(
+                "SELECT trial_image_cap FROM queue_settings WHERE id=1"
+            ).fetchone()
+            if settings is None:
+                if version == 2:
+                    raise ValueError("Missing persisted trial policy; refusing to reset")
+                connection.execute(
+                    "INSERT INTO queue_settings VALUES(1,?)",
+                    (trial_image_cap if trial_image_cap is not None else 100,),
+                )
+            elif trial_image_cap is not None and trial_image_cap != settings[0]:
+                raise Conflict(
+                    "Trial cap differs from persisted policy; explicit policy change required"
+                )
+            connection.execute("PRAGMA user_version = 2")
 
     @contextmanager
     def _transaction(self):
@@ -100,11 +158,16 @@ class WorkerQueue:
             raise ValueError("Invalid control-plane clock")
         return value
 
-    def enqueue(self, job_id, owner_id, prompts, seeds, *, max_attempts=3):
-        """Idempotent admission of an already quota-approved logical job."""
+    def enqueue(self, job_id, owner_id, prompts, seeds, *, max_attempts=3, daily_image_quota=1000):
+        """Atomically admit a logical job and reserve daily/lifetime image usage.
+
+        Limits come from trusted control-plane policy, never a worker or client.
+        Idempotent resubmission does not charge twice; deleted IDs cannot be reused.
+        """
         _identifier(job_id)
         _identifier(owner_id)
         _integer(max_attempts, 1, 10)
+        _integer(daily_image_quota, 1, 1000)
         if (
             not isinstance(prompts, list)
             or not isinstance(seeds, list)
@@ -116,17 +179,33 @@ class WorkerQueue:
         for seed in seeds:
             _integer(seed, 0, 2**32 - 1)
         payload = json.dumps({"prompts": prompts, "seeds": seeds}, sort_keys=True)
+        payload_hash = hashlib.sha256(payload.encode()).hexdigest()
         with self._transaction() as connection:
-            existing = connection.execute("SELECT * FROM jobs WHERE id=?", (job_id,)).fetchone()
+            existing = connection.execute(
+                "SELECT * FROM usage_ledger WHERE job_id=?", (job_id,)
+            ).fetchone()
             if existing:
-                if (existing["owner"], existing["payload"], existing["max_attempts"]) != (
+                if (existing["owner"], existing["payload_sha256"], existing["max_attempts"]) != (
                     owner_id,
-                    payload,
+                    payload_hash,
                     max_attempts,
                 ):
                     raise Conflict("Job ID already belongs to a different admission")
+                if not connection.execute("SELECT 1 FROM jobs WHERE id=?", (job_id,)).fetchone():
+                    raise Conflict("Deleted job ID cannot be reused")
                 return job_id
             now = self._now()
+            usage = self._usage(connection, owner_id, daily_image_quota, now)
+            for scope in ("daily", "trial"):
+                quota = usage[scope]
+                if len(seeds) > quota["remaining"]:
+                    raise QuotaExceeded(
+                        scope, quota["used"], quota["limit"], resets_at=quota.get("resets_at")
+                    )
+            connection.execute(
+                "INSERT INTO usage_ledger VALUES(?,?,?,?,?,?)",
+                (job_id, owner_id, payload_hash, max_attempts, len(seeds), now),
+            )
             connection.execute(
                 """INSERT INTO jobs
                 (id,owner,payload,status,max_attempts,created,updated)
@@ -134,6 +213,56 @@ class WorkerQueue:
                 (job_id, owner_id, payload, max_attempts, now, now),
             )
         return job_id
+
+    @staticmethod
+    def _usage(connection, owner_id, daily_image_quota, now):
+        midnight = now // 86400 * 86400
+        total, latest = connection.execute(
+            "SELECT COALESCE(SUM(images),0),MAX(admitted) FROM usage_ledger"
+        ).fetchone()
+        if latest is not None and now < latest:
+            raise ValueError("Control-plane clock predates admitted usage; refusing quota reset")
+        daily = connection.execute(
+            """SELECT COALESCE(SUM(images),0) FROM usage_ledger
+            WHERE owner=? AND admitted>=? AND admitted<?""",
+            (owner_id, midnight, midnight + 86400),
+        ).fetchone()[0]
+        trial = connection.execute(
+            "SELECT trial_image_cap FROM queue_settings WHERE id=1"
+        ).fetchone()[0]
+        return {
+            "daily": {
+                "used": daily,
+                "limit": daily_image_quota,
+                "remaining": max(0, daily_image_quota - daily),
+                "resets_at": midnight + 86400,
+            },
+            "trial": {"used": total, "limit": trial, "remaining": max(0, trial - total)},
+        }
+
+    def usage(self, owner_id, *, daily_image_quota=1000):
+        _identifier(owner_id)
+        _integer(daily_image_quota, 1, 1000)
+        with self._transaction() as connection:
+            return self._usage(connection, owner_id, daily_image_quota, self._now())
+
+    def delete(self, job_id, owner_id):
+        """Remove terminal content, preserving minimal accounting and ID tombstone.
+
+        This is logical deletion, not secure erasure of SQLite pages or backups.
+        No background deletion is installed.
+        """
+        with self._transaction() as connection:
+            row = connection.execute(
+                "SELECT status FROM jobs WHERE id=? AND owner=?", (job_id, owner_id)
+            ).fetchone()
+            if row is None:
+                return False
+            if row["status"] not in ("succeeded", "failed"):
+                raise Conflict("Only terminal job content can be deleted")
+            connection.execute("DELETE FROM artifacts WHERE job_id=?", (job_id,))
+            connection.execute("DELETE FROM jobs WHERE id=?", (job_id,))
+            return True
 
     @staticmethod
     def _recover(connection, now):

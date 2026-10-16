@@ -4,13 +4,13 @@
   "cloud_repository": "rk9595/emoji-studio-ops",
   "cloud_release": "amd-comparison-v1",
   "next_actions": [
-    "Read docs/worker-lease-contract.md. Extend the standalone local queue with transactional admission and persistent usage reservations, preserving quotas after retries/deletion and testing concurrent admissions. No provider spending or infrastructure.",
-    "Build opt-in local API/worker integration with simulated renderers and restart/isolation tests. Preserve the existing serving path until parity is established; do not expose remote worker endpoints or migrate existing job data silently.",
+    "Read docs/worker-lease-contract.md (schema v2 admission/usage is complete). Build opt-in local API/worker integration using atomic enqueue with trusted user quota values, simulated renderers and restart/isolation tests. Preserve existing serving path until parity; no remote worker endpoints or silent data migrations.",
+    "Cover response/export/feedback/retention parity and recovery through the opt-in API. Usage must survive job deletion and retries; current SQLite output bytes are hash-checked but image metadata validation and API result mapping still need integration.",
     "Prepare a locked AMD web/API smoke plan and local validation path. Existing remote_service_test scripts are NVIDIA/Vast-specific and cannot be reused unchanged. Do not allocate a GPU or reuse the completed comparison campaign.",
     "Prototype the proposed deterministic coverage sampler/preflight using synthetic fixtures and read-only manifests per docs/collection-v3-proposal.md; preserve existing data, captions, splits and serving adapter. Draft status is not annotation or training approval.",
     "After ready offline work is done, request the missing bounded GPU allowance and persistent-hosting budget/access choice; set waiting_user if those decisions are required to proceed."
   ],
-  "completed_offline": "2026-10-16: standalone durable worker lease/output contract (18 new tests); collection-v3 proposal drafted; 57 focused tests passed. Existing API unchanged; no paid execution.",
+  "completed_offline": "2026-10-16: lease/output contract (18 tests), transactional daily/trial image ledger and deletion/retry-safe accounting (23 tests), collection-v3 draft. 80 focused tests passed. Schema v2 refuses implicit legacy migration. Existing API unchanged; no paid execution.",
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
   "allocation_policy": "Comparison is completed and consumed. No fifth attempt, state reset, new training or new paid hosting. Current ready queue is offline work only; new paid execution requires a separately bounded allowance."

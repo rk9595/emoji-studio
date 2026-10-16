@@ -174,6 +174,24 @@ class WorkerQueueTest(unittest.TestCase):
         self.assertIsNone(self.queue.artifact("job", "bob", "00-7.png"))
         self.assertIsNone(self.queue.artifact("job", "alice", "../queue.sqlite3"))
 
+    def test_result_metadata_is_durable_and_part_of_completion_identity(self):
+        lease = self.queue.claim("worker")
+        results = [{"seed": 7, "width": 512}]
+        hashes = self.hashes(self.outputs)
+        self.queue.complete(lease, self.outputs, hashes, results=results)
+        self.queue = WorkerQueue(self.path, clock=lambda: self.now)
+        self.queue.complete(lease, self.outputs, hashes, results=results)
+        self.assertEqual(self.queue.get("job", "alice")["results"], results)
+        with self.assertRaises(Conflict):
+            self.queue.complete(lease, self.outputs, hashes, results=[{"seed": 8}])
+
+    def test_invalid_result_metadata_does_not_commit_outputs(self):
+        lease = self.queue.claim("worker")
+        for results in ({"not": "list"}, [], [{"seconds": float("nan")}], [{"text": "x" * 65536}]):
+            with self.assertRaises(ValueError):
+                self.queue.complete(lease, self.outputs, self.hashes(self.outputs), results=results)
+        self.assertEqual(self.queue.get("job", "alice")["artifacts"], {})
+
     def test_invalid_or_partial_pack_never_commits(self):
         lease = self.queue.claim("worker")
         for outputs in (

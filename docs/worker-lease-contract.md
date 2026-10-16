@@ -1,9 +1,10 @@
-# Offline worker contract v2 — October 16, 2026
+# Offline worker contract v3 — October 16, 2026
 
 Implemented in `src/emoji_studio/worker_queue.py`, tested in
 `tests/test_worker_queue.py`. This is a standalone, local control-plane building
-block. The current FastAPI/GenerationWorker path is unchanged and does not use it.
-No remote endpoints, database services or GPUs are provisioned.
+block. The default FastAPI/GenerationWorker path is unchanged. The new opt-in
+`durable_api.create_app` uses it locally; see `docs/durable-api.md`. No remote worker
+endpoints, database services or GPUs are provisioned.
 
 ## State and authority
 
@@ -30,24 +31,26 @@ acknowledged even if limits have since been exhausted/lowered; changed content
 under the same ID fails. Rejected packs reserve nothing, including partial packs.
 
 `usage` returns daily and trial counts/remaining values and the daily reset epoch.
-`QuotaExceeded` distinguishes daily and trial rejection for a future API adapter.
+`QuotaExceeded` distinguishes daily and trial rejection for the opt-in API adapter.
 Only trusted code supplies policy values; never accept limits from a request body.
-The upcoming API integration must use this atomic admission method directly,
-not separately check a file-backed counter and then enqueue.
+The opt-in API uses this atomic admission method directly, not a separate
+file-backed quota check followed by enqueue.
 
 `delete` removes only the caller-owned terminal job and its output blobs, in one
 transaction. Queued/running jobs cannot be deleted. Minimal ledger metadata
 (owner, job ID, image count, admission epoch, payload hash and attempt limit)
 survives, without prompts, output bytes or lease tokens. The retained ID prevents
 deleted requests from being replayed as free work. Deletion is logical, not
-secure erasure of SQLite pages or backups; no deletion of existing user data or
-background retention has been performed during implementation.
+secure erasure of SQLite pages or backups. No existing user data was deleted
+during implementation; tests use temporary databases. The
+opt-in API schedules terminal-content retention only in its selected database.
 
-New databases use schema version 2. Legacy/unversioned databases with tables,
+New databases use schema version 3, adding request/result metadata, first-start and
+finish timestamps, and owner-scoped feedback. Schema 2 and legacy databases with tables,
 future schema versions, missing policy/ledger structures and broken references
 fail closed. There is no automatic migration or accounting backfill. Keep old
 databases intact and design an explicit migration before using their jobs.
-The schema ties active job records to their usage reservation with a foreign key.
+The schema ties job records to their usage reservation with a foreign key.
 No money is reserved by this image ledger; dispatcher spend accounting is separate.
 
 `claim` recovers expired work and returns an opaque token, attempt number and
@@ -66,10 +69,10 @@ deadline: provider cost/time limits remain a separate dispatcher obligation.
 
 A completed pack must contain exactly one PNG and one WebP for every admitted
 seed/index. Supplied byte hashes must match; total payload is capped at 64 MiB.
-Outputs and succeeded state commit in one SQLite transaction. A failed insert
+Outputs, result metadata and succeeded state commit in one SQLite transaction. A failed insert
 rolls back every output and the status change. A lost completion response can be
-retried with the same token and identical bytes after restart, even if its former
-lease time has elapsed. Changed outputs are rejected, never overwritten.
+retried with the same token, bytes and result metadata after restart, even if its
+former lease time has elapsed. Changed outputs/metadata are rejected, never overwritten.
 
 Output blobs are deliberately stored inside this local database to make the
 initial atomicity boundary testable without a new external service. A future
@@ -98,8 +101,9 @@ directory access remain the operator's responsibility.
   add worker authentication, request size limits, image decoding/metadata checks,
   model/adapter identity checks and a controlled transport. Hash integrity alone
   does not prove that a blob is a valid image or the intended generation.
-- Automatic retention, financial reservations, migrations and API wiring are
-  not implemented here. Keep the existing service until integration tests pass.
+- The opt-in API provides local retention and worker wiring; the default service
+  is unchanged. Financial reservations, migrations and remote transport remain
+  unimplemented. Passing local tests is not a live GPU or deployment acceptance test.
 
 Tests simulate renderer exports, separate-process claim races, restarts,
 heartbeat renewal, exact expiry, retries, stale/forged authority, duplicate and

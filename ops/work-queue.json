@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "milestone": "Local durable API integration and AMD smoke preparation",
+  "milestone": "Local HTTP smoke, bounded AMD preparation and sampler preflight",
   "cloud_repository": "rk9595/emoji-studio-ops",
   "cloud_release": "amd-comparison-v1",
   "next_actions": [
-    "Read docs/worker-lease-contract.md (schema v2 admission/usage is complete). Build opt-in local API/worker integration using atomic enqueue with trusted user quota values, simulated renderers and restart/isolation tests. Preserve existing serving path until parity; no remote worker endpoints or silent data migrations.",
-    "Cover response/export/feedback/retention parity and recovery through the opt-in API. Usage must survive job deletion and retries; current SQLite output bytes are hash-checked but image metadata validation and API result mapping still need integration.",
-    "Prepare a locked AMD web/API smoke plan and local validation path. Existing remote_service_test scripts are NVIDIA/Vast-specific and cannot be reused unchanged. Do not allocate a GPU or reuse the completed comparison campaign.",
+    "Read docs/durable-api.md and docs/worker-lease-contract.md (schema 3). Build a bounded smoke runner against a real localhost-only HTTP socket using MockRenderer and a fresh temporary database. Validate auth, deterministic exports, ownership, quotas and restart; never expose a public listener or provision infrastructure.",
+    "Prepare a checksum-locked AMD web/API smoke plan from that local runner. Legacy remote_service_test scripts are NVIDIA/Vast-specific; do not reuse unchanged. No allocation or reset of the completed comparison campaign; paid execution still needs a new bounded allowance.",
+    "Before any remote-client deployment, define and test an optional HTTP idempotency-key contract so network retries cannot double-admit jobs. X-Request-ID remains correlation only today. Preserve default API behavior and image-usage accounting.",
     "Prototype the proposed deterministic coverage sampler/preflight using synthetic fixtures and read-only manifests per docs/collection-v3-proposal.md; preserve existing data, captions, splits and serving adapter. Draft status is not annotation or training approval.",
     "After ready offline work is done, request the missing bounded GPU allowance and persistent-hosting budget/access choice; set waiting_user if those decisions are required to proceed."
   ],
-  "completed_offline": "2026-10-16: lease/output contract (18 tests), transactional daily/trial image ledger and deletion/retry-safe accounting (23 tests), collection-v3 draft. 80 focused tests passed. Schema v2 refuses implicit legacy migration. Existing API unchanged; no paid execution.",
+  "completed_offline": "2026-10-16: opt-in durable API/local worker integrated with atomic admission, lease renewal/fencing, exports, feedback, retention and restart recovery. Schema 3 refuses implicit v2 migration. 98 focused tests passed (16 API, 20 lease/metadata, 23 admission, 39 existing). Default API/serving unchanged; collection-v3 draft only; no paid execution.",
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
   "allocation_policy": "Comparison is completed and consumed. No fifth attempt, state reset, new training or new paid hosting. Current ready queue is offline work only; new paid execution requires a separately bounded allowance."

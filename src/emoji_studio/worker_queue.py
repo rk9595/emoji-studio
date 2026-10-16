@@ -1,4 +1,4 @@
-"""Offline single-worker lease contract; not yet wired into the public API.
+"""Durable single-worker lease contract used by the opt-in local API.
 
 All state and bounded output blobs commit in one local SQLite database. This
 survives process restarts, not disk loss. Only trusted control-plane code calls
@@ -79,11 +79,12 @@ class WorkerQueue:
                 row[0]
                 for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")
             }
-            if version not in (0, 2):
+            if version not in (0, 3):
                 raise ValueError("Unsupported worker queue schema")
             if (
-                version == 2
-                and not {"jobs", "artifacts", "usage_ledger", "queue_settings"} <= tables
+                version == 3
+                and not {"jobs", "artifacts", "usage_ledger", "queue_settings", "feedback"}
+                <= tables
             ):
                 raise ValueError(
                     "Incomplete worker queue schema; restore instead of resetting usage"
@@ -97,7 +98,8 @@ class WorkerQueue:
                 status TEXT NOT NULL CHECK(status IN ('queued','running','succeeded','failed')),
                 attempt INTEGER NOT NULL DEFAULT 0, max_attempts INTEGER NOT NULL,
                 worker TEXT, token TEXT, expires REAL, error TEXT,
-                created REAL NOT NULL, updated REAL NOT NULL,
+                created REAL NOT NULL, updated REAL NOT NULL, request_id TEXT,
+                started REAL, finished REAL, results TEXT NOT NULL DEFAULT '[]',
                 FOREIGN KEY(id) REFERENCES usage_ledger(job_id)
             )""")
             connection.execute("""CREATE UNIQUE INDEX IF NOT EXISTS one_running_job
@@ -118,13 +120,18 @@ class WorkerQueue:
                 id INTEGER PRIMARY KEY CHECK(id=1),
                 trial_image_cap INTEGER NOT NULL CHECK(trial_image_cap BETWEEN 1 AND 100000)
             )""")
+            connection.execute("""CREATE TABLE IF NOT EXISTS feedback (
+                job_id TEXT PRIMARY KEY REFERENCES jobs(id) ON DELETE CASCADE,
+                rating TEXT NOT NULL CHECK(rating IN ('up','down')),
+                comment TEXT NOT NULL, created REAL NOT NULL
+            )""")
             if connection.execute("PRAGMA foreign_key_check").fetchone():
                 raise ValueError("Inconsistent job/artifact/usage references; restore required")
             settings = connection.execute(
                 "SELECT trial_image_cap FROM queue_settings WHERE id=1"
             ).fetchone()
             if settings is None:
-                if version == 2:
+                if version == 3:
                     raise ValueError("Missing persisted trial policy; refusing to reset")
                 connection.execute(
                     "INSERT INTO queue_settings VALUES(1,?)",
@@ -134,7 +141,7 @@ class WorkerQueue:
                 raise Conflict(
                     "Trial cap differs from persisted policy; explicit policy change required"
                 )
-            connection.execute("PRAGMA user_version = 2")
+            connection.execute("PRAGMA user_version = 3")
 
     @contextmanager
     def _transaction(self):
@@ -158,7 +165,17 @@ class WorkerQueue:
             raise ValueError("Invalid control-plane clock")
         return value
 
-    def enqueue(self, job_id, owner_id, prompts, seeds, *, max_attempts=3, daily_image_quota=1000):
+    def enqueue(
+        self,
+        job_id,
+        owner_id,
+        prompts,
+        seeds,
+        *,
+        max_attempts=3,
+        daily_image_quota=1000,
+        request_id=None,
+    ):
         """Atomically admit a logical job and reserve daily/lifetime image usage.
 
         Limits come from trusted control-plane policy, never a worker or client.
@@ -168,6 +185,11 @@ class WorkerQueue:
         _identifier(owner_id)
         _integer(max_attempts, 1, 10)
         _integer(daily_image_quota, 1, 1000)
+        if request_id is not None and (
+            not isinstance(request_id, str)
+            or not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", request_id)
+        ):
+            raise ValueError("Invalid request ID")
         if (
             not isinstance(prompts, list)
             or not isinstance(seeds, list)
@@ -208,9 +230,9 @@ class WorkerQueue:
             )
             connection.execute(
                 """INSERT INTO jobs
-                (id,owner,payload,status,max_attempts,created,updated)
-                VALUES (?,?,?,'queued',?,?,?)""",
-                (job_id, owner_id, payload, max_attempts, now, now),
+                (id,owner,payload,status,max_attempts,created,updated,request_id)
+                VALUES (?,?,?,'queued',?,?,?,?)""",
+                (job_id, owner_id, payload, max_attempts, now, now, request_id),
             )
         return job_id
 
@@ -264,14 +286,58 @@ class WorkerQueue:
             connection.execute("DELETE FROM jobs WHERE id=?", (job_id,))
             return True
 
+    def delete_expired(self, cutoff):
+        if not isinstance(cutoff, (int, float)) or not math.isfinite(cutoff):
+            raise ValueError("Invalid retention cutoff")
+        with self._transaction() as connection:
+            ids = [
+                row[0]
+                for row in connection.execute(
+                    """SELECT id FROM jobs
+                WHERE status IN ('succeeded','failed') AND finished<? ORDER BY id""",
+                    (cutoff,),
+                )
+            ]
+            for job_id in ids:
+                connection.execute("DELETE FROM artifacts WHERE job_id=?", (job_id,))
+                connection.execute("DELETE FROM jobs WHERE id=?", (job_id,))
+            return ids
+
+    def save_feedback(self, job_id, owner_id, rating, comment):
+        if rating not in ("up", "down") or not isinstance(comment, str) or len(comment) > 1000:
+            raise ValueError("Invalid feedback")
+        with self._transaction() as connection:
+            row = connection.execute(
+                "SELECT status FROM jobs WHERE id=? AND owner=?", (job_id, owner_id)
+            ).fetchone()
+            if row is None:
+                return None
+            if row["status"] != "succeeded":
+                raise Conflict("Feedback requires a succeeded job")
+            now = self._now()
+            connection.execute(
+                """INSERT INTO feedback VALUES(?,?,?,?)
+                ON CONFLICT(job_id) DO UPDATE SET rating=excluded.rating,
+                comment=excluded.comment,created=excluded.created""",
+                (job_id, rating, comment.strip(), now),
+            )
+            return {
+                "job_id": job_id,
+                "owner_id": owner_id,
+                "rating": rating,
+                "comment": comment.strip(),
+                "created_at": now,
+            }
+
     @staticmethod
     def _recover(connection, now):
         return connection.execute(
             """UPDATE jobs SET
             status=CASE WHEN attempt < max_attempts THEN 'queued' ELSE 'failed' END,
+            finished=CASE WHEN attempt < max_attempts THEN NULL ELSE ? END,
             token=NULL, worker=NULL, expires=NULL, error='Worker lease expired', updated=?
             WHERE status='running' AND expires<=?""",
-            (now, now),
+            (now, now, now),
         ).rowcount
 
     def recover(self):
@@ -295,8 +361,8 @@ class WorkerQueue:
             attempt, expires = row["attempt"] + 1, now + ttl
             connection.execute(
                 """UPDATE jobs SET status='running',attempt=?,worker=?,token=?,
-                expires=?,error=NULL,updated=? WHERE id=?""",
-                (attempt, worker_id, token, expires, now, row["id"]),
+                expires=?,error=NULL,updated=?,started=COALESCE(started,?) WHERE id=?""",
+                (attempt, worker_id, token, expires, now, now, row["id"]),
             )
             return Lease(row["id"], worker_id, attempt, expires, json.loads(row["payload"]), token)
 
@@ -338,8 +404,8 @@ class WorkerQueue:
             status = "queued" if retryable and row["attempt"] < row["max_attempts"] else "failed"
             connection.execute(
                 """UPDATE jobs SET status=?,error=?,token=NULL,worker=NULL,
-                expires=NULL,updated=? WHERE id=?""",
-                (status, error, now, lease.job_id),
+                expires=NULL,updated=?,finished=? WHERE id=?""",
+                (status, error, now, now if status == "failed" else None, lease.job_id),
             )
             return status
 
@@ -352,7 +418,7 @@ class WorkerQueue:
             )
         }
 
-    def complete(self, lease, outputs, expected_hashes):
+    def complete(self, lease, outputs, expected_hashes, *, results=None):
         """Commit a full PNG/WebP pack atomically; identical retries are safe.
 
         Hashes establish byte integrity, not image validity or visual quality.
@@ -372,6 +438,11 @@ class WorkerQueue:
         manifest = {name: hashlib.sha256(value).hexdigest() for name, value in outputs.items()}
         if manifest != expected_hashes:
             raise ValueError("Output checksum mismatch")
+        if results is not None and not isinstance(results, list):
+            raise ValueError("Result metadata must be a list")
+        metadata = json.dumps(results or [], sort_keys=True, allow_nan=False)
+        if len(metadata.encode()) > 65536:
+            raise ValueError("Result metadata too large")
         with self._transaction() as connection:
             row = self._owned_lease(connection, lease)
             payload = json.loads(row["payload"])
@@ -382,8 +453,13 @@ class WorkerQueue:
             }
             if set(outputs) != names:
                 raise ValueError("Output pack does not match admitted seeds and formats")
+            if results is not None and len(results) != len(payload["seeds"]):
+                raise ValueError("Result metadata count differs from admitted pack")
             if row["status"] == "succeeded":
-                if self._manifest(connection, lease.job_id) != manifest:
+                if (
+                    self._manifest(connection, lease.job_id) != manifest
+                    or row["results"] != metadata
+                ):
                     raise Conflict("Completed job cannot be overwritten")
                 return manifest
             now = self._now()
@@ -393,8 +469,8 @@ class WorkerQueue:
                 [(lease.job_id, name, manifest[name], value) for name, value in outputs.items()],
             )
             connection.execute(
-                "UPDATE jobs SET status='succeeded',expires=NULL,updated=? WHERE id=?",
-                (now, lease.job_id),
+                "UPDATE jobs SET status='succeeded',expires=NULL,updated=?,finished=?,results=? WHERE id=?",
+                (now, now, metadata, lease.job_id),
             )
         return manifest
 
@@ -406,14 +482,40 @@ class WorkerQueue:
             ).fetchone()
             if row is None:
                 return None
-            return {
-                "id": row["id"],
-                "status": row["status"],
-                "attempt": row["attempt"],
-                "payload": json.loads(row["payload"]),
-                "error": row["error"],
-                "artifacts": self._manifest(connection, job_id),
-            }
+            return self._public_record(connection, row)
+
+    def _public_record(self, connection, row):
+        return {
+            "id": row["id"],
+            "status": row["status"],
+            "attempt": row["attempt"],
+            "payload": json.loads(row["payload"]),
+            "error": row["error"],
+            "request_id": row["request_id"],
+            "results": json.loads(row["results"]),
+            "created_at": row["created"],
+            "updated_at": row["updated"],
+            "started_at": row["started"],
+            "finished_at": row["finished"],
+            "artifacts": self._manifest(connection, row["id"]),
+        }
+
+    def list(self, owner_id, limit=20):
+        _integer(limit, 1, 100)
+        with self._transaction() as connection:
+            return [
+                self._public_record(connection, row)
+                for row in connection.execute(
+                    "SELECT * FROM jobs WHERE owner=? ORDER BY created DESC,id DESC LIMIT ?",
+                    (owner_id, limit),
+                )
+            ]
+
+    def pending_count(self):
+        with self._transaction() as connection:
+            return connection.execute("SELECT COUNT(*) FROM jobs WHERE status='queued'").fetchone()[
+                0
+            ]
 
     def artifact(self, job_id, owner_id, name):
         with self._transaction() as connection:

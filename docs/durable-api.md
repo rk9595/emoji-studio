@@ -4,7 +4,8 @@ Local integration is implemented in `emoji_studio.durable_api.create_app` and
 `emoji_studio.durable_worker.DurableWorker`. The default `emoji_studio.api`
 factory/entry point is unchanged. No service was published, GPU allocated or
 existing job database migrated. Validation used temporary databases and mock
-rendering through FastAPI's test client, not a live AMD worker.
+rendering through FastAPI's test client and a real loopback HTTP server, not a
+live AMD worker.
 
 ## Explicit opt-in
 
@@ -96,7 +97,32 @@ PYTHONPATH=src python -m pytest -q tests/test_durable_api.py \
   tests/test_worker_queue.py tests/test_worker_admission.py
 ```
 
-Use the project's installed test dependencies. The next validation step is a
-locked smoke runner against a real localhost HTTP socket with the mock renderer,
-then a separately authorized bounded AMD run; do not reuse the completed
-comparison allocation or the NVIDIA/Vast-specific service test unchanged.
+Use the project's installed test dependencies. The real-socket smoke is now:
+
+```sh
+PYTHONPATH=src python -m emoji_studio.smoke_http
+```
+
+This POSIX-only runner binds an inherited socket exclusively to `127.0.0.1` on an
+ephemeral port; it accepts no external endpoint or production database option.
+It starts three separate API processes against one temporary database, admitting
+two deterministic mock images. It checks auth/admin and owner isolation, queued
+recovery, completed metadata/history/export persistence, PNG/WebP transparency,
+feedback, daily/trial quotas and deletion without refunding usage. It prints a
+sanitized JSON receipt including source hashes, and removes the temporary data.
+Ephemeral tokens remain in parent memory; only hashes travel through child stdin.
+HTTP requests use neither proxies nor redirects and reject non-local paths.
+
+The runner has a 45-second operation deadline, 2-second maximum request timeout
+and bounded terminate/kill cleanup (up to six additional seconds per child).
+Each child has an independent 60-second process-exit watchdog, including if its
+parent is interrupted. This is a local mock safeguard, not provider/GPU cost
+enforcement. No GPU libraries or real renderers are selected by this runner.
+Failure logs contain only the exception type; tests check startup/check failure
+cleanup, path safety, redirect rejection and deadline handling.
+
+October 23 evidence: `reports/local-http-smoke.json`; 104 focused tests passed,
+with two existing test-client deprecation warnings. The next step is preparation
+of a checksum-locked AMD plan, followed only with separate bounded authorization
+by an actual AMD smoke. Do not reuse the completed comparison allocation or the
+NVIDIA/Vast-specific service test unchanged.

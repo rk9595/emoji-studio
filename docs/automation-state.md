@@ -1,4 +1,4 @@
-# Current state — 2026-10-16
+# Current state — 2026-10-23
 
 User authorized continuing private-alpha work with maximum automation, usage-reset
 continuation and concise memory. Read `ops/work-queue.json` next. Preserve unrelated
@@ -16,9 +16,14 @@ recovers expired attempts and rejects stale outputs; complete packs publish atom
 API covers auth/ownership, status/history, PNG/WebP exports, quotas, feedback,
 terminal deletion and retention without refunding usage. Tests use temporary
 databases and MockRenderer; no live GPU/API or public deployment claim.
-**98 focused tests passed**: 16 durable API, 20 lease/metadata, 23 admission,
-39 existing regressions. Ruff/diff checks pass. Two pre-existing test-client
-deprecation warnings remain.
+Real loopback HTTP smoke now implemented: `python -m emoji_studio.smoke_http`.
+Three API processes, fresh temporary DB, two mock images; verifies queued and
+completed restart recovery, deterministic exports, auth/ownership, feedback,
+quotas and deletion accounting. Bounded cleanup plus independent child watchdog;
+no public listener, persistent service or GPU. Receipt/source hashes:
+`reports/local-http-smoke.json`. **104 focused tests passed** (six new smoke tests,
+98 previous tests; seven subtests). Ruff/diff checks pass. Two pre-existing
+test-client deprecation warnings remain.
 
 Limits: local disk durability only; no backup/restore, monetary reservations,
 provider dispatcher or authenticated remote workers. Metrics/rate windows are
@@ -28,8 +33,8 @@ not terminate a GPU or stop billing.
 
 ## Next ready work
 
-Localhost-only mock HTTP smoke runner (real socket, not just TestClient), then a
-checksum-locked AMD smoke plan, optional HTTP idempotency contract and deterministic
+Checksum-locked AMD smoke plan based on the completed local HTTP smoke, optional
+HTTP idempotency contract and deterministic
 sampler/preflight prototype. Keep public hosting and paid execution gated.
 Legacy service smoke is NVIDIA/Vast-specific; don't reuse unchanged for AMD.
 No new training, hosting, invitations, serving promotion or paid allocations.
@@ -58,6 +63,6 @@ guards retained. Local LaunchAgent `com.emoji-studio.codex-supervisor` checks
 every 15 minutes, respects usage-reset timestamps, skips active turns, and may
 compact after six continuations with a fresh handoff. Runtime is ignored under
 `var/automation/`; same thread, no Codex credentials exported.
-Needs Mac awake and app-server available; scheduled continuations arrived October 16.
+Needs Mac awake and app-server available; latest scheduled continuation October 23.
 Do not promise uninterrupted 24/7 reasoning. AMD token needs eventual rotation;
 never expose credentials in prompts, logs, reports or Git.

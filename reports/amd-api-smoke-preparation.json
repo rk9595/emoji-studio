@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-23",
+  "status": "prepared_only",
+  "execution_authorized": false,
+  "approved_allowance_usd": null,
+  "gpu_allocations": 0,
+  "plan": "configs/amd-api-smoke-plan.json",
+  "plan_sha256": "9a3310b09623441a2ba5abb951e4dda09ba4650f935d699ba2c41f9d60f9c8f0",
+  "checker_sha256": "859097e3b1f4894cca250044274ed15cea0b8c3b96c52957bf2811303853f1d2",
+  "locked_files_verified": 18,
+  "adapter": "verified",
+  "blockers": [
+    "new_explicit_spend_allowance_and_current_price_check",
+    "immutable_rocm_runtime_and_amd_dependency_lock",
+    "dedicated_smoke_executor_with_physical_render_budget",
+    "independent_cloud_expiry_reaper_and_deletion_receipts",
+    "private_export_destination_and_checksum_verification"
+  ],
+  "regressions": {
+    "passed": 114,
+    "subtests_passed": 19,
+    "existing_deprecation_warnings": 2,
+    "new_test_file": "tests/test_amd_api_smoke_plan.py",
+    "previous_test_inventory": "reports/local-http-smoke.json"
+  },
+  "note": "Source integrity and offline preparation only, not an executable or authorized cloud plan. The completed comparison remains untouched."
+}

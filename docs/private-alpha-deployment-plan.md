@@ -41,14 +41,20 @@ Vast-specific adapter as interchangeable.
    restart and duplicate/late-result handling are implemented and tested.
    See `docs/worker-lease-contract.md`. Simulated-worker and independent-process
    tests passed; the existing local rendering/API path is unchanged.
-2. **Durable integration — local test-client slice completed.** The opt-in
+2. **Durable integration — test-client and real localhost slices completed.** The opt-in
    `durable_api.create_app` now exercises atomic admission, retained daily/trial
    usage, lease-renewing local rendering, exports, feedback, deletion/retention
    and restart recovery through HTTP routes with mock rendering. See
-   `docs/durable-api.md`. The default service is unchanged. Next validate a real
-   localhost socket. Financial reservations, provider dispatch and remote worker
+   `docs/durable-api.md`. October 23 real-socket smoke used three API processes,
+   two mock images and a fresh temporary DB; see `reports/local-http-smoke.json`.
+   The default service is unchanged. Financial reservations, provider dispatch and remote worker
    transport remain unimplemented; no public or AMD deployment is implied.
-3. **Bounded AMD API smoke — prepare before allocation.** Validate the actual
+3. **Bounded AMD API smoke — draft source lock prepared, execution gated.** See
+   `docs/amd-api-smoke-plan.md`, `configs/amd-api-smoke-plan.json` and the read-only
+   checker `scripts/check_amd_api_smoke_plan.py`. The 18-file source snapshot and
+   pilot adapter verify; AMD runtime lock, bounded executor/physical-render
+   budget, independent cloud cleanup and new spending authority remain unresolved.
+   A passing draft check explicitly does not authorize allocation. Validate the actual
    serving code through a private SSH tunnel: reject missing credentials, submit
    deterministic generation, poll, download PNG/WebP, verify transparency and
    metadata, reject another user's access, recover a restart, export artifacts,

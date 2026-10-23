@@ -122,7 +122,8 @@ Failure logs contain only the exception type; tests check startup/check failure
 cleanup, path safety, redirect rejection and deadline handling.
 
 October 23 evidence: `reports/local-http-smoke.json`; 104 focused tests passed,
-with two existing test-client deprecation warnings. The next step is preparation
-of a checksum-locked AMD plan, followed only with separate bounded authorization
-by an actual AMD smoke. Do not reuse the completed comparison allocation or the
-NVIDIA/Vast-specific service test unchanged.
+with two existing test-client deprecation warnings. The checksum-locked draft AMD
+plan is now prepared: `docs/amd-api-smoke-plan.md`. Its checker verifies source
+integrity only; it cannot authorize execution. AMD runtime, dedicated executor,
+independent cleanup and a new bounded allowance remain prerequisites. Do not reuse
+the completed comparison allocation or the NVIDIA/Vast-specific service test unchanged.

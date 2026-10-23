@@ -21,9 +21,20 @@ Three API processes, fresh temporary DB, two mock images; verifies queued and
 completed restart recovery, deterministic exports, auth/ownership, feedback,
 quotas and deletion accounting. Bounded cleanup plus independent child watchdog;
 no public listener, persistent service or GPU. Receipt/source hashes:
-`reports/local-http-smoke.json`. **104 focused tests passed** (six new smoke tests,
-98 previous tests; seven subtests). Ruff/diff checks pass. Two pre-existing
-test-client deprecation warnings remain.
+`reports/local-http-smoke.json`.
+
+AMD API smoke draft source lock prepared: `configs/amd-api-smoke-plan.json` and
+`docs/amd-api-smoke-plan.md`. Read-only checker:
+`python3 scripts/check_amd_api_smoke_plan.py`. Verified 18 source/evidence files
+and the private pilot-25 adapter; receipt `reports/amd-api-smoke-preparation.json`.
+Status is **prepared_only**, not execution-ready/authorized. Proposed bounds:
+one new GPU allocation, two admitted images/physical render calls, 30 minutes
+including five for cleanup; approved dollars remain null. ROCm OCI digest and
+AMD dependency lock, dedicated budgeted executor, independent reaper/deletion
+receipts and verified private export destination remain prerequisites. Existing
+Linux GPU dependency lock selects CUDA wheels; never install it unchanged on AMD.
+**114 focused tests passed**, 19 subtests, Ruff/diff checks pass; two existing
+test-client warnings. Ten new tests enforce draft limits/authority/source integrity.
 
 Limits: local disk durability only; no backup/restore, monetary reservations,
 provider dispatcher or authenticated remote workers. Metrics/rate windows are
@@ -33,9 +44,11 @@ not terminate a GPU or stop billing.
 
 ## Next ready work
 
-Checksum-locked AMD smoke plan based on the completed local HTTP smoke, optional
-HTTP idempotency contract and deterministic
-sampler/preflight prototype. Keep public hosting and paid execution gated.
+Optional HTTP idempotency contract, then deterministic sampler/preflight prototype.
+Changing API/worker sources invalidates the AMD draft lock: rerun tests/local
+smoke, refresh the receipt and review an explicit relock; never silently bless drift.
+Resolve remaining AMD executor/runtime/cleanup prerequisites offline where possible.
+Keep public hosting and paid execution gated.
 Legacy service smoke is NVIDIA/Vast-specific; don't reuse unchanged for AMD.
 No new training, hosting, invitations, serving promotion or paid allocations.
 Ask for missing compute/hosting choices only when they block remaining work.

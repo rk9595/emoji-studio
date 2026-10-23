@@ -1,16 +1,19 @@
 {
   "status": "ready",
-  "milestone": "HTTP idempotency, sampler preflight and remaining AMD execution gates",
+  "milestone": "Deterministic sampler preflight and remaining AMD execution gates",
   "cloud_repository": "rk9595/emoji-studio-ops",
   "cloud_release": "amd-comparison-v1",
   "next_actions": [
-    "Read docs/durable-api.md, docs/worker-lease-contract.md and docs/amd-api-smoke-plan.md. Define and test an optional HTTP idempotency-key contract so network retries cannot double-admit jobs. X-Request-ID remains correlation only today. Preserve default API behavior and image-usage accounting. API/worker changes invalidate the prepared AMD source lock: rerun local smoke/tests, refresh its receipt and explicitly review/relock the draft; checker must never silently update hashes.",
-    "Prototype the proposed deterministic coverage sampler/preflight using synthetic fixtures and read-only manifests per docs/collection-v3-proposal.md; preserve existing data, captions, splits and serving adapter. Draft status is not annotation or training approval.",
+    "Read docs/collection-v3-proposal.md and reports/collection-coverage-audit.md. Prototype deterministic coverage sampler/preflight using synthetic fixtures and read-only manifests; preserve existing data, captions, splits and serving adapter. Draft status is not annotation/training approval. Any changes to AMD-locked sources require fresh tests/local smoke and explicit reviewed relock.",
     "Resolve the prepared-only AMD plan's remaining runtime, dedicated executor/physical-render budget, independent expiry/reaper and private-export prerequisites offline where possible. Existing Linux GPU lock selects NVIDIA CUDA wheels, not AMD. Never provision to investigate, reset the completed comparison, or treat draft limits as authority.",
     "After ready offline work is done, request the missing bounded GPU allowance and persistent-hosting budget/access choice; set waiting_user if those decisions are required to proceed."
   ],
-  "completed_offline": "2026-10-23: AMD API draft plan source-locked and checked (18 files plus reviewed pilot adapter). configs/amd-api-smoke-plan.json remains prepared_only, execution_authorized false, allowance null. docs/amd-api-smoke-plan.md records proposed bounds and unresolved prerequisites; receipt reports/amd-api-smoke-preparation.json. 114 focused tests passed, 19 subtests. Prior real localhost HTTP smoke remains complete; default API/serving/data and consumed comparison unchanged; no paid execution.",
-  "last_completed_task": {"name": "Checksum-locked AMD API smoke draft and integrity checker", "status": "complete", "date": "2026-10-23"},
+  "completed_offline": "2026-10-23: Optional owner-scoped HTTP Idempotency-Key implemented in opt-in durable API/queue schema 4. Atomic replay across concurrency/restarts/full quotas, stable random seeds, conflicts and retained deletion tombstones; no changes to default API/serving. 128 tests and 26 subtests passed; fresh real loopback smoke has 14 checks/two mock images. Explicit AMD source relock verified 18 files/private adapter; prepared_only, false authorization/null allowance, no paid execution. See docs/durable-api.md and reports/local-http-smoke.json.",
+  "last_completed_task": {
+    "name": "Durable HTTP idempotency and refreshed source-locked smoke evidence",
+    "status": "complete",
+    "date": "2026-10-23"
+  },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
   "allocation_policy": "Comparison is completed and consumed. No fifth attempt, state reset, new training or new paid hosting. Current ready queue is offline work only; new paid execution requires a separately bounded allowance."

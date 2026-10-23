@@ -5,6 +5,8 @@ No listener, cloud worker or data migration is started by importing this module.
 """
 
 import asyncio
+import hashlib
+import json
 import re
 import sqlite3
 import time
@@ -175,6 +177,9 @@ def create_app(
     async def create_generation(
         payload: GenerationRequest, request: Request, user: AlphaUser = Depends(require_user)
     ):
+        keys = request.headers.getlist("Idempotency-Key")
+        if keys and (len(keys) != 1 or not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", keys[0])):
+            raise HTTPException(422, "Supply one Idempotency-Key of 1–128 letters, digits, . _ : -")
         allowed, retry = policy.allow_request(user)
         if not allowed:
             raise HTTPException(
@@ -182,8 +187,18 @@ def create_app(
             )
         prompts = payload.expanded_prompts()
         seeds, job_id = create_seeds(len(prompts), payload.seed), uuid.uuid4().hex
+        fingerprint = None
+        if keys:
+            normalized = json.dumps(
+                {"version": 1, "prompts": prompts, "seed": payload.seed},
+                sort_keys=True, separators=(",", ":"), ensure_ascii=True,
+            )
+            fingerprint = (
+                hashlib.sha256(keys[0].encode()).hexdigest(),
+                hashlib.sha256(normalized.encode()).hexdigest(),
+            )
         try:
-            await asyncio.to_thread(
+            admitted_id = await asyncio.to_thread(
                 store.enqueue,
                 job_id,
                 user.id,
@@ -191,7 +206,10 @@ def create_app(
                 seeds,
                 daily_image_quota=user.daily_image_quota,
                 request_id=request.state.request_id,
+                idempotency=fingerprint,
             )
+        except Conflict as error:
+            raise HTTPException(409, str(error)) from error
         except QuotaExceeded as error:
             headers = (
                 {"Retry-After": str(max(1, round(error.resets_at - time.time())))}
@@ -204,8 +222,9 @@ def create_app(
                 detail + f" reached; {max(0, error.limit - error.used)} remaining",
                 headers=headers,
             ) from error
-        metrics.record_job("queued")
-        return public_job(await owned(job_id, user))
+        if admitted_id == job_id:
+            metrics.record_job("queued")
+        return public_job(await owned(admitted_id, user))
 
     @app.get("/v1/generations")
     async def list_generations(limit: int = 20, user: AlphaUser = Depends(require_user)):

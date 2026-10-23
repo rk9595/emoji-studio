@@ -6,7 +6,8 @@ completed comparison's four allocations and $3 reserve remain consumed and
 cannot fund or trigger this plan. The new identifier is `amd-api-smoke-v1`.
 
 `configs/amd-api-smoke-plan.json` locks 18 source/config/evidence files at baseline
-commit `ebb5a46`, plus the reviewed pilot-25 adapter hash and model revision.
+commit `f6716b1` with the reviewed October 23 HTTP-idempotency changes explicitly
+relocked, plus the reviewed pilot-25 adapter hash and model revision.
 `scripts/check_amd_api_smoke_plan.py` checks integrity without network access,
 credentials, GPU imports or filesystem writes:
 
@@ -20,7 +21,7 @@ reported separately and is never execution readiness. Missing source files,
 source drift, changed serving identity, symlinks, duplicate JSON keys, altered
 limits or authorization claims fail closed. It cannot approve spending or relock
 files. This is an integrity aid within trusted Git review, not a digital signature.
-Future API changes (including idempotency) invalidate this snapshot: rerun local
+Future API changes invalidate this snapshot: rerun local
 tests/smoke and explicitly review a refreshed plan before any execution.
 
 ## Proposed bounded workload
@@ -100,11 +101,13 @@ abort and delete; do not extend deadlines or allocate a replacement automaticall
    GPU. Final acceptance requires both checksum-verified results and deletion
    receipts. A local process exit is insufficient evidence of stopped billing.
 
-Until the optional HTTP idempotency contract exists, the executor must disable
-automatic POST retries. After an ambiguous submit, reconcile history/request ID
-without resubmitting; abort if identity cannot be resolved. X-Request-ID is only
-correlation, not deduplication. A future idempotency implementation requires a
-fresh source lock and tests before remote-client use.
+The optional HTTP idempotency contract is now tested locally and included in the
+refreshed source lock; see `docs/durable-api.md`. Use distinct persisted keys for
+the two intended images. This proposal still permits **zero automatic POST
+retries**: idempotency does not increase its physical render budget or authorize
+execution. After an ambiguous submit, reconcile its original job and abort if
+identity cannot be resolved. X-Request-ID remains correlation only. Any later
+executor retry-policy change needs an explicitly reviewed plan and failure tests.
 
 Offline checker tests and the local HTTP smoke can proceed without a budget.
 Public hosting, recurring CPU/storage costs, HTTPS/DNS and tester invitations

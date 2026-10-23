@@ -4,7 +4,7 @@
   "status": "prepared_only",
   "execution_authorized": false,
   "approved_allowance_usd": null,
-  "source_baseline_commit": "ebb5a460d1bedf4a2627e0dd134932c4e7304f7a",
+  "source_baseline_commit": "f6716b1fc96c406cd4577d96e93031e1e35625ad",
   "proposed_limits": {
     "allocations": 1,
     "concurrent_gpus": 1,
@@ -50,16 +50,16 @@
     "src/emoji_studio/alpha.py": "ddf359f78ddac8e0dd9c14c5d0e2881f9f4a53ebcfdc2f59a560080851ad1df4",
     "src/emoji_studio/api.py": "f1f6be628663f9b047eed2d7316a0df720fdc0360c6bbeaaf7b63caca3b4c70a",
     "src/emoji_studio/common.py": "111c883e5dae3c39084506bbd1802eb350764b42e60ee3e1ef726f1e84aa8f07",
-    "src/emoji_studio/durable_api.py": "9aa9ce37e2527f3e7d27a9e7e146854d1f9fada320ad01914d140bbf7812dabd",
+    "src/emoji_studio/durable_api.py": "85874285e037f3e7c1285774438d312ff06a184b7c52818b72c2d4f84043da3c",
     "src/emoji_studio/durable_worker.py": "818e9de1ee2be0831d97a3c80640c7e74fa865e6a0d8068765e98c9a6f58be92",
     "src/emoji_studio/service.py": "0472a51dc1691099e7897215e92db363cd42ab54aea1379456c5307182c295e3",
-    "src/emoji_studio/smoke_http.py": "d186dd5c3293fddf86066beadd370163552d2dbe15b22db8f6696397245551f9",
+    "src/emoji_studio/smoke_http.py": "d3966cd149df89eb8529fd723248ddf986f9afcbde82598a379cdc5581b2b58c",
     "src/emoji_studio/studio.html": "260a824392352e8be92ff4165e9b3bfc67ac861bdfc7f0d6ab1b8ee3a1c83237",
-    "src/emoji_studio/worker_queue.py": "8de3051f96db1696fa0fe7c2c7466eacfa145cf76bf9445bb2dc674d5c4d1b28",
-    "tests/test_smoke_http.py": "fa2ee13c90eec39c8a85e3df7ad9b7e1841f8c15117a539021cbb03f2a5cf9ae",
-    "tests/test_durable_api.py": "c8e31da1170b5a68a757a1f8fc4ea5640b834a3667ec94076996807b73ee875a",
+    "src/emoji_studio/worker_queue.py": "f9c838eb7eeee82212a38672bcb0ed8236ee239fc58518033393b21a98b7b617",
+    "tests/test_smoke_http.py": "b72dc0cefce26859edee6d63c10e403a77a27f023f0345f679ef6258a99f84b7",
+    "tests/test_durable_api.py": "b2c53839367c310129bf5988bffa77d7e8239db76282014c223b43e71efe25ae",
     "tests/test_worker_queue.py": "b931a7939569e8abb5c01017091a724910aeea293d7d1bb749fa1812133c9fec",
-    "tests/test_worker_admission.py": "5c160f290ebd4ddc0de4bfa373870459cd550c4033edef4725afad5150ba852b",
-    "reports/local-http-smoke.json": "91828302bafadb9049e9e2b9e9c5723ccca8e1e9e279db8ffb1f52d9f642c635"
+    "tests/test_worker_admission.py": "26754c269efc4259ac867f95994fa2d33b6b3340268099c17cd9249db841d796",
+    "reports/local-http-smoke.json": "c00b88bb824f4a656eedb4dfc37d3564fb4ee1d2e1dabba4f04525b6395d7cf7"
   }
 }

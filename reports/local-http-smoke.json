@@ -5,13 +5,14 @@
   "command": "PYTHONPATH=.venv/lib/python3.12/site-packages:src python3 -m emoji_studio.smoke_http",
   "bind": "127.0.0.1",
   "renderer": "MockRenderer",
-  "elapsed_seconds": 1.733,
+  "elapsed_seconds": 1.702,
   "gpu_allocations": 0,
   "images_admitted": 2,
   "process_starts": 3,
   "checks": [
     "auth_and_admin",
     "queued_admission",
+    "queued_idempotency",
     "queued_process_restart",
     "png_webp_transparency",
     "owner_isolation",
@@ -19,28 +20,35 @@
     "feedback",
     "daily_and_trial_quotas",
     "completed_process_restart",
+    "idempotency_survives_restart_and_full_quota",
     "deletion_preserves_usage",
+    "deleted_idempotency_key_cannot_readmit",
     "children_reaped_and_temporary_data_removed"
   ],
   "source_sha256": {
     "alpha.py": "ddf359f78ddac8e0dd9c14c5d0e2881f9f4a53ebcfdc2f59a560080851ad1df4",
     "api.py": "f1f6be628663f9b047eed2d7316a0df720fdc0360c6bbeaaf7b63caca3b4c70a",
-    "durable_api.py": "9aa9ce37e2527f3e7d27a9e7e146854d1f9fada320ad01914d140bbf7812dabd",
+    "durable_api.py": "85874285e037f3e7c1285774438d312ff06a184b7c52818b72c2d4f84043da3c",
     "durable_worker.py": "818e9de1ee2be0831d97a3c80640c7e74fa865e6a0d8068765e98c9a6f58be92",
     "service.py": "0472a51dc1691099e7897215e92db363cd42ab54aea1379456c5307182c295e3",
-    "smoke_http.py": "d186dd5c3293fddf86066beadd370163552d2dbe15b22db8f6696397245551f9",
-    "worker_queue.py": "8de3051f96db1696fa0fe7c2c7466eacfa145cf76bf9445bb2dc674d5c4d1b28"
+    "smoke_http.py": "d3966cd149df89eb8529fd723248ddf986f9afcbde82598a379cdc5581b2b58c",
+    "worker_queue.py": "f9c838eb7eeee82212a38672bcb0ed8236ee239fc58518033393b21a98b7b617"
   },
   "regressions": {
-    "passed": 104,
-    "subtests_passed": 7,
+    "passed": 118,
+    "subtests_passed": 14,
     "existing_deprecation_warnings": 2,
     "test_files": [
-      "tests/test_smoke_http.py", "tests/test_durable_api.py",
-      "tests/test_worker_queue.py", "tests/test_worker_admission.py",
-      "tests/test_service.py", "tests/test_service_gpu_lifecycle.py",
-      "tests/test_alpha.py", "tests/test_alpha_report.py",
-      "tests/test_amd_automation.py", "tests/test_amd_review_sheets.py"
+      "tests/test_smoke_http.py",
+      "tests/test_durable_api.py",
+      "tests/test_worker_queue.py",
+      "tests/test_worker_admission.py",
+      "tests/test_service.py",
+      "tests/test_service_gpu_lifecycle.py",
+      "tests/test_alpha.py",
+      "tests/test_alpha_report.py",
+      "tests/test_amd_automation.py",
+      "tests/test_amd_review_sheets.py"
     ]
   }
 }

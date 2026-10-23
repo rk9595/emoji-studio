@@ -54,9 +54,12 @@ class LocalClient:
             raise SmokeFailure("Smoke deadline exceeded")
         return min(2, remaining)
 
-    def request(self, method, path, *, user="alice", payload=None, status=200, raw=False):
+    def request(self, method, path, *, user="alice", payload=None, status=200, raw=False,
+                idempotency_key=None):
         path = local_path(path)
         headers = {"X-Request-ID": "local-http-smoke"}
+        if idempotency_key is not None:
+            headers["Idempotency-Key"] = idempotency_key
         if user is not None:
             headers["Authorization"] = "Bearer " + self.tokens[user]
         data = None if payload is None else json.dumps(payload).encode()
@@ -195,11 +198,16 @@ def run_smoke():
             client.request("GET", "/metrics", status=403)
             client.request("GET", "/metrics", user="admin", raw=True)
             checks.append("auth_and_admin")
-            queued = client.request("POST", "/v1/generations", payload=payload, status=202)
+            queued = client.request("POST", "/v1/generations", payload=payload, status=202,
+                                    idempotency_key="first-image")
             require(queued["status"] == "queued", "Disabled worker processed job")
             path = "/v1/generations/" + queued["id"]
             client.request("DELETE", path, status=409)
             checks.append("queued_admission")
+            replay = client.request("POST", "/v1/generations", payload=payload, status=202,
+                                    idempotency_key="first-image")
+            require(replay == queued, "Queued retry admitted different work")
+            checks.append("queued_idempotency")
         with server(database, tokens, deadline, worker_enabled=True) as client:
             job = client.wait(path)
             require(job["seeds"] == [7], "Seed changed")
@@ -230,6 +238,12 @@ def run_smoke():
             require({row["id"] for row in history} == {job["id"], second["id"]},
                     "History did not survive restart")
             checks.append("completed_process_restart")
+            replay = client.request("POST", "/v1/generations", payload=payload, status=202,
+                                    idempotency_key="first-image")
+            require(replay == persisted, "Full-quota retry changed completed work")
+            client.request("POST", "/v1/generations", payload={**payload, "seed": 8},
+                           status=409, idempotency_key="first-image")
+            checks.append("idempotency_survives_restart_and_full_quota")
             client.request("DELETE", path, user="bob", status=404)
             client.request("DELETE", path, status=204)
             client.request("GET", path, status=404)
@@ -239,6 +253,9 @@ def run_smoke():
                     "Deletion refunded usage")
             client.request("POST", "/v1/generations", payload=payload, status=429)
             checks.append("deletion_preserves_usage")
+            client.request("POST", "/v1/generations", payload=payload, status=409,
+                           idempotency_key="first-image")
+            checks.append("deleted_idempotency_key_cannot_readmit")
     checks.append("children_reaped_and_temporary_data_removed")
     source_dir = Path(__file__).parent
     return {

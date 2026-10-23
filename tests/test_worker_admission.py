@@ -19,6 +19,16 @@ def admit_in_process(arguments):
         return error.scope
 
 
+def keyed_admit_in_process(arguments):
+    path, index, request_hash = arguments
+    queue = WorkerQueue(path, clock=lambda: 100)
+    try:
+        return queue.enqueue(f"candidate-{index}", "alice", ["apple"], [index],
+                             daily_image_quota=1, idempotency=("a" * 64, request_hash))
+    except Conflict:
+        return "conflict"
+
+
 class AdmissionTest(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
@@ -224,6 +234,7 @@ class AdmissionTest(unittest.TestCase):
         for corruption in (
             "DELETE FROM queue_settings",
             "DROP TABLE usage_ledger",
+            "DROP TABLE idempotency",
             "PRAGMA user_version=99",
         ):
             path = self.path.parent / (hashlib.sha256(corruption.encode()).hexdigest() + ".sqlite3")
@@ -232,6 +243,68 @@ class AdmissionTest(unittest.TestCase):
                 connection.execute(corruption)
             with self.assertRaises(ValueError):
                 WorkerQueue(path)
+
+    def test_schema_three_is_refused_without_changing_existing_data(self):
+        self.enqueue()
+        with sqlite3.connect(self.path) as connection:
+            connection.execute("DROP TABLE idempotency")
+            connection.execute("PRAGMA user_version=3")
+        before = self.path.read_bytes()
+        with self.assertRaisesRegex(ValueError, "schema"):
+            WorkerQueue(self.path)
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_keyed_process_race_preserves_first_seed_and_single_charge(self):
+        with ProcessPoolExecutor(
+            max_workers=3, mp_context=multiprocessing.get_context("spawn"),
+        ) as pool:
+            ids = list(pool.map(keyed_admit_in_process,
+                                [(self.path, i, "b" * 64) for i in range(8)]))
+        self.assertEqual(len(set(ids)), 1)
+        winner = int(ids[0].split("-")[1])
+        self.assertEqual(self.queue.get(ids[0], "alice")["payload"]["seeds"], [winner])
+        self.assertEqual(self.counts(), (1, 1, 0))
+        self.assertEqual(self.usage()["trial"]["used"], 1)
+
+    def test_keyed_conflicting_process_race_has_one_winner(self):
+        with ProcessPoolExecutor(
+            max_workers=3, mp_context=multiprocessing.get_context("spawn"),
+        ) as pool:
+            results = list(pool.map(keyed_admit_in_process,
+                                    [(self.path, i, f"{i:064x}") for i in range(8)]))
+        self.assertEqual(results.count("conflict"), 7)
+        self.assertEqual(self.counts(), (1, 1, 0))
+
+    def test_key_insert_failure_rolls_back_admission_and_can_retry(self):
+        with sqlite3.connect(self.path) as connection:
+            connection.execute("""CREATE TRIGGER interrupt_key BEFORE INSERT ON idempotency
+                BEGIN SELECT RAISE(ABORT, 'simulated failure'); END""")
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.queue.enqueue("job", "alice", ["apple"], [7],
+                               idempotency=("a" * 64, "b" * 64))
+        self.assertEqual(self.counts(), (0, 0, 0))
+        with sqlite3.connect(self.path) as connection:
+            self.assertEqual(connection.execute("SELECT COUNT(*) FROM idempotency").fetchone()[0], 0)
+            connection.execute("DROP TRIGGER interrupt_key")
+        self.assertEqual(self.queue.enqueue("job", "alice", ["apple"], [7],
+                                            idempotency=("a" * 64, "b" * 64)), "job")
+
+    def test_retention_preserves_key_tombstone(self):
+        self.queue.enqueue("job", "alice", ["apple"], [7], idempotency=("a" * 64, "b" * 64))
+        self.complete()
+        self.assertEqual(self.queue.delete_expired(101), ["job"])
+        reopened = WorkerQueue(self.path)
+        with self.assertRaisesRegex(Conflict, "deleted"):
+            reopened.enqueue("retry", "alice", ["apple"], [9],
+                             idempotency=("a" * 64, "b" * 64))
+        self.assertEqual(self.counts(), (0, 1, 0))
+
+    def test_rejected_quota_does_not_consume_key(self):
+        with self.assertRaises(QuotaExceeded):
+            self.queue.enqueue("job", "alice", ["apple"] * 2, [7, 8], daily_image_quota=1,
+                               idempotency=("a" * 64, "b" * 64))
+        self.assertEqual(self.queue.enqueue("job", "alice", ["apple"], [7],
+                                            idempotency=("a" * 64, "c" * 64)), "job")
 
     def test_nonempty_legacy_queue_is_not_silently_migrated(self):
         self.enqueue()

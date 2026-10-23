@@ -16,7 +16,9 @@ class HttpSmokeTest(unittest.TestCase):
         self.assertEqual(receipt["gpu_allocations"], 0)
         self.assertEqual(receipt["images_admitted"], 2)
         self.assertEqual(receipt["process_starts"], 3)
-        self.assertEqual(len(receipt["checks"]), 11)
+        self.assertEqual(len(receipt["checks"]), 14)
+        self.assertIn("idempotency_survives_restart_and_full_quota", receipt["checks"])
+        self.assertIn("deleted_idempotency_key_cannot_readmit", receipt["checks"])
         self.assertIn("completed_process_restart", receipt["checks"])
         self.assertIn("smoke_http.py", receipt["source_sha256"])
 

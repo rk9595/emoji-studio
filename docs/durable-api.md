@@ -1,4 +1,4 @@
-# Opt-in durable API — October 16, 2026
+# Opt-in durable API — October 23, 2026
 
 Local integration is implemented in `emoji_studio.durable_api.create_app` and
 `emoji_studio.durable_worker.DurableWorker`. The default `emoji_studio.api`
@@ -61,17 +61,53 @@ health reports degraded while the worker/retention adapter records an error.
 
 ## Persistence and intentional limits
 
-This integration uses queue schema **3** for request/result metadata, timestamps
-and feedback. Opening a schema-2 or older database fails rather than silently
+This integration uses queue schema **4**, adding an owner-scoped idempotency
+mapping to request/result metadata, timestamps and feedback. Opening a schema-3 or older database fails rather than silently
 migrating it. Retain any old database and plan an explicit migration; all tests
 here created disposable databases, so no existing user data was converted.
 
 The API uses the queue's atomic admission method directly. Per-user limits come
 from the authenticated user's policy, never the request body. The trial cap is
 persisted; changing it in a new process does not reset it. Retried worker attempts
-do not consume another reservation. HTTP POST retries are different: there is
-**no HTTP idempotency-key contract yet**; `X-Request-ID` is correlation only, so
-resubmitting a POST creates another logical job and consumes usage.
+do not consume another reservation. HTTP retries can now use the optional
+`Idempotency-Key` contract below. Without a key, each POST creates another job;
+`X-Request-ID` remains correlation only.
+
+## Optional HTTP idempotency
+
+Send exactly one `Idempotency-Key` header with 1–128 ASCII letters, digits or
+`. _ : -` (no spaces). Invalid/duplicate headers return 422 without admission.
+Use a fresh, opaque random key per intended logical job; persist it before the
+first POST and reuse it with the same request after a lost response. A key is
+not a credential: every retry still requires current bearer authorization.
+
+Keys are scoped to the authenticated user ID, independent of token rotation.
+The same user/key and normalized request returns 202 with the **current original
+job**, including its first seeds and body `request_id`, even when running,
+completed, failed, or image quotas are exhausted. The response `X-Request-ID`
+describes this HTTP attempt. This is not a cached byte-for-byte response.
+Concurrent requests and restarts share one SQLite admission/usage transaction.
+Admission deduplication is not exactly-once physical rendering after a worker crash.
+
+Request identity is the ordered expanded, trimmed prompt list and requested
+base seed (integer or null), under fingerprint version 1. Equivalent single/pack
+forms and omitted/explicit defaults match; ignored extra request fields do not
+change identity. Omitted/null seeds reuse the first admitted random seed pack.
+Changing to an explicit seed conflicts, even if it happens to equal that pack's
+first seed. Changing prompt order, content, count or seed under a used key returns
+409. Use a new key to intentionally create another job, including after a failure.
+
+Job deletion/retention preserves a minimal key/request SHA-256 mapping with the
+usage tombstone. Reusing that key returns 409 and never recreates deleted content.
+Keys have no automatic expiry within this database. Raw keys are not persisted
+or included in public job responses; hashes are not encryption or a place for
+secrets. Durable state loss still needs backups.
+
+Request rate limits apply to replays and conflicts; 429 with `Retry-After` can
+delay a retry, without creating work. Validation/auth/rate/quota rejection and
+rolled-back admissions do not reserve a key. After ambiguous 503/disconnection,
+retry the same key/body; never switch keys to bypass uncertainty. The Studio UI
+and default API are unchanged and do not automatically opt into this contract.
 
 Usage and results survive process restart, not disk loss. Metrics and request-rate
 windows remain process-local and reset on restart. Multi-process admission races
@@ -108,7 +144,8 @@ ephemeral port; it accepts no external endpoint or production database option.
 It starts three separate API processes against one temporary database, admitting
 two deterministic mock images. It checks auth/admin and owner isolation, queued
 recovery, completed metadata/history/export persistence, PNG/WebP transparency,
-feedback, daily/trial quotas and deletion without refunding usage. It prints a
+feedback, daily/trial quotas, keyed replay across restart/full quotas, key
+conflicts and deletion without refunding usage or reusing a key. It prints a
 sanitized JSON receipt including source hashes, and removes the temporary data.
 Ephemeral tokens remain in parent memory; only hashes travel through child stdin.
 HTTP requests use neither proxies nor redirects and reject non-local paths.
@@ -121,7 +158,7 @@ enforcement. No GPU libraries or real renderers are selected by this runner.
 Failure logs contain only the exception type; tests check startup/check failure
 cleanup, path safety, redirect rejection and deadline handling.
 
-October 23 evidence: `reports/local-http-smoke.json`; 104 focused tests passed,
+October 23 refreshed evidence: `reports/local-http-smoke.json`; 118 focused tests passed,
 with two existing test-client deprecation warnings. The checksum-locked draft AMD
 plan is now prepared: `docs/amd-api-smoke-plan.md`. Its checker verifies source
 integrity only; it cannot authorize execution. AMD runtime, dedicated executor,

@@ -137,6 +137,137 @@ class DurableApiTest(unittest.TestCase):
                     connection.execute("SELECT COUNT(*) FROM feedback").fetchone()[0], 0
                 )
 
+    def test_keyed_random_seed_pack_replays_after_restart_at_full_quota(self):
+        headers = {**self.alice, "Idempotency-Key": "pack:1", "X-Request-ID": "first"}
+        payload = {"prompt": " apple ", "variations": 2}
+        with TestClient(self.app(worker_enabled=False, trial_image_cap=2)) as client:
+            first = client.post("/v1/generations", headers=headers, json=payload)
+            self.assertEqual(first.status_code, 202)
+        with TestClient(self.app(worker_enabled=False, trial_image_cap=2)) as client:
+            response = client.post(
+                "/v1/generations", headers={**headers, "X-Request-ID": "retry"},
+                json={"prompts": ["apple", "apple"], "seed": None},
+            )
+            self.assertEqual(response.status_code, 202)
+            self.assertEqual(response.json(), first.json())
+            self.assertEqual(response.headers["X-Request-ID"], "retry")
+            self.assertEqual(response.json()["request_id"], "first")
+            self.assertEqual(client.get("/v1/me", headers=self.alice).json()["trial"]["used"], 2)
+            self.assertNotIn("pack:1", response.text)
+
+    def test_key_conflicts_and_owner_scope(self):
+        headers = {**self.alice, "Idempotency-Key": "shared"}
+        with TestClient(self.app(worker_enabled=False)) as client:
+            first = client.post("/v1/generations", headers=headers, json={"prompt": "apple"})
+            for changed in ({"prompt": "pear"}, {"prompt": "apple", "seed": 7},
+                            {"prompt": "apple", "variations": 2}):
+                with self.subTest(changed=changed):
+                    self.assertEqual(client.post(
+                        "/v1/generations", headers=headers, json=changed,
+                    ).status_code, 409)
+            other = client.post("/v1/generations",
+                                headers={**self.bob, "Idempotency-Key": "shared"},
+                                json={"prompt": "apple"})
+            self.assertEqual(other.status_code, 202)
+            self.assertNotEqual(other.json()["id"], first.json()["id"])
+            self.assertEqual(client.get("/v1/me", headers=self.alice).json()["trial"]["used"], 2)
+
+    def test_keyed_concurrent_submissions_admit_one_job_and_metric(self):
+        app = self.app(worker_enabled=False, trial_image_cap=1)
+        with TestClient(app) as client, patch.object(app.state.metrics, "record_job") as metric:
+            def submit(_):
+                return client.post("/v1/generations",
+                                   headers={**self.alice, "Idempotency-Key": "race"},
+                                   json={"prompt": "apple"})
+            with ThreadPoolExecutor(max_workers=8) as pool:
+                results = list(pool.map(submit, range(8)))
+            self.assertEqual({r.status_code for r in results}, {202})
+            self.assertEqual(len({r.json()["id"] for r in results}), 1)
+            self.assertEqual(len({tuple(r.json()["seeds"]) for r in results}), 1)
+            self.assertEqual(client.get("/v1/me", headers=self.alice).json()["trial"]["used"], 1)
+            metric.assert_called_once_with("queued")
+
+    def test_keyed_failed_and_deleted_job_never_readmits(self):
+        headers = {**self.alice, "Idempotency-Key": "failed"}
+        app = self.app(worker_enabled=False)
+        with TestClient(app) as client:
+            first = client.post("/v1/generations", headers=headers, json={"prompt": "a"}).json()
+            lease = app.state.store.claim("test")
+            app.state.store.fail(lease)
+            replay = client.post("/v1/generations", headers=headers, json={"prompt": "a"})
+            self.assertEqual(replay.status_code, 202)
+            self.assertEqual(replay.json()["status"], "failed")
+            self.assertEqual(replay.json()["id"], first["id"])
+            self.assertEqual(client.delete(
+                "/v1/generations/" + first["id"], headers=self.alice,
+            ).status_code, 204)
+        with TestClient(self.app(worker_enabled=False)) as client:
+            self.assertEqual(client.post(
+                "/v1/generations", headers=headers, json={"prompt": "a"},
+            ).status_code, 409)
+            self.assertEqual(client.get("/v1/me", headers=self.alice).json()["trial"]["used"], 1)
+
+    def test_bad_or_duplicate_key_rejected_without_usage(self):
+        with TestClient(self.app(worker_enabled=False)) as client:
+            for key in ("", "a b", "a,b", "a" * 129):
+                with self.subTest(key=key):
+                    self.assertEqual(client.post(
+                        "/v1/generations", headers={**self.alice, "Idempotency-Key": key},
+                        json={"prompt": "a"},
+                    ).status_code, 422)
+            response = client.post(
+                "/v1/generations", headers=[*self.alice.items(),
+                                           ("Idempotency-Key", "a"), ("Idempotency-Key", "b")],
+                json={"prompt": "a"},
+            )
+            self.assertEqual(response.status_code, 422)
+            self.assertEqual(client.get("/v1/me", headers=self.alice).json()["trial"]["used"], 0)
+
+    def test_key_retries_still_require_auth_and_obey_request_rate(self):
+        headers = {**self.alice, "Idempotency-Key": "retry"}
+        app = self.app(worker_enabled=False)
+        with TestClient(app) as client:
+            first = client.post("/v1/generations", headers=headers, json={"prompt": "a"})
+            self.assertEqual(first.status_code, 202)
+            self.assertEqual(client.post(
+                "/v1/generations", headers={"Idempotency-Key": "retry"}, json={"prompt": "a"},
+            ).status_code, 401)
+            with patch.object(app.state.access_policy, "allow_request", return_value=(False, 9)):
+                response = client.post("/v1/generations", headers=headers, json={"prompt": "a"})
+                self.assertEqual(response.status_code, 429)
+                self.assertEqual(response.headers["Retry-After"], "9")
+
+    def test_retry_after_commit_but_lost_response_does_not_render_twice(self):
+        app = self.app(worker_enabled=False)
+        enqueue = app.state.store.enqueue
+        headers = {**self.alice, "Idempotency-Key": "lost-response"}
+
+        def commit_then_fail(*args, **kwargs):
+            enqueue(*args, **kwargs)
+            raise sqlite3.OperationalError("simulated failure after commit")
+
+        with TestClient(app) as client:
+            with patch.object(app.state.store, "enqueue", side_effect=commit_then_fail):
+                self.assertEqual(client.post(
+                    "/v1/generations", headers=headers, json={"prompt": "a"},
+                ).status_code, 503)
+            lease = app.state.store.claim("worker")
+            replay = client.post("/v1/generations", headers=headers, json={"prompt": "a"})
+            self.assertEqual(replay.status_code, 202)
+            self.assertEqual(replay.json()["id"], lease.job_id)
+            self.assertEqual(replay.json()["status"], "running")
+            self.assertEqual(replay.json()["seeds"], lease.payload["seeds"])
+            app.state.store.fail(lease)
+            self.assertIsNone(app.state.store.claim("worker"))
+            self.assertEqual(client.get("/v1/me", headers=self.alice).json()["trial"]["used"], 1)
+
+    def test_no_key_and_same_request_id_still_create_distinct_jobs(self):
+        with TestClient(self.app(worker_enabled=False)) as client:
+            first, second = self.submit(client), self.submit(client)
+            self.assertNotEqual(first["id"], second["id"])
+            self.assertEqual(first["request_id"], second["request_id"])
+            self.assertEqual(client.get("/v1/me", headers=self.alice).json()["trial"]["used"], 2)
+
     def test_quota_and_restart_after_deleted_output(self):
         with TestClient(self.app()) as client:
             job = self.wait(client, self.submit(client, variations=2)["id"])

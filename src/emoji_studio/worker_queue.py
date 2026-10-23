@@ -79,11 +79,12 @@ class WorkerQueue:
                 row[0]
                 for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")
             }
-            if version not in (0, 3):
+            if version not in (0, 4):
                 raise ValueError("Unsupported worker queue schema")
             if (
-                version == 3
-                and not {"jobs", "artifacts", "usage_ledger", "queue_settings", "feedback"}
+                version == 4
+                and not {"jobs", "artifacts", "usage_ledger", "queue_settings", "feedback",
+                         "idempotency"}
                 <= tables
             ):
                 raise ValueError(
@@ -125,13 +126,19 @@ class WorkerQueue:
                 rating TEXT NOT NULL CHECK(rating IN ('up','down')),
                 comment TEXT NOT NULL, created REAL NOT NULL
             )""")
+            connection.execute("""CREATE TABLE IF NOT EXISTS idempotency (
+                owner TEXT NOT NULL, key_sha256 TEXT NOT NULL,
+                request_sha256 TEXT NOT NULL,
+                job_id TEXT NOT NULL UNIQUE REFERENCES usage_ledger(job_id),
+                PRIMARY KEY(owner, key_sha256)
+            )""")
             if connection.execute("PRAGMA foreign_key_check").fetchone():
                 raise ValueError("Inconsistent job/artifact/usage references; restore required")
             settings = connection.execute(
                 "SELECT trial_image_cap FROM queue_settings WHERE id=1"
             ).fetchone()
             if settings is None:
-                if version == 3:
+                if version == 4:
                     raise ValueError("Missing persisted trial policy; refusing to reset")
                 connection.execute(
                     "INSERT INTO queue_settings VALUES(1,?)",
@@ -141,7 +148,7 @@ class WorkerQueue:
                 raise Conflict(
                     "Trial cap differs from persisted policy; explicit policy change required"
                 )
-            connection.execute("PRAGMA user_version = 3")
+            connection.execute("PRAGMA user_version = 4")
 
     @contextmanager
     def _transaction(self):
@@ -175,6 +182,7 @@ class WorkerQueue:
         max_attempts=3,
         daily_image_quota=1000,
         request_id=None,
+        idempotency=None,
     ):
         """Atomically admit a logical job and reserve daily/lifetime image usage.
 
@@ -185,6 +193,15 @@ class WorkerQueue:
         _identifier(owner_id)
         _integer(max_attempts, 1, 10)
         _integer(daily_image_quota, 1, 1000)
+        # The trusted HTTP adapter fingerprints normalized input before seed
+        # resolution. Candidate random seeds on a retry must never replace the
+        # first committed payload. Keys/fingerprints are not worker authority.
+        if idempotency is not None and (
+            not isinstance(idempotency, tuple) or len(idempotency) != 2
+            or any(not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{64}", value)
+                   for value in idempotency)
+        ):
+            raise ValueError("Invalid idempotency fingerprints")
         if request_id is not None and (
             not isinstance(request_id, str)
             or not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", request_id)
@@ -203,10 +220,29 @@ class WorkerQueue:
         payload = json.dumps({"prompts": prompts, "seeds": seeds}, sort_keys=True)
         payload_hash = hashlib.sha256(payload.encode()).hexdigest()
         with self._transaction() as connection:
+            if idempotency is not None:
+                key_hash, request_hash = idempotency
+                replay = connection.execute(
+                    """SELECT i.request_sha256,i.job_id,u.owner,u.max_attempts
+                    FROM idempotency i JOIN usage_ledger u ON u.job_id=i.job_id
+                    WHERE i.owner=? AND i.key_sha256=?""", (owner_id, key_hash),
+                ).fetchone()
+                if replay:
+                    if (replay["request_sha256"], replay["owner"], replay["max_attempts"]) != (
+                        request_hash, owner_id, max_attempts,
+                    ):
+                        raise Conflict("Idempotency key belongs to a different request")
+                    if not connection.execute(
+                        "SELECT 1 FROM jobs WHERE id=? AND owner=?", (replay["job_id"], owner_id),
+                    ).fetchone():
+                        raise Conflict("Idempotency key refers to a deleted job")
+                    return replay["job_id"]
             existing = connection.execute(
                 "SELECT * FROM usage_ledger WHERE job_id=?", (job_id,)
             ).fetchone()
             if existing:
+                if idempotency is not None:
+                    raise Conflict("Job ID already belongs to another admission")
                 if (existing["owner"], existing["payload_sha256"], existing["max_attempts"]) != (
                     owner_id,
                     payload_hash,
@@ -234,6 +270,11 @@ class WorkerQueue:
                 VALUES (?,?,?,'queued',?,?,?,?)""",
                 (job_id, owner_id, payload, max_attempts, now, now, request_id),
             )
+            if idempotency is not None:
+                connection.execute(
+                    "INSERT INTO idempotency VALUES(?,?,?,?)",
+                    (owner_id, key_hash, request_hash, job_id),
+                )
         return job_id
 
     @staticmethod

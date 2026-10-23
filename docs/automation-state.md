@@ -6,76 +6,68 @@ recovered worktree changes; historical handoffs are not the current plan.
 
 ## Latest completed work
 
-Opt-in local API: `emoji_studio.durable_api.create_app`, explicitly supplied
-renderer/database; default `api.create_app` and serving entry point unchanged.
-See `docs/durable-api.md` and `docs/worker-lease-contract.md`.
-SQLite queue schema **3** adds request/result metadata, timestamps and feedback
-to atomic admission/usage and lease-fenced output commits. Refuses schema-2/legacy
-migration; no existing jobs/databases were modified. Local worker renews leases,
-recovers expired attempts and rejects stale outputs; complete packs publish atomically.
-API covers auth/ownership, status/history, PNG/WebP exports, quotas, feedback,
-terminal deletion and retention without refunding usage. Tests use temporary
-databases and MockRenderer; no live GPU/API or public deployment claim.
-Real loopback HTTP smoke now implemented: `python -m emoji_studio.smoke_http`.
-Three API processes, fresh temporary DB, two mock images; verifies queued and
-completed restart recovery, deterministic exports, auth/ownership, feedback,
-quotas and deletion accounting. Bounded cleanup plus independent child watchdog;
-no public listener, persistent service or GPU. Receipt/source hashes:
-`reports/local-http-smoke.json`.
+Opt-in local API: `emoji_studio.durable_api.create_app`; default API/serving
+entry point unchanged. See `docs/durable-api.md`, `docs/worker-lease-contract.md`.
+Optional owner-scoped `Idempotency-Key` now atomically deduplicates HTTP admission.
+Same normalized prompts/requested seed return the original job and resolved seeds,
+including after restart/full quota/lost response; changed input or deleted jobs
+return 409. No key means a new job; X-Request-ID remains correlation only.
+Auth and request-rate limits still apply. Usage and hashed key tombstones survive
+deletion/retention. SQLite schema **4** refuses schema 3 and older without modifying
+them; no production database migrated. Client UI does not yet send keys.
 
-AMD API smoke draft source lock prepared: `configs/amd-api-smoke-plan.json` and
-`docs/amd-api-smoke-plan.md`. Read-only checker:
-`python3 scripts/check_amd_api_smoke_plan.py`. Verified 18 source/evidence files
-and the private pilot-25 adapter; receipt `reports/amd-api-smoke-preparation.json`.
-Status is **prepared_only**, not execution-ready/authorized. Proposed bounds:
-one new GPU allocation, two admitted images/physical render calls, 30 minutes
-including five for cleanup; approved dollars remain null. ROCm OCI digest and
-AMD dependency lock, dedicated budgeted executor, independent reaper/deletion
-receipts and verified private export destination remain prerequisites. Existing
-Linux GPU dependency lock selects CUDA wheels; never install it unchanged on AMD.
-**114 focused tests passed**, 19 subtests, Ruff/diff checks pass; two existing
-test-client warnings. Ten new tests enforce draft limits/authority/source integrity.
+Lease-fenced local worker, atomic pack publication, auth/ownership, exports,
+feedback, quotas and retention remain implemented. Same-disk durability only:
+no backup/restore, money reservations, provider dispatcher or remote workers.
+Metrics/rate windows are process-local; idempotency is not exactly-once rendering.
+Lease expiry does not stop billing; graceful shutdown waits for rendering.
 
-Limits: local disk durability only; no backup/restore, monetary reservations,
-provider dispatcher or authenticated remote workers. Metrics/rate windows are
-process-local. HTTP POST retries create new jobs: X-Request-ID is correlation,
-not an idempotency key. Graceful shutdown waits for rendering; lease expiry does
-not terminate a GPU or stop billing.
+Fresh real loopback HTTP smoke: three disposable API processes, two mock images,
+14 checks including keyed retries across restart/full quota/deletion. Receipt:
+`reports/local-http-smoke.json`. **128 tests and 26 subtests passed** across the
+regression suite and draft-integrity suite; two existing test-client warnings.
+Ruff/diff checks passed. Tests include cross-process duplicate/conflicting requests,
+rollback, random seeds, lost responses, owner isolation and schema-3 refusal.
+
+AMD draft explicitly reviewed/relocked after these changes:
+`configs/amd-api-smoke-plan.json`, `docs/amd-api-smoke-plan.md`;
+`python3 scripts/check_amd_api_smoke_plan.py` verifies 18 files and private adapter.
+Receipt: `reports/amd-api-smoke-preparation.json`. Still **prepared_only**,
+execution_authorized false, dollar allowance null. Proposed one GPU, two physical
+render calls, 30 minutes including five for cleanup, zero automatic POST retries.
+ROCm OCI/dependency lock, dedicated budgeted executor, independent reaper/deletion
+receipts and verified private export remain prerequisites. Linux GPU dependencies
+currently select CUDA; do not install that lock unchanged on AMD.
 
 ## Next ready work
 
-Optional HTTP idempotency contract, then deterministic sampler/preflight prototype.
-Changing API/worker sources invalidates the AMD draft lock: rerun tests/local
-smoke, refresh the receipt and review an explicit relock; never silently bless drift.
-Resolve remaining AMD executor/runtime/cleanup prerequisites offline where possible.
-Keep public hosting and paid execution gated.
-Legacy service smoke is NVIDIA/Vast-specific; don't reuse unchanged for AMD.
+Deterministic coverage sampler/preflight prototype using synthetic fixtures and
+read-only manifests per `docs/collection-v3-proposal.md`. Do not alter data,
+captions, splits or adapter. Then resolve remaining AMD prerequisites offline.
+Any locked source changes require fresh smoke/tests and explicit reviewed relock;
+the checker must never silently bless drift. Older local databases need a separately
+designed migration before reuse; never reset them to bypass schema checks.
 No new training, hosting, invitations, serving promotion or paid allocations.
-Ask for missing compute/hosting choices only when they block remaining work.
+Ask for compute/hosting choices only when they block remaining offline work.
 
 ## Retained evidence
 
-AMD comparison completed: 144 verified images; all four GPUs deleted October 13;
-about $0.99 estimated total GPU cost. No fifth attempt or campaign reset.
+Consumed AMD comparison: 144 verified images, all four GPUs deleted October 13,
+about $0.99 estimated total; no fifth attempt or campaign reset.
 Run: https://github.com/rk9595/emoji-studio-ops/actions/runs/38352558272
 Private release: `rk9595/emoji-studio-ops`, `amd-comparison-v1`.
-Local results/gallery: `runs/amd-comparison-v1/`.
-`reports/amd-comparison-v1.md`: blinded AI review, not new human review; all
-84 gesture outputs failed key requirements, no collection checkpoint promoted.
-Serving remains pilot step 25 with the checksum locked in `configs/serving.json`.
-
+Local results: `runs/amd-comparison-v1/`; `reports/amd-comparison-v1.md` records
+blinded AI review, not new human review; all 84 gesture outputs failed requirements.
+Serving remains reviewed pilot step 25, checksum in `configs/serving.json`.
 `reports/collection-coverage-audit.md`: crossed fingers validation-only, folded
-hands unsampled, high-five/pinky absent, tiny flags group oversampled.
-`docs/collection-v3-proposal.md`: draft coverage/gesture experiments only; no
-data, captions, holdout or annotation approval changed.
+hands unsampled, high-five/pinky absent, tiny flags oversampled.
+Collection-v3 proposal is a draft; no annotation/training approval changed.
 
 ## Automation
 
-Completed cloud campaign state prevents reallocation; independent expiry/reaper
-guards retained. Local LaunchAgent `com.emoji-studio.codex-supervisor` checks
-every 15 minutes, respects usage-reset timestamps, skips active turns, and may
-compact after six continuations with a fresh handoff. Runtime is ignored under
-`var/automation/`; same thread, no Codex credentials exported.
-Needs Mac awake and app-server available; latest scheduled continuation October 23.
-Do not promise uninterrupted 24/7 reasoning. AMD token needs eventual rotation;
-never expose credentials in prompts, logs, reports or Git.
+LaunchAgent `com.emoji-studio.codex-supervisor` checks every 15 minutes, respects
+usage resets, skips active turns and may compact after six fresh handoffs.
+Runtime ignored under `var/automation/`; Mac awake/app-server required.
+Latest scheduled continuation October 23. Do not promise uninterrupted reasoning.
+Cloud campaign is complete and guarded against reallocation. AMD token needs
+eventual rotation; never expose credentials in prompts/logs/reports/Git.

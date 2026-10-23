@@ -1,4 +1,4 @@
-# Offline worker contract v3 — October 16, 2026
+# Offline worker contract v4 — October 23, 2026
 
 Implemented in `src/emoji_studio/worker_queue.py`, tested in
 `tests/test_worker_queue.py`. This is a standalone, local control-plane building
@@ -36,17 +36,27 @@ Only trusted code supplies policy values; never accept limits from a request bod
 The opt-in API uses this atomic admission method directly, not a separate
 file-backed quota check followed by enqueue.
 
+The optional trusted `idempotency=(key_sha256, request_sha256)` argument binds an
+owner-scoped key to a logical job in that same transaction. The API fingerprints
+normalized requested input before random seed resolution. Replays return the
+original job ID/payload before quota checks; candidate seeds are discarded.
+Different request hashes/attempt bounds or deleted jobs conflict. Only hashes
+are stored, with a foreign key to the retained usage ledger. A mapping insert
+failure rolls back both job and usage; rejected requests never reserve a key.
+The API's HTTP contract and rate-limit behavior are in `docs/durable-api.md`.
+
 `delete` removes only the caller-owned terminal job and its output blobs, in one
 transaction. Queued/running jobs cannot be deleted. Minimal ledger metadata
-(owner, job ID, image count, admission epoch, payload hash and attempt limit)
+(owner, job ID, image count, admission epoch, payload hash, attempt limit and
+optional idempotency key/request hashes)
 survives, without prompts, output bytes or lease tokens. The retained ID prevents
 deleted requests from being replayed as free work. Deletion is logical, not
 secure erasure of SQLite pages or backups. No existing user data was deleted
 during implementation; tests use temporary databases. The
 opt-in API schedules terminal-content retention only in its selected database.
 
-New databases use schema version 3, adding request/result metadata, first-start and
-finish timestamps, and owner-scoped feedback. Schema 2 and legacy databases with tables,
+New databases use schema version 4, adding persistent idempotency mappings to
+request/result metadata, timestamps and feedback. Schema 3 and older databases,
 future schema versions, missing policy/ledger structures and broken references
 fail closed. There is no automatic migration or accounting backfill. Keep old
 databases intact and design an explicit migration before using their jobs.

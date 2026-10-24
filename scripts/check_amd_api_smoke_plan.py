@@ -13,13 +13,16 @@ from pathlib import Path
 PLAN = "configs/amd-api-smoke-plan.json"
 FILES = {
     "configs/serving.json", "pyproject.toml", "uv.lock", "reports/local-http-smoke.json",
+    "reports/mock-smoke-executor.json",
     *(f"src/emoji_studio/{name}" for name in (
         "__init__.py", "alpha.py", "api.py", "common.py", "durable_api.py",
         "durable_worker.py", "service.py", "smoke_http.py", "studio.html", "worker_queue.py",
+        "render_budget.py", "mock_smoke_executor.py",
     )),
     *(f"tests/{name}" for name in (
         "test_smoke_http.py", "test_durable_api.py", "test_worker_queue.py",
         "test_worker_admission.py",
+        "test_render_budget.py", "test_mock_smoke_executor.py",
     )),
 }
 BLOCKERS = [
@@ -114,6 +117,13 @@ def check_plan(root):
             and receipt["gpu_allocations"] == 0, "Local smoke evidence differs")
     for name, expected in receipt["source_sha256"].items():
         require(locks.get("src/emoji_studio/" + name) == expected, "Local smoke source drift")
+    mock = read_json(safe_path(root, "reports/mock-smoke-executor.json"))
+    require(mock["status"] == "passed" and mock["renderer"] == "MockRenderer"
+            and mock["gpu_allocations"] == 0 and mock["execution_authorized"] is False
+            and mock["jobs_published"] == 2 and mock["render_calls_consumed"] == 2
+            and mock["third_call_denied"] is True, "Mock executor evidence differs")
+    for name, expected in mock["source_sha256"].items():
+        require(locks.get("src/emoji_studio/" + name) == expected, "Mock executor source drift")
     adapter = safe_path(root, ADAPTER)
     adapter_state = "missing_private_artifact"
     if adapter.exists():

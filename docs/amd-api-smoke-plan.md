@@ -5,8 +5,8 @@ runtime image, paid host, public endpoint or campaign state was created. The
 completed comparison's four allocations and $3 reserve remain consumed and
 cannot fund or trigger this plan. The new identifier is `amd-api-smoke-v1`.
 
-`configs/amd-api-smoke-plan.json` locks 18 source/config/evidence files at baseline
-commit `f6716b1` with the reviewed October 23 HTTP-idempotency changes explicitly
+`configs/amd-api-smoke-plan.json` locks 23 source/config/evidence files at baseline
+commit `d1bbf89` with the reviewed October 24 mock executor integration explicitly
 relocked, plus the reviewed pilot-25 adapter hash and model revision.
 `scripts/check_amd_api_smoke_plan.py` checks integrity without network access,
 credentials, GPU imports or filesystem writes:
@@ -53,7 +53,11 @@ abort and delete; do not extend deadlines or allocate a replacement automaticall
   container digest and hash-locked AMD-compatible dependencies (including API,
   Pillow, diffusers/transformers/peft and transitive dependencies), record an SBOM
   or package manifest, and test the same application source in that runtime.
-- A dedicated executor is still required. `smoke_http.py` intentionally supports
+- A dedicated live AMD executor is still required. The new
+  [mock-only executor](mock-smoke-executor.md) connects queue, render budget and
+  publication with stable logical call IDs, and is included in this source lock.
+  It rejects real-renderer injection and supplies no provisioning path.
+  `smoke_http.py` intentionally supports
   only MockRenderer and 45/60-second local bounds; do not merely switch its
   renderer to FLUX. The old NVIDIA/Vast launchers are not interchangeable either.
   Use `durable_api.create_app` with `FluxRenderer` only after explicit ROCm/HIP,
@@ -63,10 +67,9 @@ abort and delete; do not extend deadlines or allocate a replacement automaticall
   expired leases up to three times, so a two-image quota is not a compute limit.
   Persist the render budget before starting each call; uncertain/interrupted
   execution consumes a call. Abort ambiguous in-flight work, without replay.
-  The standalone guard is now implemented and tested offline; see
-  [render-budget.md](render-budget.md). It is not wired into the API/worker or
-  included in this 18-file source lock. Dedicated executor integration and an
-  explicit expanded lock are still required; this gate remains open.
+  The guard and mock-only executor are now implemented, tested offline and locked;
+  see [render-budget.md](render-budget.md). Live runtime/deadline/cleanup integration
+  is still required; the live executor gate remains open. Default API/worker unchanged.
 - New campaign ownership/state, pre-allocation reservation, independent cloud
   expiry/reaper and exact-resource deletion verification must be implemented and
   failure-tested before provisioning. Never modify/reset `amd-comparison-v1`,

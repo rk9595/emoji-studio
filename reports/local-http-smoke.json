@@ -1,11 +1,11 @@
 {
-  "date": "2026-10-23",
+  "date": "2026-10-24",
   "status": "passed",
   "scope": "Disposable local mock HTTP only; not GPU or deployment acceptance",
   "command": "PYTHONPATH=.venv/lib/python3.12/site-packages:src python3 -m emoji_studio.smoke_http",
   "bind": "127.0.0.1",
   "renderer": "MockRenderer",
-  "elapsed_seconds": 1.702,
+  "elapsed_seconds": 1.678,
   "gpu_allocations": 0,
   "images_admitted": 2,
   "process_starts": 3,
@@ -35,8 +35,8 @@
     "worker_queue.py": "f9c838eb7eeee82212a38672bcb0ed8236ee239fc58518033393b21a98b7b617"
   },
   "regressions": {
-    "passed": 118,
-    "subtests_passed": 14,
+    "passed": 154,
+    "subtests_passed": 24,
     "existing_deprecation_warnings": 2,
     "test_files": [
       "tests/test_smoke_http.py",
@@ -48,7 +48,9 @@
       "tests/test_alpha.py",
       "tests/test_alpha_report.py",
       "tests/test_amd_automation.py",
-      "tests/test_amd_review_sheets.py"
+      "tests/test_amd_review_sheets.py",
+      "tests/test_render_budget.py",
+      "tests/test_mock_smoke_executor.py"
     ]
   }
 }

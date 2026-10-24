@@ -4,8 +4,9 @@
 proposed `amd-api-smoke-v1` executor. It permits at most two guarded render
 invocations on one trusted local ledger, and stops all further calls after an
 unresolved or failed attempt. It contains no GPU imports, provider clients or
-spending authorization. The API/worker do not use it yet; the AMD draft remains
-prepared-only and its executor gate remains open.
+spending authorization. The dedicated [mock executor](mock-smoke-executor.md) now
+uses it; the default API/worker remain unchanged. The AMD draft remains
+prepared-only and its live executor gate remains open.
 
 ## Ledger lifecycle
 
@@ -79,9 +80,10 @@ render reservation, and no API idempotency replay may bypass consumption.
 The dedicated executor must verify runtime/plan/serving locks, ownership,
 authorization, deadline and private export destination, then wrap every physical
 render with the single ledger. Its code and this guard must enter an explicitly
-reviewed source lock before live use. The existing 18-file AMD source lock is
-unchanged; this unintegrated component is pinned separately in
-`reports/render-budget-preparation.json` and does not clear that executor gate.
+reviewed source lock before live use. The expanded 23-file AMD draft now locks
+this guard and the mock executor. `reports/render-budget-preparation.json` is the
+historical standalone component receipt; `reports/mock-smoke-executor.json`
+records the new integration. Mock integration does not clear the live executor gate.
 
 ## Validation
 

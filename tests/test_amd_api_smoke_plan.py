@@ -32,7 +32,7 @@ class AmdApiSmokePlanTest(unittest.TestCase):
         result = checker.check_plan(ROOT)
         self.assertEqual(result["status"], "prepared_only")
         self.assertFalse(result["execution_authorized"])
-        self.assertEqual(result["locked_files_verified"], 18)
+        self.assertEqual(result["locked_files_verified"], 23)
         self.assertEqual(result["blockers"], checker.BLOCKERS)
 
     def test_missing_private_adapter_is_explicit_not_execution_ready(self):
@@ -44,6 +44,26 @@ class AmdApiSmokePlanTest(unittest.TestCase):
         source = self.root / "src/emoji_studio/durable_api.py"
         source.write_text(source.read_text() + "\n# changed\n")
         with self.assertRaisesRegex(ValueError, "Locked file drift"):
+            checker.check_plan(self.root)
+
+    def test_guard_and_executor_are_both_locked(self):
+        for name in ("render_budget.py", "mock_smoke_executor.py"):
+            with self.subTest(name=name):
+                source = self.root / "src/emoji_studio" / name
+                before = source.read_bytes()
+                source.write_bytes(before + b"\n# changed\n")
+                with self.assertRaisesRegex(ValueError, "Locked file drift"):
+                    checker.check_plan(self.root)
+                source.write_bytes(before)
+
+    def test_mock_receipt_source_mismatch_is_rejected_even_after_rehash(self):
+        target = self.root / "reports/mock-smoke-executor.json"
+        receipt = json.loads(target.read_text())
+        receipt["source_sha256"]["render_budget.py"] = "0" * 64
+        target.write_text(json.dumps(receipt))
+        self.plan["source_sha256"]["reports/mock-smoke-executor.json"] = checker.digest(target)
+        self.save_plan()
+        with self.assertRaisesRegex(ValueError, "Mock executor source drift"):
             checker.check_plan(self.root)
 
     def test_authority_budget_runtime_and_campaign_changes_rejected(self):

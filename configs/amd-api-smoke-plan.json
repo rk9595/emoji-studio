@@ -4,7 +4,7 @@
   "status": "prepared_only",
   "execution_authorized": false,
   "approved_allowance_usd": null,
-  "source_baseline_commit": "f6716b1fc96c406cd4577d96e93031e1e35625ad",
+  "source_baseline_commit": "d1bbf89d0ffc3fa3581dfe3a9a7ac676baef7829",
   "proposed_limits": {
     "allocations": 1,
     "concurrent_gpus": 1,
@@ -28,13 +28,23 @@
     "selected_step": 25,
     "resolution": 512,
     "steps": 50,
-    "guidance_scale": 4.0
+    "guidance_scale": 4
   },
   "requests": [
-    {"prompt": "a cheerful red apple sticker", "seed": 7},
-    {"prompt": "a cheerful red apple sticker", "seed": 7}
+    {
+      "prompt": "a cheerful red apple sticker",
+      "seed": 7
+    },
+    {
+      "prompt": "a cheerful red apple sticker",
+      "seed": 7
+    }
   ],
-  "network": {"bind": "127.0.0.1", "access": "private_ssh_tunnel", "public_endpoint": false},
+  "network": {
+    "bind": "127.0.0.1",
+    "access": "private_ssh_tunnel",
+    "public_endpoint": false
+  },
   "blockers": [
     "new_explicit_spend_allowance_and_current_price_check",
     "immutable_rocm_runtime_and_amd_dependency_lock",
@@ -45,21 +55,26 @@
   "source_sha256": {
     "configs/serving.json": "51ace9667447113a22cfadea1ca606539ad264086421e7e7c241561c7401534f",
     "pyproject.toml": "a2c4e4268cb08e481c742979b1e06fbf28d8a365a1ad1265a1f7b5dbadfa49f8",
-    "uv.lock": "a2d1a653d7a71ecf0d420640b951edc5d94dcd15117df47c9b6871b3a1439b60",
+    "reports/local-http-smoke.json": "80f619579b379600df6ff5f404f0c5183f6f9c051254aee84c72a4d9091667e6",
+    "reports/mock-smoke-executor.json": "5d1610ddc9c638ab1a2bf620a8530632714fdb338e32836a28c70efa57a24c8b",
     "src/emoji_studio/__init__.py": "440ce1004560f7f9621960c6e9c85de12286cc9430c112d9841ef4d237bc67e8",
     "src/emoji_studio/alpha.py": "ddf359f78ddac8e0dd9c14c5d0e2881f9f4a53ebcfdc2f59a560080851ad1df4",
     "src/emoji_studio/api.py": "f1f6be628663f9b047eed2d7316a0df720fdc0360c6bbeaaf7b63caca3b4c70a",
     "src/emoji_studio/common.py": "111c883e5dae3c39084506bbd1802eb350764b42e60ee3e1ef726f1e84aa8f07",
     "src/emoji_studio/durable_api.py": "85874285e037f3e7c1285774438d312ff06a184b7c52818b72c2d4f84043da3c",
     "src/emoji_studio/durable_worker.py": "818e9de1ee2be0831d97a3c80640c7e74fa865e6a0d8068765e98c9a6f58be92",
+    "src/emoji_studio/mock_smoke_executor.py": "f135edd2f86946a0bb3c8db222fd0fdd1dd7dab41c6a720471b37d6ceefa6b45",
+    "src/emoji_studio/render_budget.py": "f9599714923de8dd51543d7af957d9dfdde2eac89df3b5a8bc974b6f2a4b3005",
     "src/emoji_studio/service.py": "0472a51dc1691099e7897215e92db363cd42ab54aea1379456c5307182c295e3",
     "src/emoji_studio/smoke_http.py": "d3966cd149df89eb8529fd723248ddf986f9afcbde82598a379cdc5581b2b58c",
     "src/emoji_studio/studio.html": "260a824392352e8be92ff4165e9b3bfc67ac861bdfc7f0d6ab1b8ee3a1c83237",
     "src/emoji_studio/worker_queue.py": "f9c838eb7eeee82212a38672bcb0ed8236ee239fc58518033393b21a98b7b617",
-    "tests/test_smoke_http.py": "b72dc0cefce26859edee6d63c10e403a77a27f023f0345f679ef6258a99f84b7",
     "tests/test_durable_api.py": "b2c53839367c310129bf5988bffa77d7e8239db76282014c223b43e71efe25ae",
-    "tests/test_worker_queue.py": "b931a7939569e8abb5c01017091a724910aeea293d7d1bb749fa1812133c9fec",
+    "tests/test_mock_smoke_executor.py": "76ab14b920ca51d9c5bae31571a92233b5ffdebb2a0120efc065bbdfddb1952d",
+    "tests/test_render_budget.py": "b263595250c5c841a0e5d2fe5dce90b98d20c0282d6370ab8475536547e49b57",
+    "tests/test_smoke_http.py": "b72dc0cefce26859edee6d63c10e403a77a27f023f0345f679ef6258a99f84b7",
     "tests/test_worker_admission.py": "26754c269efc4259ac867f95994fa2d33b6b3340268099c17cd9249db841d796",
-    "reports/local-http-smoke.json": "c00b88bb824f4a656eedb4dfc37d3564fb4ee1d2e1dabba4f04525b6395d7cf7"
+    "tests/test_worker_queue.py": "b931a7939569e8abb5c01017091a724910aeea293d7d1bb749fa1812133c9fec",
+    "uv.lock": "a2d1a653d7a71ecf0d420640b951edc5d94dcd15117df47c9b6871b3a1439b60"
   }
 }

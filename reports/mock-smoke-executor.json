@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-24",
+  "scope": "Disposable MockRenderer executor through in-process API client; not real GPU or live deployment acceptance",
+  "execution_authorized": false,
+  "export_hashes_match": true,
+  "gpu_allocations": 0,
+  "jobs_published": 2,
+  "render_calls_consumed": 2,
+  "renderer": "MockRenderer",
+  "restart_and_api_replay_verified": true,
+  "source_sha256": {
+    "durable_worker.py": "818e9de1ee2be0831d97a3c80640c7e74fa865e6a0d8068765e98c9a6f58be92",
+    "mock_smoke_executor.py": "f135edd2f86946a0bb3c8db222fd0fdd1dd7dab41c6a720471b37d6ceefa6b45",
+    "render_budget.py": "f9599714923de8dd51543d7af957d9dfdde2eac89df3b5a8bc974b6f2a4b3005",
+    "worker_queue.py": "f9c838eb7eeee82212a38672bcb0ed8236ee239fc58518033393b21a98b7b617"
+  },
+  "status": "passed",
+  "temporary_data_removed": true,
+  "third_call_denied": true,
+  "validation": {
+    "executor_tests": 18,
+    "regression_inventory": "reports/local-http-smoke.json",
+    "new_checks": [
+      "stable_job_image_identity_across_lease_reclaim",
+      "publication_failure_and_lost_ack_stop_remaining_calls",
+      "abrupt_death_during_render_and_after_publication",
+      "no_replay_after_uncertain_call",
+      "publication_reconciliation_before_new_work",
+      "mock_only_constructor_and_plan_gate"
+    ]
+  }
+}

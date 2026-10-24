@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-24",
+  "status": "completed_runtime_metadata_proposal",
+  "execution_authorized": false,
+  "runtime_validated": false,
+  "gpu_allocations": 0,
+  "packages_installed": 0,
+  "image_layers_downloaded": 0,
+  "source_baseline_commit": "cf18994fc772955cd6a8863d70f166b52b19fa81",
+  "source_sha256": {
+    "scripts/check_amd_runtime_proposal.py": "a808414d78765f4f33d0882862e3905777649660b4e73e215ed82431ecba5518",
+    "tests/test_amd_runtime_proposal.py": "b24b787fb593e46dbfab7f03302315f1cd77901314fde8af89853db3b808f66a",
+    "configs/amd-runtime-proposal.json": "575b952ad2c4a68ba315af424f97ceeca7d088ef69e2267668b8eb50ddb7e012",
+    "configs/amd-api-smoke-plan.json": "9e341c6dfc7a87d99593580ae683bf64b2385d4633d23f96339b369024bbc4a2"
+  },
+  "registry_metadata_verified": {
+    "compressed_layer_bytes": 12763439494,
+    "config_digest": "sha256:701f42ee1596bdb69351147d27496b45613016b1072024229064eb756524906c",
+    "created": "2026-03-04T19:24:50.609783973Z",
+    "layer_count": 8,
+    "layers_downloaded": false,
+    "manifest_digest": "sha256:bcb2efa1d43f66cc59fa45a1975d621a50b2b06d21a2abdfa2ba821ab32763e4",
+    "platform": "linux/amd64"
+  },
+  "overlay": {
+    "packages": 45,
+    "lock_sha256": "55bb040004421cc6a8b29aaddeb2b084124080a77887bcfd5d2a05310cf7b585",
+    "recompiled_offline_byte_identical": true,
+    "excluded_base_packages": [
+      "torch",
+      "torchvision",
+      "torchaudio",
+      "triton",
+      "apex"
+    ],
+    "base_dependency_compatibility_verified": false
+  },
+  "validation": {
+    "passed": 22,
+    "subtests_passed": 30,
+    "new_tests": 10,
+    "test_files": [
+      "tests/test_amd_runtime_proposal.py",
+      "tests/test_amd_api_smoke_plan.py"
+    ],
+    "ruff": "passed",
+    "diff_check": "passed",
+    "active_amd_source_lock": "23 files and private adapter verified unchanged"
+  },
+  "note": "Metadata-only candidate plus conditional application overlay. No derived image build/install inventory, no GPU compatibility result. The execution plan still has unresolved runtime, false authorization and null allowance. Historical comparison untouched."
+}

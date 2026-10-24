@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "status": "prepared_only",
+  "execution_authorized": false,
+  "runtime_validated": false,
+  "approved_allowance_usd": null,
+  "derived_image_digest": null,
+  "base_image": "docker.io/rocm/pytorch@sha256:bcb2efa1d43f66cc59fa45a1975d621a50b2b06d21a2abdfa2ba821ab32763e4",
+  "observed_tag": "rocm7.2_ubuntu24.04_py3.12_pytorch_release_2.10.0",
+  "target": {
+    "os": "linux",
+    "architecture": "amd64",
+    "python": "3.12",
+    "resolver_platform": "x86_64-manylinux_2_39"
+  },
+  "base_stack_expected_from_tag": {
+    "rocm": "7.2",
+    "torch": "2.10.0",
+    "torchvision": "0.25.0",
+    "inventory_verified": false
+  },
+  "historical_execution": {
+    "source": "runs/amd-comparison-v1/report.json",
+    "source_sha256": "e479b4652c2ec6492e6c91309e4141a65eb51d93341d49da0869da2de9ba9d38",
+    "torch": "2.10.0+rocm7.2.0.gitb6ee5fde",
+    "hip": "7.2.26015",
+    "gpu": "AMD Instinct MI300X VF",
+    "same_base_image_proven": false
+  },
+  "overlay": {
+    "packages": 45,
+    "resolver": "uv 0.9.18 (0cee76417 2025-12-16)",
+    "exclude_newer": "2026-10-24",
+    "index": "https://pypi.org/simple",
+    "base_provided_exclusions": [
+      "torch",
+      "torchvision",
+      "torchaudio",
+      "triton",
+      "apex"
+    ],
+    "closure": "Application dependencies only; excluded packages and their dependencies require base inventory validation",
+    "direct_pin_source": "uv.lock",
+    "direct_pin_source_sha256": "a2d1a653d7a71ecf0d420640b951edc5d94dcd15117df47c9b6871b3a1439b60",
+    "installed": false,
+    "second_offline_compile_byte_identical": true
+  },
+  "files_sha256": {
+    "configs/amd-overlay.in": "23e912fc25569958084a73ba41502b492b488dc445149277d7d783cf424c4a72",
+    "configs/amd-base-provided.in": "35c677c9387637c9c78b39eb436f2e3c588eacf9b722e989716aef35cdbd08ee",
+    "configs/amd-overlay-linux-py312.txt": "55bb040004421cc6a8b29aaddeb2b084124080a77887bcfd5d2a05310cf7b585",
+    "reports/amd-runtime-registry.json": "b16228ccefbe6d360229ff042bbe27f2ef68c7cce329cd0f9446f12a2a858d1f"
+  },
+  "blockers": [
+    "base_and_overlay_install_inventory_not_verified",
+    "derived_image_not_built_or_digest_pinned",
+    "hip_gpu_and_model_smoke_not_run",
+    "independent_cleanup_and_export_not_ready",
+    "new_bounded_spend_allowance_missing"
+  ],
+  "sources": [
+    "https://rocm.docs.amd.com/projects/install-on-linux/en/docs-7.2.0/install/3rd-party/pytorch-install.html",
+    "https://hub.docker.com/layers/rocm/pytorch/rocm7.2_ubuntu24.04_py3.12_pytorch_release_2.10.0/images/sha256-bcb2efa1d43f66cc59fa45a1975d621a50b2b06d21a2abdfa2ba821ab32763e4",
+    "https://docs.astral.sh/uv/pip/compile/"
+  ]
+}

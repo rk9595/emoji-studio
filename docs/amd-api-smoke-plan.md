@@ -53,6 +53,10 @@ abort and delete; do not extend deadlines or allocate a replacement automaticall
   container digest and hash-locked AMD-compatible dependencies (including API,
   Pillow, diffusers/transformers/peft and transitive dependencies), record an SBOM
   or package manifest, and test the same application source in that runtime.
+  A digest-pinned base candidate and 45-package conditional application overlay
+  are now prepared in [amd-runtime-proposal.md](amd-runtime-proposal.md). Registry
+  bytes and lock integrity are verified; combined installation/inventory and GPU
+  compatibility are not. The execution plan's runtime remains unresolved.
 - A dedicated live AMD executor is still required. The new
   [mock-only executor](mock-smoke-executor.md) connects queue, render budget and
   publication with stable logical call IDs, and is included in this source lock.

@@ -1,0 +1,7 @@
+# Supplied by the digest-pinned ROCm image; exclusion is NOT compatibility proof.
+# Verify installed versions, dependency metadata and HIP in that image before use.
+torch
+torchvision
+torchaudio
+triton
+apex

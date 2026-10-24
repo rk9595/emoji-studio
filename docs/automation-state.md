@@ -6,28 +6,31 @@ recovered worktree changes; historical handoffs are not the current plan.
 
 ## Latest completed work
 
-Mock-only dedicated executor integration complete:
-`src/emoji_studio/mock_smoke_executor.py`, `docs/mock-smoke-executor.md`,
-`reports/mock-smoke-executor.json`. Uses dedicated API with worker disabled and
-trial cap two. Stable call ID = durable job ID + image position; fingerprint binds
-prompt/seed, mock implementation, planned model identity and serving-config hash.
-Guard reservation spans rendering, PNG/WebP validation and queue publication.
-Crashes/failure/lost acknowledgement halt further calls, including after publication.
-Startup reconciles consumed calls against published job identity/status; missing
-or unguarded publications block. No renderer injection or provisioning interface.
-Default API/DurableWorker unchanged; this is NOT a live AMD executor.
+AMD runtime metadata proposal completed:
+`configs/amd-runtime-proposal.json`, `docs/amd-runtime-proposal.md`,
+`reports/amd-runtime-preparation.json`. Official ROCm 7.2 / Ubuntu24.04 / Python3.12 /
+Torch2.10 candidate base manifest digest bcb2efa1…32763e4 verified against registry
+bytes and archived public config. Eight layers total 12.76 GB compressed; NO
+layers pulled, GPU packages installed or GPU allocated. This is not proven to be
+the identical image used in the historical comparison.
 
-Guard: `src/emoji_studio/render_budget.py`, `docs/render-budget.md`; fixed two
-calls, no reset/refund/reclaim. Historical standalone receipt:
-`reports/render-budget-preparation.json`. Same trusted local disk assumptions;
-disk rollback or bypassing the wrapper remains outside this boundary.
+`configs/amd-overlay-linux-py312.txt`: 45 pinned/hash-listed application packages,
+11 direct pins from retained uv.lock. Base Torch/vision/audio/Triton/Apex excluded
+with their dependency traversal, so combined dependency compatibility remains
+unverified. Second compile from cached metadata was byte-identical.
+Checker `python3 scripts/check_amd_runtime_proposal.py` is offline/read-only;
+explicit --registry reads only public fixed metadata and rejects tag drift.
+**22 tests/30 subtests passed**, including 10 new tests; Ruff/diff checks pass.
+Status prepared_only; runtime_validated false; derived image digest null.
+Existing 23-file execution source lock unchanged, runtime still unresolved.
 
-**166 focused tests/38 subtests passed**, including 18 executor tests and expanded
-draft checker; two existing warnings. Ruff/diff checks pass. Fresh mock integration:
-two jobs published, matching exports, API replay/reopen, third call denied.
-Fresh real loopback HTTP smoke: 14 checks, three processes, two mock images;
-`reports/local-http-smoke.json`. Mock receipt also reverified after the relock.
-All runtime queue/ledger files disposable; no GPU allocations or spending.
+Mock-only executor/guard complete: `docs/mock-smoke-executor.md`,
+`docs/render-budget.md`, `reports/mock-smoke-executor.json`. Stable job/image IDs;
+two-call consumption spans render, export validation and atomic queue publication.
+Uncertain calls/publications halt new work. No real renderer selection or provider
+interface; default API/worker unchanged. Prior 166 tests/38 subtests passed.
+Fresh prior HTTP smoke has 14 checks/three processes/two mock images.
+No reset/refund/reclaim; trusted local disk only, no rollback/bypass protection.
 
 Coverage prototype remains complete: `docs/coverage-sampler-prototype.md`,
 `reports/collection-coverage-prototype.json`. 2,000 draws cannot cover 2,493 assets;
@@ -59,17 +62,18 @@ currently select CUDA; do not install that lock unchanged on AMD.
 
 ## Next ready work
 
-Next: resolve an immutable AMD runtime/dependency proposal from official registry
-metadata and the retained ROCm receipt, without provisioning or installing GPU
-packages into this Mac. Separate historical working versions from a reproducible
-OCI/package lock; current Linux GPU extra is CUDA. Keep any runtime proposal
-prepared-only until reproducibility is demonstrated. Then implement/failure-test
-independent expiry/reaper/deletion and verified private export for the new smoke,
-preserving the consumed comparison campaign. Do not simply swap the mock renderer.
-A live executor still needs runtime validation, long-render lease/deadline behavior
-and controller gates. Any locked changes need fresh checks and reviewed relock.
-No new training, hosting, invitations, serving promotion or paid allocations.
-Ask for bounded compute/hosting choices when they block remaining offline work.
+Next: implement/failure-test independent expiry/reaper and exact-resource deletion
+for the NEW smoke using mocked provider responses and the existing retained cleanup
+patterns. Bind resource ownership/campaign/deadline, never delete unrelated assets,
+and retain pending-cleanup until provider absence is verified. No deployment,
+provisioning or modification/reset of the consumed comparison.
+Then implement verified private export. Runtime proposal still needs a suitable
+Linux/amd64 build environment with disk capacity, base/post-overlay inventories,
+dependency/ABI/import checks, derived-image digest and in-image mock tests.
+Do not install the overlay into this Mac or silently treat exclusions as validation.
+Live HIP/GPU validation requires separately bounded authority; deadline/controller
+gates remain open. Any active locked changes need tests and reviewed relock.
+Ask for bounded compute/hosting/build choices when they block remaining offline work.
 
 ## Retained evidence
 
@@ -89,6 +93,6 @@ Collection-v3 proposal is a draft; no annotation/training approval changed.
 LaunchAgent `com.emoji-studio.codex-supervisor` checks every 15 minutes, respects
 usage resets, skips active turns and may compact after six fresh handoffs.
 Runtime ignored under `var/automation/`; Mac awake/app-server required.
-Latest scheduled continuation October 24. Do not promise uninterrupted reasoning.
+Latest user continuation October 24. Do not promise uninterrupted reasoning.
 Cloud campaign is complete and guarded against reallocation. AMD token needs
 eventual rotation; never expose credentials in prompts/logs/reports/Git.

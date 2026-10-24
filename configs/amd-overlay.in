@@ -1,0 +1,14 @@
+# Prepared-only application overlay, pinned from the retained project uv.lock.
+# Base-image Torch/vision/audio/Triton/Apex are excluded, not replaced with CUDA.
+# This is not an installation or execution authorization.
+fastapi==0.141.1
+uvicorn==0.53.0
+pillow==12.2.0
+diffusers==0.40.0
+transformers==5.17.0
+peft==0.21.0
+accelerate==1.15.0
+safetensors==0.8.0
+sentencepiece==0.2.2
+httpx==0.28.1
+numpy==2.5.3

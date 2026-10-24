@@ -1,16 +1,16 @@
 {
   "status": "ready",
-  "milestone": "Deterministic sampler preflight and remaining AMD execution gates",
+  "milestone": "Offline AMD smoke execution prerequisites",
   "cloud_repository": "rk9595/emoji-studio-ops",
   "cloud_release": "amd-comparison-v1",
   "next_actions": [
-    "Read docs/collection-v3-proposal.md and reports/collection-coverage-audit.md. Prototype deterministic coverage sampler/preflight using synthetic fixtures and read-only manifests; preserve existing data, captions, splits and serving adapter. Draft status is not annotation/training approval. Any changes to AMD-locked sources require fresh tests/local smoke and explicit reviewed relock.",
-    "Resolve the prepared-only AMD plan's remaining runtime, dedicated executor/physical-render budget, independent expiry/reaper and private-export prerequisites offline where possible. Existing Linux GPU lock selects NVIDIA CUDA wheels, not AMD. Never provision to investigate, reset the completed comparison, or treat draft limits as authority.",
-    "After ready offline work is done, request the missing bounded GPU allowance and persistent-hosting budget/access choice; set waiting_user if those decisions are required to proceed."
+    "Read docs/amd-api-smoke-plan.md and current cloud receipts. Implement/test a standalone durable two-physical-render budget for the proposed smoke, reserving a call before execution and counting uncertain/interrupted calls as consumed. Cover concurrency, restart/crash and exhaustion offline. Do not provision, import provider credentials into the API, alter the consumed comparison, or treat the proposed limit as spending authority.",
+    "Resolve remaining immutable AMD runtime/dependency lock, dedicated smoke executor integration, independent expiry/reaper/deletion and private-export prerequisites offline where possible. Existing Linux GPU lock is CUDA. Changes to AMD-locked sources need fresh tests/local smoke and explicit reviewed relock; never silently bless drift.",
+    "After ready offline work is done, request a separately bounded GPU allowance and persistent-hosting budget/access choice; set waiting_user if these or dataset/annotation decisions block progress. Coverage prototype is complete, not approval for a new dataset, 624-step run or training integration."
   ],
-  "completed_offline": "2026-10-23: Optional owner-scoped HTTP Idempotency-Key implemented in opt-in durable API/queue schema 4. Atomic replay across concurrency/restarts/full quotas, stable random seeds, conflicts and retained deletion tombstones; no changes to default API/serving. 128 tests and 26 subtests passed; fresh real loopback smoke has 14 checks/two mock images. Explicit AMD source relock verified 18 files/private adapter; prepared_only, false authorization/null allowance, no paid execution. See docs/durable-api.md and reports/local-http-smoke.json.",
+  "completed_offline": "2026-10-23: Deterministic concept/tone coverage sampler and preflight completed, with checksum-pinned read-only v2 evidence and a separate proposed schedule. 2000/full rejected; 2496/full covers all 2493 assets (624 proposed steps, not approved); gesture gate blocks missing buckets/visual review. 32 tests/38 subtests passed, including 16 new tests. Protected data/sampling/serving hashes and AMD source lock unchanged. See docs/coverage-sampler-prototype.md and reports/collection-coverage-prototype.json. No GPU spending.",
   "last_completed_task": {
-    "name": "Durable HTTP idempotency and refreshed source-locked smoke evidence",
+    "name": "Deterministic coverage sampler and read-only retained-manifest preflight",
     "status": "complete",
     "date": "2026-10-23"
   },

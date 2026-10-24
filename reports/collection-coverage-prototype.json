@@ -1,0 +1,325 @@
+{
+  "date": "2026-10-23",
+  "status": "completed_offline_prototype",
+  "training_authorized": false,
+  "gpu_allocations": 0,
+  "source_baseline_commit": "0dc3edf225f753bebc4637c1db2ed4d1ec90616c",
+  "source_sha256": {
+    "src/emoji_studio/coverage_preflight.py": "0092022385afb7a46ad9b2e0fa45c8fb3303b478c122a82de19cd6228925f60e",
+    "tests/test_coverage_preflight.py": "017e35c20d6c110b507b63228f4078a85c5a1231a781c0296fb343b8a4b8e957"
+  },
+  "protected_sha256_before_and_after": {
+    "data/training/collection-v2/manifest.json": "72b1f6ca95c26ad5663e9c8f25a019036b08e407248251abd504c99bc29d90ba",
+    "data/training/collection-v2/sampling.json": "5a74a7e8900bfe94ea2eb750ef10f1ebcea7f448a2c2f78fdbc0ec4f927076e9",
+    "configs/serving.json": "51ace9667447113a22cfadea1ca606539ad264086421e7e7c241561c7401534f"
+  },
+  "schedule_artifact": "reports/collection-coverage-prototype-schedule.json",
+  "schedule_sha256": "76d7cf791f8f48f9874cdc2ad426a3a7efa3bc9dcfc288798dd35a42e5e429a4",
+  "deterministic_rebuild_verified": true,
+  "independent_interpreter_rebuild_tested": true,
+  "scenarios": {
+    "original_budget_full_claim": {
+      "schema_version": 1,
+      "status": "blocked",
+      "training_authorized": false,
+      "policy": "concept-tone-round-robin-sha256-v1",
+      "manifest_sha256": "72b1f6ca95c26ad5663e9c8f25a019036b08e407248251abd504c99bc29d90ba",
+      "seed": 29,
+      "full_coverage_claim": true,
+      "eligible_assets": 2493,
+      "validation_assets": 651,
+      "excluded_assets": 0,
+      "draw_budget": 2000,
+      "arithmetic": {
+        "batch_size": 1,
+        "gradient_accumulation": 4,
+        "world_size": 1,
+        "draws_per_optimizer_step": 4,
+        "complete_optimizer_steps": 500,
+        "leftover_draws": 0,
+        "minimum_full_coverage_steps": 624,
+        "minimum_aligned_full_coverage_draws": 2496
+      },
+      "required_buckets": [],
+      "missing_required_buckets": [],
+      "leakage_counts": {
+        "family_id": 0,
+        "sha256": 0,
+        "source_sha256": 0,
+        "pixel_sha256": 0
+      },
+      "required_caption_status": null,
+      "caption_status_counts": {
+        "metadata_checked_visual_details_not_individually_reviewed": 2493
+      },
+      "blockers": [
+        "draw_budget_below_full_coverage"
+      ],
+      "coverage": null,
+      "limitations": [
+        "Metadata checks only; asset bytes and caption truth not verified",
+        "No provenance/license approval or perceptual near-duplicate review",
+        "No annotation, evaluation-freeze, trainer-integration or spend approval"
+      ]
+    },
+    "aligned_full_proposal": {
+      "schema_version": 1,
+      "status": "prototype_passed",
+      "training_authorized": false,
+      "policy": "concept-tone-round-robin-sha256-v1",
+      "manifest_sha256": "72b1f6ca95c26ad5663e9c8f25a019036b08e407248251abd504c99bc29d90ba",
+      "seed": 29,
+      "full_coverage_claim": true,
+      "eligible_assets": 2493,
+      "validation_assets": 651,
+      "excluded_assets": 0,
+      "draw_budget": 2496,
+      "arithmetic": {
+        "batch_size": 1,
+        "gradient_accumulation": 4,
+        "world_size": 1,
+        "draws_per_optimizer_step": 4,
+        "complete_optimizer_steps": 624,
+        "leftover_draws": 0,
+        "minimum_full_coverage_steps": 624,
+        "minimum_aligned_full_coverage_draws": 2496
+      },
+      "required_buckets": [],
+      "missing_required_buckets": [],
+      "leakage_counts": {
+        "family_id": 0,
+        "sha256": 0,
+        "source_sha256": 0,
+        "pixel_sha256": 0
+      },
+      "required_caption_status": null,
+      "caption_status_counts": {
+        "metadata_checked_visual_details_not_individually_reviewed": 2493
+      },
+      "blockers": [],
+      "coverage": {
+        "unique_assets": 2493,
+        "full_passes": 1,
+        "minimum_repeats": 1,
+        "maximum_repeats": 2,
+        "omitted_asset_count": 0,
+        "selected_bucket_draws": [
+          {
+            "concept": "Bicycle",
+            "tone": "Default",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Dark",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Default",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Light",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Medium",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Medium-Dark",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Medium-Light",
+            "draws": 1
+          }
+        ]
+      },
+      "limitations": [
+        "Metadata checks only; asset bytes and caption truth not verified",
+        "No provenance/license approval or perceptual near-duplicate review",
+        "No annotation, evaluation-freeze, trainer-integration or spend approval"
+      ],
+      "schedule_sha256": "76d7cf791f8f48f9874cdc2ad426a3a7efa3bc9dcfc288798dd35a42e5e429a4"
+    },
+    "original_budget_partial_diagnostic": {
+      "schema_version": 1,
+      "status": "prototype_passed",
+      "training_authorized": false,
+      "policy": "concept-tone-round-robin-sha256-v1",
+      "manifest_sha256": "72b1f6ca95c26ad5663e9c8f25a019036b08e407248251abd504c99bc29d90ba",
+      "seed": 29,
+      "full_coverage_claim": false,
+      "eligible_assets": 2493,
+      "validation_assets": 651,
+      "excluded_assets": 0,
+      "draw_budget": 2000,
+      "arithmetic": {
+        "batch_size": 1,
+        "gradient_accumulation": 4,
+        "world_size": 1,
+        "draws_per_optimizer_step": 4,
+        "complete_optimizer_steps": 500,
+        "leftover_draws": 0,
+        "minimum_full_coverage_steps": 624,
+        "minimum_aligned_full_coverage_draws": 2496
+      },
+      "required_buckets": [],
+      "missing_required_buckets": [],
+      "leakage_counts": {
+        "family_id": 0,
+        "sha256": 0,
+        "source_sha256": 0,
+        "pixel_sha256": 0
+      },
+      "required_caption_status": null,
+      "caption_status_counts": {
+        "metadata_checked_visual_details_not_individually_reviewed": 2493
+      },
+      "blockers": [],
+      "coverage": {
+        "unique_assets": 2000,
+        "full_passes": 0,
+        "minimum_repeats": 0,
+        "maximum_repeats": 1,
+        "omitted_asset_count": 493,
+        "selected_bucket_draws": [
+          {
+            "concept": "Bicycle",
+            "tone": "Default",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Dark",
+            "draws": 0
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Default",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Light",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Medium",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Medium-Dark",
+            "draws": 1
+          },
+          {
+            "concept": "Folded hands",
+            "tone": "Medium-Light",
+            "draws": 1
+          }
+        ]
+      },
+      "limitations": [
+        "Metadata checks only; asset bytes and caption truth not verified",
+        "No provenance/license approval or perceptual near-duplicate review",
+        "No annotation, evaluation-freeze, trainer-integration or spend approval"
+      ],
+      "schedule_sha256": "1f239a0b17b89ff7ccc0a7af69d170da63368a209a92d209308a001c0eb63c0a"
+    },
+    "gesture_metadata_gate": {
+      "schema_version": 1,
+      "status": "blocked",
+      "training_authorized": false,
+      "policy": "concept-tone-round-robin-sha256-v1",
+      "manifest_sha256": "72b1f6ca95c26ad5663e9c8f25a019036b08e407248251abd504c99bc29d90ba",
+      "seed": 29,
+      "full_coverage_claim": true,
+      "eligible_assets": 2493,
+      "validation_assets": 651,
+      "excluded_assets": 0,
+      "draw_budget": 2496,
+      "arithmetic": {
+        "batch_size": 1,
+        "gradient_accumulation": 4,
+        "world_size": 1,
+        "draws_per_optimizer_step": 4,
+        "complete_optimizer_steps": 624,
+        "leftover_draws": 0,
+        "minimum_full_coverage_steps": 624,
+        "minimum_aligned_full_coverage_draws": 2496
+      },
+      "required_buckets": [
+        [
+          "Crossed fingers",
+          "Default"
+        ],
+        [
+          "Folded hands",
+          "Default"
+        ],
+        [
+          "High five",
+          "Default"
+        ],
+        [
+          "Pinky promise",
+          "Default"
+        ]
+      ],
+      "missing_required_buckets": [
+        [
+          "Crossed fingers",
+          "Default"
+        ],
+        [
+          "High five",
+          "Default"
+        ],
+        [
+          "Pinky promise",
+          "Default"
+        ]
+      ],
+      "leakage_counts": {
+        "family_id": 0,
+        "sha256": 0,
+        "source_sha256": 0,
+        "pixel_sha256": 0
+      },
+      "required_caption_status": "visually_reviewed",
+      "caption_status_counts": {
+        "metadata_checked_visual_details_not_individually_reviewed": 2493
+      },
+      "blockers": [
+        "missing_required_buckets",
+        "required_caption_status_not_met"
+      ],
+      "coverage": null,
+      "limitations": [
+        "Metadata checks only; asset bytes and caption truth not verified",
+        "No provenance/license approval or perceptual near-duplicate review",
+        "No annotation, evaluation-freeze, trainer-integration or spend approval"
+      ]
+    }
+  },
+  "validation": {
+    "passed": 32,
+    "subtests_passed": 38,
+    "test_files": [
+      "tests/test_coverage_preflight.py",
+      "tests/test_collection_training.py",
+      "tests/test_collection_split.py",
+      "tests/test_amd_api_smoke_plan.py"
+    ],
+    "note": "16 new prototype tests; existing collection regression files are retained local recovery files. AMD lock verified unchanged (18 files and private adapter). Ruff and diff checks passed."
+  },
+  "limitations": "Proposal only, not a selected experiment or trainer integration. Full schedule uses 2496 draws/624 steps solely to demonstrate arithmetic; existing 2000-draw schedule, data, captions, splits, adapters and spending authority unchanged. No asset-byte, provenance, perceptual duplicate or visual-caption review performed."
+}

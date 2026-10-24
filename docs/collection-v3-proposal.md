@@ -95,6 +95,8 @@ coverage receipt; it is not hidden inside the sampler implementation.
 - Produce an experiment manifest and proposed cost/time bounds. Stop before
   allocation until the data decision and bounded compute allowance are approved.
 
-Next safe implementation is a pure local sampler/preflight prototype over
-synthetic fixtures and read-only manifests. No source images or captions need to
-be changed to test its coverage invariants.
+The pure local sampler/preflight prototype is now implemented over synthetic
+fixtures and read-only manifests; see [coverage-sampler-prototype.md](coverage-sampler-prototype.md).
+It leaves source images, captions, splits and the historical schedule unchanged.
+Its 2,496-draw full-pass example is a proposed arithmetic check, not an approved
+experiment, annotation decision, training integration or increase in compute.

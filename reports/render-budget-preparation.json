@@ -1,0 +1,66 @@
+{
+  "date": "2026-10-24",
+  "status": "completed_offline_component",
+  "execution_authorized": false,
+  "gpu_allocations": 0,
+  "approved_allowance_usd": null,
+  "source_baseline_commit": "f7e21668f478635aaf1424ba1f221ae49b70bc66",
+  "source_sha256": {
+    "src/emoji_studio/render_budget.py": "f9599714923de8dd51543d7af957d9dfdde2eac89df3b5a8bc974b6f2a4b3005",
+    "tests/test_render_budget.py": "b263595250c5c841a0e5d2fe5dce90b98d20c0282d6370ab8475536547e49b57"
+  },
+  "amd_plan_sha256_unchanged": "8f3ba0ea7aa69e74a9598bbe4e21cb0f9eea3574dfc91df02f1aa277f9c22a18",
+  "included_in_amd_execution_source_lock": false,
+  "api_worker_integration": false,
+  "local_fake_smoke": {
+    "renderer": "fake_callback",
+    "callback_invocations": 2,
+    "third_call_denied": true,
+    "reopen_verified": true,
+    "snapshot": {
+      "campaign": "amd-api-smoke-v1",
+      "allocation_id": "offline-receipt-fixture",
+      "plan_sha256": "8f3ba0ea7aa69e74a9598bbe4e21cb0f9eea3574dfc91df02f1aa277f9c22a18",
+      "limit": 2,
+      "consumed": 2,
+      "unused": 0,
+      "further_calls_blocked": true,
+      "calls": [
+        {
+          "sequence": 1,
+          "call_id": "first",
+          "request_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "state": "succeeded"
+        },
+        {
+          "sequence": 2,
+          "call_id": "second",
+          "request_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "state": "succeeded"
+        }
+      ]
+    },
+    "temporary_ledger_removed": true
+  },
+  "validation": {
+    "passed": 101,
+    "subtests_passed": 29,
+    "existing_deprecation_warnings": 2,
+    "new_guard_tests": 18,
+    "test_files": [
+      "tests/test_render_budget.py",
+      "tests/test_worker_queue.py",
+      "tests/test_worker_admission.py",
+      "tests/test_durable_api.py",
+      "tests/test_amd_api_smoke_plan.py"
+    ],
+    "ruff": "passed",
+    "diff_check": "passed"
+  },
+  "limitations": [
+    "Counts guarded callbacks; the trusted executor must wrap exactly one physical render per stable logical job/image ID and use one ledger per allocation.",
+    "No provider expiry/deletion, monetary reservation, runtime validation or remote executor.",
+    "Missing/uncertain ledger state must abort; no reset or restoration from an older snapshot.",
+    "Current AMD plan is prepared_only and does not include this standalone component; expanded reviewed source lock required before integration/live use."
+  ]
+}

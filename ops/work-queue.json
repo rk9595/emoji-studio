@@ -4,15 +4,15 @@
   "cloud_repository": "rk9595/emoji-studio-ops",
   "cloud_release": "amd-comparison-v1",
   "next_actions": [
-    "Read docs/amd-api-smoke-plan.md and current cloud receipts. Implement/test a standalone durable two-physical-render budget for the proposed smoke, reserving a call before execution and counting uncertain/interrupted calls as consumed. Cover concurrency, restart/crash and exhaustion offline. Do not provision, import provider credentials into the API, alter the consumed comparison, or treat the proposed limit as spending authority.",
+    "Read docs/render-budget.md and docs/amd-api-smoke-plan.md. Implement/test mock-only dedicated smoke executor integration using the standalone RenderBudget. Use stable logical job/image call IDs and exact request/model fingerprints, one callback per physical render; never replay uncertain calls or calls that succeeded before job publication failed. Current renderer only receives prompt/seed, so do not invent random attempt IDs. Keep default API unchanged and no real renderer/provisioning path. Integration requires explicit expanded AMD source lock and fresh tests/local HTTP smoke.",
     "Resolve remaining immutable AMD runtime/dependency lock, dedicated smoke executor integration, independent expiry/reaper/deletion and private-export prerequisites offline where possible. Existing Linux GPU lock is CUDA. Changes to AMD-locked sources need fresh tests/local smoke and explicit reviewed relock; never silently bless drift.",
     "After ready offline work is done, request a separately bounded GPU allowance and persistent-hosting budget/access choice; set waiting_user if these or dataset/annotation decisions block progress. Coverage prototype is complete, not approval for a new dataset, 624-step run or training integration."
   ],
-  "completed_offline": "2026-10-23: Deterministic concept/tone coverage sampler and preflight completed, with checksum-pinned read-only v2 evidence and a separate proposed schedule. 2000/full rejected; 2496/full covers all 2493 assets (624 proposed steps, not approved); gesture gate blocks missing buckets/visual review. 32 tests/38 subtests passed, including 16 new tests. Protected data/sampling/serving hashes and AMD source lock unchanged. See docs/coverage-sampler-prototype.md and reports/collection-coverage-prototype.json. No GPU spending.",
+  "completed_offline": "2026-10-24: Standalone fixed two-call RenderBudget complete. Durable pre-call consumption; duplicate IDs never replay; reserved/failed calls halt further work; no reclaim/refund/reset. 101 tests/29 subtests passed including 18 new guard tests; fake receipt verifies two callbacks and denial after reopen. Existing AMD plan/source lock unchanged, guard not yet integrated or locked for execution. See docs/render-budget.md and reports/render-budget-preparation.json. No GPU or spending.",
   "last_completed_task": {
-    "name": "Deterministic coverage sampler and read-only retained-manifest preflight",
+    "name": "Durable two-call render-budget guard and offline failure tests",
     "status": "complete",
-    "date": "2026-10-23"
+    "date": "2026-10-24"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",

@@ -63,6 +63,10 @@ abort and delete; do not extend deadlines or allocate a replacement automaticall
   expired leases up to three times, so a two-image quota is not a compute limit.
   Persist the render budget before starting each call; uncertain/interrupted
   execution consumes a call. Abort ambiguous in-flight work, without replay.
+  The standalone guard is now implemented and tested offline; see
+  [render-budget.md](render-budget.md). It is not wired into the API/worker or
+  included in this 18-file source lock. Dedicated executor integration and an
+  explicit expanded lock are still required; this gate remains open.
 - New campaign ownership/state, pre-allocation reservation, independent cloud
   expiry/reaper and exact-resource deletion verification must be implemented and
   failure-tested before provisioning. Never modify/reset `amd-comparison-v1`,

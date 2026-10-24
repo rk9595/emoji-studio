@@ -1,4 +1,4 @@
-# Current state — 2026-10-23
+# Current state — 2026-10-24
 
 User authorized continuing private-alpha work with maximum automation, usage-reset
 continuation and concise memory. Read `ops/work-queue.json` next. Preserve unrelated
@@ -6,24 +6,28 @@ recovered worktree changes; historical handoffs are not the current plan.
 
 ## Latest completed work
 
-Coverage sampler/preflight prototype complete:
-`src/emoji_studio/coverage_preflight.py`, `docs/coverage-sampler-prototype.md`.
-Stdlib-only, checksum-pinned read-only manifest; deterministic concept/tone
-interleaving without replacement per pass. Checks split family/exact-hash leakage,
-required buckets/review-status metadata, complete-step arithmetic; rejects altered
-supplied schedules. No trainer integration, data/caption/split edits or GPU work.
-Receipt `reports/collection-coverage-prototype.json`; ordered proposal in
-`reports/collection-coverage-prototype-schedule.json`. Protected manifest,
-historical sampling and serving hashes unchanged.
+Standalone render-budget guard completed:
+`src/emoji_studio/render_budget.py`, `docs/render-budget.md`,
+`reports/render-budget-preparation.json`. Fixed two calls for amd-api-smoke-v1,
+bound to allocation ID and plan hash. Atomically commits consumption before its
+single-render callback; duplicate IDs never replay. Reserved/failed attempts stop
+all further calls, even with unused capacity. No TTL/reclaim/refund/reset.
+Explicit create refuses existing files; reopen refuses absent/corrupt/changed
+identity or accounting. Callback errors, crash and ambiguous storage acknowledgements
+consume capacity. Disk rollback/replacement or bypassing the wrapper is outside
+this trusted local boundary. No provider, GPU imports or execution authority.
 
-Retained v2: 2,000 draws cannot cover 2,493 assets. Proposed aligned 2,496 draws
-cover all assets in 624 steps with three repeats; these are NOT approved steps.
-Explicit 2,000-draw diagnostic covers 2,000 unique assets. Gesture gate blocks on
-missing crossed-fingers/high-five/pinky buckets and missing visual-review status.
-Six folded-hands train assets appear in the full proposal. Metadata checks cannot
-prove caption truth, provenance, family correctness or perceptual non-duplication.
-**32 tests/38 subtests passed**, including 16 new tests plus local collection
-regressions and unchanged AMD integrity tests. Ruff/diff checks pass.
+**101 tests/29 subtests passed**, including 18 new guard tests, queue/API regressions
+and unchanged AMD integrity checks; two existing warnings. Ruff/diff checks pass.
+Disposable receipt: two fake callbacks, third denied after reopen, ledger removed.
+Guard is NOT wired into API/worker or included in the AMD execution source lock.
+
+Coverage prototype remains complete: `docs/coverage-sampler-prototype.md`,
+`reports/collection-coverage-prototype.json`. 2,000 draws cannot cover 2,493 assets;
+proposed 2,496 draws/624 steps give full coverage, not training approval.
+Gesture gate blocks missing training buckets and visual-review metadata.
+No dataset/caption/split edits; protected sampling/serving hashes unchanged.
+Prior prototype suite: 32 tests/38 subtests passed.
 
 Prior durable API remains opt-in, schema **4**, optional owner-scoped
 Idempotency-Key; same request reuses job/seeds/usage across restart/full quota.
@@ -36,7 +40,7 @@ Default API/serving unchanged. No backup/restore, monetary reservations,
 provider dispatcher or authenticated remote worker. Metrics/rate windows are
 process-local; lease fencing/idempotency are not exactly-once physical rendering.
 
-AMD draft explicitly reviewed/relocked after these changes:
+AMD draft last relocked for HTTP idempotency on October 23; unchanged this turn:
 `configs/amd-api-smoke-plan.json`, `docs/amd-api-smoke-plan.md`;
 `python3 scripts/check_amd_api_smoke_plan.py` verifies 18 files and private adapter.
 Receipt: `reports/amd-api-smoke-preparation.json`. Still **prepared_only**,
@@ -48,15 +52,16 @@ currently select CUDA; do not install that lock unchanged on AMD.
 
 ## Next ready work
 
-Resolve remaining AMD smoke prerequisites offline. Next concrete component:
-durable physical-render budget for the proposed two-call smoke, reserved before
-each render; uncertain/interrupted calls consume budget. Test concurrent attempts,
-restart/crash and budget exhaustion without allocating or loading a GPU. Keep it
-separate from the consumed comparison and avoid importing provisioning credentials.
-Read `docs/amd-api-smoke-plan.md` before implementing. Runtime/independent cleanup
-and private export still need work; never provision merely to investigate.
-Any AMD-locked source changes require fresh smoke/tests and explicit reviewed
-relock. No training, hosting, invitations or serving promotion authorized.
+Next: mock-only dedicated smoke executor integration using the guard. Bind
+stable logical job/image call IDs and exact request/model fingerprints; no retry
+after an uncertain call or after rendering succeeded but job publication failed.
+The existing renderer interface receives only prompt/seed; do not invent random
+attempt IDs that permit duplicate physical work. Preserve default API behavior.
+Read `docs/render-budget.md` and `docs/amd-api-smoke-plan.md`. Integration must
+explicitly add guard/executor sources to the AMD lock, with fresh tests/local
+HTTP smoke and reviewed relock. Keep real rendering/provisioning inaccessible.
+Runtime lock, independent expiry/reaper/deletion and private export remain open.
+No new training, hosting, invitations, serving promotion or paid allocations.
 Ask for compute/hosting choices only when they block remaining offline work.
 
 ## Retained evidence
@@ -77,6 +82,6 @@ Collection-v3 proposal is a draft; no annotation/training approval changed.
 LaunchAgent `com.emoji-studio.codex-supervisor` checks every 15 minutes, respects
 usage resets, skips active turns and may compact after six fresh handoffs.
 Runtime ignored under `var/automation/`; Mac awake/app-server required.
-Latest scheduled continuation October 23. Do not promise uninterrupted reasoning.
+Latest user continuation October 24. Do not promise uninterrupted reasoning.
 Cloud campaign is complete and guarded against reallocation. AMD token needs
 eventual rotation; never expose credentials in prompts/logs/reports/Git.

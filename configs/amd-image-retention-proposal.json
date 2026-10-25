@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "prepared_only",
-  "publication_authorized": false,
+  "status": "approved_one_private_version",
+  "publication_authorized": true,
   "gpu_execution_authorized": false,
   "paid_execution_authorized": false,
   "recommended_destination": "ghcr.io/rk9595/emoji-studio-amd-runtime",
@@ -41,5 +41,6 @@
   "pricing_checked_on": "2026-10-25",
   "pricing_source": "https://docs.github.com/en/billing/concepts/product-billing/github-packages",
   "privacy_source": "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry",
-  "note": "A proposal only. No package created, image pushed, credential changed or additional build dispatched."
+  "authority_basis": "User delegated private-alpha implementation and builder choices; one private, reversible runtime artifact using currently free standard public Actions and GHCR is within that scope. No paid resource, public image publication, GPU execution or further version is authorized.",
+  "note": "Prepared workflow and checks reviewed October 25 after 72 tests passed. Activation also requires an exact approved source commit in the repository variable; reruns and existing versions fail closed. No live success is implied by this configuration."
 }

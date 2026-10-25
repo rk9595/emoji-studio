@@ -30,6 +30,11 @@ class CPUReceiptTest(unittest.TestCase):
     def test_completed_receipt_wakes_continuation(self):
         self.assertEqual(self.read(self.receipt)["status"], "completed")
 
+    def test_explicit_retention_workflow_receipt(self):
+        self.queue["cloud_run_workflow"] = "AMD runtime private retention"
+        self.receipt["workflowName"] = "AMD runtime private retention"
+        self.assertEqual(self.read(self.receipt)["status"], "completed")
+
     def test_queued_or_active_receipt_does_not_start_model_work(self):
         for status in ("queued", "in_progress", "waiting"):
             with self.subTest(status=status):

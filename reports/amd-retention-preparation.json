@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-25",
+  "status": "workflow_reviewed",
+  "local_tests_passed": 72,
+  "local_subtests_passed": 112,
+  "new_registry_tests": 19,
+  "ruff": "passed",
+  "workflow_yaml": "parsed; active/template identical",
+  "builder_context": "38 unchanged hash-reviewed public application inputs",
+  "publication_authorized": true,
+  "publication_limit": "one private runtime version, no overwrite/latest/delete/retry/paid fallback",
+  "authority_basis": "Existing user delegation for private-alpha implementation and builder choice; currently free private artifact, no GPU or paid resource",
+  "pricing_rechecked": "2026-10-25",
+  "pricing_source": "https://docs.github.com/en/billing/concepts/product-billing/github-packages",
+  "local_destination_lookup": "HTTP 404; not proof of workflow-token access",
+  "live_registry_verified": false,
+  "gpu_execution_authorized": false,
+  "paid_execution_authorized": false,
+  "source_sha256": {
+    "scripts/verify_ghcr_retention.py": "263b32f286371787140e0a30bc8fdd47b7f7b6ce12fd00e2da2a59bb4ce43a5b",
+    "tests/test_ghcr_retention.py": "75795787eec7bc193d0f3a3b8fb8b610955695998501832a80351e8b8a3d73d0",
+    ".github/workflows/amd-runtime-retain.yml": "fdb639f3bb63e20e83455582d5dab6042360bf41a6e2788051a2e5991184e89a",
+    "ops/workflows/amd-runtime-retain.yml": "fdb639f3bb63e20e83455582d5dab6042360bf41a6e2788051a2e5991184e89a",
+    "configs/amd-image-retention-proposal.json": "3e23c3781af9073444602d0852f1045e462e3f1657e3fa16ed1571e601521db4",
+    "ops/codex_supervisor.py": "cc348dcc7bb1dd07b019b21f26417ee88b8861e1bfd239c8747638e0fe579e65",
+    "tests/test_cpu_build_receipt.py": "13265cbb2a3bf726276fe42a2f6607f8632eee512ac0774325c37d623e64446a"
+  },
+  "validation_command": "PYTHONPATH=.venv/lib/python3.12/site-packages:src python3 -m pytest -q tests/test_ghcr_retention.py tests/test_cpu_build_receipt.py tests/test_amd_automation.py tests/test_amd_builder.py tests/test_amd_api_smoke_plan.py tests/test_amd_runtime_proposal.py"
+}

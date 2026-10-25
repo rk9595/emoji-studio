@@ -70,9 +70,11 @@ def cloud_state(config, queue=None):
         run_id = str(queue["cloud_run_id"])
         repository = queue.get("cloud_repository")
         expected_head = queue.get("cloud_run_head")
+        expected_workflow = queue.get("cloud_run_workflow", "AMD runtime CPU validation")
         if (repository != "rk9595/emoji-studio" or not run_id.isascii() or not run_id.isdecimal()
                 or not isinstance(expected_head, str) or len(expected_head) != 40
-                or any(c not in "0123456789abcdef" for c in expected_head)):
+                or any(c not in "0123456789abcdef" for c in expected_head)
+                or expected_workflow not in ("AMD runtime CPU validation", "AMD runtime private retention")):
             raise ValueError("Invalid CPU build receipt identity")
         result = subprocess.run(
             [config["gh"], "run", "view", run_id, "--repo", repository,
@@ -81,7 +83,7 @@ def cloud_state(config, queue=None):
         )
         receipt = json.loads(result.stdout)
         if (receipt["headSha"] != expected_head
-                or receipt["workflowName"] != "AMD runtime CPU validation"):
+                or receipt["workflowName"] != expected_workflow):
             raise ValueError("CPU build receipt differs from queued source/workflow")
         return {"status": ("completed" if receipt["conclusion"] == "success" else "failed")
                 if receipt["status"] == "completed" else "running",

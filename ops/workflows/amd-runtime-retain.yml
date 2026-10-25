@@ -1,0 +1,148 @@
+# Prepared template: activate only after reviewed publication authority and source binding.
+name: AMD runtime private retention
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: amd-runtime-private-retention
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.repository == 'rk9595/emoji-studio' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      packages: write
+    env:
+      APPROVED_SOURCE: ${{ vars.AMD_RETENTION_APPROVED_SOURCE }}
+    outputs:
+      manifest: ${{ steps.publish.outputs.manifest }}
+      config: ${{ steps.publish.outputs.config }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Check publication gate and fixed private namespace
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/verify_ghcr_retention.py preflight > "$RUNNER_TEMP/retention-preflight.json"
+      - name: Check native builder, disk and reviewed inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = x86_64
+          test "$(docker info --format '{{.Architecture}}')" = x86_64
+          python3 -c "import shutil; assert shutil.disk_usage('/var/lib/docker').free >= 60*1024**3"
+          python3 scripts/check_amd_runtime_proposal.py
+          python3 scripts/check_amd_api_smoke_plan.py
+          python3 -m unittest discover -s tests -p test_ghcr_retention.py
+          python3 scripts/prepare_amd_build_context.py --output "$RUNNER_TEMP/emoji-amd-context"
+      - name: Prepare signed-distribution registry tooling on disposable runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v skopeo >/dev/null; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends skopeo
+          fi
+          skopeo --version
+          docker version --format '{{.Server.Version}}'
+          skopeo copy --help | grep -q -- '--retry-times'
+      - name: Build and repeat complete CPU validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 30m docker build --platform linux/amd64 --progress plain \
+            --tag "emoji-amd-retain:${GITHUB_RUN_ID}" "$RUNNER_TEMP/emoji-amd-context"
+      - name: Publish one private version and verify remote metadata
+        id: publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          authfile="$RUNNER_TEMP/retention-auth.json"
+          trap 'rm -f "$authfile"' EXIT
+          python3 scripts/verify_ghcr_retention.py preflight > "$RUNNER_TEMP/retention-preflight.json"
+          tag="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["tag"])' "$RUNNER_TEMP/retention-preflight.json")"
+          config="$(docker image inspect "emoji-amd-retain:${GITHUB_RUN_ID}" --format '{{.Id}}')"
+          printf '%s' "$GH_TOKEN" | skopeo login --authfile "$authfile" \
+            --username "$GITHUB_ACTOR" --password-stdin ghcr.io > "$RUNNER_TEMP/registry-login.log" 2>&1
+          # Single copy invocation; explicit zero command retries and finite deadline.
+          # An ambiguous failure stops here. Reconcile read-only; never rerun the job.
+          timeout 10m skopeo copy --retry-times 0 --format v2s2 \
+            --dest-authfile "$authfile" --digestfile "$RUNNER_TEMP/pushed-digest" \
+            "docker-daemon:emoji-amd-retain:${GITHUB_RUN_ID}" \
+            "docker://ghcr.io/rk9595/emoji-studio-amd-runtime:${tag}" > "$RUNNER_TEMP/registry-copy.log" 2>&1
+          manifest="$(cat "$RUNNER_TEMP/pushed-digest")"
+          python3 scripts/verify_ghcr_retention.py verify \
+            --manifest-digest "$manifest" --config-digest "$config"
+          printf 'manifest=%s\nconfig=%s\n' "$manifest" "$config" >> "$GITHUB_OUTPUT"
+  verify-fresh:
+    needs: publish
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: read
+    env:
+      MANIFEST_DIGEST: ${{ needs.publish.outputs.manifest }}
+      CONFIG_DIGEST: ${{ needs.publish.outputs.config }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Verify remote identity/privacy before fresh pull
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/verify_ghcr_retention.py verify --manifest-digest "$MANIFEST_DIGEST" --config-digest "$CONFIG_DIGEST"
+      - name: Pull exact digest on fresh CPU runner and rerun audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          test "$(uname -m)" = x86_64
+          test "$(docker info --format '{{.Architecture}}')" = x86_64
+          python3 -c "import shutil; assert shutil.disk_usage('/var/lib/docker').free >= 60*1024**3"
+          image="ghcr.io/rk9595/emoji-studio-amd-runtime@${MANIFEST_DIGEST}"
+          if docker image inspect "$image" >/dev/null 2>&1; then
+            echo 'Fresh job unexpectedly has the target image cached'; exit 1
+          fi
+          export DOCKER_CONFIG="$RUNNER_TEMP/retention-pull-auth"
+          mkdir -m 700 "$DOCKER_CONFIG"
+          trap 'rm -f "$DOCKER_CONFIG/config.json"; rmdir "$DOCKER_CONFIG"' EXIT
+          printf '%s' "$GH_TOKEN" | docker login --username "$GITHUB_ACTOR" --password-stdin ghcr.io > "$RUNNER_TEMP/registry-login.log" 2>&1
+          timeout 20m docker pull --platform linux/amd64 "$image" > "$RUNNER_TEMP/registry-pull.log" 2>&1
+          test "$(docker image inspect "$image" --format '{{.Id}}')" = "$CONFIG_DIGEST"
+          test "$(docker image inspect "$image" --format '{{.Os}}/{{.Architecture}}')" = linux/amd64
+          # Discard only baked audit results in this disposable container's writable
+          # layer. Preserve base inventory; the immutable registry image is untouched.
+          timeout 5m docker run --rm --network none --entrypoint /bin/sh "$image" -ec \
+            'rm /audit/installed-packages.json /audit/cpu-verification.json; exec python3 /opt/emoji-runtime/audit_runtime.py verify'
+      - name: Recheck privacy and record final retention receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_ghcr_retention.py verify --manifest-digest "$MANIFEST_DIGEST" \
+            --config-digest "$CONFIG_DIGEST" > "$RUNNER_TEMP/retention-verified.json"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          receipt=json.loads((Path(os.environ['RUNNER_TEMP'])/'retention-verified.json').read_text())
+          receipt.update(status='private_image_retained', fresh_pull_verified=True,
+                         cpu_audit_repeated=True, source_commit=os.environ['GITHUB_SHA'],
+                         run_id=os.environ['GITHUB_RUN_ID'])
+          print('RETENTION_RECEIPT='+json.dumps(receipt,sort_keys=True))
+          Path(os.environ['GITHUB_STEP_SUMMARY']).write_text('Private image retained and independently CPU-verified; GPU validation remains pending.\n')
+          PY

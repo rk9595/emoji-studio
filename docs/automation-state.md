@@ -6,18 +6,22 @@ recovered worktree changes; historical handoffs are not the current plan.
 
 ## Latest completed work
 
-Offline cleanup contract completed: `docs/smoke-cleanup-contract.md`,
-`src/emoji_studio/smoke_cleanup.py`, `reports/smoke-cleanup-preparation.json`.
-Immutable account/campaign/allocation/resource/plan/creation binding; cleanup at
-minute 25, hard deadline minute 30. Durable pending state precedes provider calls;
-only exact GET absence completes cleanup. Crash/ack loss, identity mismatches,
-deadline failures and clock rollback tested. Separate POSIX lock file serializes
-ticks; missing/replaced files fail closed. No network adapter, scheduler, cloud
-deployment or allocation. Local trusted disk only; no distributed durability claim.
-**82 tests/85 subtests passed**, including 24 cleanup tests; two existing warnings.
-Ruff and both plan/runtime checks passed; active 23-file lock unchanged. Live
-reaper gate remains open: external registration/scheduling, provider adapter,
-pre-allocation reservation/reconciliation and deadline/controller integration needed.
+Offline private export completed: `docs/smoke-private-export.md`,
+`src/emoji_studio/smoke_export.py`, `reports/smoke-export-preparation.json`.
+One/two surviving PNG/WebP pairs; pixel-only re-encoding strips metadata; manifest
+records source/sanitized hashes and binds plan/serving/allocation. Private new
+smoke namespace only. Conditional writes, manifest last, no automatic retries;
+only fresh downloads against an externally retained ticket verify export.
+Partial/corrupt/missing uploads and lost acknowledgments tested; verification
+does not imply cleanup or smoke acceptance. No live storage adapter/upload.
+**103 tests/125 subtests passed**, including 21 export tests; two existing warnings.
+Ruff and both plan/runtime checks passed. Active 23-file lock unchanged.
+
+Cleanup prototype complete: `docs/smoke-cleanup-contract.md`,
+`reports/smoke-cleanup-preparation.json`. Exact immutable ownership/resource
+binding; cleanup minute 25, escalation minute 30, durable pending before calls;
+only exact GET absence completes cleanup. Process crash/reopen and failures tested.
+No cloud scheduler/adapter/deployment. Independent reaper and controller gates open.
 
 Runtime proposal remains metadata-only: `docs/amd-runtime-proposal.md`,
 `reports/amd-runtime-preparation.json`. ROCm7.2/Python3.12/Torch2.10 base digest
@@ -63,18 +67,22 @@ ROCm OCI/dependency lock, dedicated budgeted executor, independent reaper/deleti
 receipts and verified private export remain prerequisites. Linux GPU dependencies
 currently select CUDA; do not install that lock unchanged on AMD.
 
-## Next ready work
+## Waiting for user — builder/access choice
 
-Next: implement/failure-test checksum-verified private export with mocked storage,
-sanitized manifests and independent download verification for the NEW smoke.
-No deployment, provisioning or modification/reset of the consumed comparison.
-Runtime proposal still needs a suitable
-Linux/amd64 build environment with disk capacity, base/post-overlay inventories,
-dependency/ABI/import checks, derived-image digest and in-image mock tests.
-Do not install the overlay into this Mac or silently treat exclusions as validation.
-Live HIP/GPU validation requires separately bounded authority; deadline/controller
-gates remain open. Any active locked changes need tests and reviewed relock.
-Ask for bounded compute/hosting/build choices when they block remaining offline work.
+Queued offline cleanup/export components are complete. Next runtime validation
+needs a suitable Linux/amd64 builder with room for 12.76 GB compressed base plus
+extracted/build layers. Read-only local check: Docker server linux/arm64; Mac
+filesystem ~20 GiB available. No base layers pulled or packages installed.
+Request an existing builder/access reference, or a choice to prepare a new builder
+proposal. Do not provision paid infrastructure or clean unrelated files to fit it.
+
+After builder choice: prepare/run reviewed runtime build, collect base/post-overlay
+inventories, dependency/ABI/import checks, derived-image digest and in-image tests.
+Then integrate private storage/ticket/receipt persistence, pre-allocation
+reservation/reconciliation, independent cloud scheduling and worker deadlines.
+No deployment, comparison reset or spending authorized. Live HIP/GPU validation
+still needs separately bounded authority; persistent hosting needs budget/access.
+Any active locked changes need tests and explicit reviewed relock.
 
 ## Retained evidence
 

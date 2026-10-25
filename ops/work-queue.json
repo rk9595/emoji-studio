@@ -1,16 +1,17 @@
 {
-  "status": "ready",
+  "status": "waiting_user",
   "milestone": "Offline AMD smoke execution prerequisites",
   "cloud_repository": "rk9595/emoji-studio-ops",
   "cloud_release": "amd-comparison-v1",
   "next_actions": [
-    "Read docs/amd-api-smoke-plan.md and docs/smoke-cleanup-contract.md. Implement/failure-test checksum-verified private export for the NEW smoke with mocked storage, sanitized manifests and independent download verification. Cleanup must proceed even if export fails. No deployment/provisioning, no comparison-state edits/reset, no new spending.",
-    "Runtime proposal remains metadata-only: use docs/amd-runtime-proposal.md for later Linux/amd64 build/inventory/dependency/ABI checks, derived-image digest and in-image mock tests. Do not install GPU packages on the Mac. Cleanup contract is offline-only: live gates include pre-allocation reservation/ambiguous POST reconciliation, authenticated provider adapter, independent durable scheduling/registration, and worker/controller deadline integration. Keep active execution lock unchanged until reviewed integration.",
-    "After ready offline work is done, request missing Linux build arrangement, separately bounded GPU allowance and persistent-hosting budget/access choice where required; set waiting_user when those decisions block progress. Keep the active 23-file plan's runtime unresolved until actual verification, and explicitly relock any changed active sources."
+    "Await suitable Linux/amd64 builder/access reference or user choice to prepare a new builder proposal. Local Docker is linux/arm64 and Mac filesystem has about 20 GiB available; base layers alone are 12.76 GB compressed before extraction/build. No paid provisioning or unrelated disk cleanup is authorized.",
+    "After builder choice, use docs/amd-runtime-proposal.md to prepare/run reviewed build, base/post-overlay inventories, dependency/ABI/import checks, derived-image digest and in-image mock tests. Runtime remains unresolved until actual verification. Do not install GPU packages into the Mac or relock unreviewed active sources.",
+    "Then integrate the offline cleanup/export contracts with private durable ticket/receipt storage, authenticated adapters, pre-allocation reservation/ambiguous POST reconciliation, independent scheduling and worker deadlines. Live execution still needs separately bounded GPU allowance; persistent hosting needs budget/access. Never reset or reuse the consumed comparison."
   ],
-  "completed_offline": "2026-10-25: Standalone smoke cleanup contract complete with mocked provider responses. Exact immutable ownership/resource binding, minute-25 cleanup, minute-30 escalation, durable pending before calls and exact GET absence required for completion. Crash/reopen, ack loss, mismatches, time/storage failures tested; 82 tests/85 subtests passed. No deployment/provider calls/spending; active 23-file lock unchanged. See docs/smoke-cleanup-contract.md and reports/smoke-cleanup-preparation.json. Independent cloud reaper remains a live gate.",
+  "waiting_reason": "Runtime validation requires a suitable Linux/amd64 build environment and access choice; queued offline cleanup and private-export components are complete. No live runtime, independent cloud reaper or storage adapter is claimed ready.",
+  "completed_offline": "2026-10-25: Private export contract complete with mocked storage and real MockRenderer PNG/WebP bytes. Sanitized manifest/images, private new namespace, conditional upload, independent checksum download and ticket-only recovery; cleanup stays independent. 103 tests/125 subtests passed. No live upload/deployment/spending; active 23-file execution lock unchanged. See docs/smoke-private-export.md and reports/smoke-export-preparation.json.",
   "last_completed_task": {
-    "name": "Durable exact-resource smoke cleanup and expiry contract with mocked provider responses",
+    "name": "Private smoke export with sanitized manifests and independent checksum verification",
     "status": "complete",
     "date": "2026-10-25"
   },

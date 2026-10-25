@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-25",
+  "component": "amd-api-smoke-v1 private export verification contract",
+  "offline_component_status": "complete",
+  "status": "prepared_only",
+  "execution_authorized": false,
+  "approved_allowance_usd": null,
+  "live_storage_calls": 0,
+  "new_allocations": 0,
+  "active_execution_lock_changed": false,
+  "source_sha256": {
+    "src/emoji_studio/smoke_export.py": "0c49c269b4df120fb1f32f3648195711a5a34e2d002f9b969ba94e496e5a477f",
+    "tests/test_smoke_export.py": "ca82a686c47bb7d908ad2d51bc76d8f2e92c08c6530258832a0ac20dc8527534",
+    "docs/smoke-private-export.md": "4d670c00f677661d96194e70f2f8eb9608dd8cf6f2343963027528505007436d",
+    "configs/amd-api-smoke-plan.json": "9e341c6dfc7a87d99593580ae683bf64b2385d4633d23f96339b369024bbc4a2",
+    "configs/serving.json": "51ace9667447113a22cfadea1ca606539ad264086421e7e7c241561c7401534f"
+  },
+  "validation": {
+    "command": "PYTHONPATH=.venv/lib/python3.12/site-packages:src python3 -m pytest -q tests/test_smoke_export.py tests/test_smoke_cleanup.py tests/test_render_budget.py tests/test_mock_smoke_executor.py tests/test_amd_api_smoke_plan.py tests/test_amd_runtime_proposal.py",
+    "tests_passed": 103,
+    "subtests_passed": 125,
+    "new_export_tests": 21,
+    "new_export_subtests": 40,
+    "existing_deprecation_warnings": 2,
+    "ruff": "passed",
+    "active_plan_check": "23 files and private adapter verified; prepared_only",
+    "runtime_proposal_check": "passed; runtime_validated remains false",
+    "storage": "in-memory mocks only; real MockRenderer PNG/WebP exports",
+    "recovery": "retained ticket verifies fresh downloads without local source bundle; lost manifest upload acknowledgment reconciles without reupload",
+    "cleanup": "export read failure does not change independent cleanup ledger; exact absence still completes cleanup"
+  },
+  "contract": {
+    "allowed_repository": "rk9595/emoji-studio-ops",
+    "namespace": "amd-api-smoke-v1/<fresh allocation nonce>",
+    "private_required": true,
+    "surviving_image_pairs": [1, 2],
+    "image_byte_limit": 4194304,
+    "manifest_byte_limit": 16384,
+    "adapter_timeout_seconds": 10,
+    "automatic_write_retries": 0,
+    "overwrite_allowed": false,
+    "image_metadata": "pixel-only re-encoding; source and sanitized hashes retained",
+    "verification": "separate reader checks pinned manifest, exact lengths and SHA-256 of every expected object",
+    "verification_does_not_imply": ["cleanup verified", "smoke accepted", "live storage adapter ready"]
+  },
+  "builder_evidence": {
+    "local_host_architecture": "arm64",
+    "docker_server_platform": "linux/arm64",
+    "local_filesystem_available_gib_approx": 20,
+    "base_compressed_layer_bytes": 12763439494,
+    "base_layers_pulled": false,
+    "next_required_input": "Suitable Linux/amd64 builder and access arrangement; enough capacity for download plus extracted/build layers"
+  }
+}

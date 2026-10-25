@@ -4,15 +4,15 @@
   "cloud_repository": "rk9595/emoji-studio-ops",
   "cloud_release": "amd-comparison-v1",
   "next_actions": [
-    "Read docs/amd-api-smoke-plan.md and retained cleanup receipts/patterns. Implement/failure-test a separate smoke expiry/reaper and exact-resource deletion contract using mocked provider responses. Bind campaign/resource ownership and deadline; never delete unrelated resources; retain pending-cleanup until provider absence is verified. No deployment/provisioning, no comparison-state edits/reset, no new spending.",
-    "Implement checksum-verified private export for the new smoke. Runtime proposal is metadata-only: use docs/amd-runtime-proposal.md for later Linux/amd64 build/inventory/dependency/ABI checks, derived-image digest and in-image mock tests. Do not install GPU packages on the Mac or claim excluded base dependencies were validated. Live executor still needs runtime/deadline/controller gates.",
+    "Read docs/amd-api-smoke-plan.md and docs/smoke-cleanup-contract.md. Implement/failure-test checksum-verified private export for the NEW smoke with mocked storage, sanitized manifests and independent download verification. Cleanup must proceed even if export fails. No deployment/provisioning, no comparison-state edits/reset, no new spending.",
+    "Runtime proposal remains metadata-only: use docs/amd-runtime-proposal.md for later Linux/amd64 build/inventory/dependency/ABI checks, derived-image digest and in-image mock tests. Do not install GPU packages on the Mac. Cleanup contract is offline-only: live gates include pre-allocation reservation/ambiguous POST reconciliation, authenticated provider adapter, independent durable scheduling/registration, and worker/controller deadline integration. Keep active execution lock unchanged until reviewed integration.",
     "After ready offline work is done, request missing Linux build arrangement, separately bounded GPU allowance and persistent-hosting budget/access choice where required; set waiting_user when those decisions block progress. Keep the active 23-file plan's runtime unresolved until actual verification, and explicitly relock any changed active sources."
   ],
-  "completed_offline": "2026-10-24: Runtime metadata proposal completed: official ROCm base manifest/config digests verified (12.76 GB compressed layers, none pulled), 45-package hashed application overlay resolved and reproduced from cached metadata. Five base GPU packages/dependencies excluded, so combined runtime compatibility remains unverified. 22 tests/30 subtests passed. No packages installed, image built, GPU allocated or spending; active 23-file execution lock unchanged with runtime unresolved. See docs/amd-runtime-proposal.md and reports/amd-runtime-preparation.json.",
+  "completed_offline": "2026-10-25: Standalone smoke cleanup contract complete with mocked provider responses. Exact immutable ownership/resource binding, minute-25 cleanup, minute-30 escalation, durable pending before calls and exact GET absence required for completion. Crash/reopen, ack loss, mismatches, time/storage failures tested; 82 tests/85 subtests passed. No deployment/provider calls/spending; active 23-file lock unchanged. See docs/smoke-cleanup-contract.md and reports/smoke-cleanup-preparation.json. Independent cloud reaper remains a live gate.",
   "last_completed_task": {
-    "name": "Immutable AMD base metadata and conditional hashed overlay proposal",
+    "name": "Durable exact-resource smoke cleanup and expiry contract with mocked provider responses",
     "status": "complete",
-    "date": "2026-10-24"
+    "date": "2026-10-25"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",

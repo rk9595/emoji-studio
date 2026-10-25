@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-25",
+  "component": "amd-api-smoke-v1 exact-resource cleanup contract",
+  "offline_component_status": "complete",
+  "status": "prepared_only",
+  "execution_authorized": false,
+  "approved_allowance_usd": null,
+  "cloud_deployed": false,
+  "live_provider_calls": 0,
+  "new_allocations": 0,
+  "active_execution_lock_changed": false,
+  "source_sha256": {
+    "src/emoji_studio/smoke_cleanup.py": "e059d736d998a7202ebfca1df363317911aa7e778a624b5b5d9f9927ca7fa359",
+    "tests/test_smoke_cleanup.py": "cd70812ca56c6ae391e2ba291253396d3b1e8d9ec9ef5fbb0b79480f36bc83a8",
+    "docs/smoke-cleanup-contract.md": "4edb70fab2bd54ea65ae7143e0e17de8ec41f4de0e007a3c34818a51b7e72652",
+    "configs/amd-api-smoke-plan.json": "9e341c6dfc7a87d99593580ae683bf64b2385d4633d23f96339b369024bbc4a2",
+    "configs/serving.json": "51ace9667447113a22cfadea1ca606539ad264086421e7e7c241561c7401534f"
+  },
+  "validation": {
+    "command": "PYTHONPATH=.venv/lib/python3.12/site-packages:src python3 -m pytest -q tests/test_smoke_cleanup.py tests/test_render_budget.py tests/test_mock_smoke_executor.py tests/test_amd_api_smoke_plan.py tests/test_amd_runtime_proposal.py",
+    "tests_passed": 82,
+    "subtests_passed": 85,
+    "new_cleanup_tests": 24,
+    "new_cleanup_subtests": 45,
+    "existing_deprecation_warnings": 2,
+    "ruff": "passed",
+    "active_plan_check": "23 files and private adapter verified; prepared_only",
+    "runtime_proposal_check": "passed; runtime_validated remains false",
+    "provider_responses": "mocked only",
+    "crash_test": "spawned child exits during DELETE; reopened ledger remains pending and exact GET absence completes cleanup"
+  },
+  "contract": {
+    "cleanup_start_seconds_after_creation": 1500,
+    "hard_deadline_seconds_after_creation": 1800,
+    "maximum_exact_gets_per_tick": 2,
+    "maximum_deletes_per_tick": 1,
+    "polling_or_sleep_loop": false,
+    "terminal_evidence": "separate exact-resource authenticated GET 404; DELETE acknowledgment is insufficient",
+    "failure_state": "pending_cleanup, including after deadline"
+  },
+  "remaining_live_gates": [
+    "pre-allocation reservation and ambiguous allocation reconciliation",
+    "authenticated provider adapter and bounded transport contract",
+    "independent durable cloud registration, scheduler and failure escalation",
+    "live worker deadline enforcement and controller integration",
+    "verified private export and durable private cleanup receipts",
+    "validated immutable runtime, reviewed source-lock integration and separately bounded spend authority"
+  ]
+}

@@ -1,4 +1,4 @@
-# Current state — 2026-10-24
+# Current state — 2026-10-25
 
 User authorized continuing private-alpha work with maximum automation, usage-reset
 continuation and concise memory. Read `ops/work-queue.json` next. Preserve unrelated
@@ -6,23 +6,26 @@ recovered worktree changes; historical handoffs are not the current plan.
 
 ## Latest completed work
 
-AMD runtime metadata proposal completed:
-`configs/amd-runtime-proposal.json`, `docs/amd-runtime-proposal.md`,
-`reports/amd-runtime-preparation.json`. Official ROCm 7.2 / Ubuntu24.04 / Python3.12 /
-Torch2.10 candidate base manifest digest bcb2efa1…32763e4 verified against registry
-bytes and archived public config. Eight layers total 12.76 GB compressed; NO
-layers pulled, GPU packages installed or GPU allocated. This is not proven to be
-the identical image used in the historical comparison.
+Offline cleanup contract completed: `docs/smoke-cleanup-contract.md`,
+`src/emoji_studio/smoke_cleanup.py`, `reports/smoke-cleanup-preparation.json`.
+Immutable account/campaign/allocation/resource/plan/creation binding; cleanup at
+minute 25, hard deadline minute 30. Durable pending state precedes provider calls;
+only exact GET absence completes cleanup. Crash/ack loss, identity mismatches,
+deadline failures and clock rollback tested. Separate POSIX lock file serializes
+ticks; missing/replaced files fail closed. No network adapter, scheduler, cloud
+deployment or allocation. Local trusted disk only; no distributed durability claim.
+**82 tests/85 subtests passed**, including 24 cleanup tests; two existing warnings.
+Ruff and both plan/runtime checks passed; active 23-file lock unchanged. Live
+reaper gate remains open: external registration/scheduling, provider adapter,
+pre-allocation reservation/reconciliation and deadline/controller integration needed.
 
-`configs/amd-overlay-linux-py312.txt`: 45 pinned/hash-listed application packages,
-11 direct pins from retained uv.lock. Base Torch/vision/audio/Triton/Apex excluded
-with their dependency traversal, so combined dependency compatibility remains
-unverified. Second compile from cached metadata was byte-identical.
-Checker `python3 scripts/check_amd_runtime_proposal.py` is offline/read-only;
-explicit --registry reads only public fixed metadata and rejects tag drift.
-**22 tests/30 subtests passed**, including 10 new tests; Ruff/diff checks pass.
+Runtime proposal remains metadata-only: `docs/amd-runtime-proposal.md`,
+`reports/amd-runtime-preparation.json`. ROCm7.2/Python3.12/Torch2.10 base digest
+bcb2efa1…32763e4 verified; 12.76 GB compressed layers not pulled. Application
+overlay has 45 pinned/hash-listed packages. Base GPU packages/dependency traversal
+excluded, so combined compatibility is unverified. No image build or installation.
+Offline checker: `python3 scripts/check_amd_runtime_proposal.py`.
 Status prepared_only; runtime_validated false; derived image digest null.
-Existing 23-file execution source lock unchanged, runtime still unresolved.
 
 Mock-only executor/guard complete: `docs/mock-smoke-executor.md`,
 `docs/render-budget.md`, `reports/mock-smoke-executor.json`. Stable job/image IDs;
@@ -62,12 +65,10 @@ currently select CUDA; do not install that lock unchanged on AMD.
 
 ## Next ready work
 
-Next: implement/failure-test independent expiry/reaper and exact-resource deletion
-for the NEW smoke using mocked provider responses and the existing retained cleanup
-patterns. Bind resource ownership/campaign/deadline, never delete unrelated assets,
-and retain pending-cleanup until provider absence is verified. No deployment,
-provisioning or modification/reset of the consumed comparison.
-Then implement verified private export. Runtime proposal still needs a suitable
+Next: implement/failure-test checksum-verified private export with mocked storage,
+sanitized manifests and independent download verification for the NEW smoke.
+No deployment, provisioning or modification/reset of the consumed comparison.
+Runtime proposal still needs a suitable
 Linux/amd64 build environment with disk capacity, base/post-overlay inventories,
 dependency/ABI/import checks, derived-image digest and in-image mock tests.
 Do not install the overlay into this Mac or silently treat exclusions as validation.
@@ -93,6 +94,6 @@ Collection-v3 proposal is a draft; no annotation/training approval changed.
 LaunchAgent `com.emoji-studio.codex-supervisor` checks every 15 minutes, respects
 usage resets, skips active turns and may compact after six fresh handoffs.
 Runtime ignored under `var/automation/`; Mac awake/app-server required.
-Latest user continuation October 24. Do not promise uninterrupted reasoning.
+Latest user continuation October 25. Do not promise uninterrupted reasoning.
 Cloud campaign is complete and guarded against reallocation. AMD token needs
 eventual rotation; never expose credentials in prompts/logs/reports/Git.

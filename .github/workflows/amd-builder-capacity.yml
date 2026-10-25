@@ -1,0 +1,56 @@
+name: AMD runtime CPU builder capacity
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: amd-runtime-cpu-capacity
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    if: github.repository == 'rk9595/emoji-studio' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Inspect disposable CPU runner without modifying it
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import platform
+          import shutil
+          import subprocess
+          from pathlib import Path
+
+          disks = {}
+          for name in ('/', '/mnt', '/var/lib/docker'):
+              path = Path(name)
+              if path.exists():
+                  usage = shutil.disk_usage(path)
+                  disks[name] = {'total_bytes': usage.total, 'free_bytes': usage.free,
+                                 'device': path.stat().st_dev}
+          tool_sizes = {}
+          for name in ('/usr/local/lib/android', '/usr/share/dotnet', '/usr/share/swift',
+                       '/usr/local/share/boost', '/opt/hostedtoolcache'):
+              if Path(name).exists():
+                  result = subprocess.run(['du', '-sk', name], capture_output=True,
+                                          text=True, timeout=60)
+                  if result.returncode == 0:
+                      tool_sizes[name] = int(result.stdout.split()[0]) * 1024
+          result = {'status': 'capacity_observed', 'system': platform.system(),
+                    'architecture': platform.machine(), 'cpu_count': os.cpu_count(),
+                    'disks': disks, 'installed_tool_bytes': tool_sizes,
+                    'run_id': os.environ['GITHUB_RUN_ID'],
+                    'source_commit': os.environ['GITHUB_SHA'],
+                    'gpu_allocations': 0, 'image_layers_pulled': False,
+                    'tools_deleted': False, 'paid_runner_allowed': False}
+          print('BUILDER_CAPACITY=' + json.dumps(result, sort_keys=True))
+          Path(os.environ['GITHUB_STEP_SUMMARY']).write_text(
+              'CPU capacity observation only; no build, GPU or image pull.\n\n```json\n'
+              + json.dumps(result, indent=2, sort_keys=True) + '\n```\n')
+          PY

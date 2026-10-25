@@ -1,0 +1,56 @@
+name: AMD runtime CPU validation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: amd-runtime-cpu-build
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    if: github.repository == 'rk9595/emoji-studio' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Require native CPU builder and sufficient fresh disk
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -m)" = x86_64
+          test "$(docker info --format '{{.Architecture}}')" = x86_64
+          python3 - <<'PY'
+          import json, shutil
+          from pathlib import Path
+          usage = shutil.disk_usage('/var/lib/docker')
+          proposal = json.loads(Path('configs/amd-builder-proposal.json').read_text())
+          assert usage.free >= proposal['minimum_free_gib'] * 1024**3, 'Insufficient disk; no pull allowed'
+          print(json.dumps({'free_bytes': usage.free, 'minimum_free_gib': proposal['minimum_free_gib'],
+                            'paid_fallback': False, 'gpu_allocations': 0}))
+          PY
+          python3 scripts/check_amd_runtime_proposal.py
+          python3 scripts/check_amd_api_smoke_plan.py
+      - name: Stage only hash-reviewed public inputs
+        run: python3 scripts/prepare_amd_build_context.py --output "$RUNNER_TEMP/emoji-amd-context"
+      - name: Build once with CPU-only checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout 35m docker build --platform linux/amd64 --progress plain \
+            --tag "emoji-amd-cpu-audit:${GITHUB_RUN_ID}" "$RUNNER_TEMP/emoji-amd-context"
+      - name: Record local image identity and audit receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker image inspect "emoji-amd-cpu-audit:${GITHUB_RUN_ID}" \
+            --format 'LOCAL_IMAGE_CONFIG_DIGEST={{.Id}}'
+          docker run --rm --network none --entrypoint python3 \
+            "emoji-amd-cpu-audit:${GITHUB_RUN_ID}" -c \
+            "from pathlib import Path; print(Path('/audit/cpu-verification.json').read_text())"
+          printf '%s\n' 'CPU validation passed. Image is ephemeral; no registry push, GPU validation or execution authority.' >> "$GITHUB_STEP_SUMMARY"

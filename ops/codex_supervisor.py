@@ -65,7 +65,27 @@ def save(state):
     temporary.replace(RUNTIME / "supervisor-state.json")
 
 
-def cloud_state(config):
+def cloud_state(config, queue=None):
+    if queue and "cloud_run_id" in queue:
+        run_id = str(queue["cloud_run_id"])
+        repository = queue.get("cloud_repository")
+        expected_head = queue.get("cloud_run_head")
+        if (repository != "rk9595/emoji-studio" or not run_id.isascii() or not run_id.isdecimal()
+                or not isinstance(expected_head, str) or len(expected_head) != 40
+                or any(c not in "0123456789abcdef" for c in expected_head)):
+            raise ValueError("Invalid CPU build receipt identity")
+        result = subprocess.run(
+            [config["gh"], "run", "view", run_id, "--repo", repository,
+             "--json", "status,conclusion,headSha,url,workflowName"],
+            check=True, capture_output=True, text=True, timeout=30,
+        )
+        receipt = json.loads(result.stdout)
+        if (receipt["headSha"] != expected_head
+                or receipt["workflowName"] != "AMD runtime CPU validation"):
+            raise ValueError("CPU build receipt differs from queued source/workflow")
+        return {"status": ("completed" if receipt["conclusion"] == "success" else "failed")
+                if receipt["status"] == "completed" else "running",
+                "run_id": run_id, "conclusion": receipt["conclusion"]}
     with tempfile.TemporaryDirectory(prefix="emoji-cloud-status-") as directory:
         for attempt in range(3):
             try:
@@ -118,7 +138,7 @@ def tick(config, diagnostic=False):
             save(state)
             return
         if queue["status"] == "waiting_cloud":
-            remote = cloud_state(config)
+            remote = cloud_state(config, queue)
             state["cloud_status"] = remote["status"]
             if remote["status"] not in ("completed", "failed", "expired"):
                 state["reason"] = "cloud_still_working"

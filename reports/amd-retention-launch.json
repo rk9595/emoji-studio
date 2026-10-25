@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-25",
+  "status_at_handoff": "running",
+  "run_id": "40170595914",
+  "run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40170595914",
+  "source_commit": "7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2",
+  "workflow": "AMD runtime private retention",
+  "approved_source_variable_matches": true,
+  "monitor_live_check": "running; exact source/workflow matched",
+  "preparation_receipt": "reports/amd-retention-preparation.json",
+  "publication_scope": "one private ghcr.io/rk9595/emoji-studio-amd-runtime version",
+  "registry_success_verified": false,
+  "fresh_pull_verified": false,
+  "gpu_execution_authorized": false,
+  "paid_execution_authorized": false,
+  "comparison_repeated": false,
+  "next_action": "Wait for terminal receipt using ordinary supervisor; no model polling or automatic retry"
+}

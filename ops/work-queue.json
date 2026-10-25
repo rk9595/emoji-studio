@@ -1,7 +1,11 @@
 {
-  "status": "ready",
-  "milestone": "Private immutable AMD runtime retention preparation",
+  "status": "waiting_cloud",
+  "milestone": "Private immutable AMD runtime retention and fresh-pull verification",
   "cloud_repository": "rk9595/emoji-studio",
+  "cloud_run_id": "40170595914",
+  "cloud_run_head": "7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2",
+  "cloud_run_workflow": "AMD runtime private retention",
+  "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40170595914",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -9,17 +13,18 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Read docs/amd-cpu-validation.md and configs/amd-image-retention-proposal.json. Implement/failure-test a dedicated private GHCR retention workflow and remote manifest/config/platform/privacy checks. One unique version; no overwrite/latest, public visibility change, automatic retry, existing-version deletion or paid fallback. Publication remains false during preparation; resolve any missing authority/access only after a concrete reviewable workflow exists.",
-    "A retained image requires a new reviewed workflow build with repeated CPU checks, then authenticated remote digest verification and independent fresh pull by immutable digest. Recheck GHCR zero-cost container policy before execution. The prior local config digest is not a registry manifest and the ephemeral image is gone. Do not merely rerun the old validation-only workflow.",
-    "After retention, integrate offline cleanup/export with private durable receipts, adapters, reservation/reconciliation and independent scheduling. Keep active 23-file runtime unresolved until actual verification and reviewed integration. GPU smoke needs separately bounded allowance; persistent hosting needs budget/access. Never reset/reuse the comparison."
+    "Let ordinary supervisor wait on exact retention run 40170595914/head/workflow; no model polling. When terminal, retain sanitized RETENTION_RECEIPT or first failure. Success requires both publish and fresh-pull/audit jobs; remote metadata alone is not final acceptance. See docs/amd-private-retention.md.",
+    "If copy fails or acknowledgment is lost, reconcile the original unique source/run tag read-only before any action. No automatic rerun, second version, deletion, visibility change or paid fallback. If preflight fails before any push, inspect evidence and deliberately review a fix before a new attempt. Keep source/rerun/privacy/digest gates intact.",
+    "After verified retention, record immutable manifest/config digests and fresh CPU audit, leaving GPU validation false. Then integrate reservations/reconciliation, private receipts/export and independent cleanup scheduling. Active 23-file plan needs explicit reviewed integration; GPU smoke requires separately bounded allowance, hosting needs budget/access. Never reset/reuse comparison."
   ],
-  "completed_offline": "2026-10-25: Free CPU build passed in 523 seconds: 103 in-image tests, HTTP/executor smokes, dependency/native CPU checks. Retained 42 base/78 installed packages; 45 overlay pins match and five GPU base versions unchanged. Receipt reports/amd-cpu-validation.json; private GHCR retention proposal prepared. No GPU, paid resources, registry push or comparison repeat. Active execution/runtime locks unchanged.",
+  "waiting_reason": "One bounded private retention attempt is running on standard public CPU runners. Exact source variable bound; existing user delegation covers the currently free private artifact. No live publication or fresh-pull success claimed until receipt.",
+  "completed_offline": "2026-10-25: Private retention workflow/verifier prepared and reviewed: 72 tests/112 subtests, Ruff/YAML checks passed, unchanged 38-file builder context. Fixed private namespace, one version, Skopeo zero command retries, remote manifest/config/platform/privacy checks and separate fresh pull/audit job. See reports/amd-retention-preparation.json. Run 40170595914 dispatched; no GPU/paid resource or comparison repeat.",
   "last_completed_task": {
-    "name": "CPU runtime validation evidence retained and private image retention proposed",
+    "name": "Private retention workflow, verifier and receipt monitoring prepared and reviewed",
     "status": "complete",
     "date": "2026-10-25"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "Comparison is complete and consumed. No fifth attempt, reset, new training or paid hosting. Delegated free CPU validation succeeded. Current ready task prepares private retention; publication is false and no new build is dispatched. No GPU or paid fallback; new paid execution requires a separately bounded allowance."
+  "allocation_policy": "Comparison is complete/consumed: no fifth allocation, reset, new training or paid hosting. Existing delegated implementation authority covers one private runtime version using currently free GHCR and standard public CPU runners, with exact-source gate and no overwrite/retry/delete/public/paid fallback. GPU and paid execution remain unauthorized; need separately bounded allowance."
 }

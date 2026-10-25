@@ -6,16 +6,26 @@ recovered worktree changes; historical handoffs are not the current plan.
 
 ## Latest completed work
 
-Offline private export completed: `docs/smoke-private-export.md`,
-`src/emoji_studio/smoke_export.py`, `reports/smoke-export-preparation.json`.
-One/two surviving PNG/WebP pairs; pixel-only re-encoding strips metadata; manifest
-records source/sanitized hashes and binds plan/serving/allocation. Private new
-smoke namespace only. Conditional writes, manifest last, no automatic retries;
-only fresh downloads against an externally retained ticket verify export.
-Partial/corrupt/missing uploads and lost acknowledgments tested; verification
-does not imply cleanup or smoke acceptance. No live storage adapter/upload.
-**103 tests/125 subtests passed**, including 21 export tests; two existing warnings.
-Ruff and both plan/runtime checks passed. Active 23-file lock unchanged.
+User delegated builder choice October 25. Selected free standard public GitHub
+CPU runner; prior host-choice blocker resolved. Read-only capacity run 40166118846
+found native x86-64, four CPUs and 85.4 GiB free without deleting tools.
+`docs/amd-cpu-builder.md`, `configs/amd-builder-proposal.json` lock 38 public app
+inputs and two recipe files. No private artifacts enter context; no broad repo COPY.
+One CPU validation run **40166592399** launched at source
+`acef6db19b00ddcb07dbff290bfde2ff825c80ed`; live receipt check says running.
+https://github.com/rk9595/emoji-studio/actions/runs/40166592399
+35-minute build/45-minute job caps; fresh 60-GiB disk guard; no paid fallback,
+GPU allocation, model download, registry push or artifact/cache upload.
+Receipt: `reports/amd-cpu-build-launch.json`. **52 tests/64 subtests passed**;
+six runtime modules (103 tests) also passed from isolated staged context on the
+Mac dependencies, proving context completeness only. Ruff/YAML checks passed.
+CPU/GPU compatibility and derived OCI manifest digest remain unverified.
+
+Offline export/cleanup prototypes complete: `docs/smoke-private-export.md`,
+`docs/smoke-cleanup-contract.md`; preparation receipts under `reports/`.
+Sanitized export manifest/images, conditional private writes, independent download
+checks and ticket recovery tested; exact resource absence required for cleanup.
+Prior 103 tests/125 subtests passed. No live storage/provider adapter or scheduler.
 
 Cleanup prototype complete: `docs/smoke-cleanup-contract.md`,
 `reports/smoke-cleanup-preparation.json`. Exact immutable ownership/resource
@@ -67,21 +77,22 @@ ROCm OCI/dependency lock, dedicated budgeted executor, independent reaper/deleti
 receipts and verified private export remain prerequisites. Linux GPU dependencies
 currently select CUDA; do not install that lock unchanged on AMD.
 
-## Waiting for user — builder/access choice
+## Waiting on free CPU build
 
-Queued offline cleanup/export components are complete. Next runtime validation
-needs a suitable Linux/amd64 builder with room for 12.76 GB compressed base plus
-extracted/build layers. Read-only local check: Docker server linux/arm64; Mac
-filesystem ~20 GiB available. No base layers pulled or packages installed.
-Request an existing builder/access reference, or a choice to prepare a new builder
-proposal. Do not provision paid infrastructure or clean unrelated files to fit it.
+Queue is waiting_cloud with exact public Actions run/head/workflow. Supervisor
+supports this receipt identity and skips model turns while running; it must not
+read the completed comparison's release as this build's completion evidence.
+Do not model-poll, auto-rerun, weaken checks or switch to paid capacity.
+On completion/failure, retain base/post-overlay package inventories and first
+failure. Review expected base exclusions, dependency/ABI/import checks and in-image
+mock tests; make explicit reviewed recipe/lock changes if needed.
+Success gives CPU compatibility only. Local image ID is a config digest, not a
+published OCI manifest; plan immutable image retention/publication separately.
 
-After builder choice: prepare/run reviewed runtime build, collect base/post-overlay
-inventories, dependency/ABI/import checks, derived-image digest and in-image tests.
-Then integrate private storage/ticket/receipt persistence, pre-allocation
-reservation/reconciliation, independent cloud scheduling and worker deadlines.
-No deployment, comparison reset or spending authorized. Live HIP/GPU validation
-still needs separately bounded authority; persistent hosting needs budget/access.
+After CPU validation, integrate private storage/ticket/receipt persistence,
+pre-allocation reservation/reconciliation, independent scheduling and deadlines.
+No comparison reset or paid execution. Live HIP/GPU validation still needs a
+separately bounded allowance; persistent hosting needs budget/access.
 Any active locked changes need tests and explicit reviewed relock.
 
 ## Retained evidence

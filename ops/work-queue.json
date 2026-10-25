@@ -1,21 +1,23 @@
 {
-  "status": "waiting_user",
+  "status": "waiting_cloud",
   "milestone": "Offline AMD smoke execution prerequisites",
-  "cloud_repository": "rk9595/emoji-studio-ops",
-  "cloud_release": "amd-comparison-v1",
+  "cloud_repository": "rk9595/emoji-studio",
+  "cloud_run_id": "40166592399",
+  "cloud_run_head": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
+  "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40166592399",
   "next_actions": [
-    "Await suitable Linux/amd64 builder/access reference or user choice to prepare a new builder proposal. Local Docker is linux/arm64 and Mac filesystem has about 20 GiB available; base layers alone are 12.76 GB compressed before extraction/build. No paid provisioning or unrelated disk cleanup is authorized.",
-    "After builder choice, use docs/amd-runtime-proposal.md to prepare/run reviewed build, base/post-overlay inventories, dependency/ABI/import checks, derived-image digest and in-image mock tests. Runtime remains unresolved until actual verification. Do not install GPU packages into the Mac or relock unreviewed active sources.",
-    "Then integrate the offline cleanup/export contracts with private durable ticket/receipt storage, authenticated adapters, pre-allocation reservation/ambiguous POST reconciliation, independent scheduling and worker deadlines. Live execution still needs separately bounded GPU allowance; persistent hosting needs budget/access. Never reset or reuse the consumed comparison."
+    "Let the ordinary supervisor read the exact public CPU build Actions receipt; do not model-poll or auto-rerun. On completion/failure of run 40166592399 at acef6db19b00ddcb07dbff290bfde2ff825c80ed, retain package inventories and first failure from logs. Do not consult the completed comparison release for this build's status.",
+    "Review CPU build results against docs/amd-cpu-builder.md. Investigate base-exclusion/dependency/ABI/test failures without silently replacing the GPU stack or weakening gates. Any subsequent CPU attempt needs a deliberate reviewed recipe/lock change. No paid fallback. Success is CPU compatibility only, not GPU validation or a published OCI manifest digest.",
+    "After CPU validation, plan immutable image retention/publication and integrate offline cleanup/export with private durable receipts, adapters, reservation/reconciliation and independent scheduling. Keep active 23-file runtime unresolved until actual verification and reviewed integration. GPU smoke needs separately bounded allowance; persistent hosting needs budget/access. Never reset/reuse the comparison."
   ],
-  "waiting_reason": "Runtime validation requires a suitable Linux/amd64 build environment and access choice; queued offline cleanup and private-export components are complete. No live runtime, independent cloud reaper or storage adapter is claimed ready.",
-  "completed_offline": "2026-10-25: Private export contract complete with mocked storage and real MockRenderer PNG/WebP bytes. Sanitized manifest/images, private new namespace, conditional upload, independent checksum download and ticket-only recovery; cleanup stays independent. 103 tests/125 subtests passed. No live upload/deployment/spending; active 23-file execution lock unchanged. See docs/smoke-private-export.md and reports/smoke-export-preparation.json.",
+  "waiting_reason": "User delegated builder selection; free standard public GitHub x86-64 runner had 85.4 GiB free. One bounded CPU build is running; receipt-driven continuation is implemented. No user host choice is currently needed.",
+  "completed_offline": "2026-10-25: Reviewed CPU builder recipe/context complete (38 public app files plus two recipe files), 52 tests/64 subtests passed; isolated-context runtime modules add 103 passing tests. Free capacity probe succeeded; CPU build 40166592399 launched with 35/45-minute caps and 60-GiB disk guard. No GPU, paid runner, registry push or local base pull. See docs/amd-cpu-builder.md and reports/amd-cpu-build-launch.json.",
   "last_completed_task": {
-    "name": "Private smoke export with sanitized manifests and independent checksum verification",
+    "name": "Free CPU builder selection, reviewed recipe and receipt-driven continuation",
     "status": "complete",
     "date": "2026-10-25"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "Comparison is completed and consumed. No fifth attempt, state reset, new training or new paid hosting. Current ready queue is offline work only; new paid execution requires a separately bounded allowance."
+  "allocation_policy": "Comparison is completed and consumed. No fifth attempt, state reset, new training or paid hosting. One free standard public GitHub CPU validation build is authorized by delegated builder choice; no GPU allocation or paid fallback. New paid execution requires a separately bounded allowance."
 }

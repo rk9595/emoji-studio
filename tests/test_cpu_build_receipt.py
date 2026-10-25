@@ -41,6 +41,11 @@ class CPUReceiptTest(unittest.TestCase):
                 receipt = {**self.receipt, "status": status, "conclusion": ""}
                 self.assertEqual(self.read(receipt)["status"], "running")
 
+    def test_read_only_reconciliation_receipt(self):
+        self.queue["cloud_run_workflow"] = "AMD runtime retention reconciliation"
+        self.receipt["workflowName"] = "AMD runtime retention reconciliation"
+        self.assertEqual(self.read(self.receipt)["status"], "completed")
+
     def test_failed_cancelled_and_timed_out_builds_need_review(self):
         for conclusion in ("failure", "cancelled", "timed_out", "skipped"):
             with self.subTest(conclusion=conclusion):

@@ -1,0 +1,43 @@
+name: AMD runtime retention reconciliation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+concurrency:
+  group: amd-runtime-private-retention
+  cancel-in-progress: false
+
+jobs:
+  reconcile:
+    if: github.repository == 'rk9595/emoji-studio' && github.event.repository.private == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Read original tag without publication or layer downloads
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! python3 scripts/verify_ghcr_retention.py reconcile \
+            --tag cpu-7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2-40170595914 \
+            --config-digest sha256:776b9b0ab43ca3451205bceb879777bd395271a8d4b398871c29102e32f41ba0 \
+            > "$RUNNER_TEMP/reconciliation.json"; then
+            cat "$RUNNER_TEMP/reconciliation.json"
+            exit 1
+          fi
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          receipt = json.loads((Path(os.environ['RUNNER_TEMP'])/'reconciliation.json').read_text())
+          receipt.update(original_run_id='40170595914', run_id=os.environ['GITHUB_RUN_ID'],
+                         source_commit=os.environ['GITHUB_SHA'], read_only=True)
+          print('RECONCILIATION_RECEIPT='+json.dumps(receipt, sort_keys=True))
+          PY

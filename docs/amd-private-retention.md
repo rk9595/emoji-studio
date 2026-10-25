@@ -1,6 +1,6 @@
 # Private AMD runtime retention workflow — October 25, 2026
 
-The dedicated workflow is prepared and reviewed after **72 tests/112 subtests**
+The original dedicated workflow was prepared and reviewed after **72 tests/112 subtests**
 passed. It is at `.github/workflows/amd-runtime-retain.yml`, with an identical
 review template in `ops/workflows/amd-runtime-retain.yml`.
 `scripts/verify_ghcr_retention.py` provides bounded read-only checks; its default
@@ -9,7 +9,8 @@ mode reads the local proposal only. No private package success is claimed here.
 The user's delegation to continue private-alpha implementation and choose the
 builder covers one private runtime artifact within existing zero-paid-resource
 bounds. Preparation is now complete, so `configs/amd-image-retention-proposal.json`
-records that limited publication authority. This is not GPU, public publication,
+recorded that limited publication authority. The gate is now closed after the
+failed attempt described below. This is not GPU, public publication,
 paid hosting or further-version authority. A repository variable
 `AMD_RETENTION_APPROVED_SOURCE` must additionally match the exact workflow commit.
 Reruns, different source commits and a stale pricing-check date fail before network
@@ -96,3 +97,23 @@ anonymous access, malformed/duplicate JSON, size bounds, scope/version failures,
 privacy changes, CDN credential stripping, transport failures, approval/rerun gates
 and exact supervisor receipt selection. Live GHCR permissions, copy performance
 and fresh-pull behavior remain to be verified by the actual bounded attempt.
+
+## Failed attempt and read-only reconciliation
+
+Run [40170595914](https://github.com/rk9595/emoji-studio/actions/runs/40170595914)
+passed the full CPU build and all 103 in-image tests, then failed in the publication
+step (exit 1 after 9m30s). Fresh verification was skipped. The private transport
+logs were not retained, so neither a timeout nor a particular registry error is
+established. `reports/amd-retention-failure.json` preserves the audit, original tag,
+new local config identity and log hash. No published digest or successful retention
+is claimed.
+
+Local authenticated package/tag reads returned 404, but the CLI lacks read:packages;
+this is not proof of absence. A five-minute standard CPU workflow,
+`amd-runtime-reconcile.yml`, uses packages-read only to inspect the original unique
+tag and, if found, verify its digest/config/platform/privacy. It never builds,
+pushes, pulls image layers, deletes or changes visibility. A missing tag remains
+`publication_unresolved`; even a found/verified manifest does not prove a fresh pull.
+Its code passed 79 tests/120 subtests together with the existing checks. The 38-file
+builder lock is unchanged. The publication flag and approved-source repository
+variable are closed; no automatic retry or second version is authorized.

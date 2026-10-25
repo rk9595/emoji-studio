@@ -233,6 +233,33 @@ def verify_remote(client, manifest_digest, config_digest):
             "fresh_pull_verified": False, "gpu_validated": False}
 
 
+def reconcile(client, tag, config_digest):
+    """Read the original tag after a lost copy acknowledgment; never infer absence.
+
+    Even authenticated 404s may hide package access. No outcome authorizes a new
+    push. A found tag must pass the same full metadata checks as a normal copy.
+    """
+    require(isinstance(tag, str) and re.fullmatch(r"cpu-[0-9a-f]{40}-[1-9][0-9]{0,19}", tag)
+            and valid_digest(config_digest), "invalid_reconciliation_identity")
+    package_response = client.package()
+    require(package_response.status in (200, 404), "package_lookup_failed")
+    if package_response.status == 200:
+        private_package(package_response)
+    token = client.pull_token()
+    response = client.manifest(tag, token)
+    if response.status == 404:
+        return {"status": "publication_unresolved", "image": IMAGE, "tag": tag,
+                "package_http_status": package_response.status, "manifest_http_status": 404,
+                "absence_verified": False, "retry_authorized": False,
+                "fresh_pull_verified": False, "gpu_validated": False}
+    require(response.status == 200, "tag_lookup_failed")
+    require(package_response.status == 200, "package_access_unresolved")
+    manifest_digest = digest(response.body)
+    require(response.content_digest == manifest_digest, "manifest_digest_mismatch")
+    result = verify_remote(client, manifest_digest, config_digest)
+    return {**result, "tag": tag, "retry_authorized": False}
+
+
 def proposal(root=ROOT):
     value = parse((Path(root) / "configs/amd-image-retention-proposal.json").read_bytes())
     require(value["recommended_destination"] == IMAGE and value["required_visibility"] == "private"
@@ -262,7 +289,8 @@ def publication_tag(value, environment, today=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=("check", "preflight", "verify"), nargs="?", default="check")
+    parser.add_argument("command", choices=("check", "preflight", "verify", "reconcile"), nargs="?", default="check")
+    parser.add_argument("--tag")
     parser.add_argument("--manifest-digest")
     parser.add_argument("--config-digest")
     args = parser.parse_args()
@@ -277,6 +305,8 @@ def main():
             client = Registry(os.environ.get("GH_TOKEN", ""), os.environ.get("GITHUB_ACTOR", ""))
             if args.command == "preflight":
                 result = {**preflight(client), "tag": tag}
+            elif args.command == "reconcile":
+                result = reconcile(client, args.tag, args.config_digest)
             else:
                 result = verify_remote(client, args.manifest_digest, args.config_digest)
         print(json.dumps(result, sort_keys=True))

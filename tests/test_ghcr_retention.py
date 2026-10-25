@@ -193,6 +193,67 @@ class MetadataTest(unittest.TestCase):
                 v.parse(raw)
 
 
+class ReconciliationTest(unittest.TestCase):
+    tag = "cpu-" + "a" * 40 + "-123"
+
+    def test_found_original_tag_verifies_digest_config_privacy_but_not_fresh_pull(self):
+        client = FakeRegistry()
+        client.package_responses.append(package())
+        result = v.reconcile(client, self.tag, client.config_digest)
+        self.assertEqual(result["manifest_digest"], client.manifest_digest)
+        self.assertEqual(result["status"], "remote_manifest_verified")
+        self.assertFalse(result["fresh_pull_verified"])
+        self.assertFalse(result["retry_authorized"])
+        self.assertIn(("manifest", self.tag, "auth-token"), client.calls)
+
+    def test_404_never_proves_absence_or_authorizes_retry(self):
+        for response in (package(), v.Response(404, b"")):
+            with self.subTest(status=response.status):
+                client = FakeRegistry()
+                client.package_responses = [response]
+                with patch.object(client, "manifest", return_value=v.Response(404, b"")):
+                    result = v.reconcile(client, self.tag, client.config_digest)
+                self.assertEqual(result["status"], "publication_unresolved")
+                self.assertFalse(result["absence_verified"])
+                self.assertFalse(result["retry_authorized"])
+
+    def test_found_manifest_without_package_access_still_fails(self):
+        client = FakeRegistry()
+        client.package_responses = [v.Response(404, b"")]
+        with self.assertRaisesRegex(v.Denied, "package_access_unresolved"):
+            v.reconcile(client, self.tag, client.config_digest)
+
+    def test_bad_identity_has_no_network_calls(self):
+        for tag, checksum in (("latest", "sha256:" + "a" * 64), (self.tag, "bad"), (None, None)):
+            client = FakeRegistry()
+            with self.subTest(tag=tag), self.assertRaises(v.Denied):
+                v.reconcile(client, tag, checksum)
+            self.assertEqual(client.calls, [])
+
+    def test_public_package_and_unexpected_status_stop(self):
+        for response in (package(visibility="public"), package(count=2), v.Response(403, b"")):
+            client = FakeRegistry()
+            client.package_responses = [response]
+            with self.subTest(status=response.status), self.assertRaises(v.Denied):
+                v.reconcile(client, self.tag, client.config_digest)
+            self.assertEqual(client.calls, ["package"])
+        for status in (401, 403, 429, 500):
+            client = FakeRegistry()
+            with patch.object(client, "manifest", return_value=v.Response(status, b"")), \
+                    self.assertRaisesRegex(v.Denied, "tag_lookup_failed"):
+                v.reconcile(client, self.tag, client.config_digest)
+
+    def test_corrupt_tag_header_or_expected_config_stops(self):
+        client = FakeRegistry()
+        client.header_digest = "sha256:" + "f" * 64
+        with self.assertRaisesRegex(v.Denied, "manifest_digest_mismatch"):
+            v.reconcile(client, self.tag, client.config_digest)
+        client = FakeRegistry()
+        client.package_responses.append(package())
+        with self.assertRaisesRegex(v.Denied, "config_identity_mismatch"):
+            v.reconcile(client, self.tag, "sha256:" + "f" * 64)
+
+
 class FakeHTTP(io.BytesIO):
     def __init__(self, status=200, body=b"{}", headers=None):
         super().__init__(body)

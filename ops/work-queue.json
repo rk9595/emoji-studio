@@ -1,11 +1,6 @@
 {
-  "status": "waiting_cloud",
-  "milestone": "Private immutable AMD runtime retention and fresh-pull verification",
-  "cloud_repository": "rk9595/emoji-studio",
-  "cloud_run_id": "40170595914",
-  "cloud_run_head": "7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2",
-  "cloud_run_workflow": "AMD runtime private retention",
-  "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40170595914",
+  "status": "ready",
+  "milestone": "Read-only reconciliation of failed private runtime publication",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -13,18 +8,24 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Let ordinary supervisor wait on exact retention run 40170595914/head/workflow; no model polling. When terminal, retain sanitized RETENTION_RECEIPT or first failure. Success requires both publish and fresh-pull/audit jobs; remote metadata alone is not final acceptance. See docs/amd-private-retention.md.",
-    "If copy fails or acknowledgment is lost, reconcile the original unique source/run tag read-only before any action. No automatic rerun, second version, deletion, visibility change or paid fallback. If preflight fails before any push, inspect evidence and deliberately review a fix before a new attempt. Keep source/rerun/privacy/digest gates intact.",
-    "After verified retention, record immutable manifest/config digests and fresh CPU audit, leaving GPU validation false. Then integrate reservations/reconciliation, private receipts/export and independent cleanup scheduling. Active 23-file plan needs explicit reviewed integration; GPU smoke requires separately bounded allowance, hosting needs budget/access. Never reset/reuse comparison."
+    "Dispatch reviewed AMD runtime retention reconciliation workflow once, bind exact run/head/workflow in queue and wait through ordinary supervisor.",
+    "Retain read-only receipt. A 404 does not prove absence; if package access remains unresolved, mark waiting_user for owner package-access resolution. Found image requires metadata verification then separate fresh-pull evidence.",
+    "Publication gate closed; no rerun, second version, deletion or visibility change. GPU/paid bounds remain unchanged. Continue controller integration after retention resolution."
   ],
-  "waiting_reason": "One bounded private retention attempt is running on standard public CPU runners. Exact source variable bound; existing user delegation covers the currently free private artifact. No live publication or fresh-pull success claimed until receipt.",
-  "completed_offline": "2026-10-25: Private retention workflow/verifier prepared and reviewed: 72 tests/112 subtests, Ruff/YAML checks passed, unchanged 38-file builder context. Fixed private namespace, one version, Skopeo zero command retries, remote manifest/config/platform/privacy checks and separate fresh pull/audit job. See reports/amd-retention-preparation.json. Run 40170595914 dispatched; no GPU/paid resource or comparison repeat.",
+  "waiting_reason": null,
+  "completed_offline": "2026-10-25: Retained failed publication evidence; CPU build passed 103 in-image tests. Read-only original-tag reconciliation prepared and checked: 79 tests/120 subtests, Ruff/YAML, unchanged 38-file context. Closed publication flag and approved-source variable.",
   "last_completed_task": {
-    "name": "Private retention workflow, verifier and receipt monitoring prepared and reviewed",
+    "name": "Failed publication evidence and read-only reconciliation preparation",
     "status": "complete",
     "date": "2026-10-25"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "Comparison is complete/consumed: no fifth allocation, reset, new training or paid hosting. Existing delegated implementation authority covers one private runtime version using currently free GHCR and standard public CPU runners, with exact-source gate and no overwrite/retry/delete/public/paid fallback. GPU and paid execution remain unauthorized; need separately bounded allowance."
+  "allocation_policy": "Comparison is complete/consumed: no fifth allocation, reset, new training or paid hosting. Existing delegated implementation authority covers one private runtime version using currently free GHCR and standard public CPU runners, with exact-source gate and no overwrite/retry/delete/public/paid fallback. GPU and paid execution remain unauthorized; need separately bounded allowance.",
+  "failed_retention": {
+    "run_id": "40170595914",
+    "source_commit": "7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2",
+    "status": "publication_unresolved",
+    "receipt": "reports/amd-retention-failure.json"
+  }
 }

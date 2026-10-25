@@ -6,47 +6,34 @@ files. No new paid resource, GPU allocation, comparison repeat or public endpoin
 
 ## Current cloud work
 
-Private runtime retention run **40170595914** is running at source
-`7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2`:
-https://github.com/rk9595/emoji-studio/actions/runs/40170595914
-Workflow **AMD runtime private retention**; standard public Ubuntu CPU runners.
-Exact source is bound by `AMD_RETENTION_APPROVED_SOURCE`. Queue waiting_cloud;
-supervisor verified run/head/workflow and skips model turns until terminal status.
+Private retention run **40170595914** failed at publication; the full CPU build
+and 103 in-image tests passed. Fresh-pull job skipped. Source
+`7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2`; evidence:
+`reports/amd-retention-failure.json`, `docs/amd-private-retention.md`.
+Exit 1 after 9m30s does not identify the underlying transport error. No published
+manifest, absence, fresh pull or GPU success is established. New local config:
+`sha256:776b9b0ab43ca3451205bceb879777bd395271a8d4b398871c29102e32f41ba0`.
 
-`docs/amd-private-retention.md`, `reports/amd-retention-preparation.json`:
-72 tests/112 subtests passed; Ruff/YAML checks pass. Read-only verifier checks
-manifest/config hashes, platform/rootfs, package ownership/privacy/version count,
-anonymous token flow, bounded credential-free CDN redirects and source/rerun gates.
-Active/template workflow copies match. Original 38-file builder context unchanged.
-
-Preparation is complete. One private GHCR version is within existing delegated
-implementation scope at zero paid cost; publication flag now true, GPU/paid flags
-false. GHCR storage/bandwidth policy rechecked October 25. Local namespace lookup
-returned 404 (not proof of workflow access). Destination:
-`ghcr.io/rk9595/emoji-studio-amd-runtime`; no latest/overwrite/delete/paid fallback.
-No registry success is claimed until `RETENTION_RECEIPT` after the fresh job.
-
-First job: repeat CPU build, recheck scope, Skopeo copy with zero command retries,
-verify authenticated manifest/config and anonymous denial. 45-minute job cap,
-30-minute build/10-minute copy. Second fresh runner has packages-read only:
-pull immutable digest, compare config/platform, repeat CPU audit offline, recheck
-privacy. 30-minute cap, 20-minute pull/five-minute audit. No GPU/model execution.
-Tokens stay out of image/build context; auth files and transport diagnostics stay
-in disposable runner storage. No Actions artifact/cache upload.
+Original tag: `cpu-7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2-40170595914`.
+Local authenticated reads returned 404 but CLI lacks read:packages. Prepared
+five-minute `AMD runtime retention reconciliation` workflow uses packages-read
+only: original-tag/metadata reads, no layer downloads/build/push/delete/visibility
+change. It preserves uncertainty on 404 and cannot authorize a retry. 79 tests/
+120 subtests and Ruff/YAML checks passed; 38-file builder context unchanged.
+Publication flag false and repository approved-source variable closed. No rerun.
 
 ## Next action after receipt
 
-Inspect exact run only when terminal. Retain sanitized receipts and first failure.
-If successful, record published manifest/config digest and independent pull/CPU
-verification; keep GPU validation false. If copy fails/ack is lost, reconcile the
-original unique tag read-only; do not rerun/push another version or delete one.
-If preflight fails before publication, retain evidence and review cause before any
-new attempt. Never weaken privacy/digest checks or silently change registry scope.
+Dispatch the reviewed read-only reconciliation once; record exact run/head/workflow
+in queue and let ordinary supervisor wait. Retain sanitized receipt. If tag exists,
+require complete metadata verification; independent fresh pull remains pending.
+If package access remains ambiguous, mark waiting_user for owner package-access
+resolution. Do not infer absence, push another version or delete anything.
 
-Then integrate durable reservations/reconciliation, private export/ticket storage,
-independent cleanup scheduling and worker deadlines. GPU smoke needs a separately
-bounded allowance; persistent hosting needs budget/access. Active locked-source
-changes need explicit tested relock. No human review or adapter promotion occurred.
+After retention resolution: durable reservations/reconciliation, private export/
+ticket storage, independent cleanup scheduling and worker deadlines. GPU smoke
+needs separately bounded allowance; persistent hosting needs budget/access.
+Active locked-source changes need explicit tested relock. Serving remains pilot25.
 
 ## Completed evidence
 

@@ -74,7 +74,8 @@ def cloud_state(config, queue=None):
         if (repository != "rk9595/emoji-studio" or not run_id.isascii() or not run_id.isdecimal()
                 or not isinstance(expected_head, str) or len(expected_head) != 40
                 or any(c not in "0123456789abcdef" for c in expected_head)
-                or expected_workflow not in ("AMD runtime CPU validation", "AMD runtime private retention")):
+                or expected_workflow not in ("AMD runtime CPU validation", "AMD runtime private retention",
+                                            "AMD runtime retention reconciliation")):
             raise ValueError("Invalid CPU build receipt identity")
         result = subprocess.run(
             [config["gh"], "run", "view", run_id, "--repo", repository,

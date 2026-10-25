@@ -1,5 +1,5 @@
 {
-  "status": "ready",
+  "status": "waiting_cloud",
   "milestone": "Read-only reconciliation of failed private runtime publication",
   "completed_cpu_build": {
     "run_id": "40166592399",
@@ -8,11 +8,11 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Dispatch reviewed AMD runtime retention reconciliation workflow once, bind exact run/head/workflow in queue and wait through ordinary supervisor.",
+    "Wait through ordinary supervisor on exact reconciliation run 40173475187/head/workflow. On terminal status retain RECONCILIATION_RECEIPT or sanitized failure; never poll with model turns.",
     "Retain read-only receipt. A 404 does not prove absence; if package access remains unresolved, mark waiting_user for owner package-access resolution. Found image requires metadata verification then separate fresh-pull evidence.",
     "Publication gate closed; no rerun, second version, deletion or visibility change. GPU/paid bounds remain unchanged. Continue controller integration after retention resolution."
   ],
-  "waiting_reason": null,
+  "waiting_reason": "Read-only original-tag reconciliation queued with packages-read workflow token. Publication remains unresolved; no new image, retries or GPU/paid execution.",
   "completed_offline": "2026-10-25: Retained failed publication evidence; CPU build passed 103 in-image tests. Read-only original-tag reconciliation prepared and checked: 79 tests/120 subtests, Ruff/YAML, unchanged 38-file context. Closed publication flag and approved-source variable.",
   "last_completed_task": {
     "name": "Failed publication evidence and read-only reconciliation preparation",
@@ -27,5 +27,10 @@
     "source_commit": "7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2",
     "status": "publication_unresolved",
     "receipt": "reports/amd-retention-failure.json"
-  }
+  },
+  "cloud_repository": "rk9595/emoji-studio",
+  "cloud_run_id": "40173475187",
+  "cloud_run_head": "80a5a74176dd97a3b64983ba19d2f49c5864117f",
+  "cloud_run_workflow": "AMD runtime retention reconciliation",
+  "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40173475187"
 }

@@ -24,8 +24,11 @@ Publication flag false and repository approved-source variable closed. No rerun.
 
 ## Next action after receipt
 
-Dispatch the reviewed read-only reconciliation once; record exact run/head/workflow
-in queue and let ordinary supervisor wait. Retain sanitized receipt. If tag exists,
+Read-only reconciliation run **40173475187** is queued at source
+`80a5a74176dd97a3b64983ba19d2f49c5864117f`:
+https://github.com/rk9595/emoji-studio/actions/runs/40173475187
+Queue waiting_cloud with exact workflow/head/run; let ordinary supervisor wait.
+On terminal status retain sanitized receipt. If tag exists,
 require complete metadata verification; independent fresh pull remains pending.
 If package access remains ambiguous, mark waiting_user for owner package-access
 resolution. Do not infer absence, push another version or delete anything.

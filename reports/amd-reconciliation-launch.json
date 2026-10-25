@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-25",
+  "run_id": "40173475187",
+  "source_commit": "80a5a74176dd97a3b64983ba19d2f49c5864117f",
+  "run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40173475187",
+  "workflow": "AMD runtime retention reconciliation",
+  "status_at_handoff": "queued",
+  "original_run_id": "40170595914",
+  "read_only": true,
+  "permissions": {
+    "contents": "read",
+    "packages": "read"
+  },
+  "timeout_minutes": 5,
+  "publication_gate_closed": true,
+  "fresh_pull_verified": false,
+  "gpu_execution_authorized": false,
+  "paid_execution_authorized": false,
+  "test_validation": {
+    "passed": 79,
+    "subtests_passed": 120,
+    "ruff": "passed",
+    "yaml": "passed",
+    "builder_inputs": 38
+  }
+}

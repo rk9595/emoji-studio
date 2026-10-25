@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-25",
+  "workflow": "AMD runtime retention reconciliation",
+  "workflow_conclusion": "success",
+  "run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40173475187",
+  "started_at": "2026-10-25T07:37:35Z",
+  "completed_at": "2026-10-25T07:37:42Z",
+  "raw_log_sha256": "8cb7f57acc2947775823199d1bd6ccf8ea217ad804d91372ef95ad249b06638b",
+  "receipt": {
+    "absence_verified": false,
+    "fresh_pull_verified": false,
+    "gpu_validated": false,
+    "image": "ghcr.io/rk9595/emoji-studio-amd-runtime",
+    "manifest_http_status": 404,
+    "original_run_id": "40170595914",
+    "package_http_status": 404,
+    "read_only": true,
+    "retry_authorized": false,
+    "run_id": "40173475187",
+    "source_commit": "80a5a74176dd97a3b64983ba19d2f49c5864117f",
+    "status": "publication_unresolved",
+    "tag": "cpu-7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2-40170595914"
+  },
+  "interpretation": "Read-only workflow completed successfully; publication remains unresolved. Package and exact original tag both returned 404 with the packages-read workflow token. This does not prove absence or authorize another publication.",
+  "required_resolution": "Owner checks whether the package exists. If present, confirm private visibility and grant repository Actions read access to permit original-tag metadata verification. If absent, record owner observation and deliberately review a revised bounded attempt before enabling publication. Do not send credentials in chat.",
+  "publication_authorized": false,
+  "paid_execution_authorized": false,
+  "comparison_repeated": false
+}

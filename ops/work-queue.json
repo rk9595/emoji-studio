@@ -1,6 +1,6 @@
 {
-  "status": "waiting_cloud",
-  "milestone": "Read-only reconciliation of failed private runtime publication",
+  "status": "waiting_user",
+  "milestone": "Resolve private runtime package access before retention can proceed",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -8,14 +8,14 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Wait through ordinary supervisor on exact reconciliation run 40173475187/head/workflow. On terminal status retain RECONCILIATION_RECEIPT or sanitized failure; never poll with model turns.",
-    "Retain read-only receipt. A 404 does not prove absence; if package access remains unresolved, mark waiting_user for owner package-access resolution. Found image requires metadata verification then separate fresh-pull evidence.",
-    "Publication gate closed; no rerun, second version, deletion or visibility change. GPU/paid bounds remain unchanged. Continue controller integration after retention resolution."
+    "Owner checks GitHub Packages for rk9595/emoji-studio-amd-runtime and confirms whether it exists. If present, confirm private visibility and repository rk9595/emoji-studio Actions read access. Do not request or store credentials in chat.",
+    "After access is resolved, verify only the original source/run tag against its recorded config digest; independent fresh-pull/CPU evidence is still required. If owner confirms absence, deliberately review failure diagnostics and a new bounded attempt; do not automatically re-enable publication or rerun.",
+    "Publication flag and source gate remain closed. No new image/version, deletion, visibility change, GPU allocation, paid execution or comparison repeat. Offline controller work remains future work."
   ],
-  "waiting_reason": "Read-only original-tag reconciliation queued with packages-read workflow token. Publication remains unresolved; no new image, retries or GPU/paid execution.",
-  "completed_offline": "2026-10-25: Retained failed publication evidence; CPU build passed 103 in-image tests. Read-only original-tag reconciliation prepared and checked: 79 tests/120 subtests, Ruff/YAML, unchanged 38-file context. Closed publication flag and approved-source variable.",
+  "waiting_reason": "Owner-side package existence/access is needed: local CLI lacks read:packages, and repository packages-read workflow returned 404 for both package and original tag. Absence and retention are unverified; further automated reads cannot resolve the access ambiguity.",
+  "completed_offline": "2026-10-25: Retained completed reconciliation run 40173475187 with exact source/workflow identity and log hash. Both package/tag returned 404; no absence or retention claimed. Queue waiting_user prevents repeated model wakeups. Prior checks: 79 tests/120 subtests, Ruff/YAML; CPU build passed 103 in-image tests.",
   "last_completed_task": {
-    "name": "Failed publication evidence and read-only reconciliation preparation",
+    "name": "Read-only original-tag reconciliation and retained receipt",
     "status": "complete",
     "date": "2026-10-25"
   },
@@ -28,9 +28,14 @@
     "status": "publication_unresolved",
     "receipt": "reports/amd-retention-failure.json"
   },
-  "cloud_repository": "rk9595/emoji-studio",
-  "cloud_run_id": "40173475187",
-  "cloud_run_head": "80a5a74176dd97a3b64983ba19d2f49c5864117f",
-  "cloud_run_workflow": "AMD runtime retention reconciliation",
-  "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40173475187"
+  "completed_reconciliation": {
+    "cloud_repository": "rk9595/emoji-studio",
+    "cloud_run_id": "40173475187",
+    "cloud_run_head": "80a5a74176dd97a3b64983ba19d2f49c5864117f",
+    "cloud_run_workflow": "AMD runtime retention reconciliation",
+    "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40173475187",
+    "status": "complete",
+    "publication_status": "unresolved",
+    "receipt": "reports/amd-retention-reconciliation.json"
+  }
 }

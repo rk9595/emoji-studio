@@ -4,39 +4,45 @@ User delegated private-alpha implementation, maximum automation and builder choi
 Read `ops/work-queue.json` next. Preserve unrelated recovery changes; only stage task
 files. No new paid resource, GPU allocation, comparison repeat or public endpoint.
 
-## Current cloud work
+## Current blocker — waiting_user
 
-Private retention run **40170595914** failed at publication; the full CPU build
-and 103 in-image tests passed. Fresh-pull job skipped. Source
-`7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2`; evidence:
-`reports/amd-retention-failure.json`, `docs/amd-private-retention.md`.
-Exit 1 after 9m30s does not identify the underlying transport error. No published
-manifest, absence, fresh pull or GPU success is established. New local config:
-`sha256:776b9b0ab43ca3451205bceb879777bd395271a8d4b398871c29102e32f41ba0`.
-
-Original tag: `cpu-7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2-40170595914`.
-Local authenticated reads returned 404 but CLI lacks read:packages. Prepared
-five-minute `AMD runtime retention reconciliation` workflow uses packages-read
-only: original-tag/metadata reads, no layer downloads/build/push/delete/visibility
-change. It preserves uncertainty on 404 and cannot authorize a retry. 79 tests/
-120 subtests and Ruff/YAML checks passed; 38-file builder context unchanged.
-Publication flag false and repository approved-source variable closed. No rerun.
-
-## Next action after receipt
-
-Read-only reconciliation run **40173475187** is queued at source
+Private retention remains unresolved. Read-only reconciliation **40173475187**
+completed successfully on October 25, but package and original-tag reads both
+returned 404 with the repository packages-read token. This is not proof of absence.
+Receipt: `reports/amd-retention-reconciliation.json`; source
 `80a5a74176dd97a3b64983ba19d2f49c5864117f`:
 https://github.com/rk9595/emoji-studio/actions/runs/40173475187
-Queue waiting_cloud with exact workflow/head/run; let ordinary supervisor wait.
-On terminal status retain sanitized receipt. If tag exists,
-require complete metadata verification; independent fresh pull remains pending.
-If package access remains ambiguous, mark waiting_user for owner package-access
-resolution. Do not infer absence, push another version or delete anything.
+No active cloud job; queue waiting_user prevents repeated automated model turns.
 
-After retention resolution: durable reservations/reconciliation, private export/
-ticket storage, independent cleanup scheduling and worker deadlines. GPU smoke
-needs separately bounded allowance; persistent hosting needs budget/access.
-Active locked-source changes need explicit tested relock. Serving remains pilot25.
+Owner must check GitHub Packages for `rk9595/emoji-studio-amd-runtime`.
+If present, confirm private visibility and grant `rk9595/emoji-studio` Actions read
+access, then verify the original tag. Do not ask for credentials in chat. If absent,
+record the owner observation and deliberately review a revised bounded attempt;
+absence alone is not an automatic retry authorization. No new publication now.
+
+Original publication run **40170595914** passed all 103 in-image CPU tests, then
+failed in publication (exit 1 after 9m30s); fresh-pull job skipped. Underlying
+transport diagnostic is unavailable. `reports/amd-retention-failure.json` retains
+the audit and log hash. Original tag:
+`cpu-7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2-40170595914`.
+New local config identity (not a verified published manifest):
+`sha256:776b9b0ab43ca3451205bceb879777bd395271a8d4b398871c29102e32f41ba0`.
+
+Publication flag false and approved-source variable closed. No rerun, second
+version, deletion, visibility change or paid fallback. Reconciliation did no layer
+download/build/push. Preparation passed 79 tests/120 subtests and Ruff/YAML checks;
+38-file builder context unchanged. Independent fresh pull and GPU validation remain
+pending. Local CLI lacks read:packages; do not repeat its inconclusive 404 probes.
+
+## After access resolution
+
+Retain owner observation/access resolution; perform only necessary read-only checks
+on the original tag. Existing image needs full metadata verification and separately
+reviewed independent fresh-pull audit. Never treat workflow success as retention.
+Then integrate durable reservations/reconciliation, private exports/ticket storage,
+independent cleanup scheduling and worker deadlines. GPU smoke needs separately
+bounded allowance; persistent hosting needs budget/access. Active locked-source
+changes need explicit tested relock. Serving remains pilot25.
 
 ## Completed evidence
 

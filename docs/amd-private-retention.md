@@ -117,3 +117,13 @@ pushes, pulls image layers, deletes or changes visibility. A missing tag remains
 Its code passed 79 tests/120 subtests together with the existing checks. The 38-file
 builder lock is unchanged. The publication flag and approved-source repository
 variable are closed; no automatic retry or second version is authorized.
+
+
+Reconciliation run [40173475187](https://github.com/rk9595/emoji-studio/actions/runs/40173475187)
+completed successfully, but its receipt is `publication_unresolved`: both package
+and original-tag reads returned 404 with the repository packages-read token.
+`reports/amd-retention-reconciliation.json` retains this result and log hash.
+This does not verify absence or retention. Queue is `waiting_user` for the owner to
+check package existence and, if present, private visibility/repository Actions read
+access. Publication gates stay closed. No automatic retry, deletion or second
+version follows from this result; fresh pull and GPU validation remain unverified.

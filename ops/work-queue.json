@@ -1,23 +1,25 @@
 {
-  "status": "waiting_cloud",
-  "milestone": "Offline AMD smoke execution prerequisites",
+  "status": "ready",
+  "milestone": "Private immutable AMD runtime retention preparation",
   "cloud_repository": "rk9595/emoji-studio",
-  "cloud_run_id": "40166592399",
-  "cloud_run_head": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
-  "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40166592399",
+  "completed_cpu_build": {
+    "run_id": "40166592399",
+    "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
+    "status": "complete",
+    "receipt": "reports/amd-cpu-validation.json"
+  },
   "next_actions": [
-    "Let the ordinary supervisor read the exact public CPU build Actions receipt; do not model-poll or auto-rerun. On completion/failure of run 40166592399 at acef6db19b00ddcb07dbff290bfde2ff825c80ed, retain package inventories and first failure from logs. Do not consult the completed comparison release for this build's status.",
-    "Review CPU build results against docs/amd-cpu-builder.md. Investigate base-exclusion/dependency/ABI/test failures without silently replacing the GPU stack or weakening gates. Any subsequent CPU attempt needs a deliberate reviewed recipe/lock change. No paid fallback. Success is CPU compatibility only, not GPU validation or a published OCI manifest digest.",
-    "After CPU validation, plan immutable image retention/publication and integrate offline cleanup/export with private durable receipts, adapters, reservation/reconciliation and independent scheduling. Keep active 23-file runtime unresolved until actual verification and reviewed integration. GPU smoke needs separately bounded allowance; persistent hosting needs budget/access. Never reset/reuse the comparison."
+    "Read docs/amd-cpu-validation.md and configs/amd-image-retention-proposal.json. Implement/failure-test a dedicated private GHCR retention workflow and remote manifest/config/platform/privacy checks. One unique version; no overwrite/latest, public visibility change, automatic retry, existing-version deletion or paid fallback. Publication remains false during preparation; resolve any missing authority/access only after a concrete reviewable workflow exists.",
+    "A retained image requires a new reviewed workflow build with repeated CPU checks, then authenticated remote digest verification and independent fresh pull by immutable digest. Recheck GHCR zero-cost container policy before execution. The prior local config digest is not a registry manifest and the ephemeral image is gone. Do not merely rerun the old validation-only workflow.",
+    "After retention, integrate offline cleanup/export with private durable receipts, adapters, reservation/reconciliation and independent scheduling. Keep active 23-file runtime unresolved until actual verification and reviewed integration. GPU smoke needs separately bounded allowance; persistent hosting needs budget/access. Never reset/reuse the comparison."
   ],
-  "waiting_reason": "User delegated builder selection; free standard public GitHub x86-64 runner had 85.4 GiB free. One bounded CPU build is running; receipt-driven continuation is implemented. No user host choice is currently needed.",
-  "completed_offline": "2026-10-25: Reviewed CPU builder recipe/context complete (38 public app files plus two recipe files), 52 tests/64 subtests passed; isolated-context runtime modules add 103 passing tests. Free capacity probe succeeded; CPU build 40166592399 launched with 35/45-minute caps and 60-GiB disk guard. No GPU, paid runner, registry push or local base pull. See docs/amd-cpu-builder.md and reports/amd-cpu-build-launch.json.",
+  "completed_offline": "2026-10-25: Free CPU build passed in 523 seconds: 103 in-image tests, HTTP/executor smokes, dependency/native CPU checks. Retained 42 base/78 installed packages; 45 overlay pins match and five GPU base versions unchanged. Receipt reports/amd-cpu-validation.json; private GHCR retention proposal prepared. No GPU, paid resources, registry push or comparison repeat. Active execution/runtime locks unchanged.",
   "last_completed_task": {
-    "name": "Free CPU builder selection, reviewed recipe and receipt-driven continuation",
+    "name": "CPU runtime validation evidence retained and private image retention proposed",
     "status": "complete",
     "date": "2026-10-25"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "Comparison is completed and consumed. No fifth attempt, state reset, new training or paid hosting. One free standard public GitHub CPU validation build is authorized by delegated builder choice; no GPU allocation or paid fallback. New paid execution requires a separately bounded allowance."
+  "allocation_policy": "Comparison is complete and consumed. No fifth attempt, reset, new training or paid hosting. Delegated free CPU validation succeeded. Current ready task prepares private retention; publication is false and no new build is dispatched. No GPU or paid fallback; new paid execution requires a separately bounded allowance."
 }

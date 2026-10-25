@@ -1,5 +1,9 @@
 # AMD runtime CPU builder — October 25, 2026
 
+**Result:** run 40166592399 passed all CPU gates and 103 in-image tests.
+[CPU validation and retention proposal](amd-cpu-validation.md) records the completed
+evidence and next task. The local image was ephemeral; no registry push occurred.
+
 Decision: use one **standard public GitHub-hosted Ubuntu 24.04 x86-64 runner**
 for CPU runtime validation. The user delegated the builder choice. There is no
 paid fallback, GPU allocation, registry publication, model download or change to

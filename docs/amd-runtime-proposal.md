@@ -1,5 +1,11 @@
 # AMD runtime proposal — October 24, 2026
 
+**October 25 update:** the digest-pinned base plus overlay passed CPU installation,
+inventory, dependency/import checks and 103 in-image tests. See
+[the retained CPU validation evidence](amd-cpu-validation.md). The image was
+ephemeral; GPU execution and a published derived OCI digest remain unresolved.
+The preparation narrative below records the earlier metadata-only stage.
+
 Status: **prepared-only metadata and conditional overlay lock**. No image layers
 were pulled, no container built, no GPU packages installed on the Mac, no GPU
 allocated and no spending authorized. The existing AMD execution plan still

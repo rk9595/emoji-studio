@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "status": "prepared_only",
+  "publication_authorized": false,
+  "gpu_execution_authorized": false,
+  "paid_execution_authorized": false,
+  "recommended_destination": "ghcr.io/rk9595/emoji-studio-amd-runtime",
+  "required_visibility": "private",
+  "required_platform": "linux/amd64",
+  "cpu_evidence": "reports/amd-cpu-validation.json",
+  "cpu_evidence_run": "40166592399",
+  "validated_source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
+  "base_image": "docker.io/rocm/pytorch@sha256:bcb2efa1d43f66cc59fa45a1975d621a50b2b06d21a2abdfa2ba821ab32763e4",
+  "builder_recipe": "configs/amd-builder-proposal.json",
+  "retention_limits": {
+    "new_package_names": 1,
+    "new_versions": 1,
+    "mutable_latest_tag": false,
+    "overwrite_existing_tag": false,
+    "delete_existing_versions": false,
+    "automatic_rebuild_or_push_retries": 0,
+    "paid_fallback": false
+  },
+  "required_before_push": [
+    "Reviewed dedicated retention workflow and explicit publication gate resolution",
+    "Current GHCR container storage/bandwidth remains free; otherwise stop for budget decision",
+    "Public standard CPU runner and fresh disk/time bounds",
+    "Source and recipe hashes verified; no private assets, tokens or model weights in context",
+    "New image passes full CPU validation; do not reuse ephemeral config digest as registry digest",
+    "Existing package, if any, is owned and private; reject ambiguous identity or public visibility",
+    "New unique tag; no overwrite or latest alias; bounded least-privilege workflow token"
+  ],
+  "required_after_push": [
+    "Authenticated remote manifest SHA-256 equals the exact pushed manifest",
+    "Platform and config digest match the newly built image, not the old ephemeral build",
+    "Package visibility is private and anonymous access cannot fetch the verified manifest",
+    "Independent pull by immutable digest into a fresh job; repeat audit and in-image mock checks",
+    "Retain manifest/config digests, inventories, provenance and verification receipt",
+    "Keep runtime_validated false until separately authorized HIP/device/model validation"
+  ],
+  "pricing_checked_on": "2026-10-25",
+  "pricing_source": "https://docs.github.com/en/billing/concepts/product-billing/github-packages",
+  "privacy_source": "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry",
+  "note": "A proposal only. No package created, image pushed, credential changed or additional build dispatched."
+}

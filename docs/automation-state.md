@@ -6,20 +6,24 @@ recovered worktree changes; historical handoffs are not the current plan.
 
 ## Latest completed work
 
-User delegated builder choice October 25. Selected free standard public GitHub
-CPU runner; prior host-choice blocker resolved. Read-only capacity run 40166118846
-found native x86-64, four CPUs and 85.4 GiB free without deleting tools.
-`docs/amd-cpu-builder.md`, `configs/amd-builder-proposal.json` lock 38 public app
-inputs and two recipe files. No private artifacts enter context; no broad repo COPY.
-One CPU validation run **40166592399** launched at source
-`acef6db19b00ddcb07dbff290bfde2ff825c80ed`; live receipt check says running.
+CPU validation **completed successfully**, run **40166592399**, source
+`acef6db19b00ddcb07dbff290bfde2ff825c80ed`:
 https://github.com/rk9595/emoji-studio/actions/runs/40166592399
-35-minute build/45-minute job caps; fresh 60-GiB disk guard; no paid fallback,
-GPU allocation, model download, registry push or artifact/cache upload.
-Receipt: `reports/amd-cpu-build-launch.json`. **52 tests/64 subtests passed**;
-six runtime modules (103 tests) also passed from isolated staged context on the
-Mac dependencies, proving context completeness only. Ruff/YAML checks passed.
-CPU/GPU compatibility and derived OCI manifest digest remain unverified.
+523-second job, 511-second build. **103 in-image tests**, real HTTP smoke and
+guarded mock executor passed. Full dependency check and CPU native imports/operators
+passed; 42 base / 78 installed distributions retained, all 45 overlay pins match,
+five base GPU package versions unchanged. `reports/amd-cpu-validation.json` retains
+inventories, source identity, audit receipt and log checksum; local inventory
+validator rechecked actual evidence. `docs/amd-cpu-validation.md` explains limits.
+Imported Torch 2.10.0+rocm7.2.0.gitb6ee5fde; HIP 7.2.26015. No GPU/model validation.
+Local image config digest 2c3ad8f4…bb81ab9 is NOT an OCI manifest; image was ephemeral.
+No paid resources, registry push, serving change or comparison repeat.
+
+Next retention proposal: `configs/amd-image-retention-proposal.json`, private
+`ghcr.io/rk9595/emoji-studio-amd-runtime`, one new version. GHCR container storage/
+bandwidth documented free October 25; recheck before execution. Publication false;
+no package created or new build dispatched. Prepare workflow and remote digest/
+privacy tests next; do not substitute a local config ID for a published manifest.
 
 Offline export/cleanup prototypes complete: `docs/smoke-private-export.md`,
 `docs/smoke-cleanup-contract.md`; preparation receipts under `reports/`.
@@ -27,19 +31,13 @@ Sanitized export manifest/images, conditional private writes, independent downlo
 checks and ticket recovery tested; exact resource absence required for cleanup.
 Prior 103 tests/125 subtests passed. No live storage/provider adapter or scheduler.
 
-Cleanup prototype complete: `docs/smoke-cleanup-contract.md`,
-`reports/smoke-cleanup-preparation.json`. Exact immutable ownership/resource
-binding; cleanup minute 25, escalation minute 30, durable pending before calls;
-only exact GET absence completes cleanup. Process crash/reopen and failures tested.
-No cloud scheduler/adapter/deployment. Independent reaper and controller gates open.
-
-Runtime proposal remains metadata-only: `docs/amd-runtime-proposal.md`,
-`reports/amd-runtime-preparation.json`. ROCm7.2/Python3.12/Torch2.10 base digest
-bcb2efa1…32763e4 verified; 12.76 GB compressed layers not pulled. Application
-overlay has 45 pinned/hash-listed packages. Base GPU packages/dependency traversal
-excluded, so combined compatibility is unverified. No image build or installation.
+Base ROCm7.2/Python3.12/Torch2.10 digest bcb2efa1…32763e4 and 45-package
+overlay are now CPU-tested together. Historical metadata preparation remains in
+`docs/amd-runtime-proposal.md`, `reports/amd-runtime-preparation.json`.
+Base layers/install occurred only on the disposable cloud CPU runner, not the Mac.
 Offline checker: `python3 scripts/check_amd_runtime_proposal.py`.
-Status prepared_only; runtime_validated false; derived image digest null.
+Active proposal remains prepared_only; runtime_validated false; derived OCI digest
+null because GPU validation and immutable image retention have not happened.
 
 Mock-only executor/guard complete: `docs/mock-smoke-executor.md`,
 `docs/render-budget.md`, `reports/mock-smoke-executor.json`. Stable job/image IDs;
@@ -77,23 +75,20 @@ ROCm OCI/dependency lock, dedicated budgeted executor, independent reaper/deleti
 receipts and verified private export remain prerequisites. Linux GPU dependencies
 currently select CUDA; do not install that lock unchanged on AMD.
 
-## Waiting on free CPU build
+## Next ready work
 
-Queue is waiting_cloud with exact public Actions run/head/workflow. Supervisor
-supports this receipt identity and skips model turns while running; it must not
-read the completed comparison's release as this build's completion evidence.
-Do not model-poll, auto-rerun, weaken checks or switch to paid capacity.
-On completion/failure, retain base/post-overlay package inventories and first
-failure. Review expected base exclusions, dependency/ABI/import checks and in-image
-mock tests; make explicit reviewed recipe/lock changes if needed.
-Success gives CPU compatibility only. Local image ID is a config digest, not a
-published OCI manifest; plan immutable image retention/publication separately.
+Implement/failure-test private GHCR retention workflow and manifest/privacy checks
+from `configs/amd-image-retention-proposal.json`. Publication remains false while
+the concrete workflow is prepared/reviewed. One unique version, no overwrite,
+public visibility change, automatic retry, existing-version deletion or paid fallback.
+New retained build must repeat CPU checks; independent fresh pull must verify the
+published manifest/config/platform and private access before recording readiness.
+Resolve any remaining publication authority/access choice only after preparation.
 
-After CPU validation, integrate private storage/ticket/receipt persistence,
-pre-allocation reservation/reconciliation, independent scheduling and deadlines.
-No comparison reset or paid execution. Live HIP/GPU validation still needs a
-separately bounded allowance; persistent hosting needs budget/access.
-Any active locked changes need tests and explicit reviewed relock.
+Then integrate private export/ticket/receipt persistence, pre-allocation reservation/
+reconciliation, independent scheduling and deadlines. GPU smoke needs separately
+bounded allowance; hosting needs budget/access. Active source changes need reviewed
+relock. No comparison reset/repeat. Queue ready; prior CPU wait is complete.
 
 ## Retained evidence
 

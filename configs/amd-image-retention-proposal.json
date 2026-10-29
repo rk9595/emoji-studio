@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "publication_unresolved_after_failed_attempt",
-  "publication_authorized": false,
+  "status": "approved_one_reviewed_recovery_attempt",
+  "publication_authorized": true,
   "gpu_execution_authorized": false,
   "paid_execution_authorized": false,
   "recommended_destination": "ghcr.io/rk9595/emoji-studio-amd-runtime",
@@ -38,9 +38,10 @@
     "Retain manifest/config digests, inventories, provenance and verification receipt",
     "Keep runtime_validated false until separately authorized HIP/device/model validation"
   ],
-  "pricing_checked_on": "2026-10-25",
+  "pricing_checked_on": "2026-10-29",
   "pricing_source": "https://docs.github.com/en/billing/concepts/product-billing/github-packages",
   "privacy_source": "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry",
   "authority_basis": "User delegated private-alpha implementation and builder choices; one private, reversible runtime artifact using currently free standard public Actions and GHCR is within that scope. No paid resource, public image publication, GPU execution or further version is authorized.",
-  "note": "Run 40170595914 failed during publication after CPU validation passed; fresh job skipped. Gate closed pending original-tag read-only reconciliation. No rerun, second version, overwrite or deletion authorized."
+  "note": "October 29 deliberate recovery review permits one new exact-source dispatch toward the same single private version. Original attempt is terminal and owner UI shows no package. No job rerun, automatic retry, second version, overwrite, deletion, visibility change or paid/GPU fallback. Runtime success remains unverified.",
+  "recovery_review": "reports/amd-retention-recovery-review.json"
 }

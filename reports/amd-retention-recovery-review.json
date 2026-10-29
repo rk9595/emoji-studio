@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-29",
+  "status": "review_complete",
+  "decision": "one_reviewed_recovery_dispatch",
+  "publication_scope": "one private ghcr.io/rk9595/emoji-studio-amd-runtime version in total; no additional version",
+  "authority_basis": "Existing user delegation covers private-alpha implementation and free builder/artifact choices. This is a deliberate recovery decision after terminal failure, original-tag reconciliation, owner-side inspection, prepared diagnostics and fresh pricing review; it is not an automatic command retry or a rerun of the consumed job. It does not authorize GPU/paid execution or repeat the consumed AMD comparison.",
+  "prior_run": {
+    "id": "40170595914",
+    "status": "completed",
+    "conclusion": "failure",
+    "only_retention_run_in_current_workflow_listing": true
+  },
+  "package_evidence": {
+    "read_only_reconciliation": "reports/amd-retention-reconciliation.json",
+    "owner_observation": "reports/amd-retention-owner-check.json",
+    "owner_observation_date": "2026-10-29",
+    "owner_ui": "no packages listed",
+    "atomic_absence_guaranteed": false,
+    "preflight": "Workflow repeats fixed-namespace metadata check before build and immediately before copy; known existing versions or unexpected visibility fail closed. No existing version deletion or overwrite requested."
+  },
+  "cost_review": {
+    "checked_on": "2026-10-29",
+    "repository": "rk9595/emoji-studio",
+    "repository_visibility_verified": "public",
+    "runner": "standard ubuntu-24.04",
+    "container_storage_and_bandwidth": "currently free",
+    "public_standard_actions_compute": "currently free",
+    "artifact_or_cache_uploads": 0,
+    "paid_fallback": false,
+    "sources": [
+      "https://docs.github.com/en/billing/concepts/product-billing/github-packages",
+      "https://docs.github.com/en/billing/concepts/product-billing/github-actions",
+      "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry"
+    ]
+  },
+  "bounds": {
+    "new_dispatches_under_this_review": 1,
+    "new_package_names": 1,
+    "total_accepted_versions": 1,
+    "publish_job_minutes": 45,
+    "fresh_verify_job_minutes": 30,
+    "build_timeout_seconds": 1800,
+    "copy_timeout_seconds": 600,
+    "pull_timeout_seconds": 1200,
+    "audit_timeout_seconds": 300,
+    "command_retries": 0,
+    "required_free_disk_gib": 60,
+    "gpu_allocations": 0,
+    "paid_resources": 0
+  },
+  "source_binding": "Record resulting full commit in approved-source repository variable before single dispatch; queue exact run/head/workflow. New run uses first attempt only; never rerun old job.",
+  "diagnostics_receipt": "reports/amd-retention-diagnostics.json",
+  "acceptance": "RETENTION_RECEIPT requires manifest/config/platform/privacy checks and fresh digest pull with repeated CPU audit; GPU validation stays false.",
+  "failure_policy": "Terminal failure or ambiguous copy requires read-only reconciliation of the new original tag. No further dispatch authorized by this review.",
+  "workflow_sha256": "769c01f4787c3357c23edf86e725cc04ee9c2c2faff3ae2426404af93e345c89",
+  "proposal_sha256": "5f11b0813a93e12be6b378bc0cc27ba98e11ecc9aab4c5c18c671c49e3036ecc",
+  "validation": "Post-review flag/date update: 94 tests/143 subtests passed; original 38-file context verified; offline proposal check publication_ready. Workflow/diagnostic source hashes match reviewed preparation."
+}

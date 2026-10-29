@@ -1,6 +1,6 @@
 {
   "status": "ready",
-  "milestone": "Deliberate private runtime recovery activation review",
+  "milestone": "Reviewed private runtime recovery and fresh-pull verification",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -8,17 +8,17 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Read docs/amd-retention-diagnostics.md. Review recovery activation against current free-tier rules and same-owner private package/version evidence. Owner UI check was completed October 29; do not repeat the user question. Inspect original tag read-only if evidence indicates it exists.",
-    "Deliberately resolve whether a new attempt fits the existing one-private-version delegation and consumed-attempt policy. No automatic rerun, second version, overwrite, deletion, visibility change or paid fallback. If authority or package state cannot be resolved, mark waiting_user with the concrete remaining decision. Otherwise refresh pricing/source gates only after the reviewed bounds and current evidence are recorded.",
-    "Any reviewed activation must keep 45/30-minute jobs, 600-second single copy, 1200-second fresh pull and complete final CPU audit; queue exact run/head/workflow and let ordinary supervisor wait. No GPU allocation or comparison repeat. Retention and GPU validation remain unverified."
+    "Complete post-review checks, commit and bind exact source, then dispatch AMD runtime private retention once under reports/amd-retention-recovery-review.json. Record exact run/head/workflow in queue and wait through ordinary supervisor. No job rerun.",
+    "When terminal, retain sanitized stage receipts and final RETENTION_RECEIPT or first failure. Success requires publish and fresh verify jobs, manifest/config/privacy checks and repeated CPU audit. GPU validation remains false.",
+    "If failure or ambiguous copy occurs, reconcile only this recovery run's original unique tag read-only. No further dispatch is authorized by this review; no second version, deletion, visibility change, paid/GPU resource or comparison repeat."
   ],
   "waiting_reason": null,
   "completed_offline": "2026-10-29: Nine bounded publication/pull stages instrumented with fixed sanitized receipts; 94 tests/143 subtests, Ruff/YAML/Bash passed, 38-file context unchanged. Recovery/performance review retained; original cause unknown. Publication flag still false; no cloud dispatch or GPU/paid operation.",
   "last_completed_task": {
-    "name": "Safe publication stage diagnostics and bounded recovery review",
+    "name": "Deliberate bounded private runtime recovery activation review",
     "status": "complete",
     "date": "2026-10-29",
-    "receipt": "reports/amd-retention-diagnostics.json"
+    "receipt": "reports/amd-retention-recovery-review.json"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
@@ -45,5 +45,5 @@
     "observation": "owner_ui_no_packages_visible",
     "receipt": "reports/amd-retention-owner-check.json"
   },
-  "retention_status": "not_verified; publication gate remains closed pending reviewed diagnostics/revised attempt"
+  "retention_status": "recovery_review_complete; exact-source dispatch pending"
 }

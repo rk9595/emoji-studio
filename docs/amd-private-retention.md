@@ -145,3 +145,15 @@ output private. The copy/pull and job bounds remain unchanged. Publication remai
 disabled; no new run occurred. See `docs/amd-retention-diagnostics.md` for the
 failure/performance review and gated recovery proposal, and
 `reports/amd-retention-diagnostics.json` for 94-test validation and hashes.
+
+
+October 29 recovery decision: `reports/amd-retention-recovery-review.json` records
+one deliberately reviewed new dispatch toward the same single private version.
+The previous run is terminal, read-only reconciliation and the owner UI observation
+are retained, diagnostics passed review, and current GitHub documentation still
+lists GHCR storage/bandwidth and standard public Actions runners as free. The
+repository remains public. Existing delegation covers this bounded implementation
+step; no new GPU/paid allowance is inferred. The publication flag/date are updated,
+but the repository source gate must match the reviewed commit before dispatch.
+No additional version, job rerun, automatic retry, overwrite, deletion or visibility
+change is permitted. Acceptance still requires the separate fresh-pull/audit job.

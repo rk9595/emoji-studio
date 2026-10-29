@@ -4,32 +4,33 @@ User delegated private-alpha implementation, maximum automation and builder choi
 Read `ops/work-queue.json` next. Preserve unrelated recovery changes; only stage task
 files. No new paid resource, GPU allocation, comparison repeat or public endpoint.
 
-## Current work — ready for deliberate recovery review
+## Current work — reviewed recovery, dispatch pending
 
-Publication diagnostics milestone complete: `docs/amd-retention-diagnostics.md`,
-`reports/amd-retention-diagnostics.json`. 15 new tests; combined 94 tests/143
-subtests passed, Ruff/YAML/Bash passed, 38-file builder context unchanged. Both
-retention workflow copies now wrap nine stages with `RETENTION_STAGE_RECEIPT`:
-fixed stage/run/head, exit code, elapsed time and allowlisted hint; raw output stays
-in private disposable files. No command retry, artifact upload or secret reflection.
-Copy/pull deadlines remain 600/1200 seconds inside 45/30-minute jobs. Start-only
-receipt means uncertain completion. The original failure cause remains unknown.
+Recovery review complete: `reports/amd-retention-recovery-review.json`. Existing
+user delegation covers one deliberately reviewed new CPU-only dispatch toward the
+same single private runtime version. Previous job is terminal; original-tag reads
+and October 29 owner UI (no packages) retained. Repo is public; GHCR free container
+storage/bandwidth and standard public runner rules rechecked October 29. This does
+not establish atomic absence or fix the unknown historical failure cause.
 
-Next: review current cost/privacy/version evidence and whether a deliberate new
-attempt fits existing one-private-version delegation. The reviewed proposal is in
-the diagnostics doc. Do not automatically rerun or enable gates. If authority or
-package state remains unresolved, mark waiting_user with a concrete decision.
-If review resolves them, record bounds/current evidence before refreshing pricing
-and exact-source gates. Any dispatch needs exact receipt queueing; no model polling.
-No active cloud job; publication flag false and approved-source variable closed.
+Publication flag true/date refreshed for this one review; bind the resulting exact
+commit before a single new workflow dispatch. No old job rerun, automatic command
+retry, extra version, overwrite, deletion, public visibility change or paid fallback.
+Keep 45/30-minute jobs, 30-minute build, 600-second copy, 1200-second fresh pull,
+five-minute offline audit and 60-GiB disk check. Queue exact run/head/workflow after
+launch; ordinary supervisor waits without model polling. No active cloud job yet.
 
-Offline lifecycle is complete: `docs/smoke-lifecycle.md`, 28 tests; combined 215
-passed with 252 subtests. Mock-only executor gates registration/deadlines, retains
-export ticket before one upload, recovers by read-only verification; cleanup uses
-an independent lock. Offline acceptance is not GPU/live acceptance. Reservation:
-`docs/smoke-reservation.md`, 27 tests, single committed CREATE intent/no replacement.
-Live external intent/receipt storage, scheduler, bounded adapters, worker deadlines,
-verified runtime and reviewed source integration remain; GPU needs separate allowance.
+Diagnostics: `docs/amd-retention-diagnostics.md`, 94 tests/143 subtests; fixed
+stage/timing/exit/hint receipts, raw transport logs remain private. A start-only
+receipt means uncertain completion. Only final RETENTION_RECEIPT after both jobs
+accepts retention; GPU validation stays false. Failed recovery allows read-only
+reconciliation of its original tag, no further dispatch under this review.
+
+Offline lifecycle complete: `docs/smoke-lifecycle.md`, 215 tests/252 subtests.
+Registration, render budget, export ticket/recovery and independent cleanup locks
+are tested with mocks. `docs/smoke-reservation.md` pins one CREATE intent; no
+replacement. Live external authoritative storage, expiry service, bounded adapters,
+worker deadlines and reviewed source integration remain. GPU needs separate allowance.
 
 ## Private runtime retention — still unverified
 
@@ -47,11 +48,10 @@ Original tag: `cpu-7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2-40170595914`.
 New local config: `sha256:776b9b0ab43ca3451205bceb879777bd395271a8d4b398871c29102e32f41ba0`.
 It is not a verified published manifest. Transport diagnostics were ephemeral.
 
-Publication flag false and approved-source variable closed. Review sanitized
-failure diagnostics and any revised bounded attempt deliberately before enabling
-publication; current policy has no automatic retry, second version, delete,
-visibility change or paid fallback. October 25 pricing review is stale for a new
-attempt. Independent fresh pull and GPU validation remain unverified.
+The October 25 failure remains historical evidence. October 29 reviewed recovery
+above supersedes its closed-gate handoff only for one exact-source dispatch; no
+automatic retry, second version, deletion, visibility change or paid fallback.
+Independent fresh pull and GPU validation remain unverified.
 
 ## Completed evidence
 

@@ -1,6 +1,6 @@
 {
-  "status": "waiting_user",
-  "milestone": "Resolve private runtime package access before retention can proceed",
+  "status": "ready",
+  "milestone": "Offline smoke lifecycle coordination and durable receipt integration",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -8,16 +8,17 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Owner checks GitHub Packages for rk9595/emoji-studio-amd-runtime and confirms whether it exists. If present, confirm private visibility and repository rk9595/emoji-studio Actions read access. Do not request or store credentials in chat.",
-    "After access is resolved, verify only the original source/run tag against its recorded config digest; independent fresh-pull/CPU evidence is still required. If owner confirms absence, deliberately review failure diagnostics and a new bounded attempt; do not automatically re-enable publication or rerun.",
-    "Publication flag and source gate remain closed. No new image/version, deletion, visibility change, GPU allocation, paid execution or comparison repeat. Offline controller work remains future work."
+    "Implement and test an offline lifecycle coordinator using reservation, cleanup, render-budget and export contracts. Persist export ticket before transfer; gate rendering on acknowledged cleanup registration; keep cleanup independent of export failure. Use synthetic providers/storage only and leave live execution disabled.",
+    "Private runtime: owner UI on October 29 showed no packages (reports/amd-retention-owner-check.json). Owner check is satisfied; no further user package check is needed. Review sanitized publication diagnostics and any revised bounded retention attempt before re-enabling the closed gate. Do not automatically rerun, push a second version, delete or change visibility.",
+    "Keep active 23-file source lock and 38-file build context unchanged until explicit tested integration. GPU smoke still requires separately bounded allowance; persistent hosting requires budget/access. Never reset/reuse the consumed comparison."
   ],
-  "waiting_reason": "Owner-side package existence/access is needed: local CLI lacks read:packages, and repository packages-read workflow returned 404 for both package and original tag. Absence and retention are unverified; further automated reads cannot resolve the access ambiguity.",
-  "completed_offline": "2026-10-25: Retained completed reconciliation run 40173475187 with exact source/workflow identity and log hash. Both package/tag returned 404; no absence or retention claimed. Queue waiting_user prevents repeated model wakeups. Prior checks: 79 tests/120 subtests, Ruff/YAML; CPU build passed 103 in-image tests.",
+  "waiting_reason": null,
+  "completed_offline": "2026-10-29: Reservation component complete; 187 tests/245 subtests including process death and cleanup integration passed, Ruff and source/build locks passed. Owner browser package check completed without permission changes. No live provider calls, publication retries, GPU or paid resources.",
   "last_completed_task": {
-    "name": "Read-only original-tag reconciliation and retained receipt",
+    "name": "Offline single-allocation reservation and ambiguous-create reconciliation",
     "status": "complete",
-    "date": "2026-10-25"
+    "date": "2026-10-29",
+    "receipt": "reports/smoke-reservation-preparation.json"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
@@ -37,5 +38,12 @@
     "status": "complete",
     "publication_status": "unresolved",
     "receipt": "reports/amd-retention-reconciliation.json"
-  }
+  },
+  "owner_package_check": {
+    "status": "complete",
+    "date": "2026-10-29",
+    "observation": "owner_ui_no_packages_visible",
+    "receipt": "reports/amd-retention-owner-check.json"
+  },
+  "retention_status": "not_verified; publication gate remains closed pending reviewed diagnostics/revised attempt"
 }

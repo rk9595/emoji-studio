@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-29",
+  "component": "amd-api-smoke-v1 single-allocation reservation",
+  "offline_component_status": "complete",
+  "status": "prepared_only",
+  "execution_authorized": false,
+  "approved_allowance_usd": null,
+  "cloud_deployed": false,
+  "live_provider_calls": 0,
+  "new_allocations": 0,
+  "active_execution_lock_changed": false,
+  "runtime_build_context_changed": false,
+  "source_sha256": {
+    "src/emoji_studio/smoke_reservation.py": "98985ee7e9454b6bd53349c852059159bbe9f927a8e995e0c424131b2a6663c7",
+    "tests/test_smoke_reservation.py": "7295bf9dbe462fe892c1f01062be36f5610df6afaee5a843567ca5177bece749",
+    "docs/smoke-reservation.md": "55ad0ab41244d34ff7f82ec7d3b1116bca0434a119dfc91d5956edd55c24a327",
+    "configs/amd-api-smoke-plan.json": "9e341c6dfc7a87d99593580ae683bf64b2385d4633d23f96339b369024bbc4a2",
+    "configs/serving.json": "51ace9667447113a22cfadea1ca606539ad264086421e7e7c241561c7401534f"
+  },
+  "validation": {
+    "command": "PYTHONPATH=.venv/lib/python3.12/site-packages:src python3 -m pytest -q tests/test_smoke_reservation.py tests/test_smoke_cleanup.py tests/test_smoke_export.py tests/test_render_budget.py tests/test_mock_smoke_executor.py tests/test_ghcr_retention.py tests/test_cpu_build_receipt.py tests/test_amd_automation.py tests/test_amd_builder.py tests/test_amd_api_smoke_plan.py tests/test_amd_runtime_proposal.py",
+    "tests_passed": 187,
+    "subtests_passed": 245,
+    "new_reservation_tests": 27,
+    "existing_deprecation_warnings": 2,
+    "ruff": "passed",
+    "active_plan_check": "23 files and private pilot adapter verified; execution false",
+    "builder_check": "38 app inputs verified; no build performed",
+    "provider_responses": "synthetic only",
+    "crash_test": "spawned child exits during CREATE; reopened ledger remains outcome_unknown, duplicate CREATE denied, read-only reconciliation can bind original resource"
+  },
+  "contract": {
+    "maximum_create_invocations_per_ledger": 1,
+    "automatic_create_retries": 0,
+    "reconciliation_max_discoveries": 1,
+    "reconciliation_max_exact_gets": 1,
+    "adapter_timeout_seconds": 10,
+    "reserve_release_supported": false,
+    "rendering_authorized_by_binding": false
+  },
+  "remaining_live_gates": [
+    "Actual bounded spending authority, current pricing, verified retained runtime and reviewed source-lock integration",
+    "Global durable campaign/approval reservation and nonce registration before CREATE",
+    "Independent discovery/cleanup scheduler and acknowledged exact-resource registration before rendering",
+    "Authenticated provider adapter with enforced transport bounds and no write retries",
+    "External durable export ticket and verification receipt storage; lifecycle controller integration"
+  ]
+}

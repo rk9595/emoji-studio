@@ -127,3 +127,12 @@ This does not verify absence or retention. Queue is `waiting_user` for the owner
 check package existence and, if present, private visibility/repository Actions read
 access. Publication gates stay closed. No automatic retry, deletion or second
 version follows from this result; fresh pull and GPU validation remain unverified.
+
+
+October 29 owner-side observation: the signed-in `rk9595` Packages page displayed
+“Your Packages” with “Get started with GitHub Packages” and no package rows.
+`reports/amd-retention-owner-check.json` records the read-only observation. This
+satisfies the requested owner check, so offline work no longer waits on the user.
+It is not an atomic absence guarantee or a diagnosis of the original failure.
+Publication remains disabled pending deliberate diagnostics/revised-attempt review;
+no retry, permission change or additional version was performed.

@@ -136,3 +136,12 @@ satisfies the requested owner check, so offline work no longer waits on the user
 It is not an atomic absence guarantee or a diagnosis of the original failure.
 Publication remains disabled pending deliberate diagnostics/revised-attempt review;
 no retry, permission change or additional version was performed.
+
+
+October 29 diagnostics update: `scripts/retention_stage.py` now wraps the nine
+preflight/login/copy/metadata/pull operations in both workflow copies. It emits
+fixed-schema stage/exit/timing/classification receipts while keeping raw transport
+output private. The copy/pull and job bounds remain unchanged. Publication remains
+disabled; no new run occurred. See `docs/amd-retention-diagnostics.md` for the
+failure/performance review and gated recovery proposal, and
+`reports/amd-retention-diagnostics.json` for 94-test validation and hashes.

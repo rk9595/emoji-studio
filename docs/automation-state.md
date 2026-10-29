@@ -4,33 +4,32 @@ User delegated private-alpha implementation, maximum automation and builder choi
 Read `ops/work-queue.json` next. Preserve unrelated recovery changes; only stage task
 files. No new paid resource, GPU allocation, comparison repeat or public endpoint.
 
-## Current work — ready, offline only
+## Current work — ready for deliberate recovery review
 
-Offline lifecycle coordination is complete: `docs/smoke-lifecycle.md`,
-`reports/smoke-lifecycle-preparation.json`. 28 new tests; combined **215 tests/252
-subtests** passed, Ruff passed, existing 23-file execution and 38-file build locks
-verified unchanged. No live adapter, deployment or provider calls.
+Publication diagnostics milestone complete: `docs/amd-retention-diagnostics.md`,
+`reports/amd-retention-diagnostics.json`. 15 new tests; combined 94 tests/143
+subtests passed, Ruff/YAML/Bash passed, 38-file builder context unchanged. Both
+retention workflow copies now wrap nine stages with `RETENTION_STAGE_RECEIPT`:
+fixed stage/run/head, exit code, elapsed time and allowlisted hint; raw output stays
+in private disposable files. No command retry, artifact upload or secret reflection.
+Copy/pull deadlines remain 600/1200 seconds inside 45/30-minute jobs. Start-only
+receipt means uncertain completion. The original failure cause remains unknown.
 
-`SmokeLifecycle` pins bound reservation/cleanup/render identities. Registration
-intent is persisted once; exact independent-service assertions require fresh reads.
-Only MockSmokeExecutor runs; deadline/registration/cleanup gates surround guarded
-callbacks. Stage export from owner-scoped successful publications; persist immutable
-ticket before one upload; restart verifies downloads without bundle or write retry.
-Cleanup uses a separate lock and progresses during blocked upload/render. Completion
-is offline only; live smoke/GPU acceptance always false. Independent-service claims
-are mocked/trusted assertions; no production scheduler or hard kill is implemented.
+Next: review current cost/privacy/version evidence and whether a deliberate new
+attempt fits existing one-private-version delegation. The reviewed proposal is in
+the diagnostics doc. Do not automatically rerun or enable gates. If authority or
+package state remains unresolved, mark waiting_user with a concrete decision.
+If review resolves them, record bounds/current evidence before refreshing pricing
+and exact-source gates. Any dispatch needs exact receipt queueing; no model polling.
+No active cloud job; publication flag false and approved-source variable closed.
 
-Reservation component: `docs/smoke-reservation.md`, 27 tests. One committed CREATE
-intent; unknown results never grant a replacement. All reserve/approval amounts in
-tests are synthetic. Global authoritative reservations and external durable storage
-still need live implementation; local files are not a distributed spend cap.
-
-Next ready task: prepare/test sanitized runtime publication diagnostics and review
-a revised bounded retention proposal offline. Retain fixed stage/exit/timing/error
-classifications without secrets or signed URLs. Do not auto-retry or re-enable the
-closed gate. No active cloud job. Further live integration needs external intent/
-receipt storage, independent expiry service and worker deadlines, tested source
-relock, verified runtime and separately bounded GPU allowance.
+Offline lifecycle is complete: `docs/smoke-lifecycle.md`, 28 tests; combined 215
+passed with 252 subtests. Mock-only executor gates registration/deadlines, retains
+export ticket before one upload, recovers by read-only verification; cleanup uses
+an independent lock. Offline acceptance is not GPU/live acceptance. Reservation:
+`docs/smoke-reservation.md`, 27 tests, single committed CREATE intent/no replacement.
+Live external intent/receipt storage, scheduler, bounded adapters, worker deadlines,
+verified runtime and reviewed source integration remain; GPU needs separate allowance.
 
 ## Private runtime retention — still unverified
 

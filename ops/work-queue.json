@@ -1,6 +1,6 @@
 {
   "status": "ready",
-  "milestone": "Safe runtime publication diagnostics and revised retention review",
+  "milestone": "Deliberate private runtime recovery activation review",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -8,17 +8,17 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Prepare and test sanitized publication failure receipts: explicit stage, exit code, elapsed time and bounded allowlisted classifications without raw transport errors/signed URLs/tokens. Review copy performance and a revised bounded retention proposal offline; do not dispatch or re-enable publication automatically.",
-    "Use reports/amd-retention-owner-check.json: owner UI showed no packages on October 29; do not repeat the owner-access question. Original failure cause remains unknown. Existing policy forbids automatic retries, second versions, deletion, public visibility and paid fallback. Any deliberate future attempt needs reviewed scope, current free-tier checks and exact source binding.",
-    "Offline lifecycle component is complete (docs/smoke-lifecycle.md). Remaining live gates: external authoritative intent/receipt store, independent scheduler and bounded adapters, real worker deadlines, verified runtime, tested source-lock integration, separately bounded GPU allowance. Preserve consumed comparison and existing pilot adapter."
+    "Read docs/amd-retention-diagnostics.md. Review recovery activation against current free-tier rules and same-owner private package/version evidence. Owner UI check was completed October 29; do not repeat the user question. Inspect original tag read-only if evidence indicates it exists.",
+    "Deliberately resolve whether a new attempt fits the existing one-private-version delegation and consumed-attempt policy. No automatic rerun, second version, overwrite, deletion, visibility change or paid fallback. If authority or package state cannot be resolved, mark waiting_user with the concrete remaining decision. Otherwise refresh pricing/source gates only after the reviewed bounds and current evidence are recorded.",
+    "Any reviewed activation must keep 45/30-minute jobs, 600-second single copy, 1200-second fresh pull and complete final CPU audit; queue exact run/head/workflow and let ordinary supervisor wait. No GPU allocation or comparison repeat. Retention and GPU validation remain unverified."
   ],
   "waiting_reason": null,
-  "completed_offline": "2026-10-29: Lifecycle component complete; 215 tests/252 subtests passed, Ruff and unchanged 23/38-file locks verified. Mock-only renderer, registration checks, durable pre-upload ticket, read-only export recovery, cleanup during blocked upload/render. No cloud calls, publication retries or GPU/paid resources.",
+  "completed_offline": "2026-10-29: Nine bounded publication/pull stages instrumented with fixed sanitized receipts; 94 tests/143 subtests, Ruff/YAML/Bash passed, 38-file context unchanged. Recovery/performance review retained; original cause unknown. Publication flag still false; no cloud dispatch or GPU/paid operation.",
   "last_completed_task": {
-    "name": "Offline mock lifecycle coordination and durable export/registration receipts",
+    "name": "Safe publication stage diagnostics and bounded recovery review",
     "status": "complete",
     "date": "2026-10-29",
-    "receipt": "reports/smoke-lifecycle-preparation.json"
+    "receipt": "reports/amd-retention-diagnostics.json"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",

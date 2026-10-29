@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-29",
+  "milestone": "Safe runtime publication diagnostics and revised retention review",
+  "status": "complete",
+  "publication_authorized": false,
+  "workflow_dispatched": false,
+  "gpu_execution_authorized": false,
+  "paid_execution_authorized": false,
+  "comparison_repeated": false,
+  "source_sha256": {
+    "scripts/retention_stage.py": "a60aab581c3507dfb17d607da5c42749de2ce37666d27d6edb42794ae70e9ef5",
+    "tests/test_retention_stage.py": "7e8be7539e91aaa4497ce47bfacc9ba2c87fd978a0d619ace25a0d374c03bbc5",
+    ".github/workflows/amd-runtime-retain.yml": "769c01f4787c3357c23edf86e725cc04ee9c2c2faff3ae2426404af93e345c89",
+    "ops/workflows/amd-runtime-retain.yml": "769c01f4787c3357c23edf86e725cc04ee9c2c2faff3ae2426404af93e345c89",
+    "docs/amd-retention-diagnostics.md": "5914d74ef7636f99b1a25af4330d2dd200fa2f86e33a1bcc9a29d267f4011646",
+    "configs/amd-image-retention-proposal.json": "1a469b5978fed4342bfe1668bc6bd0048cad64fe7e1afa4077e7dbef29171352"
+  },
+  "validation": {
+    "command": "PYTHONPATH=.venv/lib/python3.12/site-packages:src python3 -m pytest -q tests/test_retention_stage.py tests/test_ghcr_retention.py tests/test_cpu_build_receipt.py tests/test_amd_automation.py tests/test_amd_builder.py tests/test_amd_api_smoke_plan.py tests/test_amd_runtime_proposal.py",
+    "tests_passed": 94,
+    "subtests_passed": 143,
+    "new_diagnostic_tests": 15,
+    "ruff": "passed",
+    "workflow_yaml_and_bash": "passed; active/template identical",
+    "builder_context": "38 inputs verified unchanged; no build",
+    "secret_handling": "stdin passed to child; adversarial tokens/URLs/argv never reflected in receipts",
+    "timeout": "local child and process group terminated; no delayed descendant side effect"
+  },
+  "bounds": {
+    "publish_job_minutes": 45,
+    "fresh_job_minutes": 30,
+    "copy_timeout_seconds": 600,
+    "pull_timeout_seconds": 1200,
+    "command_retries": 0,
+    "classification_tail_bytes": 65536,
+    "artifact_uploads": 0
+  },
+  "failure_review": {
+    "original_run_id": "40170595914",
+    "root_cause": "unknown",
+    "step_exit_code": 1,
+    "step_elapsed_seconds": 570,
+    "copy_timeout_confirmed": false,
+    "base_compressed_bytes": 12763439494,
+    "conditional_payload_mb_per_second_at_600_seconds": 21.27,
+    "calculation_is_measurement": false
+  },
+  "recovery_review": "docs/amd-retention-diagnostics.md",
+  "next_action": "Deliberate activation review using current cost/private-version evidence and existing authority; no automatic rerun or gate enabling."
+}

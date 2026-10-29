@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-29",
+  "status_at_handoff": "queued",
+  "run_id": "40878081034",
+  "source_commit": "3c25f5a0c884c3fb16f470c571dc677dbaabeb93",
+  "run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40878081034",
+  "workflow": "AMD runtime retention reconciliation",
+  "original_publication_run": "40831493602",
+  "read_only": true,
+  "timeout_minutes": 5,
+  "permissions": {
+    "contents": "read",
+    "packages": "read"
+  },
+  "publication_authorized": false,
+  "gpu_execution_authorized": false,
+  "paid_execution_authorized": false,
+  "next_action": "Retain terminal receipt, then prepare a storage-capacity fix; no further publication dispatch."
+}

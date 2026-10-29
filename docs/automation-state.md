@@ -4,7 +4,7 @@ User delegated private-alpha implementation, maximum automation and builder choi
 Read `ops/work-queue.json` next. Preserve unrelated recovery changes; only stage task
 files. No new paid resource, GPU allocation, comparison repeat or public endpoint.
 
-## Current work — recovery failed, read-only reconciliation ready
+## Current cloud work — waiting on read-only reconciliation
 
 Recovery **40831493602**, source `d47a61b0a6d3d07709020c0d9467b51ad5e24cd5`,
 finished failure. CPU build (103 in-image tests), initial/repeated preflight and
@@ -21,8 +21,11 @@ Original recovery tag:
 New local config (not verified remote manifest):
 `sha256:d32e186f0c326a0b8b5b612560c554642124655bcec594ddad8d4ea1467376fc`.
 
-Updated five-minute packages-read reconciliation workflow targets only that tag
-and config. Dispatch once, queue exact run/head/workflow, use ordinary supervisor.
+Read-only reconciliation **40878081034** queued at
+`3c25f5a0c884c3fb16f470c571dc677dbaabeb93`:
+https://github.com/rk9595/emoji-studio/actions/runs/40878081034
+Five-minute packages-read workflow targets only that recovery tag/config. Queue
+waiting_cloud with exact identity; use ordinary supervisor, not model polling.
 No build/push/layer download/delete/visibility change. Preserve uncertainty on 404.
 Then review copy temporary-storage usage and a bounded storage strategy before any
 new publication decision; do not treat a longer deadline as a disk-capacity fix.

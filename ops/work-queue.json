@@ -1,6 +1,6 @@
 {
   "status": "ready",
-  "milestone": "Offline smoke lifecycle coordination and durable receipt integration",
+  "milestone": "Safe runtime publication diagnostics and revised retention review",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -8,17 +8,17 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Implement and test an offline lifecycle coordinator using reservation, cleanup, render-budget and export contracts. Persist export ticket before transfer; gate rendering on acknowledged cleanup registration; keep cleanup independent of export failure. Use synthetic providers/storage only and leave live execution disabled.",
-    "Private runtime: owner UI on October 29 showed no packages (reports/amd-retention-owner-check.json). Owner check is satisfied; no further user package check is needed. Review sanitized publication diagnostics and any revised bounded retention attempt before re-enabling the closed gate. Do not automatically rerun, push a second version, delete or change visibility.",
-    "Keep active 23-file source lock and 38-file build context unchanged until explicit tested integration. GPU smoke still requires separately bounded allowance; persistent hosting requires budget/access. Never reset/reuse the consumed comparison."
+    "Prepare and test sanitized publication failure receipts: explicit stage, exit code, elapsed time and bounded allowlisted classifications without raw transport errors/signed URLs/tokens. Review copy performance and a revised bounded retention proposal offline; do not dispatch or re-enable publication automatically.",
+    "Use reports/amd-retention-owner-check.json: owner UI showed no packages on October 29; do not repeat the owner-access question. Original failure cause remains unknown. Existing policy forbids automatic retries, second versions, deletion, public visibility and paid fallback. Any deliberate future attempt needs reviewed scope, current free-tier checks and exact source binding.",
+    "Offline lifecycle component is complete (docs/smoke-lifecycle.md). Remaining live gates: external authoritative intent/receipt store, independent scheduler and bounded adapters, real worker deadlines, verified runtime, tested source-lock integration, separately bounded GPU allowance. Preserve consumed comparison and existing pilot adapter."
   ],
   "waiting_reason": null,
-  "completed_offline": "2026-10-29: Reservation component complete; 187 tests/245 subtests including process death and cleanup integration passed, Ruff and source/build locks passed. Owner browser package check completed without permission changes. No live provider calls, publication retries, GPU or paid resources.",
+  "completed_offline": "2026-10-29: Lifecycle component complete; 215 tests/252 subtests passed, Ruff and unchanged 23/38-file locks verified. Mock-only renderer, registration checks, durable pre-upload ticket, read-only export recovery, cleanup during blocked upload/render. No cloud calls, publication retries or GPU/paid resources.",
   "last_completed_task": {
-    "name": "Offline single-allocation reservation and ambiguous-create reconciliation",
+    "name": "Offline mock lifecycle coordination and durable export/registration receipts",
     "status": "complete",
     "date": "2026-10-29",
-    "receipt": "reports/smoke-reservation-preparation.json"
+    "receipt": "reports/smoke-lifecycle-preparation.json"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",

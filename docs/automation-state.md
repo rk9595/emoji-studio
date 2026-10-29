@@ -6,24 +6,31 @@ files. No new paid resource, GPU allocation, comparison repeat or public endpoin
 
 ## Current work — ready, offline only
 
-Single-allocation reservation component is complete:
-`docs/smoke-reservation.md`, `reports/smoke-reservation-preparation.json`.
-27 new tests; combined 187 tests/245 subtests passed, Ruff passed, existing 23-file
-execution and 38-file build locks verified unchanged. Synthetic providers only.
+Offline lifecycle coordination is complete: `docs/smoke-lifecycle.md`,
+`reports/smoke-lifecycle-preparation.json`. 28 new tests; combined **215 tests/252
+subtests** passed, Ruff passed, existing 23-file execution and 38-file build locks
+verified unchanged. No live adapter, deployment or provider calls.
 
-`AllocationLedger` holds immutable nonce/plan/request/approval fingerprints and
-integer reserve; commits unknown outcome before one CREATE invocation. Crashes,
-timeouts and lost acknowledgments never grant a replacement. Read-only discovery
-plus exact-ID ownership checks can recover the original binding; candidate identity
-is pinned. Tested process death, overlapping handles, commit failure, clock rollback
-and cleanup after late discovery. No reset/refund; bound never authorizes rendering.
-This is local trusted-disk bookkeeping, not real allowance proof or a distributed
-spend cap. Synthetic test amounts are not a new spending authorization.
+`SmokeLifecycle` pins bound reservation/cleanup/render identities. Registration
+intent is persisted once; exact independent-service assertions require fresh reads.
+Only MockSmokeExecutor runs; deadline/registration/cleanup gates surround guarded
+callbacks. Stage export from owner-scoped successful publications; persist immutable
+ticket before one upload; restart verifies downloads without bundle or write retry.
+Cleanup uses a separate lock and progresses during blocked upload/render. Completion
+is offline only; live smoke/GPU acceptance always false. Independent-service claims
+are mocked/trusted assertions; no production scheduler or hard kill is implemented.
 
-Next: implement offline lifecycle coordination, acknowledged independent cleanup
-registration before rendering, durable export tickets/receipts, and cleanup that
-continues on export failure. Use mocks; no live adapters/deployment or source relock
-until a separately tested integration. Queue ready; no active cloud job.
+Reservation component: `docs/smoke-reservation.md`, 27 tests. One committed CREATE
+intent; unknown results never grant a replacement. All reserve/approval amounts in
+tests are synthetic. Global authoritative reservations and external durable storage
+still need live implementation; local files are not a distributed spend cap.
+
+Next ready task: prepare/test sanitized runtime publication diagnostics and review
+a revised bounded retention proposal offline. Retain fixed stage/exit/timing/error
+classifications without secrets or signed URLs. Do not auto-retry or re-enable the
+closed gate. No active cloud job. Further live integration needs external intent/
+receipt storage, independent expiry service and worker deadlines, tested source
+relock, verified runtime and separately bounded GPU allowance.
 
 ## Private runtime retention — still unverified
 
@@ -64,7 +71,7 @@ five for cleanup. CPU validation alone does not clear GPU/controller gates.
 Offline components: `docs/render-budget.md`, `docs/mock-smoke-executor.md`,
 `docs/smoke-cleanup-contract.md`, `docs/smoke-private-export.md`. Two-call guard;
 stable call IDs/publication fencing; exact-resource deletion with durable pending;
-sanitized exports with independent download hashes. Live adapters/controller remain.
+sanitized exports with independent download hashes. Live adapters/deployed controller remain.
 Durable API is opt-in/schema4, owner-scoped idempotency; default serving unchanged.
 Coverage proposal: 2,496 draws/624 steps covers 2,493 assets, not training approval;
 `docs/coverage-sampler-prototype.md` and collection audit retain missing-gesture gates.

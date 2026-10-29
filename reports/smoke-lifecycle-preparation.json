@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-29",
+  "component": "amd-api-smoke-v1 offline lifecycle coordinator",
+  "offline_component_status": "complete",
+  "status": "prepared_only",
+  "execution_authorized": false,
+  "approved_allowance_usd": null,
+  "cloud_deployed": false,
+  "live_provider_calls": 0,
+  "new_allocations": 0,
+  "publication_retried": false,
+  "active_execution_lock_changed": false,
+  "runtime_build_context_changed": false,
+  "source_sha256": {
+    "src/emoji_studio/smoke_lifecycle.py": "aab0bc6284daf0f8aab5147bce332cc5d67f5fdc0cdc6878a6a74301e2c47834",
+    "tests/test_smoke_lifecycle.py": "d9ba5274db0abb3edf840cf08609c36ff1648acaf09bbae297488e6dcda10d84",
+    "docs/smoke-lifecycle.md": "53c014e838de10422bba73e5fe96de9c8c81dfac21e390ed39af48be4715e08e",
+    "configs/amd-api-smoke-plan.json": "9e341c6dfc7a87d99593580ae683bf64b2385d4633d23f96339b369024bbc4a2",
+    "configs/serving.json": "51ace9667447113a22cfadea1ca606539ad264086421e7e7c241561c7401534f"
+  },
+  "validation": {
+    "command": "PYTHONPATH=.venv/lib/python3.12/site-packages:src python3 -m pytest -q tests/test_smoke_lifecycle.py tests/test_smoke_reservation.py tests/test_smoke_cleanup.py tests/test_smoke_export.py tests/test_render_budget.py tests/test_mock_smoke_executor.py tests/test_ghcr_retention.py tests/test_cpu_build_receipt.py tests/test_amd_automation.py tests/test_amd_builder.py tests/test_amd_api_smoke_plan.py tests/test_amd_runtime_proposal.py",
+    "tests_passed": 215,
+    "subtests_passed": 252,
+    "new_lifecycle_tests": 28,
+    "existing_deprecation_warnings": 2,
+    "ruff": "passed",
+    "active_plan_check": "23 files/private pilot adapter verified; execution false",
+    "builder_check": "38 app inputs verified; no build performed",
+    "provider_and_storage": "synthetic only",
+    "process_death_test": "child exits during cleanup registration; reopened journal retains consumed registration intent",
+    "independence_test": "cleanup reaches verified absence while an upload thread remains blocked behind lifecycle lock"
+  },
+  "contract": {
+    "registration_attempts_per_journal": 1,
+    "upload_invocations_per_journal": 1,
+    "physical_render_calls": 2,
+    "renderer": "MockRenderer only",
+    "ticket_retained_before_upload": true,
+    "fresh_read_registration_check_before_and_after_render": true,
+    "cleanup_uses_separate_lock": true,
+    "offline_complete_requires": [
+      "two successful guarded mock calls",
+      "exact registration receipt",
+      "download-verified export",
+      "exact-resource verified absence"
+    ],
+    "smoke_accepted": false,
+    "gpu_validated": false
+  },
+  "remaining_live_gates": [
+    "Verified private runtime retention and independent fresh pull",
+    "Independent intent registration before allocation and deployed expiry service",
+    "Global authoritative reservation and private external ticket/receipt persistence",
+    "Authenticated bounded adapters and worker hard deadlines; controller-loss integration tests",
+    "Reviewed source-lock expansion and separately bounded GPU allowance"
+  ]
+}

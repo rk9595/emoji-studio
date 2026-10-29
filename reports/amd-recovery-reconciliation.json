@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-29",
+  "workflow_conclusion": "success",
+  "publication_status": "unresolved",
+  "run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40878081034",
+  "receipt": {
+    "absence_verified": false,
+    "fresh_pull_verified": false,
+    "gpu_validated": false,
+    "image": "ghcr.io/rk9595/emoji-studio-amd-runtime",
+    "manifest_http_status": 404,
+    "original_run_id": "40831493602",
+    "package_http_status": 404,
+    "read_only": true,
+    "retry_authorized": false,
+    "run_id": "40878081034",
+    "source_commit": "3c25f5a0c884c3fb16f470c571dc677dbaabeb93",
+    "status": "publication_unresolved",
+    "tag": "cpu-d47a61b0a6d3d07709020c0d9467b51ad5e24cd5-40831493602"
+  },
+  "job_log_sha256": "96f28980600fc2fbb1274ecf79dcea9965ebe475bb3fc6115eef176c7aaf23e0",
+  "interpretation": "Read-only recovery-tag check completed; package/tag 404 does not verify absence or successful retention. No further publication attempt authorized by the consumed recovery review.",
+  "next_action": "Prepare measurement of post-build and copy temporary filesystem usage and a bounded storage strategy; no paid resource or blind retry."
+}

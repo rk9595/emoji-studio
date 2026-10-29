@@ -1,6 +1,6 @@
 {
-  "status": "waiting_cloud",
-  "milestone": "Read-only reconciliation after runtime copy storage failure",
+  "status": "ready",
+  "milestone": "Identify copy storage requirements and prepare bounded retention fix",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -8,17 +8,17 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Wait through ordinary supervisor for exact read-only reconciliation run 40878081034/head 3c25f5a0c884c3fb16f470c571dc677dbaabeb93/workflow AMD runtime retention reconciliation. On terminal status retain receipt/error; do not dispatch or poll with model turns.",
-    "Retain RECONCILIATION_RECEIPT or sanitized error. If image exists, verify its metadata and resolve fresh pull separately. If missing/uncertain, preserve uncertainty; no additional publication dispatch under the consumed review.",
-    "Review disk usage of docker-daemon source export/copy and prepare a bounded storage strategy. Do not increase time, delete runner software, switch to paid runners, publish another version or allocate GPUs automatically."
+    "Prepare measurements of free bytes/inodes for Docker data and actual copy temporary paths before/after build and during copy. Current disk_capacity hint does not identify the full filesystem; avoid claiming Mac/GPU storage is exhausted. Review current source transport behavior before choosing a fix.",
+    "Prepare a bounded strategy that reduces temporary copies or uses existing capacity. Preserve 45/30-minute jobs and single-private-version bounds. Do not delete runner software, select paid runners, increase spend or retry publication automatically.",
+    "Recovery reconciliation 40878081034 completed with package/tag 404; retention/absence remain unverified. No further publication dispatch under the consumed recovery review. Keep gates closed until a concrete fix and deliberate scope review; GPU/hosting still require separate allowance/access."
   ],
-  "waiting_reason": "Read-only recovery-tag reconciliation queued; no publication or GPU job. Wait on exact run/head/workflow through ordinary supervisor.",
+  "waiting_reason": null,
   "completed_offline": "2026-10-29: Recovery review complete, current GitHub cost rules/public repo checked, 94 tests/143 subtests passed and 38 inputs verified. One new exact-source dispatch 40831493602 under recorded review; no GPU/paid resource or comparison repeat.",
   "last_completed_task": {
-    "name": "Reviewed recovery execution and sanitized copy failure diagnosis",
+    "name": "Recovery-tag read-only reconciliation and retained receipt",
     "status": "complete",
     "date": "2026-10-29",
-    "receipt": "reports/amd-retention-recovery-failure.json"
+    "receipt": "reports/amd-recovery-reconciliation.json"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
@@ -53,9 +53,14 @@
     "hint": "disk_capacity",
     "copy_timed_out": false
   },
-  "cloud_repository": "rk9595/emoji-studio",
-  "cloud_run_id": "40878081034",
-  "cloud_run_head": "3c25f5a0c884c3fb16f470c571dc677dbaabeb93",
-  "cloud_run_workflow": "AMD runtime retention reconciliation",
-  "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40878081034"
+  "completed_recovery_reconciliation": {
+    "cloud_repository": "rk9595/emoji-studio",
+    "cloud_run_id": "40878081034",
+    "cloud_run_head": "3c25f5a0c884c3fb16f470c571dc677dbaabeb93",
+    "cloud_run_workflow": "AMD runtime retention reconciliation",
+    "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40878081034",
+    "status": "complete",
+    "publication_status": "unresolved",
+    "receipt": "reports/amd-recovery-reconciliation.json"
+  }
 }

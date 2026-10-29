@@ -4,7 +4,7 @@ User delegated private-alpha implementation, maximum automation and builder choi
 Read `ops/work-queue.json` next. Preserve unrelated recovery changes; only stage task
 files. No new paid resource, GPU allocation, comparison repeat or public endpoint.
 
-## Current cloud work — waiting on read-only reconciliation
+## Current work — storage diagnosis ready, no active cloud job
 
 Recovery **40831493602**, source `d47a61b0a6d3d07709020c0d9467b51ad5e24cd5`,
 finished failure. CPU build (103 in-image tests), initial/repeated preflight and
@@ -21,14 +21,19 @@ Original recovery tag:
 New local config (not verified remote manifest):
 `sha256:d32e186f0c326a0b8b5b612560c554642124655bcec594ddad8d4ea1467376fc`.
 
-Read-only reconciliation **40878081034** queued at
+Read-only reconciliation **40878081034** completed at
 `3c25f5a0c884c3fb16f470c571dc677dbaabeb93`:
 https://github.com/rk9595/emoji-studio/actions/runs/40878081034
-Five-minute packages-read workflow targets only that recovery tag/config. Queue
-waiting_cloud with exact identity; use ordinary supervisor, not model polling.
-No build/push/layer download/delete/visibility change. Preserve uncertainty on 404.
-Then review copy temporary-storage usage and a bounded storage strategy before any
-new publication decision; do not treat a longer deadline as a disk-capacity fix.
+Its receipt is `publication_unresolved`: package/tag both 404, no verified absence
+or retention. See `reports/amd-recovery-reconciliation.json`. No further read polling
+needed. Queue ready for storage diagnosis; publication remains closed.
+
+Next: measure free bytes/inodes for Docker data and actual temporary copy paths
+before/after build and during copy; review source transport behavior before choosing
+a bounded fix that avoids extra temporary copies. The disk_capacity hint does not
+identify the filesystem, and does not establish a problem with the Mac or any GPU.
+Do not increase time, delete runner software, switch to paid runners or blindly
+retry. A concrete fix and deliberate scope review must precede further publication.
 
 Offline lifecycle/reservation are complete: `docs/smoke-lifecycle.md` (215 tests/
 252 subtests) and `docs/smoke-reservation.md`. Live external authoritative storage,

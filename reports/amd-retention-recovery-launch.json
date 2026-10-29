@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-29",
+  "status_at_handoff": "failed",
+  "run_id": "40831493602",
+  "run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40831493602",
+  "source_commit": "d47a61b0a6d3d07709020c0d9467b51ad5e24cd5",
+  "workflow": "AMD runtime private retention",
+  "approved_source_matches": true,
+  "review": "reports/amd-retention-recovery-review.json",
+  "review_dispatches_consumed": 1,
+  "additional_dispatches_authorized": 0,
+  "original_unique_tag": "cpu-d47a61b0a6d3d07709020c0d9467b51ad5e24cd5-40831493602",
+  "publication_verified": false,
+  "fresh_pull_verified": false,
+  "gpu_execution_authorized": false,
+  "paid_execution_authorized": false,
+  "comparison_repeated": false,
+  "next_action": "Read-only reconciliation; no further publication dispatch",
+  "terminal_receipt": "reports/amd-retention-recovery-failure.json"
+}

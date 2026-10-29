@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "status": "approved_one_reviewed_recovery_attempt",
-  "publication_authorized": true,
+  "status": "recovery_failed_publication_unresolved",
+  "publication_authorized": false,
   "gpu_execution_authorized": false,
   "paid_execution_authorized": false,
   "recommended_destination": "ghcr.io/rk9595/emoji-studio-amd-runtime",
@@ -42,6 +42,6 @@
   "pricing_source": "https://docs.github.com/en/billing/concepts/product-billing/github-packages",
   "privacy_source": "https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry",
   "authority_basis": "User delegated private-alpha implementation and builder choices; one private, reversible runtime artifact using currently free standard public Actions and GHCR is within that scope. No paid resource, public image publication, GPU execution or further version is authorized.",
-  "note": "October 29 deliberate recovery review permits one new exact-source dispatch toward the same single private version. Original attempt is terminal and owner UI shows no package. No job rerun, automatic retry, second version, overwrite, deletion, visibility change or paid/GPU fallback. Runtime success remains unverified.",
+  "note": "Recovery run 40831493602 passed CPU build/preflight/login, then registry_copy exited 1 after 307690 ms with disk_capacity hint; not timed out. Publication gate closed; original tag requires read-only reconciliation. No further publication dispatch under recovery review.",
   "recovery_review": "reports/amd-retention-recovery-review.json"
 }

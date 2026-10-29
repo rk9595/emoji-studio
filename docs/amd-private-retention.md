@@ -157,3 +157,11 @@ step; no new GPU/paid allowance is inferred. The publication flag/date are updat
 but the repository source gate must match the reviewed commit before dispatch.
 No additional version, job rerun, automatic retry, overwrite, deletion or visibility
 change is permitted. Acceptance still requires the separate fresh-pull/audit job.
+
+Recovery run 40831493602 is now terminal: build/preflight/login passed, copy exited
+1 after 307.690 seconds with a `disk_capacity` hint and no wrapper timeout. Fresh
+verification was skipped. `reports/amd-retention-recovery-failure.json` retains the
+stage receipts, CPU audit, new local config and log hash. Publication/source gates
+are closed again. The recovery review's single publication dispatch is consumed;
+only read-only reconciliation of its original tag is proceeding. The original
+October 25 tag/config must not be substituted for this recovery's identity.

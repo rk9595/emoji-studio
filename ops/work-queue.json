@@ -1,6 +1,6 @@
 {
   "status": "ready",
-  "milestone": "Reviewed private runtime recovery and fresh-pull verification",
+  "milestone": "Read-only reconciliation after runtime copy storage failure",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -8,17 +8,17 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Complete post-review checks, commit and bind exact source, then dispatch AMD runtime private retention once under reports/amd-retention-recovery-review.json. Record exact run/head/workflow in queue and wait through ordinary supervisor. No job rerun.",
-    "When terminal, retain sanitized stage receipts and final RETENTION_RECEIPT or first failure. Success requires publish and fresh verify jobs, manifest/config/privacy checks and repeated CPU audit. GPU validation remains false.",
-    "If failure or ambiguous copy occurs, reconcile only this recovery run's original unique tag read-only. No further dispatch is authorized by this review; no second version, deletion, visibility change, paid/GPU resource or comparison repeat."
+    "Dispatch updated packages-read reconciliation workflow once for recovery original tag/config. Record exact run/head/workflow and wait through ordinary supervisor. It cannot build, publish, delete or download image layers.",
+    "Retain RECONCILIATION_RECEIPT or sanitized error. If image exists, verify its metadata and resolve fresh pull separately. If missing/uncertain, preserve uncertainty; no additional publication dispatch under the consumed review.",
+    "Review disk usage of docker-daemon source export/copy and prepare a bounded storage strategy. Do not increase time, delete runner software, switch to paid runners, publish another version or allocate GPUs automatically."
   ],
   "waiting_reason": null,
-  "completed_offline": "2026-10-29: Nine bounded publication/pull stages instrumented with fixed sanitized receipts; 94 tests/143 subtests, Ruff/YAML/Bash passed, 38-file context unchanged. Recovery/performance review retained; original cause unknown. Publication flag still false; no cloud dispatch or GPU/paid operation.",
+  "completed_offline": "2026-10-29: Recovery review complete, current GitHub cost rules/public repo checked, 94 tests/143 subtests passed and 38 inputs verified. One new exact-source dispatch 40831493602 under recorded review; no GPU/paid resource or comparison repeat.",
   "last_completed_task": {
-    "name": "Deliberate bounded private runtime recovery activation review",
+    "name": "Reviewed recovery execution and sanitized copy failure diagnosis",
     "status": "complete",
     "date": "2026-10-29",
-    "receipt": "reports/amd-retention-recovery-review.json"
+    "receipt": "reports/amd-retention-recovery-failure.json"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
@@ -45,5 +45,12 @@
     "observation": "owner_ui_no_packages_visible",
     "receipt": "reports/amd-retention-owner-check.json"
   },
-  "retention_status": "recovery_review_complete; exact-source dispatch pending"
+  "retention_status": "recovery_copy_failed; publication unknown; gate closed",
+  "recovery_failure": {
+    "run_id": "40831493602",
+    "source_commit": "d47a61b0a6d3d07709020c0d9467b51ad5e24cd5",
+    "receipt": "reports/amd-retention-recovery-failure.json",
+    "hint": "disk_capacity",
+    "copy_timed_out": false
+  }
 }

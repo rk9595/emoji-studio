@@ -4,33 +4,33 @@ User delegated private-alpha implementation, maximum automation and builder choi
 Read `ops/work-queue.json` next. Preserve unrelated recovery changes; only stage task
 files. No new paid resource, GPU allocation, comparison repeat or public endpoint.
 
-## Current work — reviewed recovery, dispatch pending
+## Current work — recovery failed, read-only reconciliation ready
 
-Recovery review complete: `reports/amd-retention-recovery-review.json`. Existing
-user delegation covers one deliberately reviewed new CPU-only dispatch toward the
-same single private runtime version. Previous job is terminal; original-tag reads
-and October 29 owner UI (no packages) retained. Repo is public; GHCR free container
-storage/bandwidth and standard public runner rules rechecked October 29. This does
-not establish atomic absence or fix the unknown historical failure cause.
+Recovery **40831493602**, source `d47a61b0a6d3d07709020c0d9467b51ad5e24cd5`,
+finished failure. CPU build (103 in-image tests), initial/repeated preflight and
+registry login passed. `registry_copy` exited 1 after **307690 ms**, hint
+**disk_capacity**, timed_out false. Fresh-pull job skipped. Receipt/audit/log hash:
+`reports/amd-retention-recovery-failure.json`. This narrows the failure to copying
+and storage pressure; exact full filesystem/mechanism is not established.
 
-Publication flag true/date refreshed for this one review; bind the resulting exact
-commit before a single new workflow dispatch. No old job rerun, automatic command
-retry, extra version, overwrite, deletion, public visibility change or paid fallback.
-Keep 45/30-minute jobs, 30-minute build, 600-second copy, 1200-second fresh pull,
-five-minute offline audit and 60-GiB disk check. Queue exact run/head/workflow after
-launch; ordinary supervisor waits without model polling. No active cloud job yet.
+Publication flag false and approved-source variable closed again. The reviewed
+single recovery dispatch is consumed; no further publication dispatch authorized
+by that review. No GPU/paid resource or comparison repeat occurred.
+Original recovery tag:
+`cpu-d47a61b0a6d3d07709020c0d9467b51ad5e24cd5-40831493602`.
+New local config (not verified remote manifest):
+`sha256:d32e186f0c326a0b8b5b612560c554642124655bcec594ddad8d4ea1467376fc`.
 
-Diagnostics: `docs/amd-retention-diagnostics.md`, 94 tests/143 subtests; fixed
-stage/timing/exit/hint receipts, raw transport logs remain private. A start-only
-receipt means uncertain completion. Only final RETENTION_RECEIPT after both jobs
-accepts retention; GPU validation stays false. Failed recovery allows read-only
-reconciliation of its original tag, no further dispatch under this review.
+Updated five-minute packages-read reconciliation workflow targets only that tag
+and config. Dispatch once, queue exact run/head/workflow, use ordinary supervisor.
+No build/push/layer download/delete/visibility change. Preserve uncertainty on 404.
+Then review copy temporary-storage usage and a bounded storage strategy before any
+new publication decision; do not treat a longer deadline as a disk-capacity fix.
 
-Offline lifecycle complete: `docs/smoke-lifecycle.md`, 215 tests/252 subtests.
-Registration, render budget, export ticket/recovery and independent cleanup locks
-are tested with mocks. `docs/smoke-reservation.md` pins one CREATE intent; no
-replacement. Live external authoritative storage, expiry service, bounded adapters,
-worker deadlines and reviewed source integration remain. GPU needs separate allowance.
+Offline lifecycle/reservation are complete: `docs/smoke-lifecycle.md` (215 tests/
+252 subtests) and `docs/smoke-reservation.md`. Live external authoritative storage,
+expiry service, bounded adapters, worker deadlines and tested source integration
+remain. Runtime retention/fresh pull and GPU validation are still unverified.
 
 ## Private runtime retention — still unverified
 
@@ -48,10 +48,9 @@ Original tag: `cpu-7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2-40170595914`.
 New local config: `sha256:776b9b0ab43ca3451205bceb879777bd395271a8d4b398871c29102e32f41ba0`.
 It is not a verified published manifest. Transport diagnostics were ephemeral.
 
-The October 25 failure remains historical evidence. October 29 reviewed recovery
-above supersedes its closed-gate handoff only for one exact-source dispatch; no
-automatic retry, second version, deletion, visibility change or paid fallback.
-Independent fresh pull and GPU validation remain unverified.
+The October 25 failure remains historical evidence. The October 29 recovery is
+also terminal; its gate is closed. No automatic retry, second version, deletion,
+visibility change or paid fallback. Independent fresh pull/GPU remain unverified.
 
 ## Completed evidence
 

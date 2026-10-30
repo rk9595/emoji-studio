@@ -20,8 +20,10 @@ two emojis through the API on one AMD GPU. The first allocation failed before
 generation and was deleted (~$0.1256). On October 30 the user continued after a
 reviewed corrective attempt was described. Campaign `amd-api-smoke-20261029b`
 allows one corrective MI300X at $1.99/hour, 30 minutes including cleanup; the
-aggregate reserve stays $2 across both attempts. No third allocation or automatic
-POST retries. Check the current receipt first; never reset either claim or the
+aggregate reserve stays $2 across both attempts. Both attempts are now consumed
+and independently deleted; no real images yet, ~$0.3696 total. Queue waiting_user
+for the tested framed-SSH/SFTP proposal. No third allocation or automatic POST
+retry without user continuation of that concrete proposal. Never reset either claim or the
 consumed comparison. Custom GHCR image
 publication is deferred. Existing overall AMD credit is not a mandate to spend it
 continuously. Further cloud smoke/training needs a separately bounded allowance;

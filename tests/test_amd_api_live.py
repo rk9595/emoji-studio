@@ -3,6 +3,7 @@
 import hashlib
 import importlib.util
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -151,14 +152,34 @@ class TestLiveSmoke(unittest.TestCase):
                     live.ssh("host", "systemd-run worker")
                 command.assert_called_once()
 
+    def test_ssh_framing_ignores_provider_banner(self):
+        def run_locally(args, timeout):
+            # Execute the actual generated shell wrapper, with a provider-like
+            # prefix and suffix that would break exact READY matching/rsync.
+            wrapper = "printf 'Welcome to the GPU image!\\n'; " + args[-1]
+            result = subprocess.run(["bash", "-c", wrapper], capture_output=True,
+                                    text=True, timeout=timeout, check=True)
+            return result.stdout + "\nConnection banner after command\n"
+        with patch.object(live, "ssh_args", return_value=[]):
+            with patch.object(live, "command", side_effect=run_locally):
+                self.assertEqual(live.ssh("host", "printf 'READY\\n'"), "READY\n")
+                self.assertEqual(live.ssh("host", "printf 'abc123 file\\n'"), "abc123 file\n")
+
+    def test_missing_command_frame_is_not_treated_as_readiness(self):
+        with patch.object(live, "ssh_args", return_value=[]):
+            with patch.object(live, "command", return_value="READY\n"), patch.object(live, "transport_diagnostic"):
+                with self.assertRaisesRegex(RuntimeError, "framing missing"):
+                    live.ssh("host", "echo READY")
+
     def test_previous_attempt_needs_verified_absence_and_remaining_reserve(self):
         plan = {"reserve_dollars": 2, "previous_attempt": {"release": "old", "droplet_id": 123, "run_id": "456"}}
         state = {"droplet_id": 123, "run_id": "456", "cleanup_confirmed": True,
-                 "started_epoch": 1000, "cleanup_epoch": 1300, "rate_hourly": 1.99}
+                 "started_epoch": 1000, "cleanup_epoch": 1300, "rate_hourly": 1.99,
+                 "prior_attempt_cost_dollars": 0.1256}
         watchdog = {"droplet_id": 123, "cleanup_confirmed": True}
         with patch.object(live, "command", side_effect=[json.dumps(state), json.dumps(watchdog)]):
             with patch.object(live, "api", side_effect=live.ProviderError(404, "GET", "/droplets/123")):
-                self.assertAlmostEqual(live.previous_attempt_cost(plan), 1.99 / 12)
+                self.assertAlmostEqual(live.previous_attempt_cost(plan), 0.1256 + 1.99 / 12)
         with patch.object(live, "command", side_effect=[json.dumps(state), json.dumps(watchdog)]):
             with patch.object(live, "api", return_value={}), self.assertRaises(RuntimeError):
                 live.previous_attempt_cost(plan)
@@ -167,4 +188,3 @@ class TestLiveSmoke(unittest.TestCase):
             with patch.object(live, "api", side_effect=live.ProviderError(404, "GET", "/droplets/123")):
                 with self.assertRaises(RuntimeError):
                     live.previous_attempt_cost(plan)
-

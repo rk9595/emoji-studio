@@ -1,0 +1,29 @@
+{
+  "status": "prepared_only",
+  "execution_authorized": false,
+  "proposed_campaign": "amd-api-smoke-20261030c",
+  "reason": "Validate framed SSH/SFTP fix after two cleanly deleted pre-generation failures. Root cause remains unconfirmed.",
+  "prior_allocations": [
+    613866182,
+    614256807
+  ],
+  "prior_cleanup_confirmed": true,
+  "prior_total_estimated_dollars": 0.3696,
+  "aggregate_reserve_dollars": 2.0,
+  "remaining_reserve_dollars": 1.6304,
+  "max_new_allocations": 1,
+  "max_concurrent_gpus": 1,
+  "max_hourly_dollars": 1.99,
+  "max_lifetime_seconds": 1800,
+  "max_physical_renders": 2,
+  "automatic_post_retries": 0,
+  "estimated_total_at_max_new_runtime": 1.3646,
+  "source_controller_sha256": "f8ff226d375b50174e25bb0508555887f4b1c5cb147049f6feeb96d68ad905a3",
+  "input_archive_sha256": "71477d53f0359f0e3d561957dddb2f1eb07949489daea4478e16cf46f3cbe908",
+  "approval_required": "A third allocation exceeds the two-attempt plan described to the user and recorded in AGENTS.md. Keep exact-source gate closed until user continues this concrete proposal.",
+  "activation_steps": [
+    "Recheck both prior deletion receipts and fresh provider account/rate/capacity.",
+    "Create fresh campaign/name and pin a new source; point previous_attempt at corrective release so cumulative prior usage is included. Never reset prior claims.",
+    "Register independent watchdog before one allocation; generate/download exactly two API images, verify and delete."
+  ]
+}

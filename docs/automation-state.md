@@ -4,39 +4,41 @@ Read `ops/work-queue.json`. Preserve unrelated recovery changes; stage exact tas
 files only. The user authorized AMD credits for two API emojis October 29 and
 continued October 30 after the reviewed corrective attempt was described.
 
-## Active: two-image API acceptance on AMD
+## Waiting for user: third allocation proposal, no active GPU
 
-Private Actions run **41079063954**, source
-`a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe`:
+The two-image milestone is **not complete**: both attempts stopped before
+rendering. Both allocated GPUs were independently confirmed deleted. Total
+estimated runtime usage **$0.3696**, against the unchanged **$2 aggregate reserve**.
+
+Corrective run **41079063954**, source
+`a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe`, finished failure:
 https://github.com/rk9595/emoji-studio-ops/actions/runs/41079063954
-Release `amd-api-smoke-20261029b`; GPU **614256807**, started epoch
-1793373362.9918551. Work cutoff +1500 sec; self-expiry +1560; deletion deadline
-+1800 sec. Exact source/workflow receipt monitoring is implemented and tested.
+Release `amd-api-smoke-20261029b`; GPU614256807 deleted at epoch1793373804.3265;
+independent watchdog confirmed at1793373822.1779. Failure: readiness timeout.
+Saved diagnostics: initial SSH connection refused, final rsync protocol mismatch.
+No successful probe stdout was retained, so noisy provider shell output is a
+hypothesis, not a confirmed explanation for readiness timeout.
+`reports/amd-api-live-result.json` preserves evidence and hashes.
 
-One corrective allocation; one concurrent MI300X, $1.99/hour ceiling, two physical
-renders, 30-minute lifetime including cleanup. **$2 aggregate reserve** includes
-the first attempt's $0.1256. No third allocation or automatic POST retry. Each
-release has an immutable allocation-intent claim; never reset either claim.
+First run40883440921 / GPU613866182 failed on SSH checksum read after upload,
+with no generation. Deleted and independently confirmed, ~$0.1256. See
+`reports/amd-api-first-attempt-result.json`. Never reset either allocation claim.
 
-The first run **40883440921** failed before generation: SSH exit255 reading the
-uploaded input checksum. Both controller and independent watchdog confirmed GPU
-613866182 deleted. `reports/amd-api-first-attempt-result.json`; exact root cause
-unknown because first transport stderr was not retained. Correction reuses SSH
-connections, allows bounded read-only reconnects, and retains private sanitized
-transport diagnostics. Allocation, generation and worker launch remain non-retryable.
+Prepared correction frames SSH results with per-call markers, rejects missing
+success frames, uses SFTP-based scp instead of rsync, and records private timeout/
+framing diagnostics. 14 focused tests and 8 exact cloud-receipt tests pass. It is
+not GPU-validated. `ops/amd-api-next-attempt-proposal.json` is prepared_only and
+execution_authorized=false: one potential third MI300X, max30 minutes, two renders,
+$1.99/hour ceiling, no automatic POST retry. Total estimated cost at maximum new
+runtime would be ~$1.3646, within the same $2 reserve. It exceeds the previously
+stated two-attempt plan, so wait for user continuation of this concrete proposal.
+The private exact-source variable is closed: `consumed-41079063954`.
 
-Direct provider image 222743415 has ROCm7.2/PyTorch2.10; hash-pinned no-deps overlay.
-Custom GHCR publication is deferred. Existing model revision and pilot step25 stay
-unchanged. API binds loopback only, authenticated, admission cap2 and durable
-physical render cap2. Separate cloud watchdog, absolute on-instance expiry and
-container-stop timer protect cleanup. Private export is downloaded/hash-verified.
-See `docs/amd-api-live.md`, `ops/amd-api-live-plan.json`.
-
-12 failure-boundary tests and 8 exact cloud-receipt tests pass. A local real-HTTP
-mock passed; it is not GPU evidence. Read the terminal cloud receipt, download
-real outputs, verify hashes and independent exact-resource 404 before marking
-complete. No token-consuming GPU polling. If the corrective attempt fails, retain
-diagnostics, ensure deletion and mark waiting_user for any additional allocation.
+On approval, create a fresh campaign/source and preserve both old claims. Recheck
+prior exact-resource absence and cumulative costs, current price/capacity; register
+independent watchdog before allocation. Existing model revision/pilotstep25,
+loopback authenticated API, physical render cap2 and private hash-verified export
+remain. Custom GHCR publishing stays deferred. No training or persistent hosting.
 
 ## Production and data
 

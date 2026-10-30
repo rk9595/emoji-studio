@@ -1,7 +1,7 @@
 # Two real API images on one AMD GPU
 
 The user authorized this milestone October 29 and continued October 30. The
-active corrective campaign is `amd-api-smoke-20261029b`, separate from the
+completed corrective campaign is `amd-api-smoke-20261029b`, separate from the
 consumed comparison and the first API attempt. The prior offline plan
 and its 23-file lock remain unchanged; this live plan explicitly chooses the
 provider's ready-made ROCm image instead of waiting for custom GHCR publication.
@@ -54,7 +54,7 @@ expiry credential disappears with the instance. Logs/artifacts stay private.
 
 ## Validation
 
-Twelve focused tests cover two-call enforcement, deadline/late-call failures,
+Fourteen focused tests cover two-call enforcement, deadline/late-call failures,
 replay refusal, ownership, authenticated deletion checks, the no-overwrite claim,
 and ambiguous POST reconciliation without a second allocation. The local real
 HTTP mock test passed (`reports/amd-api-live-local-test.json`); it is explicitly
@@ -79,3 +79,23 @@ single-shot. Sanitized transport diagnostics stay in private artifacts. The
 corrective preflight rechecks the first exact resource is absent, verifies both
 cleanup receipts and checks combined prior/maximum new runtime against the same
 $2 reserve. Both claims stay consumed; there is no automated third attempt.
+
+## October 30 outcome: milestone incomplete
+
+Run41079063954 timed out waiting for the ROCm image / expiry timer readiness
+condition. No generation occurred. GPU614256807 was deleted; the independent
+watchdog confirmed exact-resource absence. Total estimated usage across both
+attempts is $0.3696. `reports/amd-api-live-result.json` retains the outcome.
+
+The private diagnostics show an initial refused SSH connection and an rsync
+protocol mismatch during final collection. No successful readiness stdout was
+retained, so noisy shell startup output remains a hypothesis for that timeout.
+The prepared correction frames SSH stdout with unique markers and copies fixed
+result filenames via SFTP-based scp. Tests execute the real wrapper locally with
+a provider-like banner and reject unframed output. Timeout/framing diagnostics
+are now preserved. This correction is not GPU-validated.
+
+Both allocation claims remain consumed and the exact-source gate is closed.
+`ops/amd-api-next-attempt-proposal.json` describes a potential third attempt,
+within the existing $2 aggregate reserve, requiring user continuation of that
+concrete proposal. The queue is waiting_user; there is no automatic third launch.

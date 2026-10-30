@@ -12,6 +12,7 @@ import tarfile
 import time
 import urllib.error
 import urllib.request
+import uuid
 from pathlib import Path
 
 API = "https://api.devcloud.amd.com/v2"
@@ -83,17 +84,22 @@ class CommandError(RuntimeError):
         super().__init__(f"{program} exited {code}")
 
 
+def transport_diagnostic(program, code, detail):
+    detail = detail[-4096:]
+    for name in ("AMD_DEV_CLOUD_TOKEN", "GH_TOKEN", "AMD_SSH_PRIVATE_KEY"):
+        if os.environ.get(name):
+            detail = detail.replace(os.environ[name], "[REDACTED]")
+    with Path("transport-errors.jsonl").open("a") as log:
+        log.write(json.dumps({"program": program, "code": code,
+                              "detail": detail, "epoch": time.time()}) + "\n")
+
+
 def command(args, timeout=30):
     result = subprocess.run(args, capture_output=True, text=True, timeout=timeout)
     if result.returncode:
         # Keep useful transport diagnostics privately, without command lines/secrets.
-        diagnostic = result.stderr[-2048:]
-        for name in ("AMD_DEV_CLOUD_TOKEN", "GH_TOKEN", "AMD_SSH_PRIVATE_KEY"):
-            if os.environ.get(name):
-                diagnostic = diagnostic.replace(os.environ[name], "[REDACTED]")
-        with Path("transport-errors.jsonl").open("a") as log:
-            log.write(json.dumps({"program": Path(args[0]).name, "code": result.returncode,
-                                  "stderr": diagnostic, "epoch": time.time()}) + "\n")
+        diagnostic = result.stderr + (result.stdout if Path(args[0]).name == "ssh" else "")
+        transport_diagnostic(Path(args[0]).name, result.returncode, diagnostic)
         raise CommandError(Path(args[0]).name, result.returncode)
     return result.stdout
 
@@ -189,7 +195,22 @@ def ssh_args():
 
 
 def ssh(ip, script, timeout=30):
-    return command(["ssh", *ssh_args(), f"root@{ip}", script], timeout=timeout)
+    # Provider images can print a banner from shell startup files. Frame the
+    # command's stdout instead of interpreting the entire SSH stream as data.
+    marker = "EMOJI_API_" + uuid.uuid4().hex
+    framed = (f"printf '\\n{marker}:BEGIN\\n'; ( {script} ); rc=$?; "
+              f"printf '\\n{marker}:END:%s\\n' \"$rc\"; exit \"$rc\"")
+    try:
+        output = command(["ssh", *ssh_args(), f"root@{ip}", framed], timeout=timeout)
+    except subprocess.TimeoutExpired as error:
+        partial = error.stdout or b""
+        transport_diagnostic("ssh", "timeout", partial.decode(errors="replace") if isinstance(partial, bytes) else partial)
+        raise
+    begin, end = f"{marker}:BEGIN\n", f"\n{marker}:END:0"
+    if output.count(begin) != 1 or output.count(end) != 1:
+        transport_diagnostic("ssh", "framing_missing", output)
+        raise RuntimeError("SSH response framing missing; no command result accepted")
+    return output.split(begin, 1)[1].split(end, 1)[0]
 
 
 def ssh_read(ip, script, timeout=30):
@@ -230,7 +251,10 @@ def previous_attempt_cost(plan):
     elapsed = state["cleanup_epoch"] - state["started_epoch"]
     if not 0 <= elapsed <= 1800:
         raise RuntimeError("Previous lifetime receipt is invalid")
-    cost = elapsed * state["rate_hourly"] / 3600
+    prior_cost = state.get("prior_attempt_cost_dollars", 0.0)
+    if not isinstance(prior_cost, (int, float)) or not 0 <= prior_cost <= plan["reserve_dollars"]:
+        raise RuntimeError("Invalid prior milestone cost")
+    cost = prior_cost + elapsed * state["rate_hourly"] / 3600
     if cost + 1.99 * 1800 / 3600 > plan["reserve_dollars"]:
         raise RuntimeError("Insufficient remaining milestone reserve")
     return cost
@@ -238,8 +262,18 @@ def previous_attempt_cost(plan):
 
 def snapshot(ip):
     Path("api-results").mkdir(exist_ok=True)
-    command(["rsync", "-az", "--timeout=20", "-e", shlex.join(["ssh", *ssh_args()]),
-             f"root@{ip}:{REMOTE}/api-results/", "api-results/"], timeout=45)
+    # Modern scp uses the SFTP subsystem, which is not corrupted by login banners.
+    # Do not enable legacy scp (-O) or rsync's remote-shell protocol here.
+    def copy(name):
+        command(["scp", *ssh_args(), f"root@{ip}:{REMOTE}/api-results/{name}",
+                 f"api-results/{name}"], timeout=45)
+    copy("report.json")
+    report = json.loads(Path("api-results/report.json").read_text())
+    if not isinstance(report.get("images"), list) or len(report["images"]) > 2:
+        raise ValueError("Invalid result manifest")
+    for index, _ in enumerate(report["images"]):
+        for extension in ("png", "webp"):
+            copy(f"emoji-{index}.{extension}")
 
 
 def verify_results():

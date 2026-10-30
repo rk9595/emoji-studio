@@ -1,0 +1,27 @@
+{
+  "status": "failed_before_generation",
+  "milestone_complete": false,
+  "run_id": "41079063954",
+  "source": "a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe",
+  "allocation_id": 614256807,
+  "real_images": 0,
+  "failed_stage": "ROCm image / expiry timer readiness deadline",
+  "independent_cleanup_confirmed": true,
+  "cleanup_epoch": 1793373804.3264832,
+  "watchdog_checked_epoch": 1793373822.177938,
+  "attempt_estimated_cost_dollars": 0.244,
+  "milestone_estimated_cost_dollars": 0.3696,
+  "diagnostics": {
+    "initial_ssh_connection_refused": 1,
+    "final_snapshot_rsync_protocol_mismatch": 1,
+    "root_cause_confirmed": false,
+    "inference": "Provider shell output is a likely readiness/transport problem; no successful probe stdout was retained."
+  },
+  "controller_log_sha256": "1a60043ed74add8e5308dad955c1f00ded98225a825519d73cf0a33bf85bd45e",
+  "transport_log_sha256": "14e9ac5d51fe145a67d7dbd0373c85f24c9cdd93165d7668cf8f6b7591c039c7",
+  "prepared_fix": "Frame SSH command output with per-call markers, require matching success frame; use SFTP-based scp for downloads; retain timeout/framing diagnostics. Not GPU-validated.",
+  "focused_tests": 14,
+  "cloud_receipt_tests": 8,
+  "allocation_gate": "closed: consumed-41079063954",
+  "next_status": "waiting_user"
+}

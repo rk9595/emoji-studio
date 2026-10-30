@@ -1,5 +1,5 @@
 {
-  "status": "waiting_cloud",
+  "status": "waiting_user",
   "milestone": "Generate two emojis through the API on one AMD GPU",
   "completed_cpu_build": {
     "run_id": "40166592399",
@@ -8,16 +8,16 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Read terminal run 41079063954 and private release amd-api-smoke-20261029b. Verify two real API images and independent exact-resource deletion.",
-    "No third allocation or automatic replacement. If unsuccessful, retain diagnostics and mark waiting_user after cleanup. Preserve consumed comparison and total $2 milestone reserve."
+    "If user approves/continues the concrete proposal in ops/amd-api-next-attempt-proposal.json, prepare a fresh exact-source campaign and one new allocation. Never reset either old claim or the comparison.",
+    "Without that approval, do not dispatch GPU/retention/training or run model polling. Both instances were independently confirmed deleted."
   ],
-  "waiting_reason": "Corrective cloud run active; independent watchdog registered. Read exact receipt without model polling.",
+  "waiting_reason": "Both planned allocations are consumed and deleted; no real images yet. Framed SSH/SFTP correction passes 14 tests. A third allocation needs user continuation of the concrete proposal; aggregate $2 reserve unchanged.",
   "completed_offline": "2026-10-29: Recovery review complete, current GitHub cost rules/public repo checked, 94 tests/143 subtests passed and 38 inputs verified. One new exact-source dispatch 40831493602 under recorded review; no GPU/paid resource or comparison repeat.",
   "last_completed_task": {
-    "name": "Recovery-tag read-only reconciliation and retained receipt",
+    "name": "Diagnose second pre-generation failure, confirm cleanup, test framed SSH and SFTP correction",
     "status": "complete",
-    "date": "2026-10-29",
-    "receipt": "reports/amd-recovery-reconciliation.json"
+    "date": "2026-10-30",
+    "receipt": "reports/amd-api-live-result.json"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
@@ -86,10 +86,14 @@
   },
   "corrective_api_attempt": {
     "release": "amd-api-smoke-20261029b",
-    "status": "booting",
+    "status": "failed",
     "source": "a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe",
     "allocation_id": 614256807,
     "started_epoch": 1793373362.9918551,
-    "deadline_epoch": 1793375162.9918551
-  }
+    "deadline_epoch": 1793375162.9918551,
+    "cleanup_confirmed": true,
+    "estimated_cost_dollars": 0.244
+  },
+  "milestone_estimated_cost_dollars": 0.3696,
+  "next_attempt_proposal": "ops/amd-api-next-attempt-proposal.json"
 }

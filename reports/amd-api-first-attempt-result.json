@@ -1,0 +1,15 @@
+{
+  "status": "failed_before_generation",
+  "run_id": "40883440921",
+  "source": "d80b1dafd31e99a2c4b927563e284efd78cd1dac",
+  "allocation_id": 613866182,
+  "images": 0,
+  "failed_operation": "read-only SSH sha256sum of transferred inputs.tar.gz",
+  "transport_exit_code": 255,
+  "root_cause": "unknown; stderr was not retained by first controller",
+  "cleanup_confirmed": true,
+  "independent_watchdog_confirmed": true,
+  "estimated_cost_dollars": 0.1256,
+  "controller_log_sha256": "c4bd2230cf096ee415d3433766957cb6bc5ee4bc4c6352c14544fefe5d0bb13f",
+  "correction": "Reuse SSH connections, bounded read-only reconnects and private sanitized transport diagnostics. No allocation/generation retry."
+}

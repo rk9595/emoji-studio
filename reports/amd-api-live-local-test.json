@@ -1,0 +1,81 @@
+{
+  "status": "completed",
+  "mock": true,
+  "allocation_id": "local-test",
+  "images": [
+    {
+      "prompt": "a cheerful red apple sticker",
+      "seed": 7,
+      "metrics": {
+        "generation_seconds": 0.001941,
+        "peak_vram_bytes": 0,
+        "renderer": "mock",
+        "estimated_cost_dollars": 1.07e-06
+      },
+      "png": {
+        "path": "emoji-0.png",
+        "sha256": "5b343b2a1ffe69d6b927ff047de7933ef2a37f71385db408d844e161505fbb54",
+        "bytes": 7600
+      },
+      "webp": {
+        "path": "emoji-0.webp",
+        "sha256": "5dc13bad795a125a82f1af6cd40e777e2c9fd1136d25fa5f5f6f3d8772fedcc2",
+        "bytes": 3030
+      }
+    },
+    {
+      "prompt": "a happy yellow smiling face emoji",
+      "seed": 8,
+      "metrics": {
+        "generation_seconds": 0.000327,
+        "peak_vram_bytes": 0,
+        "renderer": "mock",
+        "estimated_cost_dollars": 1.8e-07
+      },
+      "png": {
+        "path": "emoji-1.png",
+        "sha256": "3f98f74664e5e46748e16fc6dcdb0e498c9148fd6fb5fe7584ca2114d24a6c56",
+        "bytes": 7532
+      },
+      "webp": {
+        "path": "emoji-1.webp",
+        "sha256": "f42c16a1be511c3f78aa810ad28af3b7971e1b812ff52f09bb7658af82660d02",
+        "bytes": 3036
+      }
+    }
+  ],
+  "prompts": [
+    "a cheerful red apple sticker",
+    "a happy yellow smiling face emoji"
+  ],
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "adapter_sha256": "2c7b15de79e9ac0bf59488068c9ec0f3444dec44899005499de87c2b28e93076",
+  "job_id": "869ea3e7762e4b0bba00e124c8433215",
+  "elapsed_seconds": 4.228,
+  "authentication_checked": true,
+  "third_image_rejected": true,
+  "render_budget": {
+    "campaign": "amd-api-smoke-v1",
+    "allocation_id": "local-test",
+    "plan_sha256": "c4251a93b52ac57d632cc30a87f545173f820c599fbb25322bd3ee1c30b072ba",
+    "limit": 2,
+    "consumed": 2,
+    "unused": 0,
+    "further_calls_blocked": true,
+    "calls": [
+      {
+        "sequence": 1,
+        "call_id": "image-0",
+        "request_sha256": "b2291d274ab2b8a3f36974bd6fef2906c11f90000fc1eb23fe4728447968603f",
+        "state": "succeeded"
+      },
+      {
+        "sequence": 2,
+        "call_id": "image-1",
+        "request_sha256": "befa745a79ac6cb18827d7c1f95c05f6b6ec9d0aa0cb0bbc8e120c1663222ff9",
+        "state": "succeeded"
+      }
+    ]
+  }
+}

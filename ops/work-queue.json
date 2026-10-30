@@ -1,6 +1,6 @@
 {
-  "status": "ready",
-  "milestone": "Identify copy storage requirements and prepare bounded retention fix",
+  "status": "waiting_cloud",
+  "milestone": "Generate two emojis through the API on one AMD GPU",
   "completed_cpu_build": {
     "run_id": "40166592399",
     "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
@@ -8,11 +8,10 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Prepare measurements of free bytes/inodes for Docker data and actual copy temporary paths before/after build and during copy. Current disk_capacity hint does not identify the full filesystem; avoid claiming Mac/GPU storage is exhausted. Review current source transport behavior before choosing a fix.",
-    "Prepare a bounded strategy that reduces temporary copies or uses existing capacity. Preserve 45/30-minute jobs and single-private-version bounds. Do not delete runner software, select paid runners, increase spend or retry publication automatically.",
-    "Recovery reconciliation 40878081034 completed with package/tag 404; retention/absence remain unverified. No further publication dispatch under the consumed recovery review. Keep gates closed until a concrete fix and deliberate scope review; GPU/hosting still require separate allowance/access."
+    "Read terminal run 41079063954 and private release amd-api-smoke-20261029b. Verify two real API images and independent exact-resource deletion.",
+    "No third allocation or automatic replacement. If unsuccessful, retain diagnostics and mark waiting_user after cleanup. Preserve consumed comparison and total $2 milestone reserve."
   ],
-  "waiting_reason": null,
+  "waiting_reason": "Corrective cloud run active; independent watchdog registered. Read exact receipt without model polling.",
   "completed_offline": "2026-10-29: Recovery review complete, current GitHub cost rules/public repo checked, 94 tests/143 subtests passed and 38 inputs verified. One new exact-source dispatch 40831493602 under recorded review; no GPU/paid resource or comparison repeat.",
   "last_completed_task": {
     "name": "Recovery-tag read-only reconciliation and retained receipt",
@@ -22,7 +21,7 @@
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "Comparison is complete/consumed: no fifth allocation, reset, new training or paid hosting. Existing delegated implementation authority covers one private runtime version using currently free GHCR and standard public CPU runners, with exact-source gate and no overwrite/retry/delete/public/paid fallback. GPU and paid execution remain unauthorized; need separately bounded allowance.",
+  "allocation_policy": "October 29 AMD-credit milestone continued explicitly October 30. One reviewed corrective allocation after first failed before generation; two milestone allocations total, one concurrent GPU, max 30 minutes each and $2 aggregate reserve. Prior $0.1256 usage leaves enough for <=$0.995 runtime. No third allocation, automatic POST retry, comparison repeat, training or persistent hosting.",
   "failed_retention": {
     "run_id": "40170595914",
     "source_commit": "7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2",
@@ -62,5 +61,35 @@
     "status": "complete",
     "publication_status": "unresolved",
     "receipt": "reports/amd-recovery-reconciliation.json"
+  },
+  "live_api_preflight": {
+    "run_id": "40881264656",
+    "source": "faf7861dd8d125bbdfdde0064c982a1c23f08c9f",
+    "status": "complete",
+    "rate_hourly": 1.99,
+    "gpu_instances": 0
+  },
+  "cloud_repository": "rk9595/emoji-studio-ops",
+  "cloud_run_id": "41079063954",
+  "cloud_run_head": "a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe",
+  "cloud_run_workflow": "AMD two-image API smoke",
+  "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41079063954",
+  "completed_first_api_attempt": {
+    "id": 613866182,
+    "status": "failed",
+    "started_epoch": 1793280983.8036737,
+    "deadline_epoch": 1793282783.8036737,
+    "release": "amd-api-smoke-20261029",
+    "attempt_consumed": true,
+    "cleanup_confirmed": true,
+    "estimated_cost_dollars": 0.1256
+  },
+  "corrective_api_attempt": {
+    "release": "amd-api-smoke-20261029b",
+    "status": "booting",
+    "source": "a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe",
+    "allocation_id": 614256807,
+    "started_epoch": 1793373362.9918551,
+    "deadline_epoch": 1793375162.9918551
   }
 }

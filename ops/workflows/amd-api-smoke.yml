@@ -1,0 +1,48 @@
+name: AMD two-image API smoke
+on: workflow_dispatch
+permissions:
+  contents: write
+concurrency:
+  group: amd-api-smoke-20261029b
+  cancel-in-progress: false
+env:
+  GH_TOKEN: ${{ github.token }}
+  GH_REPO: ${{ github.repository }}
+  AMD_DEV_CLOUD_TOKEN: ${{ secrets.AMD_DEV_CLOUD_TOKEN }}
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Register independent expiry and verify cleanup
+        run: python3 ops/amd_api_live.py watchdog
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      AMD_API_SMOKE_SOURCE: ${{ vars.AMD_API_SMOKE_SOURCE }}
+      AMD_SSH_KEY_ID: ${{ vars.AMD_SSH_KEY_ID }}
+      AMD_SSH_KEY_FILE: /tmp/emoji-api-smoke-key
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dedicated SSH key
+        env:
+          SSH_KEY: ${{ secrets.AMD_SSH_PRIVATE_KEY }}
+        run: |
+          umask 077
+          printf '%s\n' "$SSH_KEY" > "$AMD_SSH_KEY_FILE"
+      - name: Allocate once, run API, verify exports and delete GPU
+        run: python3 ops/amd_api_live.py run
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: amd-api-evidence-${{ github.run_id }}
+          path: |
+            api-state.json
+            allocation-intent.json
+            api-preflight.json
+            api-results/
+            worker.log
+            transport-errors.jsonl
+          retention-days: 14

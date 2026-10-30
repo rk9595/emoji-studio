@@ -1,0 +1,19 @@
+name: AMD API read-only preflight
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read account, capacity and image metadata
+        env:
+          AMD_DEV_CLOUD_TOKEN: ${{ secrets.AMD_DEV_CLOUD_TOKEN }}
+        run: python3 ops/amd_api_live.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: api-preflight
+          path: api-preflight.json
+          retention-days: 14

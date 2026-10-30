@@ -1,0 +1,52 @@
+{
+  "allocation_attempted": false,
+  "account": {
+    "status": "active"
+  },
+  "sizes": [
+    {
+      "slug": "gpu-mi300x1-192gb-devcloud",
+      "price_hourly": 1.99,
+      "available": true,
+      "regions": [
+        "atl1"
+      ],
+      "disk": 720,
+      "memory": 245760,
+      "vcpus": 20
+    }
+  ],
+  "image": {
+    "id": 222743415,
+    "name": "PyTorch 2.10.0 (ROCm 7.2) 2.10.0 - ROCm 7.2 on Ubuntu 24.04",
+    "status": "available",
+    "regions": [
+      "tor1",
+      "syd1",
+      "sgp1",
+      "sfo3",
+      "sfo2",
+      "sfo1",
+      "ric1",
+      "nyc3",
+      "nyc2",
+      "nyc1",
+      "mkc1",
+      "mem1",
+      "lon1",
+      "fra1",
+      "blr1",
+      "atl1",
+      "ams3",
+      "ams2"
+    ],
+    "min_disk_size": 720,
+    "created_at": "2026-03-31T00:08:00Z"
+  },
+  "droplets": {
+    "count": 0,
+    "has_next_page": false
+  },
+  "run_id": "40881264656",
+  "note": "Public summary omits private billing/account limits. Full original receipt stays in private Actions artifacts."
+}

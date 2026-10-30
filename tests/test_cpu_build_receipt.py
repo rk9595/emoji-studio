@@ -30,6 +30,15 @@ class CPUReceiptTest(unittest.TestCase):
     def test_completed_receipt_wakes_continuation(self):
         self.assertEqual(self.read(self.receipt)["status"], "completed")
 
+    def test_private_api_smoke_uses_exact_receipt(self):
+        self.queue.update(cloud_repository="rk9595/emoji-studio-ops",
+                          cloud_run_workflow="AMD two-image API smoke")
+        self.receipt["workflowName"] = "AMD two-image API smoke"
+        self.assertEqual(self.read({**self.receipt, "status": "in_progress"})["status"], "running")
+        self.assertEqual(self.read(self.receipt)["status"], "completed")
+        with self.assertRaises(ValueError):
+            self.read({**self.receipt, "headSha": "b" * 40})
+
     def test_explicit_retention_workflow_receipt(self):
         self.queue["cloud_run_workflow"] = "AMD runtime private retention"
         self.receipt["workflowName"] = "AMD runtime private retention"

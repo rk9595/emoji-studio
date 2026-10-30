@@ -1,96 +1,72 @@
-# Current state — 2026-10-29
+# Current state — 2026-10-30
 
-User delegated private-alpha implementation, maximum automation and builder choice.
-Read `ops/work-queue.json` next. Preserve unrelated recovery changes; only stage task
-files. No new paid resource, GPU allocation, comparison repeat or public endpoint.
+Read `ops/work-queue.json`. Preserve unrelated recovery changes; stage exact task
+files only. The user authorized AMD credits for two API emojis October 29 and
+continued October 30 after the reviewed corrective attempt was described.
 
-## Current work — storage diagnosis ready, no active cloud job
+## Active: two-image API acceptance on AMD
 
-Recovery **40831493602**, source `d47a61b0a6d3d07709020c0d9467b51ad5e24cd5`,
-finished failure. CPU build (103 in-image tests), initial/repeated preflight and
-registry login passed. `registry_copy` exited 1 after **307690 ms**, hint
-**disk_capacity**, timed_out false. Fresh-pull job skipped. Receipt/audit/log hash:
-`reports/amd-retention-recovery-failure.json`. This narrows the failure to copying
-and storage pressure; exact full filesystem/mechanism is not established.
+Private Actions run **41079063954**, source
+`a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe`:
+https://github.com/rk9595/emoji-studio-ops/actions/runs/41079063954
+Release `amd-api-smoke-20261029b`; GPU **614256807**, started epoch
+1793373362.9918551. Work cutoff +1500 sec; self-expiry +1560; deletion deadline
++1800 sec. Exact source/workflow receipt monitoring is implemented and tested.
 
-Publication flag false and approved-source variable closed again. The reviewed
-single recovery dispatch is consumed; no further publication dispatch authorized
-by that review. No GPU/paid resource or comparison repeat occurred.
-Original recovery tag:
-`cpu-d47a61b0a6d3d07709020c0d9467b51ad5e24cd5-40831493602`.
-New local config (not verified remote manifest):
-`sha256:d32e186f0c326a0b8b5b612560c554642124655bcec594ddad8d4ea1467376fc`.
+One corrective allocation; one concurrent MI300X, $1.99/hour ceiling, two physical
+renders, 30-minute lifetime including cleanup. **$2 aggregate reserve** includes
+the first attempt's $0.1256. No third allocation or automatic POST retry. Each
+release has an immutable allocation-intent claim; never reset either claim.
 
-Read-only reconciliation **40878081034** completed at
-`3c25f5a0c884c3fb16f470c571dc677dbaabeb93`:
-https://github.com/rk9595/emoji-studio/actions/runs/40878081034
-Its receipt is `publication_unresolved`: package/tag both 404, no verified absence
-or retention. See `reports/amd-recovery-reconciliation.json`. No further read polling
-needed. Queue ready for storage diagnosis; publication remains closed.
+The first run **40883440921** failed before generation: SSH exit255 reading the
+uploaded input checksum. Both controller and independent watchdog confirmed GPU
+613866182 deleted. `reports/amd-api-first-attempt-result.json`; exact root cause
+unknown because first transport stderr was not retained. Correction reuses SSH
+connections, allows bounded read-only reconnects, and retains private sanitized
+transport diagnostics. Allocation, generation and worker launch remain non-retryable.
 
-Next: measure free bytes/inodes for Docker data and actual temporary copy paths
-before/after build and during copy; review source transport behavior before choosing
-a bounded fix that avoids extra temporary copies. The disk_capacity hint does not
-identify the filesystem, and does not establish a problem with the Mac or any GPU.
-Do not increase time, delete runner software, switch to paid runners or blindly
-retry. A concrete fix and deliberate scope review must precede further publication.
+Direct provider image 222743415 has ROCm7.2/PyTorch2.10; hash-pinned no-deps overlay.
+Custom GHCR publication is deferred. Existing model revision and pilot step25 stay
+unchanged. API binds loopback only, authenticated, admission cap2 and durable
+physical render cap2. Separate cloud watchdog, absolute on-instance expiry and
+container-stop timer protect cleanup. Private export is downloaded/hash-verified.
+See `docs/amd-api-live.md`, `ops/amd-api-live-plan.json`.
 
-Offline lifecycle/reservation are complete: `docs/smoke-lifecycle.md` (215 tests/
-252 subtests) and `docs/smoke-reservation.md`. Live external authoritative storage,
-expiry service, bounded adapters, worker deadlines and tested source integration
-remain. Runtime retention/fresh pull and GPU validation are still unverified.
+12 failure-boundary tests and 8 exact cloud-receipt tests pass. A local real-HTTP
+mock passed; it is not GPU evidence. Read the terminal cloud receipt, download
+real outputs, verify hashes and independent exact-resource 404 before marking
+complete. No token-consuming GPU polling. If the corrective attempt fails, retain
+diagnostics, ensure deletion and mark waiting_user for any additional allocation.
 
-## Private runtime retention — still unverified
+## Production and data
 
-October 29 signed-in owner browser showed “Your Packages” / “Get started with
-GitHub Packages” with no package rows: `reports/amd-retention-owner-check.json`.
-The earlier owner-check request is satisfied; do not keep asking the user or block
-independent offline work. This UI observation does not prove atomic registry absence
-or explain the original publication failure. No permissions were changed.
+Existing data is Microsoft Fluent 3D, not Google Noto. Noto candidate audit pins
+99701e07d…: 4,007 512px PNG files / 4,006 Git blobs. README says images Apache2,
+but linked root license is OFL1.1; no license in 3D/png. Resolve asset-specific
+terms before commercial training. No new data import/training started.
+`reports/noto-3d-candidate-audit.json`, `docs/production-next.md` record the evidence
+and production milestones. Base FLUX.2 Klein4B license at pinned revision is
+Apache2. Existing gesture-quality failures remain; do not promote a new adapter
+without documented quality review. Persistent hosting needs recurring budget/access.
 
-Publication **40170595914** passed 103 in-image CPU tests, then failed (exit 1,
-9m30s publication step); fresh pull skipped. `reports/amd-retention-failure.json`.
-Read-only reconciliation **40173475187** returned package/tag 404 with packages-read:
-`reports/amd-retention-reconciliation.json`. Local CLI lacks read:packages.
-Original tag: `cpu-7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2-40170595914`.
-New local config: `sha256:776b9b0ab43ca3451205bceb879777bd395271a8d4b398871c29102e32f41ba0`.
-It is not a verified published manifest. Transport diagnostics were ephemeral.
+## Deferred/completed evidence
 
-The October 25 failure remains historical evidence. The October 29 recovery is
-also terminal; its gate is closed. No automatic retry, second version, deletion,
-visibility change or paid fallback. Independent fresh pull/GPU remain unverified.
+GHCR recovery40831493602 failed registry_copy (disk_capacity hint); exact storage
+mechanism unknown. Reconciliation40878081034 returned package/tag404, not verified
+absence. Publication gate closed; no retry. Reports preserve evidence. CPU run
+40166592399 passed 103 in-image tests and dependency checks; no GPU implication.
+The old prepared-only smoke plan/23-file lock remains intact; this new live route
+uses a separate explicit plan. Offline lifecycle/reservation contracts remain in
+`docs/smoke-lifecycle.md` and `docs/smoke-reservation.md`.
 
-## Completed evidence
-
-CPU run **40166592399**, source `acef6db19b00ddcb07dbff290bfde2ff825c80ed`, passed:
-103 in-image tests, dependency/native CPU checks, HTTP and guarded executor smokes.
-42 base/78 installed distributions, 45 overlay pins match, five GPU versions unchanged.
-`reports/amd-cpu-validation.json`, `docs/amd-cpu-validation.md`. Its ephemeral local
-config ID 2c3ad8f4…bb81ab9 is not a published manifest and must not be reused as one.
-Base digest bcb2efa1…32763e4, ROCm7.2/Python3.12/Torch2.10; no local GPU install.
-
-`configs/amd-api-smoke-plan.json` still prepared_only, execution false, allowance
-null, runtime unresolved; source checker verifies 23 files/private pilot adapter.
-Two physical renders/one GPU proposed, zero replacement, 30 minutes including
-five for cleanup. CPU validation alone does not clear GPU/controller gates.
-
-Offline components: `docs/render-budget.md`, `docs/mock-smoke-executor.md`,
-`docs/smoke-cleanup-contract.md`, `docs/smoke-private-export.md`. Two-call guard;
-stable call IDs/publication fencing; exact-resource deletion with durable pending;
-sanitized exports with independent download hashes. Live adapters/deployed controller remain.
-Durable API is opt-in/schema4, owner-scoped idempotency; default serving unchanged.
-Coverage proposal: 2,496 draws/624 steps covers 2,493 assets, not training approval;
-`docs/coverage-sampler-prototype.md` and collection audit retain missing-gesture gates.
-
-Consumed comparison: 144 verified images, all four GPUs deleted, ~$0.99 estimated.
-Private run https://github.com/rk9595/emoji-studio-ops/actions/runs/38352558272
-Private release `amd-comparison-v1`; `reports/amd-comparison-v1.md` records AI review,
-all 84 gesture outputs failed. Serving remains pilot step25. No fifth allocation.
+Consumed comparison: 144 images, four allocations all deleted, about $0.99 against
+its separate $3 reserve. Never repeat/reset it. Private run38352558272/release
+amd-comparison-v1; `reports/amd-comparison-v1.md`. AI review found all84 gesture
+outputs failed; this is not human review. Serving stays pilot step25.
 
 ## Automation
 
-LaunchAgent `com.emoji-studio.codex-supervisor` checks every 15 minutes, respects
-usage resets/skips active turns, may compact after six handoffs. Mac awake/app-server
-required; do not promise uninterrupted reasoning. Exact Actions receipt monitoring
-supports CPU validation and private retention; never substitute the old comparison
-release for a queued Actions run. Credentials never belong in memory/Git/logs.
+LaunchAgent checks every15 minutes, respects usage resets and active turns, and
+uses exact Actions receipts without model work while cloud jobs run. Mac must be
+awake/app-server available for local continuation. GPU cleanup runs in the cloud
+independently; do not promise uninterrupted model reasoning.

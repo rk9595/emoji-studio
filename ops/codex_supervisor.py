@@ -71,12 +71,16 @@ def cloud_state(config, queue=None):
         repository = queue.get("cloud_repository")
         expected_head = queue.get("cloud_run_head")
         expected_workflow = queue.get("cloud_run_workflow", "AMD runtime CPU validation")
-        if (repository != "rk9595/emoji-studio" or not run_id.isascii() or not run_id.isdecimal()
+        allowed_receipts = {
+            ("rk9595/emoji-studio", "AMD runtime CPU validation"),
+            ("rk9595/emoji-studio", "AMD runtime private retention"),
+            ("rk9595/emoji-studio", "AMD runtime retention reconciliation"),
+            ("rk9595/emoji-studio-ops", "AMD two-image API smoke"),
+        }
+        if ((repository, expected_workflow) not in allowed_receipts or not run_id.isascii() or not run_id.isdecimal()
                 or not isinstance(expected_head, str) or len(expected_head) != 40
-                or any(c not in "0123456789abcdef" for c in expected_head)
-                or expected_workflow not in ("AMD runtime CPU validation", "AMD runtime private retention",
-                                            "AMD runtime retention reconciliation")):
-            raise ValueError("Invalid CPU build receipt identity")
+                or any(c not in "0123456789abcdef" for c in expected_head)):
+            raise ValueError("Invalid cloud receipt identity")
         result = subprocess.run(
             [config["gh"], "run", "view", run_id, "--repo", repository,
              "--json", "status,conclusion,headSha,url,workflowName"],
@@ -85,7 +89,7 @@ def cloud_state(config, queue=None):
         receipt = json.loads(result.stdout)
         if (receipt["headSha"] != expected_head
                 or receipt["workflowName"] != expected_workflow):
-            raise ValueError("CPU build receipt differs from queued source/workflow")
+            raise ValueError("Cloud receipt differs from queued source/workflow")
         return {"status": ("completed" if receipt["conclusion"] == "success" else "failed")
                 if receipt["status"] == "completed" else "running",
                 "run_id": run_id, "conclusion": receipt["conclusion"]}

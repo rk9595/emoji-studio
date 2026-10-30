@@ -121,6 +121,7 @@ class TestLiveSmoke(unittest.TestCase):
               patch.object(live, "command", return_value='{"isPrivate": true}'),
               patch.object(Path, "read_bytes", return_value=b"archive"),
               patch.object(live, "get", return_value={"run_id": "456", "started_epoch": 1000}),
+              patch.object(live, "check_stop"),
               patch.object(live, "put") as put,
               patch.object(live, "api", side_effect=TimeoutError) as api,
               patch.object(live, "candidates", return_value=[{"id": 123}]),
@@ -171,6 +172,17 @@ class TestLiveSmoke(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "framing missing"):
                     live.ssh("host", "echo READY")
 
+    def test_background_master_cannot_hold_captured_pipes_open(self):
+        with patch.object(live, "ssh_args", return_value=[]):
+            with patch.object(live.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)) as run:
+                live.start_control("host")
+                self.assertEqual(run.call_args.kwargs["stdout"], subprocess.DEVNULL)
+                self.assertNotEqual(run.call_args.kwargs["stderr"], subprocess.PIPE)
+                self.assertIn("-f", run.call_args.args[0])
+        with patch.dict(live.os.environ, {"AMD_SSH_KEY_FILE": "/test/key"}):
+            self.assertIn("ControlMaster=no", live.ssh_args())
+            self.assertNotIn("ControlMaster=auto", live.ssh_args())
+
     def test_previous_attempt_needs_verified_absence_and_remaining_reserve(self):
         plan = {"reserve_dollars": 2, "previous_attempt": {"release": "old", "droplet_id": 123, "run_id": "456"}}
         state = {"droplet_id": 123, "run_id": "456", "cleanup_confirmed": True,
@@ -188,3 +200,13 @@ class TestLiveSmoke(unittest.TestCase):
             with patch.object(live, "api", side_effect=live.ProviderError(404, "GET", "/droplets/123")):
                 with self.assertRaises(RuntimeError):
                     live.previous_attempt_cost(plan)
+
+    def test_usage_stop_binds_exact_campaign_and_run(self):
+        with patch.dict(live.os.environ, {"GITHUB_RUN_ID": "123"}):
+            with patch.object(live, "command", return_value='{"assets":[{"name":"stop-request.json"}]}'):
+                with patch.object(live, "get", return_value={"campaign": live.RELEASE, "run_id": "123"}):
+                    with self.assertRaisesRegex(RuntimeError, "Early cleanup"):
+                        live.check_stop()
+                with patch.object(live, "get", return_value={"campaign": live.RELEASE, "run_id": "different"}):
+                    with self.assertRaises(ValueError):
+                        live.stop_requested()

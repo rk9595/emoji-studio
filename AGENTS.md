@@ -15,19 +15,17 @@ private keys, or account secrets in memory, Git, reports, or prompts.
 The AMD comparison is complete: all 144 images verified, all four allocated
 instances deleted, approximately $0.99 estimated GPU cost against a $3 reserve.
 See `reports/amd-comparison-v1.md`. Do not reset it or launch a fifth attempt.
-On 2026-10-29 the user explicitly authorized AMD credits for the next milestone:
-two emojis through the API on one AMD GPU. The first allocation failed before
-generation and was deleted (~$0.1256). On October 30 the user continued after a
-reviewed corrective attempt was described. Campaign `amd-api-smoke-20261029b`
-allows one corrective MI300X at $1.99/hour, 30 minutes including cleanup; the
-aggregate reserve stays $2 across both attempts. Both attempts are now consumed
-and independently deleted; no real images yet, ~$0.3696 total. Queue waiting_user
-for the tested framed-SSH/SFTP proposal. No third allocation or automatic POST
-retry without user continuation of that concrete proposal. Never reset either claim or the
-consumed comparison. Custom GHCR image
-publication is deferred. Existing overall AMD credit is not a mandate to spend it
-continuously. Further cloud smoke/training needs a separately bounded allowance;
-persistent hosting needs a user-selected recurring budget and access arrangement.
+On October30 the user explicitly approved a third bounded API attempt and asked
+for GPU destruction before Codex usage limits. Active campaign
+`amd-api-smoke-20261030c`: one MI300X, max30 minutes, $1.99/hour ceiling, two physical
+renders, unchanged $2 aggregate reserve including ~$0.3696 from two failed/deleted
+attempts. Prior allocation claims and comparison remain consumed. Do not ask again
+for this approved attempt or routine fixes. No automatic allocation/POST retries.
+Local `ops/amd_usage_guard.py` reads usage every30sec and requests cloud cleanup at
+85% usage, or after two unavailable usage readings. Cloud controller/watchdog honor
+the bound stop request; on-instance expiry is independent of Mac/model availability.
+Custom GHCR publication remains deferred. No training or persistent hosting begun;
+persistent hosting still needs recurring budget/access.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

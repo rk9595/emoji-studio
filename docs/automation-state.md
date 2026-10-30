@@ -4,41 +4,43 @@ Read `ops/work-queue.json`. Preserve unrelated recovery changes; stage exact tas
 files only. The user authorized AMD credits for two API emojis October 29 and
 continued October 30 after the reviewed corrective attempt was described.
 
-## Waiting for user: third allocation proposal, no active GPU
+## Active third API attempt — user approved
 
-The two-image milestone is **not complete**: both attempts stopped before
-rendering. Both allocated GPUs were independently confirmed deleted. Total
-estimated runtime usage **$0.3696**, against the unchanged **$2 aggregate reserve**.
+Private Actions **41087086776**, source32e1d704cdf60dae8300119cf3e635111ff525e8:
+https://github.com/rk9595/emoji-studio-ops/actions/runs/41087086776
+Release `amd-api-smoke-20261030c`; GPU614271639, started epoch1793376498.4049,
+outer deletion deadline1793378298.4049. User explicitly approved the prepared third
+attempt and required GPU destruction before model usage limits. One new MI300X,
+max30min/$1.99hr, two renders, same $2 aggregate reserve (prior usage ~$0.3696).
+No reset/repeat of older claims or comparison. No automatic allocation POST retry.
 
-Corrective run **41079063954**, source
-`a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe`, finished failure:
-https://github.com/rk9595/emoji-studio-ops/actions/runs/41079063954
-Release `amd-api-smoke-20261029b`; GPU614256807 deleted at epoch1793373804.3265;
-independent watchdog confirmed at1793373822.1779. Failure: readiness timeout.
-Saved diagnostics: initial SSH connection refused, final rsync protocol mismatch.
-No successful probe stdout was retained, so noisy provider shell output is a
-hypothesis, not a confirmed explanation for readiness timeout.
-`reports/amd-api-live-result.json` preserves evidence and hashes.
+The framing/SFTP correction also starts an SSH master separately without captured
+pipes, so a background master cannot keep probe pipes open. 16 focused transport/
+cleanup tests, 4 usage-policy tests and 8 exact cloud-receipt tests pass. Source
+archive is unchanged and hash-verified; serving remains pinned pilotstep25.
 
-First run40883440921 / GPU613866182 failed on SSH checksum read after upload,
-with no generation. Deleted and independently confirmed, ~$0.1256. See
-`reports/amd-api-first-attempt-result.json`. Never reset either allocation claim.
+Usage guard runs locally as ordinary detached code, bound to this run/release.
+Reads `account/rateLimits/read` every30sec. At85% usage (either window), or two
+unavailable readings, it writes one private bound `stop-request.json`. Both cloud
+controller and independent watchdog honor it. Initial usage check reported adequate headroom. Local receipt: `var/amd-api-live/usage-guard-41087086776.json`.
+If the Mac/session disappears, independent cloud expiry still deletes at minute26;
+worker cutoff is minute25, outer deletion deadline minute30. Do not promise perfect
+prediction of usage limits or outage-free provider deletion. No GPU should be left
+running merely to wait for Codex limits to reset.
 
-Prepared correction frames SSH results with per-call markers, rejects missing
-success frames, uses SFTP-based scp instead of rsync, and records private timeout/
-framing diagnostics. 14 focused tests and 8 exact cloud-receipt tests pass. It is
-not GPU-validated. `ops/amd-api-next-attempt-proposal.json` is prepared_only and
-execution_authorized=false: one potential third MI300X, max30 minutes, two renders,
-$1.99/hour ceiling, no automatic POST retry. Total estimated cost at maximum new
-runtime would be ~$1.3646, within the same $2 reserve. It exceeds the previously
-stated two-attempt plan, so wait for user continuation of this concrete proposal.
-The private exact-source variable is closed: `consumed-41079063954`.
+Next: use exact cloud receipt; verify real API images, hashes and independent
+exact-resource404 before completion. Early stop does not mean success. Never mark
+complete with only mock outputs or pending cleanup. Keep memory concise.
 
-On approval, create a fresh campaign/source and preserve both old claims. Recheck
-prior exact-resource absence and cumulative costs, current price/capacity; register
-independent watchdog before allocation. Existing model revision/pilotstep25,
-loopback authenticated API, physical render cap2 and private hash-verified export
-remain. Custom GHCR publishing stays deferred. No training or persistent hosting.
+## Earlier attempts (consumed and deleted)
+
+Run40883440921/GPU613866182: SSH255 on checksum read after upload, no generation,
+~$0.1256. `reports/amd-api-first-attempt-result.json`.
+Run41079063954/GPU614256807: readiness timeout, no generation, ~$0.244; independent
+cleanup confirmed. `reports/amd-api-live-result.json` currently records this older
+failure. Private diagnostics had initial connection refusal and rsync protocol
+mismatch; noisy shell and background pipe behavior were hypotheses, not confirmed
+provider root causes. Both old exact-source gates are consumed.
 
 ## Production and data
 

@@ -9,6 +9,7 @@ import os
 import shlex
 import subprocess
 import tarfile
+import tempfile
 import time
 import urllib.error
 import urllib.request
@@ -17,8 +18,8 @@ from pathlib import Path
 
 API = "https://api.devcloud.amd.com/v2"
 SIZE = "gpu-mi300x1-192gb-devcloud"
-RELEASE = "amd-api-smoke-20261029b"
-NAME = "emoji-api-smoke-20261029b"
+RELEASE = "amd-api-smoke-20261030c"
+NAME = "emoji-api-smoke-20261030c"
 REMOTE = "/shared-docker/emoji-api-smoke"
 PLAN = Path("ops/amd-api-live-plan.json")
 
@@ -116,6 +117,21 @@ def get(name):
     return json.loads(command(["gh", "release", "download", RELEASE, "-p", name, "-O", "-"], timeout=30))
 
 
+def stop_requested():
+    assets = json.loads(command(["gh", "release", "view", RELEASE, "--json", "assets"]))["assets"]
+    if not any(item["name"] == "stop-request.json" for item in assets):
+        return False
+    request = get("stop-request.json")
+    if request.get("campaign") != RELEASE or request.get("run_id") != os.environ["GITHUB_RUN_ID"]:
+        raise ValueError("Stop request identity mismatch")
+    return True
+
+
+def check_stop():
+    if stop_requested():
+        raise RuntimeError("Early cleanup requested by usage guard")
+
+
 def owned(row, intent):
     created = dt.datetime.fromisoformat(row["created_at"].replace("Z", "+00:00")).timestamp()
     return (row.get("name") == NAME and NAME in row.get("tags", [])
@@ -187,11 +203,23 @@ while True:
     return data
 
 
-def ssh_args():
+def ssh_args(master=False):
     return ["-i", os.environ["AMD_SSH_KEY_FILE"], "-o", "BatchMode=yes", "-o", "ConnectTimeout=10",
             "-o", "StrictHostKeyChecking=accept-new", "-o", "ServerAliveInterval=10",
-            "-o", "ServerAliveCountMax=2", "-o", "ControlMaster=auto",
+            "-o", "ServerAliveCountMax=2", "-o", "ControlMaster=yes" if master else "ControlMaster=no",
             "-o", "ControlPersist=600", "-o", "ControlPath=/tmp/emoji-api-%C"]
+
+
+def start_control(ip):
+    # Never create a background master from a capture_output=True call: inherited
+    # pipe handles can prevent communicate() from seeing EOF after a probe ends.
+    with tempfile.TemporaryFile(mode="w+") as diagnostic:
+        result = subprocess.run(["ssh", *ssh_args(master=True), "-N", "-f", f"root@{ip}"],
+                                stdout=subprocess.DEVNULL, stderr=diagnostic, timeout=20)
+        if result.returncode:
+            diagnostic.seek(0)
+            transport_diagnostic("ssh-control", result.returncode, diagnostic.read())
+            raise CommandError("ssh-control", result.returncode)
 
 
 def ssh(ip, script, timeout=30):
@@ -334,6 +362,7 @@ def run():
         time.sleep(5)
     else:
         raise RuntimeError("Independent cloud watchdog is not registered")
+    check_stop()
     intent = {"campaign": RELEASE, "started_epoch": time.time(), "run_id": os.environ["GITHUB_RUN_ID"],
               "source": os.environ["GITHUB_SHA"], "max_allocations": 1,
               "plan_sha256": hashlib.sha256(PLAN.read_bytes()).hexdigest(),
@@ -354,6 +383,7 @@ def run():
         put("api-state.json", state, replace=True)
         stop = intent["started_epoch"] + 1500
         while time.time() < min(stop, intent["started_epoch"] + 420):
+            check_stop()
             row = api("GET", f"/droplets/{identifier}")["droplet"]
             if not owned(row, intent):
                 raise ValueError("Allocated resource differs from intent")
@@ -370,6 +400,7 @@ def run():
             time.sleep(10)
         else:
             raise TimeoutError("ROCm image or expiry timer not ready")
+        start_control(ip)
         ssh(ip, f"mkdir -p {REMOTE} && chmod 700 {REMOTE}")
         command(["scp", *ssh_args(), "inputs.tar.gz", f"root@{ip}:{REMOTE}/inputs.tar.gz"], timeout=120)
         if ssh_read(ip, f"sha256sum {REMOTE}/inputs.tar.gz").split()[0] != plan["input_sha256"]:
@@ -381,6 +412,7 @@ def run():
         remaining = int(stop - time.time())
         if remaining < 300:
             raise TimeoutError("Insufficient generation time")
+        check_stop()
         # Kill the container at the work cutoff even if a CUDA/HIP call is hung.
         ssh(ip, f"systemd-run --unit=emoji-api-stop --on-calendar=@{int(stop)} /usr/bin/docker stop -t 5 rocm")
         script = (f"cd {REMOTE}; "
@@ -398,6 +430,7 @@ def run():
         put("api-state.json", state, replace=True)
         while time.time() < stop:
             time.sleep(20)
+            check_stop()
             exit_code = ssh_read(ip, f"cat {REMOTE}/worker.exit 2>/dev/null || true").strip()
             if exit_code:
                 snapshot(ip)
@@ -462,6 +495,7 @@ def watchdog():
             time.sleep(10)
             continue
         # Keep the registered cloud job alive until cleanup is durably confirmed.
+        state = {}
         try:
             state = get("api-state.json")
             if state.get("cleanup_confirmed"):
@@ -472,12 +506,20 @@ def watchdog():
                     return
         except Exception:
             pass
-        if time.time() >= intent["started_epoch"] + 1560:
-            rows = candidates(intent)
-            confirmations = [delete_exact(row["id"], intent) for row in rows]
-            if rows and all(confirmations):
-                put("watchdog-result.json", {"cleanup_confirmed": True, "ids": [r["id"] for r in rows],
-                                           "checked_epoch": time.time(), "independent": True}, replace=True)
+        try:
+            early_stop = stop_requested()
+        except Exception:
+            early_stop = False  # Expiry still applies if GitHub is unavailable.
+        if early_stop or time.time() >= intent["started_epoch"] + 1560:
+            ids = {state["droplet_id"]} if state.get("droplet_id") else set()
+            if not ids:
+                ids.update(row["id"] for row in candidates(intent))
+            confirmations = [delete_exact(identifier, intent) for identifier in ids]
+            if ids and all(confirmations):
+                put("watchdog-result.json", {"cleanup_confirmed": True, "ids": sorted(ids),
+                                           "droplet_id": next(iter(ids)) if len(ids) == 1 else None,
+                                           "checked_epoch": time.time(), "independent": True,
+                                           "early_stop": early_stop}, replace=True)
                 return
         time.sleep(15)
     put("watchdog-result.json", {"cleanup_confirmed": False, "status": "needs_reconciliation"}, replace=True)

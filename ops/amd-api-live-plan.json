@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "campaign": "amd-api-smoke-20261029b",
-  "authorization": "User explicitly requested AMD credits for two API emojis on 2026-10-29, following proposed 30-minute one-GPU milestone.",
+  "campaign": "amd-api-smoke-20261030c",
+  "authorization": "2026-10-30 user explicitly approved the third bounded attempt, authorized AMD credits and required GPU destruction before Codex limits.",
   "max_allocations": 1,
   "max_concurrent_gpus": 1,
   "max_physical_renders": 2,
@@ -24,7 +24,7 @@
     "a happy yellow smiling face emoji"
   ],
   "seed": 7,
-  "allocation_expires_epoch": 1793380505,
+  "allocation_expires_epoch": 1793383467,
   "input_sha256": "71477d53f0359f0e3d561957dddb2f1eb07949489daea4478e16cf46f3cbe908",
   "input_bytes": 26467404,
   "source_files": {
@@ -40,13 +40,14 @@
     "src/emoji_studio/render_budget.py": "f9599714923de8dd51543d7af957d9dfdde2eac89df3b5a8bc974b6f2a4b3005"
   },
   "previous_attempt": {
-    "release": "amd-api-smoke-20261029",
-    "run_id": "40883440921",
-    "droplet_id": 613866182,
+    "release": "amd-api-smoke-20261029b",
+    "run_id": "41079063954",
+    "droplet_id": 614256807,
     "cleanup_confirmed": true
   },
-  "milestone_max_allocations": 2,
-  "review": "Deliberate corrective attempt after first SSH checksum read failed. Same October 29 delegated AMD milestone; existing $2 aggregate reserve unchanged. Prior exact-resource cleanup must be independently verified and reconfirmed. No third allocation or automatic replacement.",
+  "milestone_max_allocations": 3,
+  "review": "User approved prepared framed-SSH/SFTP fix. Preserve prior claims and $2 aggregate reserve. Local usage monitor requests cloud deletion at 85 percent quota or loss of usage signal; independent cloud expiry remains mandatory.",
   "transport_policy": "Reuse SSH control connection; at most three read-only reconnects. No retry for allocation POST, generation POST or worker launch.",
-  "continued_authorization": "User said continue on 2026-10-30 after the corrective attempt and unchanged $2 reserve were described. Refresh launch window only; no third allocation."
+  "usage_stop_threshold_percent": 85,
+  "usage_stop_poll_seconds": 30
 }

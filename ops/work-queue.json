@@ -1,5 +1,5 @@
 {
-  "status": "ready",
+  "status": "waiting_cloud",
   "milestone": "Train and evaluate a bounded Fluent coverage diagnostic on AMD",
   "updated_date": "2026-10-31",
   "last_completed_task": {
@@ -14,11 +14,12 @@
   },
   "recipe": "configs/lora-coverage-v1.json",
   "next_actions": [
-    "Upload private frozen inputs; read fresh usage; arm exact-source gate and dispatch the one bounded training campaign.",
-    "While waiting use exact cloud receipts, not model polling. Verify checkpoints/evaluation artifacts and independent deletion before quality review."
+    "Wait on run41203305217 via the supervisor; no token-consuming GPU polling.",
+    "When finished, download private training-state/watchdog/results, independently verify deletion and checkpoint/evaluation hashes.",
+    "Record success or exact failure, close the source gate and review quality before any adapter promotion. Do not retry the consumed campaign."
   ],
-  "waiting_reason": null,
-  "gpu_allocated": false,
+  "waiting_reason": "Bounded cloud training job dispatched; wait on exact cloud receipt without model polling.",
+  "gpu_allocated": true,
   "training_started": false,
   "allocation_policy": "One fresh training allocation, at most3600seconds, rate<=1.99USD/hour and total<=2.25USD. Smoke2steps+reload gates main624steps; at most49 renders including smoke. Independent watchdog and instance expiry, early usage stop85%. No replacements, consumed-claim reuse, persistent hosting or automatic adapter promotion.",
   "promotion_requires": "Documented quality comparison; AI review must be labeled AI. Preserve serving pilot step25 until then.",
@@ -56,5 +57,28 @@
     "noto": "Raw PNG license scope unresolved; explicitly OFL font is a candidate alternative. No Noto import.",
     "production": "Cutouts, real durable-worker recovery, capacity and recurring hosting budget remain."
   },
-  "live_plan": "ops/amd-training-live-plan.json"
+  "live_plan": "ops/amd-training-live-plan.json",
+  "cloud_repository": "rk9595/emoji-studio-ops",
+  "cloud_run_id": "41203305217",
+  "cloud_run_head": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6",
+  "cloud_run_workflow": "AMD coverage training",
+  "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41203305217",
+  "active_training_attempt": {
+    "release": "amd-coverage-20261031a",
+    "run_id": "41203305217",
+    "status": "booting",
+    "allocation_id": 614520349,
+    "max_allocations": 1,
+    "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6",
+    "usage_guard_receipt": "var/amd-api-live/usage-guard-41203305217.json",
+    "started_epoch": 1793451400.1767645,
+    "work_deadline_epoch": 1793454700.1767645,
+    "self_expiry_epoch": 1793454760.1767645,
+    "maximum_lifetime_epoch": 1793455000.1767645,
+    "source_gate": "running-41203305217",
+    "independent_watchdog_registered": true,
+    "local_usage_guard_pid": 70531
+  },
+  "last_observed_cloud_status": "booting",
+  "last_observed_epoch": 1793451520.4291751
 }

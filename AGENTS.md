@@ -25,14 +25,16 @@ comparison. No additional allocation belongs to this completed milestone.
 The user requires GPU destruction before Codex limits. Retain the85% local usage
 stop, independent cloud watchdog and on-instance expiry for future bounded runs.
 No GPU may idle while waiting for quota reset. GHCR work remains deferred.
-On October 31 the user asked to continue training. Next: a separate Fluent
-coverage diagnostic; configs/lora-coverage-v1.json and docs/coverage-training-v1.md.
-Offline preparation and real CPU sampler validation passed; no training GPU yet.
-Queue ready for bounded AMD training integration. Preserve v2 data/captions/splits,
-old trainers and serving adapter. New 624-step recipe retains step500 for comparison.
-One-allocation/60-minute/$2.25 proposed ceiling is separate from consumed budgets;
-implement fresh cleanup controls and AMD finite-loss smoke before main training.
-No persistent hosting; Noto PNG licensing and durable-worker validation remain.
+On October31 the user asked to continue training. Bounded Fluent coverage run
+41203305217 is active on GPU614520349 (last observed booting). Queue waiting_cloud;
+source82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6, releaseamd-coverage-20261031a.
+Read reports/amd-coverage-dispatch.json and docs/coverage-training-v1.md.
+One allocation/60minutes/$2.25; two-step smoke gates main624steps and49renders.
+Work cutoff13:51:40UTC October31, expiry13:52:40UTC. Local85% usage guard and
+independent watchdog active. Gate closed running-41203305217. Do not dispatch again.
+Wait using cloud receipts, verify private artifacts and deletion on completion.
+Do not claim training success yet. Preserve v2 data/captions/splits, old trainers
+and serving adapter. No persistent hosting; Noto licensing remains separate.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

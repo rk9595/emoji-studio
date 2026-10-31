@@ -1,13 +1,24 @@
 # Current state — 2026-10-31
 
-## Next milestone: bounded Fluent coverage training
+## Active bounded AMD training — waiting on cloud
 
-User asked to continue training toward production. Queue `ready`; no GPU allocated
-and no new training started. Offline preparation, pinned training environment and private lifecycle are complete.
-Next dispatch the finite-loss smoke and frozen recipe under one fresh allocation/
-60-minute/$2.25 ceiling, after private upload and a fresh usage check.
-Use current availability/rate/usage checks; never reuse the completed API or
-comparison claims. No repeated permission request for routine implementation.
+Private run41203305217 is in progress; GPU614520349 was last observed booting.
+https://github.com/rk9595/emoji-studio-ops/actions/runs/41203305217
+Source82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6,
+releaseamd-coverage-20261031a. Queue `waiting_cloud`; do not poll with model turns.
+Local usage guard PID70531 is watching; independent cloud watchdog registered.
+Source gate closed as `running-41203305217`; no second dispatch/replacement.
+
+Started12:56:40UTC (18:26:40IST), October31. Work cutoff13:51:40UTC,
+self-expiry13:52:40UTC, maximum lifetime13:56:40UTC. Rate$1.99/hour,
+new reserve$2.25, one allocation. Two-step finite-loss/checkpoint-reload smoke
+must pass before624-step training; one smoke image+48 development images maximum.
+No success or deletion has yet been established. `reports/amd-coverage-dispatch.json`.
+
+When the exact cloud run finishes, download private training-state.json,
+watchdog-result.json and training-results.tar.gz, verify hashes and independent
+GPU deletion, then record the result and review image quality. On failure retain
+phase logs/partial checkpoints and diagnose; never reset this consumed claim.
 
 Read `docs/coverage-training-v1.md` and `configs/lora-coverage-v1.json`.
 The old500-step run saw954/2493 images. New deterministic schedule covers all2493
@@ -33,7 +44,7 @@ seeds ×2 checkpoints); reuse verified historical baselines. This is development
 comparison, not a sealed test. Preserve serving pilotstep25 until documented
 quality review. Label AI review as AI; no human review has been claimed.
 
-## Completed milestones and spending — no active GPU
+## Previously completed milestones and spending
 
 Two real512px PNG/WebP emojis through authenticated API on one MI300X:
 private run41173826485, sourcecbce1857e1b23f19fa9ee977f14d11cf2fc02b47,
@@ -55,7 +66,8 @@ User requires GPU destruction before Codex usage limits. Keep detached local
 85% usage stop (or two unavailable signals), independent cloud watchdog and
 instance expiry for every future run. No GPU may idle through quota reset.
 `docs/amd-usage-cleanup.md`. Local supervisor requires an awake Mac/app-server;
-queue ready allows continuation, not allocation without completing readiness.
+waiting_cloud resumes only when the exact cloud receipt finishes. Cleanup does
+not depend on further model turns; usage guard requests deletion at85%.
 
 Noto PNG license scope remains unresolved. New evidence: explicit OFL3D font
 license plus OFL FAQ1.26 permits AI design tools producing non-font graphics.

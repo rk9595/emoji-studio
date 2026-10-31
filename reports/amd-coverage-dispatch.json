@@ -1,0 +1,28 @@
+{
+  "status": "dispatched_gpu_booting",
+  "observed_epoch": 1793451520.429609,
+  "run_id": "41203305217",
+  "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6",
+  "url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41203305217",
+  "release": "amd-coverage-20261031a",
+  "allocation_id": 614520349,
+  "started_epoch": 1793451400.1767645,
+  "rate_hourly": 1.99,
+  "reserve_dollars": 2.25,
+  "max_lifetime_seconds": 3600,
+  "work_deadline_epoch": 1793454700.1767645,
+  "self_expiry_epoch": 1793454760.1767645,
+  "plan_sha256": "edac237499c278ddbeb9e035c4c71eb84002c2827765208dfee724e054540d11",
+  "source_gate": "running-41203305217",
+  "watchdog_registered": true,
+  "usage_guard_status": "watching",
+  "cleanup_confirmed": false,
+  "training_success_confirmed": false,
+  "receipts_expected": [
+    "training-state.json",
+    "watchdog-result.json",
+    "training-results.tar.gz"
+  ],
+  "input_sha256": "7da3e50fa92f6ed8c30fbd7244ee509eb9e2029a5e6195fcf3f0278cdea88af1",
+  "input_files_verified": 3180
+}

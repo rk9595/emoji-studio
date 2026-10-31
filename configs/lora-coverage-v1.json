@@ -1,0 +1,51 @@
+{
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "trainer_revision": "d035dcd7cc7c88e0a154609b62887d50bba9fdc2",
+  "trainer_sha256": "de02782d47ce4535eb9efad49bd90de1ddf9bebcd4313d344d3b1bbb5d536c53",
+  "dataset": "data/training/collection-v2",
+  "seed": 29,
+  "batch_size": 1,
+  "gradient_accumulation": 4,
+  "schema_version": 1,
+  "experiment": "fluent_coverage_v1",
+  "status": "offline_preparation",
+  "output": "runs/fluent-coverage-v1",
+  "max_steps": 624,
+  "manifest_sha256": "72b1f6ca95c26ad5663e9c8f25a019036b08e407248251abd504c99bc29d90ba",
+  "caption_status": "metadata_checked_visual_details_not_individually_reviewed",
+  "purpose": "Coverage diagnostic with unchanged Fluent v2 data, captions and split; not a gesture-supervision or Noto experiment",
+  "checkpoints_to_evaluate": [
+    500,
+    624
+  ],
+  "evaluation": {
+    "benchmark": "benchmarks/collection-eval.json",
+    "sha256": "78305fd298229ac2739ec9bd8d07ab4e0f89833bb3b68c702e357d1d27caedc3",
+    "seeds": [
+      0,
+      1
+    ],
+    "steps": 50,
+    "guidance_scale": 4,
+    "resolution": 512,
+    "maximum_new_images": 48,
+    "kind": "reused_development_benchmark_not_sealed"
+  },
+  "proposed_compute": {
+    "provider": "AMD Developer Cloud",
+    "maximum_gpus": 1,
+    "maximum_allocations": 1,
+    "maximum_elapsed_seconds": 3600,
+    "hourly_ceiling_dollars": 1.99,
+    "cost_ceiling_dollars": 2.25,
+    "execution_ready": false,
+    "requires": [
+      "Fresh availability, rate and quota checks",
+      "Finite-loss AMD training smoke",
+      "Independent watchdog and instance expiry; usage stop at 85%",
+      "Private checkpoint backup and verified deletion"
+    ],
+    "reuse_prior_allocation_claims": false
+  }
+}

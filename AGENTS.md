@@ -20,13 +20,19 @@ through the authenticated HTTP API on one AMD MI300X, privately downloaded/hash-
 verified, and the GPU independently confirmed deleted. All four API-test instances
 are deleted; estimated total$0.7751 within the$2 reserve. See
 `reports/amd-api-live-result.json`, run41173826485/releaseamd-api-smoke-20261030d.
-Queue complete, exact-source gate closed. Never reset these claims or the consumed
+API milestone complete, exact-source gate closed. Never reset these claims or the consumed
 comparison. No additional allocation belongs to this completed milestone.
 The user requires GPU destruction before Codex limits. Retain the85% local usage
 stop, independent cloud watchdog and on-instance expiry for future bounded runs.
 No GPU may idle while waiting for quota reset. GHCR work remains deferred.
-No new training/persistent hosting; production still needs quality/durable-worker
-validation, data-license resolution and a recurring budget/access arrangement.
+On October 31 the user asked to continue training. Next: a separate Fluent
+coverage diagnostic; configs/lora-coverage-v1.json and docs/coverage-training-v1.md.
+Offline preparation and real CPU sampler validation passed; no training GPU yet.
+Queue ready for bounded AMD training integration. Preserve v2 data/captions/splits,
+old trainers and serving adapter. New 624-step recipe retains step500 for comparison.
+One-allocation/60-minute/$2.25 proposed ceiling is separate from consumed budgets;
+implement fresh cleanup controls and AMD finite-loss smoke before main training.
+No persistent hosting; Noto PNG licensing and durable-worker validation remain.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

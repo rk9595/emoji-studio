@@ -1,114 +1,27 @@
 {
-  "status": "complete",
-  "milestone": "Generate two emojis through the API on one AMD GPU",
-  "completed_cpu_build": {
-    "run_id": "40166592399",
-    "source_commit": "acef6db19b00ddcb07dbff290bfde2ff825c80ed",
-    "status": "complete",
-    "receipt": "reports/amd-cpu-validation.json"
-  },
-  "next_actions": [],
-  "waiting_reason": null,
-  "completed_offline": "2026-10-29: Recovery review complete, current GitHub cost rules/public repo checked, 94 tests/143 subtests passed and 38 inputs verified. One new exact-source dispatch 40831493602 under recorded review; no GPU/paid resource or comparison repeat.",
+  "status": "ready",
+  "milestone": "Train and evaluate a bounded Fluent coverage diagnostic on AMD",
+  "updated_date": "2026-10-31",
   "last_completed_task": {
-    "name": "Two real API images on one AMD MI300X, private downloads and independent GPU deletion verified",
+    "name": "Immutable coverage trainer preparation and real ImageFolder/Torch/Accelerate CPU verification",
     "status": "complete",
     "date": "2026-10-31",
-    "receipt": "reports/amd-api-live-result.json"
+    "receipts": [
+      "reports/coverage-training-preparation.json",
+      "reports/coverage-training-cpu-check.json"
+    ]
   },
-  "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
-  "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "API milestone complete. All four API-test allocations independently deleted, total estimated$0.7751 within$2 reserve. Exact-source gate closed. Never reset claims or consumed comparison. No further GPU or persistent hosting as part of this completed milestone; retain early-usage-stop and independent expiry for any future bounded work.",
-  "failed_retention": {
-    "run_id": "40170595914",
-    "source_commit": "7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2",
-    "status": "publication_unresolved",
-    "receipt": "reports/amd-retention-failure.json"
-  },
-  "completed_reconciliation": {
-    "cloud_repository": "rk9595/emoji-studio",
-    "cloud_run_id": "40173475187",
-    "cloud_run_head": "80a5a74176dd97a3b64983ba19d2f49c5864117f",
-    "cloud_run_workflow": "AMD runtime retention reconciliation",
-    "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40173475187",
-    "status": "complete",
-    "publication_status": "unresolved",
-    "receipt": "reports/amd-retention-reconciliation.json"
-  },
-  "owner_package_check": {
-    "status": "complete",
-    "date": "2026-10-29",
-    "observation": "owner_ui_no_packages_visible",
-    "receipt": "reports/amd-retention-owner-check.json"
-  },
-  "retention_status": "recovery_copy_failed; publication unknown; gate closed",
-  "recovery_failure": {
-    "run_id": "40831493602",
-    "source_commit": "d47a61b0a6d3d07709020c0d9467b51ad5e24cd5",
-    "receipt": "reports/amd-retention-recovery-failure.json",
-    "hint": "disk_capacity",
-    "copy_timed_out": false
-  },
-  "completed_recovery_reconciliation": {
-    "cloud_repository": "rk9595/emoji-studio",
-    "cloud_run_id": "40878081034",
-    "cloud_run_head": "3c25f5a0c884c3fb16f470c571dc677dbaabeb93",
-    "cloud_run_workflow": "AMD runtime retention reconciliation",
-    "cloud_run_url": "https://github.com/rk9595/emoji-studio/actions/runs/40878081034",
-    "status": "complete",
-    "publication_status": "unresolved",
-    "receipt": "reports/amd-recovery-reconciliation.json"
-  },
-  "live_api_preflight": {
-    "run_id": "40881264656",
-    "source": "faf7861dd8d125bbdfdde0064c982a1c23f08c9f",
-    "status": "complete",
-    "rate_hourly": 1.99,
-    "gpu_instances": 0
-  },
-  "completed_first_api_attempt": {
-    "id": 613866182,
-    "status": "failed",
-    "started_epoch": 1793280983.8036737,
-    "deadline_epoch": 1793282783.8036737,
-    "release": "amd-api-smoke-20261029",
-    "attempt_consumed": true,
-    "cleanup_confirmed": true,
-    "estimated_cost_dollars": 0.1256
-  },
-  "corrective_api_attempt": {
-    "release": "amd-api-smoke-20261029b",
-    "status": "failed",
-    "source": "a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe",
-    "allocation_id": 614256807,
-    "started_epoch": 1793373362.9918551,
-    "deadline_epoch": 1793375162.9918551,
-    "cleanup_confirmed": true,
-    "estimated_cost_dollars": 0.244
-  },
-  "milestone_estimated_cost_dollars": 0.7751,
-  "completed_third_api_attempt": {
-    "release": "amd-api-smoke-20261030c",
-    "status": "failed",
-    "source": "32e1d704cdf60dae8300119cf3e635111ff525e8",
-    "allocation_id": 614271639,
-    "started_epoch": 1793376498.4049215,
-    "deadline_epoch": 1793378298.4049215,
-    "usage_guard_receipt": "var/amd-api-live/usage-guard-41087086776.json",
-    "cleanup_confirmed": true,
-    "estimated_cost_dollars": 0.2395
-  },
-  "cloud_repository": "rk9595/emoji-studio-ops",
-  "cloud_run_id": "41173826485",
-  "cloud_run_head": "cbce1857e1b23f19fa9ee977f14d11cf2fc02b47",
-  "cloud_run_workflow": "AMD two-image API smoke",
-  "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41173826485",
-  "live_plan": "ops/amd-api-live-plan.json",
-  "next_milestone_candidates": [
-    "Improve cutout/shadow quality using the saved outputs; preserve originals.",
-    "Resolve Noto3D PNG licensing and plan a separate versioned dataset/held-out evaluation.",
-    "Validate durable worker recovery and production access/cost controls before persistent hosting."
+  "recipe": "configs/lora-coverage-v1.json",
+  "next_actions": [
+    "Prepare a pinned AMD training dependency overlay and fresh private training controller using independent deletion, expiry and the existing 85% usage guard.",
+    "Prepare a separate small finite-loss/checkpoint-reload smoke. Verify available capacity, current rate and usage headroom before one bounded allocation; run main training only if smoke passes within the same cap.",
+    "Retain step500 and final624, verify private backups, delete GPU and compare at most48 new development evaluation images with retained historical baselines."
   ],
+  "waiting_reason": null,
+  "gpu_allocated": false,
+  "training_started": false,
+  "allocation_policy": "New experiment only: proposed one GPU, one allocation, at most3600seconds, rate<=1.99USD/hour and total<=2.25USD. Not execution-ready until training environment and independent cleanup are integrated. Never reuse consumed claims. No persistent hosting. Stop before85% Codex usage and confirm GPU deletion; never idle waiting for quota reset.",
+  "promotion_requires": "Documented quality comparison; AI review must be labeled AI. Preserve serving pilot step25 until then.",
   "completed_api_milestone": {
     "release": "amd-api-smoke-20261030d",
     "status": "complete",
@@ -120,6 +33,27 @@
     "cleanup_confirmed": true,
     "independent_cleanup_confirmed": true,
     "images": 2,
-    "estimated_cost_dollars": 0.166
+    "estimated_cost_dollars": 0.166,
+    "run_id": "41173826485",
+    "receipt": "reports/amd-api-live-result.json",
+    "all_attempts_estimated_cost_dollars": 0.7751,
+    "all_four_instances_deleted": true,
+    "source_gate": "completed-41173826485"
+  },
+  "completed_comparison": {
+    "status": "complete",
+    "images": 144,
+    "allocations": 4,
+    "all_deleted": true,
+    "estimated_cost_dollars": 0.99,
+    "reserve_dollars": 3,
+    "run_id": "38352558272",
+    "receipt": "reports/amd-comparison-v1.md",
+    "repeat_forbidden": true
+  },
+  "deferred": {
+    "ghcr": "Publication unresolved, gate closed; receipts retained in reports/amd-retention-recovery-failure.json and reports/amd-recovery-reconciliation.json. Direct provider image works.",
+    "noto": "Raw PNG license scope unresolved; explicitly OFL font is a candidate alternative. No Noto import.",
+    "production": "Cutouts, real durable-worker recovery, capacity and recurring hosting budget remain."
   }
 }

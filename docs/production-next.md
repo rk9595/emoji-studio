@@ -64,3 +64,21 @@ The run observed33.657s for the first render and3.952s for the second, with abou
 17.7GB peak allocated VRAM. A controlled throughput/cold-start benchmark is still
 needed; these two differently prompted samples do not establish service capacity.
 The GPU and all preceding test instances were independently confirmed deleted.
+
+## Training continuation — October 31
+
+The next selected experiment is a coverage correction using the existing Fluent
+v2 export, not a Noto style change. The actual CPU loader/sampler integration
+passes and preserves the historical dataset and development split. See
+[coverage-training-v1.md](coverage-training-v1.md) for the frozen recipe,
+500/624-step comparisons, limitations and bounded AMD execution work remaining.
+
+The Noto font directory has an explicit
+[OFL license](https://github.com/googlefonts/noto-emoji/blob/99701e07d3d1fe1bdbcdb14964547f0fd592966f/3D/fonts/LICENSE).
+[OFL FAQ 1.26](https://openfontlicense.org/ofl-faq/) permits AI design tools that
+produce graphical output rather than fonts; 1.25 gives different conditions for
+generated fonts. Rendering a dataset from that font is a plausible alternative
+to the raw PNG collection. This is an inference to investigate: verify the LFS
+font bytes, embedded bitmap resolution, supported sequences and applicable notices
+before using it. It does not resolve the raw PNG scope or establish blanket
+model-weight licensing. No Noto assets have been imported.

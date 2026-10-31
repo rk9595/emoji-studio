@@ -13,5 +13,20 @@
     "root_license": "https://github.com/googlefonts/noto-emoji/blob/99701e07d3d1fe1bdbcdb14964547f0fd592966f/LICENSE",
     "finding": "README says most image resources Apache-2.0, but its linked root LICENSE is SIL OFL 1.1. No LICENSE is present in 3D/png. Gallery FAQ CC BY 4.0 refers to animated assets. Do not assume the 3D PNGs have Apache or CC-BY terms."
   },
-  "training_started": false
+  "training_started": false,
+  "font_route_followup": {
+    "checked_date": "2026-10-31",
+    "status": "candidate_not_imported",
+    "font_license": "https://github.com/googlefonts/noto-emoji/blob/99701e07d3d1fe1bdbcdb14964547f0fd592966f/3D/fonts/LICENSE",
+    "font_license_git_blob": "d952d62c065f3f35fb83a173496e90b21525aef3",
+    "license": "SIL-OFL-1.1",
+    "faq": "https://openfontlicense.org/ofl-faq/",
+    "faq_sections": [
+      "1.1",
+      "1.1.1",
+      "1.25",
+      "1.26"
+    ],
+    "finding": "OFL FAQ 1.26 permits AI design tools producing non-font graphical output; 1.25 treats generated font software differently. A dataset rendered from the explicitly OFL-licensed 3D font is a plausible separate route, not a resolution of raw PNG license scope. Fonts are Git LFS pointers and must be fetched/hash-verified before inspecting bitmap resolution and rendering coverage. No Noto assets imported and no claim about unrestricted model-weight licensing."
+  }
 }

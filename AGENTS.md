@@ -15,19 +15,18 @@ private keys, or account secrets in memory, Git, reports, or prompts.
 The AMD comparison is complete: all 144 images verified, all four allocated
 instances deleted, approximately $0.99 estimated GPU cost against a $3 reserve.
 See `reports/amd-comparison-v1.md`. Do not reset it or launch a fifth attempt.
-On October30 the user said to use AMD credits freely for the API milestone and
-destroy GPUs before Codex limits. Keep the concrete $2 aggregate reserve and30min
-per-instance lifetime; max$1.99/hr, one concurrent GPU/two renders. Three failed
-pre-generation attempts are consumed and independently deleted (~$0.6091 total).
-Reviewed next correction permits provider startup15min inside the same lifetime;
-campaignamd-api-smoke-20261030d is now dispatched after October31 headroom check.
-Use exact run41173826485 and current queue before any action. Do not
-allocate while quota is above85%; no GPU may idle waiting for model limits.
-No fresh permission is needed for this delegated bounded correction; preserve all
-claims and the consumed comparison. No automatic allocation POST retry.
-The local usage guard requests cloud deletion at85% or loss of signal; cloud
-expiry remains independent of Mac/model availability. GHCR remains deferred.
-No new training or persistent hosting; hosting needs recurring budget/access.
+The next milestone is now complete: on October31, two real emojis were generated
+through the authenticated HTTP API on one AMD MI300X, privately downloaded/hash-
+verified, and the GPU independently confirmed deleted. All four API-test instances
+are deleted; estimated total$0.7751 within the$2 reserve. See
+`reports/amd-api-live-result.json`, run41173826485/releaseamd-api-smoke-20261030d.
+Queue complete, exact-source gate closed. Never reset these claims or the consumed
+comparison. No additional allocation belongs to this completed milestone.
+The user requires GPU destruction before Codex limits. Retain the85% local usage
+stop, independent cloud watchdog and on-instance expiry for future bounded runs.
+No GPU may idle while waiting for quota reset. GHCR work remains deferred.
+No new training/persistent hosting; production still needs quality/durable-worker
+validation, data-license resolution and a recurring budget/access arrangement.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

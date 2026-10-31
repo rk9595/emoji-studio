@@ -1,27 +1,111 @@
 {
-  "status": "failed_before_generation",
-  "milestone_complete": false,
-  "run_id": "41079063954",
-  "source": "a9fe5c46b9884c9ca5dee1b79243ac715bdb4cbe",
-  "allocation_id": 614256807,
-  "real_images": 0,
-  "failed_stage": "ROCm image / expiry timer readiness deadline",
-  "independent_cleanup_confirmed": true,
-  "cleanup_epoch": 1793373804.3264832,
-  "watchdog_checked_epoch": 1793373822.177938,
-  "attempt_estimated_cost_dollars": 0.244,
-  "milestone_estimated_cost_dollars": 0.3696,
-  "diagnostics": {
-    "initial_ssh_connection_refused": 1,
-    "final_snapshot_rsync_protocol_mismatch": 1,
-    "root_cause_confirmed": false,
-    "inference": "Provider shell output is a likely readiness/transport problem; no successful probe stdout was retained."
+  "status": "complete",
+  "milestone": "Two real emojis generated through authenticated HTTP API on one AMD GPU; exports verified and GPU independently deleted",
+  "run_id": "41173826485",
+  "source_commit": "cbce1857e1b23f19fa9ee977f14d11cf2fc02b47",
+  "run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41173826485",
+  "private_release": "https://github.com/rk9595/emoji-studio-ops/releases/tag/amd-api-smoke-20261030d",
+  "gpu_id": 614450630,
+  "gpu_lifetime_seconds": 300.369,
+  "environment": {
+    "torch": "2.10.0+rocm7.2.0.gitb6ee5fde",
+    "hip": "7.2.26015",
+    "gpu": "AMD Instinct MI300X VF",
+    "gpu_count": 1
   },
-  "controller_log_sha256": "1a60043ed74add8e5308dad955c1f00ded98225a825519d73cf0a33bf85bd45e",
-  "transport_log_sha256": "14e9ac5d51fe145a67d7dbd0373c85f24c9cdd93165d7668cf8f6b7591c039c7",
-  "prepared_fix": "Frame SSH command output with per-call markers, require matching success frame; use SFTP-based scp for downloads; retain timeout/framing diagnostics. Not GPU-validated.",
-  "focused_tests": 14,
-  "cloud_receipt_tests": 8,
-  "allocation_gate": "closed: consumed-41079063954",
-  "next_status": "waiting_user"
+  "model_id": "black-forest-labs/FLUX.2-klein-base-4B",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "adapter_sha256": "2c7b15de79e9ac0bf59488068c9ec0f3444dec44899005499de87c2b28e93076",
+  "plan_sha256": "78a8f64dbf4a991dde50813bfcff4cae0416f618995d7cc14c8a59b87662c9f0",
+  "private_archive_sha256": "62256f01d4f737eac4e2298df0328a8cdfefc3a9a663291c671d3b4b8b2e716e",
+  "images": [
+    {
+      "prompt": "a cheerful red apple sticker",
+      "seed": 7,
+      "metrics": {
+        "generation_seconds": 33.656613,
+        "peak_vram_bytes": 17735277568,
+        "renderer": "flux2-klein-lora",
+        "estimated_cost_dollars": 0.01860463
+      },
+      "png": {
+        "path": "emoji-0.png",
+        "sha256": "f91099a05e266dd8488719aa7d62d7e30ac7ddfbc76157fb1f140ecd34612255",
+        "bytes": 112168
+      },
+      "webp": {
+        "path": "emoji-0.webp",
+        "sha256": "ade6947c7b9f0ed7fc82bb99d5fee3dd155f1995868c1ded31d2a339299049fe",
+        "bytes": 72774
+      }
+    },
+    {
+      "prompt": "a happy yellow smiling face emoji",
+      "seed": 8,
+      "metrics": {
+        "generation_seconds": 3.952408,
+        "peak_vram_bytes": 17066286080,
+        "renderer": "flux2-klein-lora",
+        "estimated_cost_dollars": 0.0021848
+      },
+      "png": {
+        "path": "emoji-1.png",
+        "sha256": "9e2b2bae011745395af2490bb692a46def760eb1e8a23e933dbcf0c4b099c33d",
+        "bytes": 132229
+      },
+      "webp": {
+        "path": "emoji-1.webp",
+        "sha256": "f0c400151ec4c62d612783ca9a1cf61d63321f57a1e173d5f184155e7c224c3f",
+        "bytes": 89340
+      }
+    }
+  ],
+  "api_job_elapsed_seconds": 64.228,
+  "checks": {
+    "real_renderer": true,
+    "two_physical_renders": true,
+    "both_calls_succeeded": true,
+    "authentication_rejection": true,
+    "third_image_rejected": true,
+    "png_webp_512_rgba_nonempty": true,
+    "private_download_hashes": true,
+    "independent_deletion_verified": true
+  },
+  "cleanup": {
+    "controller_confirmed": true,
+    "controller_epoch": 1793425819.1525428,
+    "independent_watchdog": {
+      "cleanup_confirmed": true,
+      "droplet_id": 614450630,
+      "checked_epoch": 1793425821.5248363,
+      "independent": true
+    }
+  },
+  "cost_estimate": {
+    "successful_attempt_dollars": 0.166,
+    "all_api_attempts_dollars": 0.7751,
+    "reserve_dollars": 2.0,
+    "note": "Runtime multiplied by provider hourly rate; not a billing invoice."
+  },
+  "local_outputs": "artifacts/amd-api-milestone-20261031/api-results",
+  "ai_visual_review": {
+    "reviewer": "AI assistant, not human review",
+    "semantic_matches": [
+      "red apple with green leaf",
+      "yellow smiling face"
+    ],
+    "production_issue": "The smile retains a broad gray shadow/background patch. Improve cutout/shadow treatment and evaluate more prompts before production.",
+    "adapter_promoted": false
+  },
+  "limitations": [
+    "Only two prompts tested; not a throughput or availability benchmark.",
+    "Legacy API acceptance; durable worker crash/retry guarantees still need real-GPU validation.",
+    "No public endpoint or persistent hosting deployed."
+  ],
+  "allocation_gate": "closed: completed-41173826485",
+  "startup_diagnosis": {
+    "run_id": "41174066001",
+    "source": "35f2cf1fc550ae59596e820bdfd97b16b165d324",
+    "note": "Read-only SFTP confirmed cloud-init completion; nonfatal repository-signature warnings retained privately. No claim that those warnings caused earlier failures."
+  }
 }

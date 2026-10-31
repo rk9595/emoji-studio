@@ -1,5 +1,5 @@
 {
-  "status": "waiting_cloud",
+  "status": "complete",
   "milestone": "Generate two emojis through the API on one AMD GPU",
   "completed_cpu_build": {
     "run_id": "40166592399",
@@ -7,21 +7,18 @@
     "status": "complete",
     "receipt": "reports/amd-cpu-validation.json"
   },
-  "next_actions": [
-    "Read exact run41173826485; do not allocate again while this run is active. Usage guard watches at85%; provider startup allowed15min inside30min total.",
-    "Download/verify two real API images, renderer identity, ledger and private archive hash; require independent exact-resource deletion before completion. Preserve all previous allocation claims."
-  ],
-  "waiting_reason": "Fourth bounded run queued/running; usage guard and independent expiry active.",
+  "next_actions": [],
+  "waiting_reason": null,
   "completed_offline": "2026-10-29: Recovery review complete, current GitHub cost rules/public repo checked, 94 tests/143 subtests passed and 38 inputs verified. One new exact-source dispatch 40831493602 under recorded review; no GPU/paid resource or comparison repeat.",
   "last_completed_task": {
-    "name": "Diagnose second pre-generation failure, confirm cleanup, test framed SSH and SFTP correction",
+    "name": "Two real API images on one AMD MI300X, private downloads and independent GPU deletion verified",
     "status": "complete",
-    "date": "2026-10-30",
+    "date": "2026-10-31",
     "receipt": "reports/amd-api-live-result.json"
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "Latest explicit feel-free AMD-credit delegation permits this reviewed startup correction. One new GPU, startup up to15min within unchanged30min lifetime, $1.99/hr ceiling, $2 aggregate reserve; no automatic allocation POST retry. Usage-stop and independent expiry mandatory. Prior claims/comparison remain consumed.",
+  "allocation_policy": "API milestone complete. All four API-test allocations independently deleted, total estimated$0.7751 within$2 reserve. Exact-source gate closed. Never reset claims or consumed comparison. No further GPU or persistent hosting as part of this completed milestone; retain early-usage-stop and independent expiry for any future bounded work.",
   "failed_retention": {
     "run_id": "40170595914",
     "source_commit": "7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2",
@@ -89,7 +86,7 @@
     "cleanup_confirmed": true,
     "estimated_cost_dollars": 0.244
   },
-  "milestone_estimated_cost_dollars": 0.6091,
+  "milestone_estimated_cost_dollars": 0.7751,
   "completed_third_api_attempt": {
     "release": "amd-api-smoke-20261030c",
     "status": "failed",
@@ -101,25 +98,28 @@
     "cleanup_confirmed": true,
     "estimated_cost_dollars": 0.2395
   },
-  "prepared_next_api_attempt": {
-    "campaign": "amd-api-smoke-20261030d",
-    "source": "cbce1857e1b23f19fa9ee977f14d11cf2fc02b47",
-    "status": "dispatched",
-    "allocation_attempted": false,
-    "release_created": true,
-    "readiness_max_seconds": 900,
-    "remaining_reserve_dollars": 1.3909
-  },
   "cloud_repository": "rk9595/emoji-studio-ops",
   "cloud_run_id": "41173826485",
   "cloud_run_head": "cbce1857e1b23f19fa9ee977f14d11cf2fc02b47",
   "cloud_run_workflow": "AMD two-image API smoke",
   "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41173826485",
-  "active_api_attempt": {
+  "live_plan": "ops/amd-api-live-plan.json",
+  "next_milestone_candidates": [
+    "Improve cutout/shadow quality using the saved outputs; preserve originals.",
+    "Resolve Noto3D PNG licensing and plan a separate versioned dataset/held-out evaluation.",
+    "Validate durable worker recovery and production access/cost controls before persistent hosting."
+  ],
+  "completed_api_milestone": {
     "release": "amd-api-smoke-20261030d",
-    "status": "in_progress",
+    "status": "complete",
     "source": "cbce1857e1b23f19fa9ee977f14d11cf2fc02b47",
-    "usage_guard_receipt": "var/amd-api-live/usage-guard-41173826485.json"
-  },
-  "live_plan": "ops/amd-api-live-plan.json"
+    "usage_guard_receipt": "var/amd-api-live/usage-guard-41173826485.json",
+    "allocation_id": 614450630,
+    "started_epoch": 1793425518.7833447,
+    "cleanup_epoch": 1793425819.1525428,
+    "cleanup_confirmed": true,
+    "independent_cleanup_confirmed": true,
+    "images": 2,
+    "estimated_cost_dollars": 0.166
+  }
 }

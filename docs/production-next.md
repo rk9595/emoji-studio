@@ -1,7 +1,7 @@
 # Production path after the AMD API smoke
 
-The immediate milestone proves that our API can produce two images on AMD and
-that a bounded job cleans up. It does not establish production quality, throughput,
+The October31 milestone proved that our API can produce two images on AMD and
+that a bounded job cleans up. `reports/amd-api-live-result.json` records completion. It does not establish production quality, throughput,
 availability or unit economics. Preserve the current serving adapter for this test.
 
 ## Noto is a candidate, not a prerequisite
@@ -54,3 +54,13 @@ necessarily solve those compositions.
    then deploy a limited private production trial with HTTPS/authentication,
    monitoring, backups, retention, secret management, rollback and a spend cutoff.
    Public/persistent GPU hosting has not been started by this milestone.
+
+## Findings from the completed API milestone
+
+The apple and smile are semantically recognizable in AI visual review. The smile
+retains a large gray shadow/background patch, so cutout/shadow treatment is the
+next visible quality issue. Preserve the original generated files for comparison.
+The run observed33.657s for the first render and3.952s for the second, with about
+17.7GB peak allocated VRAM. A controlled throughput/cold-start benchmark is still
+needed; these two differently prompted samples do not establish service capacity.
+The GPU and all preceding test instances were independently confirmed deleted.

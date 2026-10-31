@@ -1,63 +1,65 @@
 # Current state — 2026-10-31
 
-Read `ops/work-queue.json`. Stage only task files; preserve unrelated recovery edits.
-User delegated the two-real-emoji AMD API milestone and explicitly requested GPU
-destruction before Codex limits. Broad AMD credits do not remove the concrete bounds.
+## Milestone complete — no active GPU
 
-## Active cloud run
+**Two real emojis were generated through the authenticated HTTP API on one AMD
+MI300X, downloaded/verified, and the GPU independently confirmed deleted.**
+Queue `complete`; no scheduled continuation or further GPU allocation for this
+milestone. Preserve unrelated recovery files; stage only intentional changes.
 
-Private Actions **41173826485**, source
-`cbce1857e1b23f19fa9ee977f14d11cf2fc02b47`:
+Private run41173826485 succeeded (smoke and independent watchdog):
 https://github.com/rk9595/emoji-studio-ops/actions/runs/41173826485
-Release **amd-api-smoke-20261030d**. One new MI300X, max$1.99/hr,
-provider startup up to15min inside25min work cutoff/30min total lifetime.
-Same **$2 aggregate reserve**, including ~$0.6091 prior failed attempts.
-Two physical renders, loopback authenticated API, private hash-verified export.
-Serving model/revision/pilotstep25 and input archive unchanged. No POST retry.
+Sourcecbce1857e1b23f19fa9ee977f14d11cf2fc02b47,
+releaseamd-api-smoke-20261030d, GPU614450630 deleted.
+Primary evidence: `reports/amd-api-live-result.json`,
+`reports/amd-api-gpu-output-receipt.json`.
+Local PNG/WebP outputs: `artifacts/amd-api-milestone-20261031/api-results/`.
+Private archive SHA25662256f01d4f737eac4e2298df0328a8cdfefc3a9a663291c671d3b4b8b2e716e.
 
-Fresh October31 usage check was below85% after yesterday's reset wait. Local
-usage guard is detached ordinary code, bound to this exact run/release; receipt:
-`var/amd-api-live/usage-guard-41173826485.json`. At85% quota or two unavailable
-signals it writes an immutable stop request; cloud controller/watchdog delete.
-Independent minute26 self-expiry and separate cloud watchdog remain mandatory if
-Mac/model disappears. No GPU may idle waiting for quota reset. See
-`docs/amd-usage-cleanup.md`. Supervisor supports waiting_usage without model polling.
+Both 512px RGBA outputs match their hashes and show nonempty transparent content.
+Real FLUX2 Klein4B/pilotstep25; ROCm7.2, Torch2.10, one MI300X. Physical ledger
+consumed exactly2 successful calls. Authentication rejection and third-image cap
+passed. Controller and independent watchdog observed exact-resource deletion.
+GPU lifetime300.369sec; estimated successful cost$0.166, **all API attempts$0.7751**
+against$2 reserve. These are runtime estimates, not provider invoices.
+Render times33.657sec and3.952sec; API job64.228sec. Two samples are not a benchmark.
 
-Next: use exact cloud receipt; validate real images, physical ledger, downloads,
-and independent authenticated exact-resource404 before marking complete. No new
-allocation while this run is active. The goal is not fulfilled by mock images.
-17 controller tests +4 usage-policy +9 receipt/threshold +5 supervisor tests pass.
+AI visual review (not human): recognizable red apple and yellow smile. The smile
+retains a large gray shadow/background patch; improve cutout/shadow quality before
+production. No adapter promotion. No public endpoint or persistent hosting.
 
-## Prior consumed API attempts — all deleted, zero images
+Exact-source gate is closed: `completed-41173826485`. All previous API claims remain
+consumed: GPUs613866182/614256807/614271639 independently deleted, zero images from
+those attempts. Their result reports are retained as first/second/third-attempt
+receipts. Never repeat/reset them or the separately consumed comparison.
 
-- 40883440921 / GPU613866182: SSH255 after upload, ~$0.1256.
-- 41079063954 / GPU614256807: readiness timeout, ~$0.244.
-- 41087086776 / GPU614271639: provider initialization gate, ~$0.2395.
-All independent cleanup receipts are retained. Third stdout explicitly said
-"Please wait while we get your droplet ready"; increasing the startup allowance
-is a bounded test, not a proven provider fix. Reports:
-`reports/amd-api-first-attempt-result.json`, `reports/amd-api-live-result.json`
-(second attempt), `reports/amd-api-third-attempt-result.json`.
-Never reset these claims or the separately consumed AMD comparison.
+## Usage safety and automation
 
-## Production/data and deferred work
+User explicitly requires destroying GPUs before Codex usage limits. Detached local
+usage guard reads quota every30sec, requests cloud cleanup at85% or two unavailable
+signals. Cloud controller/watchdog honor the run-bound stop request. Minute26
+self-expiry and minute25 work cutoff are independent of Mac/model availability.
+The last guard finished normally; no quota stop was needed. Future runs must retain
+these controls. No GPU may wait idle for quota reset. `docs/amd-usage-cleanup.md`.
+Supervisor also handles waiting_usage at85%. Mac/app-server must be awake to resume
+local work; cloud cleanup does not depend on model reasoning. Queue complete stops
+automatic continuations now. 35 focused tests passed before the successful run.
 
-Current data is Microsoft Fluent3D. Noto candidate audit pins99701e07d… with4,007
-512px PNGs/4,006 blobs; README says Apache2 but linked root license is OFL1.1.
-Resolve PNG-specific terms before commercial training. No new training/import.
-Base FLUX.2 Klein4B pinned revision has Apache2 license. See
-`docs/production-next.md`, `reports/noto-3d-candidate-audit.json`.
-Gesture-quality failures remain; adapter promotion needs documented review.
-Persistent hosting needs recurring budget/access; no public endpoint yet.
+## Next production work (not launched)
 
-Custom GHCR publication is deferred, gate closed after storage-copy failures.
-CPU validation passed103 in-image tests; the old prepared-only smoke plan/23-file
-lock is intact. The new direct-provider route has a separate explicit live plan.
-Historical evidence is in the referenced reports; do not resume registry work now.
+- Improve matting/shadows on saved outputs and establish image-quality gates.
+- Validate durable API/worker crash/retry behavior with the real renderer; current
+  milestone exercised the legacy API with a strict two-render guard.
+- Resolve Noto3D PNG-specific license terms before a separate dataset/training
+  pilot. Current training data is Microsoft Fluent3D. Noto audit pins99701e07d…;
+  README says images Apache2 but linked root LICENSE is OFL1.1. No new training.
+- Benchmark capacity/cost and choose recurring budget/access before hosting.
 
-Consumed comparison:144 images/four allocations all deleted,~$0.99 against separate
-$3 reserve. Never repeat/reset it. Private run38352558272/releaseamd-comparison-v1.
-AI review found84 gesture outputs failed; do not claim human review. Pilotstep25 stays.
+`docs/production-next.md` and `reports/noto-3d-candidate-audit.json` retain details.
+Custom GHCR publication remains deferred/gate closed; direct provider image worked.
+Old prepared-only smoke plan/23-file lock stays intact. CPU validation passed103
+in-image tests; old retention failures remain historical, not the next task.
 
-Local supervisor checks every15min; Mac/app-server must be awake. Cleanup runs
-independently in the cloud. Do not promise uninterrupted model reasoning.
+Consumed comparison:144 images/four GPUs deleted,~$0.99 against separate$3 reserve;
+private run38352558272/releaseamd-comparison-v1. Never repeat it. AI review found
+all84 gesture outputs failed; do not claim human review or production quality.

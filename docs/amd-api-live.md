@@ -85,7 +85,7 @@ $2 reserve. Both claims stay consumed; there is no automated third attempt.
 Run41079063954 timed out waiting for the ROCm image / expiry timer readiness
 condition. No generation occurred. GPU614256807 was deleted; the independent
 watchdog confirmed exact-resource absence. Total estimated usage across both
-attempts is $0.3696. `reports/amd-api-live-result.json` retains the outcome.
+attempts is $0.3696. `reports/amd-api-second-attempt-result.json` retains that historical outcome.
 
 The private diagnostics show an initial refused SSH connection and an rsync
 protocol mismatch during final collection. No successful readiness stdout was
@@ -99,3 +99,23 @@ Both allocation claims remain consumed and the exact-source gate is closed.
 `ops/amd-api-next-attempt-proposal.json` describes a potential third attempt,
 within the existing $2 aggregate reserve, requiring user continuation of that
 concrete proposal. The queue is waiting_user; there is no automatic third launch.
+
+## October31: completed on one MI300X
+
+Run41173826485 at cbce1857e1b23f19fa9ee977f14d11cf2fc02b47 succeeded. The
+authenticated loopback API produced a red apple and yellow smiling face, both
+512px RGBA PNG/WebP. Two physical calls succeeded; unauthorized access and a third
+image were rejected. Downloads and private re-download hashes passed. GPU614450630
+was deleted, and a separate cloud watchdog independently confirmed exact-resource
+absence. See `reports/amd-api-live-result.json` for final evidence.
+
+GPU lifetime300.369seconds, successful-run estimate$0.166, aggregate API-test
+estimate$0.7751 within the$2 reserve. Observed render times33.657s and3.952s are
+two samples, not a benchmark. This success completed within the original seven
+minutes; it does not prove that the extended startup allowance itself caused
+success. Earlier provider initialization notices remain evidence of those failures.
+
+AI visual review found recognizable objects but a broad gray patch/shadow on the
+smile. Production cutout quality and durable worker recovery still need validation.
+No adapter promotion, public endpoint or persistent hosting. Queue complete and
+exact-source allocation gate closed. All prior claims remain consumed.

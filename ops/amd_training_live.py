@@ -18,10 +18,10 @@ from pathlib import Path
 
 API = "https://api.devcloud.amd.com/v2"
 SIZE = "gpu-mi300x1-192gb-devcloud"
-RELEASE = "amd-coverage-20261031a"
-NAME = "emoji-coverage-20261031a"
+RELEASE = "amd-coverage-20261031b"
+NAME = "emoji-coverage-20261031b"
 REMOTE = "/shared-docker/emoji-training-smoke"
-PLAN = Path("ops/amd-training-live-plan.json")
+PLAN = Path("ops/amd-training-corrective-plan.json")
 
 
 class ProviderError(RuntimeError):
@@ -269,8 +269,44 @@ def validate_plan(plan):
                 "smoke_steps": 2, "max_physical_renders": 49}
     if any(plan.get(key) != value for key, value in expected.items()):
         raise ValueError("Training lifecycle bounds differ")
-    if plan.get("campaign") != RELEASE or plan.get("previous_attempt"):
+    if plan.get("campaign") != RELEASE or plan.get("previous_attempt") != {
+        "release": "amd-coverage-20261031a", "run_id": "41203305217", "droplet_id": 614520349,
+        "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6",
+    }:
         raise ValueError("Fresh training campaign required")
+
+
+def previous_attempt_cost(plan):
+    previous = plan["previous_attempt"]
+
+    def read(name):
+        return json.loads(command(["gh", "release", "download", previous["release"],
+                                   "-p", name, "-O", "-"]))
+
+    state, watchdog = read("training-state.json"), read("watchdog-result.json")
+    if (state.get("droplet_id") != previous["droplet_id"]
+            or watchdog.get("droplet_id") != previous["droplet_id"]
+            or state.get("run_id") != previous["run_id"] or state.get("source") != previous["source"]
+            or state.get("campaign") != previous["release"]
+            or not state.get("cleanup_confirmed") or not watchdog.get("cleanup_confirmed")
+            or watchdog.get("independent") is not True):
+        raise RuntimeError("Previous exact allocation cleanup is not verified")
+    try:
+        api("GET", f"/droplets/{previous['droplet_id']}")
+    except ProviderError as error:
+        if error.code != 404:
+            raise
+    else:
+        raise RuntimeError("Previous allocation still exists")
+    elapsed = state["cleanup_epoch"] - state["started_epoch"]
+    rate = state["rate_hourly"]
+    if not 0 <= elapsed <= 3600 or not 0 < rate <= plan["max_hourly_dollars"]:
+        raise ValueError("Invalid previous runtime receipt")
+    cost = elapsed * rate / 3600
+    maximum_new_cost = plan["max_lifetime_seconds"] * plan["max_hourly_dollars"] / 3600
+    if cost + maximum_new_cost > plan["reserve_dollars"]:
+        raise RuntimeError("Insufficient remaining training reserve")
+    return cost
 
 
 def checked_files(report):
@@ -348,8 +384,8 @@ def run():
         raise RuntimeError("Private execution repository required")
     if not json.loads(command(["gh", "repo", "view", "--json", "isPrivate"]))["isPrivate"]:
         raise RuntimeError("Private export destination required")
-    prior_cost = 0.0
     validate_plan(plan)
+    prior_cost = previous_attempt_cost(plan)
     inspection = preflight()
     size = inspection["sizes"][0]
     if (inspection["account"]["status"] != "active" or size["price_hourly"] > 1.99
@@ -432,8 +468,11 @@ def run():
                   "docker exec -e PYTHONPATH=src -e HF_HOME=/shared-docker/hf-cache "
                   f"-w {REMOTE} rocm bash -lc " + shlex.quote(
                       "python3 ops/amd_training_worker.py inventory && "
+                      "python3 ops/amd_training_preflight.py "
+                      "--lock configs/amd-training-overlay-linux-py312-v2.txt "
+                      "--output training-retained-preflight.json && "
                       "python3 -m pip install --disable-pip-version-check --only-binary=:all: --no-deps --require-hashes "
-                      "-r configs/amd-training-overlay-linux-py312.txt && python3 -m pip check && "
+                      "-r configs/amd-training-overlay-linux-py312-v2.txt && python3 -m pip check && "
                       f"python3 ops/amd_training_worker.py run --allocation {identifier} --deadline {stop}"
                   ) + "; code=$?; echo $code > worker.exit; exit $code")
         # No systemd restart and no retry of worker launch.
@@ -474,6 +513,10 @@ def run():
                 log = ssh_read(ip, f"tail -c 16000 {REMOTE}/worker.log 2>/dev/null || true", timeout=15)
                 Path("worker.log").write_text(log)
                 snapshot(ip)
+                for name in ("training-base-packages.json", "training-retained-preflight.json"):
+                    detail = ssh_read(ip, f"cat {REMOTE}/{name} 2>/dev/null || true", timeout=15)
+                    if detail:
+                        Path("training-results", name).write_text(detail)
                 for phase in ("smoke", "reload", "training", "evaluation"):
                     detail = ssh_read(ip, f"tail -c 32000 {REMOTE}/training-results/{phase}.log 2>/dev/null || true", timeout=15)
                     Path("training-results", phase + ".log").write_text(detail)

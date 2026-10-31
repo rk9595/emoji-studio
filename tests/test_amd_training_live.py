@@ -28,7 +28,31 @@ class TrainingLifecycleTest(unittest.TestCase):
                 "max_lifetime_seconds": 3600, "work_cutoff_seconds": 3300,
                 "self_expiry_seconds": 3360, "max_hourly_dollars": 1.99,
                 "reserve_dollars": 2.25, "max_training_steps": 624,
-                "smoke_steps": 2, "max_physical_renders": 49}
+                "smoke_steps": 2, "max_physical_renders": 49,
+                "previous_attempt": {"release": "amd-coverage-20261031a",
+                                     "run_id": "41203305217", "droplet_id": 614520349,
+                                     "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6"}}
+
+    def test_previous_cleanup_and_total_budget_are_required(self):
+        plan = self.plan()
+        state = {"droplet_id": 614520349, "campaign": "amd-coverage-20261031a",
+                 "run_id": "41203305217", "source": plan["previous_attempt"]["source"],
+                 "cleanup_confirmed": True, "started_epoch": 1000, "cleanup_epoch": 1250,
+                 "rate_hourly": 1.99}
+        watchdog = {"droplet_id": 614520349, "cleanup_confirmed": True, "independent": True}
+        for changed, succeeds in (({}, True), ({"cleanup_confirmed": False}, False),
+                                  ({"cleanup_epoch": 4600}, False), ({"droplet_id": 1}, False)):
+            with self.subTest(changed=changed), patch.object(live, "command", side_effect=[
+                json.dumps(state | changed), json.dumps(watchdog)]), patch.object(
+                    live, "api", side_effect=live.ProviderError(404, "GET", "/droplets/614520349")):
+                if succeeds:
+                    self.assertAlmostEqual(live.previous_attempt_cost(plan), 250 * 1.99 / 3600)
+                else:
+                    with self.assertRaises(RuntimeError):
+                        live.previous_attempt_cost(plan)
+        with patch.object(live, "command", side_effect=[json.dumps(state), json.dumps(watchdog)]), \
+                patch.object(live, "api", return_value={}), self.assertRaises(RuntimeError):
+            live.previous_attempt_cost(plan)
 
     def test_no_implicit_budget_expansion_or_old_claims(self):
         live.validate_plan(self.plan())

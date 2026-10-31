@@ -1,79 +1,57 @@
 # Current state — 2026-10-31
 
-## Active bounded AMD training — waiting on cloud
+## Waiting for usage headroom — no active GPU
 
-Private run41203305217 is in progress; GPU614520349 was last observed booting.
-https://github.com/rk9595/emoji-studio-ops/actions/runs/41203305217
-Source82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6,
-releaseamd-coverage-20261031a. Queue `waiting_cloud`; do not poll with model turns.
-Local usage guard PID70531 is watching; independent cloud watchdog registered.
-Source gate closed as `running-41203305217`; no second dispatch/replacement.
+Run41203305217/source82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6 failed
+before the training worker started. Provider langchain-core0.3.83 requires
+packaging>=23.2,<26; overlay installed26.3. Post-install pip check correctly stopped.
+No training steps, checkpoints or generated images. Controller and independent
+watchdog confirmed GPU614520349 deleted. Estimated cost$0.1382, not an invoice.
+Private releaseamd-coverage-20261031a; gate closed as failed-41203305217.
+Evidence: `reports/amd-coverage-first-attempt.json`; private downloaded logs and
+receipts under `var/amd-training-live/evidence-41203305217/` and `latest/`.
+The usage guard finished normally. Never reset this allocation claim.
 
-Started12:56:40UTC (18:26:40IST), October31. Work cutoff13:51:40UTC,
-self-expiry13:52:40UTC, maximum lifetime13:56:40UTC. Rate$1.99/hour,
-new reserve$2.25, one allocation. Two-step finite-loss/checkpoint-reload smoke
-must pass before624-step training; one smoke image+48 development images maximum.
-No success or deletion has yet been established. `reports/amd-coverage-dispatch.json`.
+Fresh usage check: primary91%, secondary77%, above85% cutoff. Queue waiting_usage,
+not-before epoch1793468612. No GPU may launch or idle through quota reset. Supervisor
+must recheck headroom after reset; local Mac/app-server must be awake to resume.
 
-When the exact cloud run finishes, download private training-state.json,
-watchdog-result.json and training-results.tar.gz, verify hashes and independent
-GPU deletion, then record the result and review image quality. On failure retain
-phase logs/partial checkpoints and diagnose; never reset this consumed claim.
+## Corrective candidate prepared, not dispatched
 
-Read `docs/coverage-training-v1.md` and `configs/lora-coverage-v1.json`.
-The old500-step run saw954/2493 images. New deterministic schedule covers all2493
-in2496 draws/624 steps; step500 sees2000 distinct images. Keep checkpoint500 and
-final624 for comparison. Same pinned base, Fluent v2 data, provisional captions,
-split and basic hyperparameters. Historical trainers/adapters/exports unchanged.
-This does not teach missing high-five/pinky-promise examples or guarantee quality.
+`configs/amd-training-overlay-linux-py312-v2.txt` changes only packaging26.3→25.0;
+other73 pins unchanged. Local package check, full trainer import and65 focused
+tests pass. `ops/amd_training_preflight.py` checks retained provider requirements
+before installation; post-install pip check remains mandatory. This has not yet
+been tested on the actual provider image/GPU. Receipt:
+`reports/amd-training-corrective-preparation.json`.
 
-Receipts: `reports/coverage-training-preparation.json` and
-`reports/coverage-training-cpu-check.json`. All3148 export files hash-verified;
-2493 decoded image/ID/caption associations checked. Real Torch2.10/Datasets5.0.1/
-Accelerate1.15 CPU path preserved2496 draws and624 accumulation boundaries.
-25 tests passed. Immutable bundle recreated identically. No AMD backward pass yet.
-Local bundle `artifacts/trainers/coverage-v1/`, CPU env `var/coverage-validation/`.
+New campaignamd-coverage-20261031b uses `ops/amd-training-corrective-plan.json`.
+Controller requires prior controller/watchdog receipts and a fresh exact404, and
+accounts for prior elapsed cost against the SAME$2.25 total reserve. At current
+$1.99/hour ceiling, first cost+maximum new hour≈$2.1282. One new allocation,
+55-minute work cutoff/56-minute expiry, independent watchdog and85% usage guard.
+User's existing AMD-credit/continuation delegation covers this reviewed correction;
+no automatic POST retry or reset of the old claim. No corrective GPU allocated.
 
-Training overlay now pins74 packages, preserving inference versions except
-fsspec2026.6.0 for Datasets compatibility. Full trainer imports and dependency
-checks pass locally (Mac CPU, not Linux GPU). Eight-image/two-step smoke package
-is frozen. New controller/worker implement private incremental checkpoint backups,
-independent watchdog,55-minute work cutoff and56-minute instance expiry.
-58 focused tests pass. Live plan: `ops/amd-training-live-plan.json`. Evaluate at most48 new images (12 development prompts ×2
-seeds ×2 checkpoints); reuse verified historical baselines. This is development
-comparison, not a sealed test. Preserve serving pilotstep25 until documented
-quality review. Label AI review as AI; no human review has been claimed.
+Inputs: `var/amd-training-live/corrective/inputs.tar.gz`,3181 files,270449248bytes,
+SHA2563936fdac5a815eeeb2dd21332fe4387fc887d7e8efd0f945d3bebe23e1820089.
+Prepared private checkout `/tmp/emoji-api-smoke-ops-20261029` mirrors controller,
+preflight, corrective plan and workflow. After reset: refresh plan expiry, verify
+inputs/source, finish private publication/upload, arm exact source and dispatch
+once only after a fresh usage check. Source gate is currently closed.
 
-## Previously completed milestones and spending
+## Unchanged experiment and prior completed work
 
-Two real512px PNG/WebP emojis through authenticated API on one MI300X:
-private run41173826485, sourcecbce1857e1b23f19fa9ee977f14d11cf2fc02b47,
-releaseamd-api-smoke-20261030d. GPU614450630 independently deleted.
-`reports/amd-api-live-result.json`, `reports/amd-api-gpu-output-receipt.json`.
-Outputs: `artifacts/amd-api-milestone-20261031/api-results/`.
-Successful cost estimate$0.166; allfour API attempts$0.7751 within$2reserve, all
-deleted. API source gate closed as `completed-41173826485`; no allocation remains.
-Original apple/smile retained. AI review: recognizable, smile has gray shadow patch.
-No public endpoint or persistent hosting. Keep original outputs for matting work.
+Two-step/eight-image finite-loss/reload smoke gates624-step Fluent coverage run.
+Same pinned base/data/captions/split; keep checkpoint500 and final624. At most49
+renders including smoke. All2493 training assets covered in2496 draws; CPU sampler
+verified. `docs/coverage-training-v1.md`. Serving pilotstep25 remains unchanged.
+Quality and gesture accuracy are not established; AI review must be labeled AI.
 
-Consumed comparison:144 images, allfour GPUs deleted, ~$0.99 against separate$3
-reserve; run38352558272/releaseamd-comparison-v1. Never repeat/reset claims.
-AI review found all84 gesture outputs failed. `reports/amd-comparison-v1.md`.
-
-## Automation and remaining production work
-
-User requires GPU destruction before Codex usage limits. Keep detached local
-85% usage stop (or two unavailable signals), independent cloud watchdog and
-instance expiry for every future run. No GPU may idle through quota reset.
-`docs/amd-usage-cleanup.md`. Local supervisor requires an awake Mac/app-server;
-waiting_cloud resumes only when the exact cloud receipt finishes. Cleanup does
-not depend on further model turns; usage guard requests deletion at85%.
-
-Noto PNG license scope remains unresolved. New evidence: explicit OFL3D font
-license plus OFL FAQ1.26 permits AI design tools producing non-font graphics.
-Font-rendered data is a separate candidate route; no import/weight-license claim.
-`reports/noto-3d-candidate-audit.json`. Keep Noto out of the coverage experiment.
-Robust cutouts, real durable-worker recovery, capacity and recurring hosting budget
-remain. `docs/production-next.md`. GHCR publication stays deferred/gate closed;
-direct provider image already worked. Stage only intentional files; preserve
-unrelated recovered worktree changes and the USB original.
+Completed API milestone: two images, run41173826485, allfour GPUs deleted,
+$0.7751 estimated aggregate within separate$2 reserve. `reports/amd-api-live-result.json`.
+Completed comparison:144 images, allfour GPUs deleted, ~$0.99 within separate$3;
+run38352558272, `reports/amd-comparison-v1.md`. Neither may be repeated/reset.
+Noto PNG licensing/font-route investigation, cutouts, durable-worker recovery and
+hosting budget remain separate. GHCR deferred/gate closed. No persistent hosting.
+Keep memory short and stage only intentional files; preserve unrelated recovery work.

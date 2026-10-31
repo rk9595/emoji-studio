@@ -25,16 +25,19 @@ comparison. No additional allocation belongs to this completed milestone.
 The user requires GPU destruction before Codex limits. Retain the85% local usage
 stop, independent cloud watchdog and on-instance expiry for future bounded runs.
 No GPU may idle while waiting for quota reset. GHCR work remains deferred.
-On October31 the user asked to continue training. Bounded Fluent coverage run
-41203305217 is active on GPU614520349 (last observed booting). Queue waiting_cloud;
-source82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6, releaseamd-coverage-20261031a.
-Read reports/amd-coverage-dispatch.json and docs/coverage-training-v1.md.
-One allocation/60minutes/$2.25; two-step smoke gates main624steps and49renders.
-Work cutoff13:51:40UTC October31, expiry13:52:40UTC. Local85% usage guard and
-independent watchdog active. Gate closed running-41203305217. Do not dispatch again.
-Wait using cloud receipts, verify private artifacts and deletion on completion.
-Do not claim training success yet. Preserve v2 data/captions/splits, old trainers
-and serving adapter. No persistent hosting; Noto licensing remains separate.
+Training run41203305217 failed before the worker started: provider langchain-core
+requires packaging<26, but the overlay installed26.3. GPU614520349 independently
+confirmed deleted; estimated$0.1382. Claim consumed; gate failed-41203305217.
+Corrective overlayv2 pins packaging25.0; other73pins unchanged. 65tests and local
+trainer import/dependency checks pass. Read reports/amd-coverage-first-attempt.json
+and reports/amd-training-corrective-preparation.json. No training/checkpoints yet.
+Queue waiting_usage: primary usage91% on October31. No GPU may launch at>=85%.
+Next reset epoch1793468612; recheck fresh headroom, do not assume reset restores it.
+A separately reviewed corrective campaign b is prepared but NOT dispatched.
+Keep original aggregate$2.25 reserve including first cost; fresh exact prior404,
+one new GPU/60minutes, no automatic replacement. Refresh plan expiry/source before
+arming. Old API/comparison and campaign a claims remain consumed. No adapter
+promotion, persistent hosting or Noto import. Preserve unrelated recovered files.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

@@ -1,0 +1,20 @@
+{
+  "status": "corrective_candidate_verified_locally",
+  "fix": {
+    "package": "packaging",
+    "before": "26.3",
+    "after": "25.0",
+    "provider_requirement": ">=23.2.0,<26.0.0"
+  },
+  "other_73_overlay_pins_unchanged": true,
+  "local_pip_check": "passed",
+  "full_trainer_import": "passed",
+  "local_provider_requirements_audit": "passed",
+  "actual_provider_v2_install_verified": false,
+  "gpu_backward_tested": false,
+  "files_sha256": {
+    "configs/amd-training-overlay-linux-py312-v2.txt": "7d8af74c8080a18b9d0887b94b93ab3880ef54d5b8c5cbc2002960ee769fbc33",
+    "configs/amd-training-recovery-constraints.in": "49cb7437fcd3d1dea13ed827d52a9cd67380da4c7367a23d0ac4fdfa60efcad2",
+    "ops/amd_training_preflight.py": "4bcee18f4e3e66d3a320f8d759dba60bf001087a500183f9ccf48730510d4a7f"
+  }
+}

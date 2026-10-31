@@ -1,0 +1,25 @@
+{
+  "status": "failed_before_training",
+  "run_id": "41203305217",
+  "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6",
+  "release": "amd-coverage-20261031a",
+  "allocation_id": 614520349,
+  "cleanup_confirmed": true,
+  "independent_cleanup_confirmed": true,
+  "started_epoch": 1793451400.1767645,
+  "cleanup_epoch": 1793451650.19793,
+  "independent_checked_epoch": 1793451666.7161827,
+  "estimated_cost_dollars": 0.1382,
+  "cost_basis": "Elapsed allocation time estimate, not provider invoice",
+  "training_started": false,
+  "images": 0,
+  "checkpoints": 0,
+  "failure": "Post-install pip check: provider langchain-core0.3.83 requires packaging>=23.2,<26; overlay installed26.3. Worker never started.",
+  "receipts_sha256": {
+    "training-state.json": "c2db9a4727d5554fa55ed1b107aa77f05effe7b5956babca69b0f05d344647fd",
+    "watchdog-result.json": "8a2ba50d1c07c749368b2a661f1a6bc49c8607baeb365fde507cc0401ef97e54"
+  },
+  "worker_log_sha256": "3c95f72ed9ec82457d2ecf52ee417fe20c15bb251b3d637970df65fb4a0e9a2a",
+  "source_gate": "failed-41203305217",
+  "allocation_claim_consumed": true
+}

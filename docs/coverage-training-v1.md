@@ -98,3 +98,19 @@ and actual AMD forward/backward remain cloud checks. Receipts:
 `reports/amd-training-environment.json`, `reports/coverage-smoke-preparation.json`.
 58 focused tests passed, including deletion ownership, early usage binding,
 artifact bounds and preservation of child-process result records.
+
+## First cloud result and correction
+
+Run41203305217 stopped at the post-install package check, before any training.
+Provider langchain-core0.3.83 requires packaging<26, while the training overlay
+selected26.3. The GPU was independently confirmed deleted; estimated$0.1382.
+The immutable first plan and claim remain consumed.
+
+The separate v2 overlay pins packaging25.0 and preserves all73 other versions.
+Local dependency checks, full trainer import and65 focused tests pass. A new
+read-only preflight checks requirements of retained provider packages before
+installation. It does not replace actual provider import/GPU validation.
+The reviewed corrective plan requires fresh confirmation of prior deletion and
+includes the first run's cost in the same$2.25 total ceiling. No new allocation
+is allowed while usage is above85%; the October31 check was91%, so the candidate
+is prepared but unlaunched, with queue waiting_usage.

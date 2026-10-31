@@ -8,10 +8,10 @@
     "receipt": "reports/amd-cpu-validation.json"
   },
   "next_actions": [
-    "Monitor exact run41087086776 and usage-guard receipt. At85% quota or unavailable signal, stop request triggers cloud deletion; cloud expiry is independent.",
-    "On completion verify two real images, downloads and exact-resource independent deletion. Keep every previous allocation claim consumed."
+    "Read exact run41173826485; do not allocate again while this run is active. Usage guard watches at85%; provider startup allowed15min inside30min total.",
+    "Download/verify two real API images, renderer identity, ledger and private archive hash; require independent exact-resource deletion before completion. Preserve all previous allocation claims."
   ],
-  "waiting_reason": "Approved third run active with independent expiry and local early-usage stop watcher.",
+  "waiting_reason": "Fourth bounded run queued/running; usage guard and independent expiry active.",
   "completed_offline": "2026-10-29: Recovery review complete, current GitHub cost rules/public repo checked, 94 tests/143 subtests passed and 38 inputs verified. One new exact-source dispatch 40831493602 under recorded review; no GPU/paid resource or comparison repeat.",
   "last_completed_task": {
     "name": "Diagnose second pre-generation failure, confirm cleanup, test framed SSH and SFTP correction",
@@ -21,7 +21,7 @@
   },
   "completed_comparison": "144 images verified; AI review recorded; all four allocated GPUs deleted; about $0.99 estimated total GPU cost; run 38352558272.",
   "promotion_requires": "A documented quality decision; do not claim human review occurred.",
-  "allocation_policy": "User explicitly approved third attempt October 30 and requested GPU destruction before usage limits. One new MI300X, maximum30 minutes/$1.99 per hour, two physical renders, aggregate$2 reserve. Early cloud stop at85% usage; independent expiry if Mac/model disappears. Prior claims/comparison stay consumed.",
+  "allocation_policy": "Latest explicit feel-free AMD-credit delegation permits this reviewed startup correction. One new GPU, startup up to15min within unchanged30min lifetime, $1.99/hr ceiling, $2 aggregate reserve; no automatic allocation POST retry. Usage-stop and independent expiry mandatory. Prior claims/comparison remain consumed.",
   "failed_retention": {
     "run_id": "40170595914",
     "source_commit": "7bec449bd4e8b2ce9e2ad5b41c9abf2f556c7ab2",
@@ -89,20 +89,37 @@
     "cleanup_confirmed": true,
     "estimated_cost_dollars": 0.244
   },
-  "milestone_estimated_cost_dollars": 0.3696,
-  "next_attempt_proposal": "ops/amd-api-next-attempt-proposal.json",
-  "cloud_repository": "rk9595/emoji-studio-ops",
-  "cloud_run_id": "41087086776",
-  "cloud_run_head": "32e1d704cdf60dae8300119cf3e635111ff525e8",
-  "cloud_run_workflow": "AMD two-image API smoke",
-  "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41087086776",
-  "active_api_attempt": {
+  "milestone_estimated_cost_dollars": 0.6091,
+  "completed_third_api_attempt": {
     "release": "amd-api-smoke-20261030c",
-    "status": "booting",
+    "status": "failed",
     "source": "32e1d704cdf60dae8300119cf3e635111ff525e8",
     "allocation_id": 614271639,
     "started_epoch": 1793376498.4049215,
     "deadline_epoch": 1793378298.4049215,
-    "usage_guard_receipt": "var/amd-api-live/usage-guard-41087086776.json"
-  }
+    "usage_guard_receipt": "var/amd-api-live/usage-guard-41087086776.json",
+    "cleanup_confirmed": true,
+    "estimated_cost_dollars": 0.2395
+  },
+  "prepared_next_api_attempt": {
+    "campaign": "amd-api-smoke-20261030d",
+    "source": "cbce1857e1b23f19fa9ee977f14d11cf2fc02b47",
+    "status": "dispatched",
+    "allocation_attempted": false,
+    "release_created": true,
+    "readiness_max_seconds": 900,
+    "remaining_reserve_dollars": 1.3909
+  },
+  "cloud_repository": "rk9595/emoji-studio-ops",
+  "cloud_run_id": "41173826485",
+  "cloud_run_head": "cbce1857e1b23f19fa9ee977f14d11cf2fc02b47",
+  "cloud_run_workflow": "AMD two-image API smoke",
+  "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41173826485",
+  "active_api_attempt": {
+    "release": "amd-api-smoke-20261030d",
+    "status": "in_progress",
+    "source": "cbce1857e1b23f19fa9ee977f14d11cf2fc02b47",
+    "usage_guard_receipt": "var/amd-api-live/usage-guard-41173826485.json"
+  },
+  "live_plan": "ops/amd-api-live-plan.json"
 }

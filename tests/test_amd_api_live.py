@@ -172,6 +172,12 @@ class TestLiveSmoke(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "framing missing"):
                     live.ssh("host", "echo READY")
 
+    def test_provider_initialization_notice_does_not_start_worker(self):
+        with patch.object(live, "ssh_args", return_value=[]):
+            with patch.object(live, "command", return_value="Please wait while we get your droplet ready...\n"):
+                with patch.object(live, "transport_diagnostic"), self.assertRaises(live.ProviderInitializing):
+                    live.ssh("host", "echo READY")
+
     def test_background_master_cannot_hold_captured_pipes_open(self):
         with patch.object(live, "ssh_args", return_value=[]):
             with patch.object(live.subprocess, "run", return_value=subprocess.CompletedProcess([], 0)) as run:

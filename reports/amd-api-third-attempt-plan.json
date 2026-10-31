@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "campaign": "amd-api-smoke-20261030c",
+  "authorization": "2026-10-30 user explicitly approved the third bounded attempt, authorized AMD credits and required GPU destruction before Codex limits.",
+  "max_allocations": 1,
+  "max_concurrent_gpus": 1,
+  "max_physical_renders": 2,
+  "max_hourly_dollars": 1.99,
+  "reserve_dollars": 2.0,
+  "max_lifetime_seconds": 1800,
+  "work_cutoff_seconds": 1500,
+  "self_expiry_seconds": 1560,
+  "replacement_allocations": 0,
+  "automatic_post_retries": 0,
+  "region": "atl1",
+  "image_id": 222743415,
+  "runtime_strategy": "Provider ROCm 7.2/PyTorch 2.10 image with hash-pinned no-deps overlay; no custom registry image.",
+  "api_bind": "127.0.0.1",
+  "private_repository": "rk9595/emoji-studio-ops",
+  "adapter_sha256": "2c7b15de79e9ac0bf59488068c9ec0f3444dec44899005499de87c2b28e93076",
+  "model_revision": "a3b4f4849157f664bdbc776fd7453c2783562f4d",
+  "prompts": [
+    "a cheerful red apple sticker",
+    "a happy yellow smiling face emoji"
+  ],
+  "seed": 7,
+  "allocation_expires_epoch": 1793383467,
+  "input_sha256": "71477d53f0359f0e3d561957dddb2f1eb07949489daea4478e16cf46f3cbe908",
+  "input_bytes": 26467404,
+  "source_files": {
+    "ops/amd_api_worker.py": "0ae6c6f82583b97f652c6bf62ff46884d00d54835f6a21fbb36ba2365088e79f",
+    "configs/amd-overlay-linux-py312.txt": "55bb040004421cc6a8b29aaddeb2b084124080a77887bcfd5d2a05310cf7b585",
+    "configs/serving.json": "51ace9667447113a22cfadea1ca606539ad264086421e7e7c241561c7401534f",
+    "runs/lora-quality-pilot/adapters/step-25.safetensors": "2c7b15de79e9ac0bf59488068c9ec0f3444dec44899005499de87c2b28e93076",
+    "src/emoji_studio/__init__.py": "440ce1004560f7f9621960c6e9c85de12286cc9430c112d9841ef4d237bc67e8",
+    "src/emoji_studio/alpha.py": "ddf359f78ddac8e0dd9c14c5d0e2881f9f4a53ebcfdc2f59a560080851ad1df4",
+    "src/emoji_studio/api.py": "f1f6be628663f9b047eed2d7316a0df720fdc0360c6bbeaaf7b63caca3b4c70a",
+    "src/emoji_studio/common.py": "111c883e5dae3c39084506bbd1802eb350764b42e60ee3e1ef726f1e84aa8f07",
+    "src/emoji_studio/service.py": "0472a51dc1691099e7897215e92db363cd42ab54aea1379456c5307182c295e3",
+    "src/emoji_studio/render_budget.py": "f9599714923de8dd51543d7af957d9dfdde2eac89df3b5a8bc974b6f2a4b3005"
+  },
+  "previous_attempt": {
+    "release": "amd-api-smoke-20261029b",
+    "run_id": "41079063954",
+    "droplet_id": 614256807,
+    "cleanup_confirmed": true
+  },
+  "milestone_max_allocations": 3,
+  "review": "User approved prepared framed-SSH/SFTP fix. Preserve prior claims and $2 aggregate reserve. Local usage monitor requests cloud deletion at 85 percent quota or loss of usage signal; independent cloud expiry remains mandatory.",
+  "transport_policy": "Reuse SSH control connection; at most three read-only reconnects. No retry for allocation POST, generation POST or worker launch.",
+  "usage_stop_threshold_percent": 85,
+  "usage_stop_poll_seconds": 30
+}

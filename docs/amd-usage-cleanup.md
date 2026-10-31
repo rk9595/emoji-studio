@@ -34,5 +34,6 @@ is framed independently of provider banners. The prepared transport/cleanup suit
 contains 16 tests, and exact cloud-receipt monitoring has eight more.
 
 Active execution is recorded in `ops/work-queue.json`, not inferred from an older
-release. Current run: 41087086776, source32e1d704cdf60dae8300119cf3e635111ff525e8,
-private release `amd-api-smoke-20261030c`. Do not reset older allocation claims.
+release. Use the active run/source/release in that queue. The supervisor also recognizes
+`waiting_usage` and defers model continuation until the recorded reset and a fresh
+reading below85%. Do not reset older allocation claims.

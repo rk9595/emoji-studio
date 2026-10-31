@@ -43,7 +43,7 @@ class AppServer:
         self.connection.close()
 
 
-def next_reset(limits, now):
+def next_reset(limits, now, threshold=100):
     buckets = list((limits.get("rateLimitsByLimitId") or {}).values())
     if not buckets and limits.get("rateLimits"):
         buckets = [limits["rateLimits"]]
@@ -53,7 +53,7 @@ def next_reset(limits, now):
     for bucket in buckets:
         for name in ("primary", "secondary"):
             window = bucket.get(name)
-            if window and window.get("usedPercent", 0) >= 100:
+            if window and window.get("usedPercent", 0) >= threshold:
                 resets.append(max(now + 900, (window.get("resetsAt") or now + 3600) + 60))
     return max(resets, default=now)
 
@@ -144,6 +144,13 @@ def tick(config, diagnostic=False):
             state["reason"] = queue["status"]
             save(state)
             return
+        if queue["status"] == "waiting_usage":
+            not_before = max(queue.get("usage_not_before_epoch", 0),
+                             next_reset(limits, now, threshold=85))
+            if not_before > now:
+                state.update(reason="waiting_for_usage_headroom", not_before_epoch=not_before)
+                save(state)
+                return
         if queue["status"] == "waiting_cloud":
             remote = cloud_state(config, queue)
             state["cloud_status"] = remote["status"]

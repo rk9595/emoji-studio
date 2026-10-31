@@ -30,6 +30,13 @@ class CPUReceiptTest(unittest.TestCase):
     def test_completed_receipt_wakes_continuation(self):
         self.assertEqual(self.read(self.receipt)["status"], "completed")
 
+    def test_gpu_continuation_waits_before_hard_quota_exhaustion(self):
+        limits = {"rateLimits": {"primary": {"usedPercent": 90, "resetsAt": 5000}}}
+        self.assertEqual(supervisor.next_reset(limits, 1000), 1000)
+        self.assertEqual(supervisor.next_reset(limits, 1000, threshold=85), 5060)
+        limits["rateLimits"]["primary"]["usedPercent"] = 10
+        self.assertEqual(supervisor.next_reset(limits, 5061, threshold=85), 5061)
+
     def test_private_api_smoke_uses_exact_receipt(self):
         self.queue.update(cloud_repository="rk9595/emoji-studio-ops",
                           cloud_run_workflow="AMD two-image API smoke")

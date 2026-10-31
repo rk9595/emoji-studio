@@ -1,6 +1,6 @@
 {
-  "status": "executing",
-  "execution_authorized": true,
+  "status": "third_attempt_consumed",
+  "execution_authorized": false,
   "proposed_campaign": "amd-api-smoke-20261030c",
   "reason": "Validate framed SSH/SFTP fix after two cleanly deleted pre-generation failures. Root cause remains unconfirmed.",
   "prior_allocations": [
@@ -26,5 +26,7 @@
     "Register independent watchdog before one allocation; generate/download exactly two API images, verify and delete."
   ],
   "approval": "2026-10-30 user: yes feel free; destroy GPU instances if usage limits approach.",
-  "execution_run_id": "41087086776"
+  "execution_run_id": "41087086776",
+  "next_campaign": "amd-api-smoke-20261030d",
+  "note": "Third GPU independently deleted. Fourth routine startup correction is separately prepared under latest delegation; waiting for fresh usage headroom. See current work queue."
 }

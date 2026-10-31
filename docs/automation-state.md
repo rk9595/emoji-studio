@@ -1,76 +1,63 @@
-# Current state — 2026-10-30
+# Current state — 2026-10-31
 
-Read `ops/work-queue.json`. Preserve unrelated recovery changes; stage exact task
-files only. The user authorized AMD credits for two API emojis October 29 and
-continued October 30 after the reviewed corrective attempt was described.
+Read `ops/work-queue.json`. Stage only task files; preserve unrelated recovery edits.
+User delegated the two-real-emoji AMD API milestone and explicitly requested GPU
+destruction before Codex limits. Broad AMD credits do not remove the concrete bounds.
 
-## Active third API attempt — user approved
+## Active cloud run
 
-Private Actions **41087086776**, source32e1d704cdf60dae8300119cf3e635111ff525e8:
-https://github.com/rk9595/emoji-studio-ops/actions/runs/41087086776
-Release `amd-api-smoke-20261030c`; GPU614271639, started epoch1793376498.4049,
-outer deletion deadline1793378298.4049. User explicitly approved the prepared third
-attempt and required GPU destruction before model usage limits. One new MI300X,
-max30min/$1.99hr, two renders, same $2 aggregate reserve (prior usage ~$0.3696).
-No reset/repeat of older claims or comparison. No automatic allocation POST retry.
+Private Actions **41173826485**, source
+`cbce1857e1b23f19fa9ee977f14d11cf2fc02b47`:
+https://github.com/rk9595/emoji-studio-ops/actions/runs/41173826485
+Release **amd-api-smoke-20261030d**. One new MI300X, max$1.99/hr,
+provider startup up to15min inside25min work cutoff/30min total lifetime.
+Same **$2 aggregate reserve**, including ~$0.6091 prior failed attempts.
+Two physical renders, loopback authenticated API, private hash-verified export.
+Serving model/revision/pilotstep25 and input archive unchanged. No POST retry.
 
-The framing/SFTP correction also starts an SSH master separately without captured
-pipes, so a background master cannot keep probe pipes open. 16 focused transport/
-cleanup tests, 4 usage-policy tests and 8 exact cloud-receipt tests pass. Source
-archive is unchanged and hash-verified; serving remains pinned pilotstep25.
+Fresh October31 usage check was below85% after yesterday's reset wait. Local
+usage guard is detached ordinary code, bound to this exact run/release; receipt:
+`var/amd-api-live/usage-guard-41173826485.json`. At85% quota or two unavailable
+signals it writes an immutable stop request; cloud controller/watchdog delete.
+Independent minute26 self-expiry and separate cloud watchdog remain mandatory if
+Mac/model disappears. No GPU may idle waiting for quota reset. See
+`docs/amd-usage-cleanup.md`. Supervisor supports waiting_usage without model polling.
 
-Usage guard runs locally as ordinary detached code, bound to this run/release.
-Reads `account/rateLimits/read` every30sec. At85% usage (either window), or two
-unavailable readings, it writes one private bound `stop-request.json`. Both cloud
-controller and independent watchdog honor it. Initial usage check reported adequate headroom. Local receipt: `var/amd-api-live/usage-guard-41087086776.json`.
-If the Mac/session disappears, independent cloud expiry still deletes at minute26;
-worker cutoff is minute25, outer deletion deadline minute30. Do not promise perfect
-prediction of usage limits or outage-free provider deletion. No GPU should be left
-running merely to wait for Codex limits to reset.
+Next: use exact cloud receipt; validate real images, physical ledger, downloads,
+and independent authenticated exact-resource404 before marking complete. No new
+allocation while this run is active. The goal is not fulfilled by mock images.
+17 controller tests +4 usage-policy +9 receipt/threshold +5 supervisor tests pass.
 
-Next: use exact cloud receipt; verify real API images, hashes and independent
-exact-resource404 before completion. Early stop does not mean success. Never mark
-complete with only mock outputs or pending cleanup. Keep memory concise.
+## Prior consumed API attempts — all deleted, zero images
 
-## Earlier attempts (consumed and deleted)
+- 40883440921 / GPU613866182: SSH255 after upload, ~$0.1256.
+- 41079063954 / GPU614256807: readiness timeout, ~$0.244.
+- 41087086776 / GPU614271639: provider initialization gate, ~$0.2395.
+All independent cleanup receipts are retained. Third stdout explicitly said
+"Please wait while we get your droplet ready"; increasing the startup allowance
+is a bounded test, not a proven provider fix. Reports:
+`reports/amd-api-first-attempt-result.json`, `reports/amd-api-live-result.json`
+(second attempt), `reports/amd-api-third-attempt-result.json`.
+Never reset these claims or the separately consumed AMD comparison.
 
-Run40883440921/GPU613866182: SSH255 on checksum read after upload, no generation,
-~$0.1256. `reports/amd-api-first-attempt-result.json`.
-Run41079063954/GPU614256807: readiness timeout, no generation, ~$0.244; independent
-cleanup confirmed. `reports/amd-api-live-result.json` currently records this older
-failure. Private diagnostics had initial connection refusal and rsync protocol
-mismatch; noisy shell and background pipe behavior were hypotheses, not confirmed
-provider root causes. Both old exact-source gates are consumed.
+## Production/data and deferred work
 
-## Production and data
+Current data is Microsoft Fluent3D. Noto candidate audit pins99701e07d… with4,007
+512px PNGs/4,006 blobs; README says Apache2 but linked root license is OFL1.1.
+Resolve PNG-specific terms before commercial training. No new training/import.
+Base FLUX.2 Klein4B pinned revision has Apache2 license. See
+`docs/production-next.md`, `reports/noto-3d-candidate-audit.json`.
+Gesture-quality failures remain; adapter promotion needs documented review.
+Persistent hosting needs recurring budget/access; no public endpoint yet.
 
-Existing data is Microsoft Fluent 3D, not Google Noto. Noto candidate audit pins
-99701e07d…: 4,007 512px PNG files / 4,006 Git blobs. README says images Apache2,
-but linked root license is OFL1.1; no license in 3D/png. Resolve asset-specific
-terms before commercial training. No new data import/training started.
-`reports/noto-3d-candidate-audit.json`, `docs/production-next.md` record the evidence
-and production milestones. Base FLUX.2 Klein4B license at pinned revision is
-Apache2. Existing gesture-quality failures remain; do not promote a new adapter
-without documented quality review. Persistent hosting needs recurring budget/access.
+Custom GHCR publication is deferred, gate closed after storage-copy failures.
+CPU validation passed103 in-image tests; the old prepared-only smoke plan/23-file
+lock is intact. The new direct-provider route has a separate explicit live plan.
+Historical evidence is in the referenced reports; do not resume registry work now.
 
-## Deferred/completed evidence
+Consumed comparison:144 images/four allocations all deleted,~$0.99 against separate
+$3 reserve. Never repeat/reset it. Private run38352558272/releaseamd-comparison-v1.
+AI review found84 gesture outputs failed; do not claim human review. Pilotstep25 stays.
 
-GHCR recovery40831493602 failed registry_copy (disk_capacity hint); exact storage
-mechanism unknown. Reconciliation40878081034 returned package/tag404, not verified
-absence. Publication gate closed; no retry. Reports preserve evidence. CPU run
-40166592399 passed 103 in-image tests and dependency checks; no GPU implication.
-The old prepared-only smoke plan/23-file lock remains intact; this new live route
-uses a separate explicit plan. Offline lifecycle/reservation contracts remain in
-`docs/smoke-lifecycle.md` and `docs/smoke-reservation.md`.
-
-Consumed comparison: 144 images, four allocations all deleted, about $0.99 against
-its separate $3 reserve. Never repeat/reset it. Private run38352558272/release
-amd-comparison-v1; `reports/amd-comparison-v1.md`. AI review found all84 gesture
-outputs failed; this is not human review. Serving stays pilot step25.
-
-## Automation
-
-LaunchAgent checks every15 minutes, respects usage resets and active turns, and
-uses exact Actions receipts without model work while cloud jobs run. Mac must be
-awake/app-server available for local continuation. GPU cleanup runs in the cloud
-independently; do not promise uninterrupted model reasoning.
+Local supervisor checks every15min; Mac/app-server must be awake. Cleanup runs
+independently in the cloud. Do not promise uninterrupted model reasoning.

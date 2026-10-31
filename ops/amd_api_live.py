@@ -18,8 +18,8 @@ from pathlib import Path
 
 API = "https://api.devcloud.amd.com/v2"
 SIZE = "gpu-mi300x1-192gb-devcloud"
-RELEASE = "amd-api-smoke-20261030c"
-NAME = "emoji-api-smoke-20261030c"
+RELEASE = "amd-api-smoke-20261030d"
+NAME = "emoji-api-smoke-20261030d"
 REMOTE = "/shared-docker/emoji-api-smoke"
 PLAN = Path("ops/amd-api-live-plan.json")
 
@@ -83,6 +83,10 @@ class CommandError(RuntimeError):
     def __init__(self, program, code):
         self.code = code
         super().__init__(f"{program} exited {code}")
+
+
+class ProviderInitializing(RuntimeError):
+    pass
 
 
 def transport_diagnostic(program, code, detail):
@@ -237,6 +241,8 @@ def ssh(ip, script, timeout=30):
     begin, end = f"{marker}:BEGIN\n", f"\n{marker}:END:0"
     if output.count(begin) != 1 or output.count(end) != 1:
         transport_diagnostic("ssh", "framing_missing", output)
+        if "Please wait while we get your droplet ready" in output:
+            raise ProviderInitializing("Provider image initialization is still running")
         raise RuntimeError("SSH response framing missing; no command result accepted")
     return output.split(begin, 1)[1].split(end, 1)[0]
 
@@ -382,7 +388,8 @@ def run():
         state.update(status="booting", droplet_id=identifier)
         put("api-state.json", state, replace=True)
         stop = intent["started_epoch"] + 1500
-        while time.time() < min(stop, intent["started_epoch"] + 420):
+        # Startup gets up to15 minutes within the unchanged25-minute work cutoff.
+        while time.time() < min(stop - 300, intent["started_epoch"] + 900):
             check_stop()
             row = api("GET", f"/droplets/{identifier}")["droplet"]
             if not owned(row, intent):
@@ -395,6 +402,10 @@ def run():
                                 "systemctl is-active --quiet emoji-api-expiry.timer && echo READY")
                     if ready.strip() == "READY":
                         break
+                except ProviderInitializing:
+                    if not state.get("provider_initialization_notice"):
+                        state["provider_initialization_notice"] = True
+                        put("api-state.json", state, replace=True)
                 except Exception:
                     pass
             time.sleep(10)

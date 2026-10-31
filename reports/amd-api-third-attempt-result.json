@@ -1,0 +1,16 @@
+{
+  "status": "failed_before_generation",
+  "run_id": "41087086776",
+  "source": "32e1d704cdf60dae8300119cf3e635111ff525e8",
+  "allocation_id": 614271639,
+  "cleanup_confirmed": true,
+  "independent_cleanup_confirmed": true,
+  "real_images": 0,
+  "provider_notice": "Please wait while we get your droplet ready...",
+  "diagnosis": "Provider image still initializing during7-minute readiness window. Command frames correctly refused readiness. No inference started.",
+  "attempt_estimated_cost_dollars": 0.2395,
+  "milestone_estimated_cost_dollars": 0.6091,
+  "cleanup_epoch": 1793376931.6900795,
+  "transport_log_sha256": "b4d309ca3df9eed0191f77160af83173360d77a23fcaade4994a982f4084262a",
+  "usage_guard": "cloud_run_finished; no quota stop needed"
+}

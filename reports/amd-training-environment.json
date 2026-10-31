@@ -1,0 +1,52 @@
+{
+  "status": "local_import_passed_linux_gpu_pending",
+  "target": "Linux x86_64 Python3.12 with provider ROCm Torch2.10",
+  "local_validation_platform": "darwin",
+  "overlay_packages": 74,
+  "changed_inference_pins": {
+    "fsspec": {
+      "before": "2026.9.0",
+      "after": "2026.6.0"
+    }
+  },
+  "new_packages": {
+    "absl-py": "2.5.1",
+    "aiohappyeyeballs": "2.7.1",
+    "aiohttp": "3.14.5",
+    "aiosignal": "1.4.0",
+    "attrs": "26.1.0",
+    "datasets": "5.0.1",
+    "dill": "0.4.1",
+    "frozenlist": "1.8.0",
+    "ftfy": "6.3.1",
+    "grpcio": "1.85.1",
+    "jinja2": "3.1.6",
+    "markdown": "3.11.2",
+    "markupsafe": "3.0.4",
+    "multidict": "7.2.1",
+    "multiprocess": "0.70.19",
+    "pandas": "3.1.0",
+    "propcache": "0.5.4",
+    "protobuf": "7.36.2",
+    "pyarrow": "26.0.0",
+    "python-dateutil": "3.0.0",
+    "setuptools": "84.2.1",
+    "six": "1.17.0",
+    "tensorboard": "2.21.0",
+    "tensorboard-data-server": "0.7.2",
+    "tzdata": "2026.6",
+    "wcwidth": "0.9.4",
+    "werkzeug": "3.1.9",
+    "xxhash": "4.0.2",
+    "yarl": "1.25.1"
+  },
+  "full_patched_trainer_import_and_help": true,
+  "isolated_local_dependency_check": true,
+  "gpu_backward_tested": false,
+  "files_sha256": {
+    "configs/amd-training-overlay.in": "31faa0fec777c2e6c0fb149d13dc578341a2bffb93735e4770bebcad569a50b8",
+    "configs/amd-training-constraints.in": "eddb032184fbc09547b58c77f2782f727959b7655449013573b2bf46e6e2a66b",
+    "configs/amd-training-overlay-linux-py312.txt": "b1bed32aa435ffc773ee915571a867e99867446af3d6f2430717112405118dc3",
+    "configs/amd-base-provided.in": "35c677c9387637c9c78b39eb436f2e3c588eacf9b722e989716aef35cdbd08ee"
+  }
+}

@@ -77,3 +77,24 @@ Keep serving pilot step 25 until a documented comparison supports promotion.
 Noto licensing/data work, robust cutouts and durable production-worker validation
 remain separate work. No persistent hosting or automatic adapter promotion is
 part of this training experiment.
+
+## Bounded cloud implementation prepared
+
+The independent training controller and worker now exist in
+`ops/amd_training_live.py` / `ops/amd_training_worker.py`. The dedicated live plan
+controls this separate execution; the immutable recipe retains its historical
+preparation flags. A separate eight-image/two-step smoke package is prepared;
+finite TensorBoard losses, finite learned adapter tensors and successful reload
+are required before main training. Checkpoints are copied privately as they appear.
+One reload image plus48 development images is the total physical render cap.
+The worker refuses restarts, existing outputs, altered input hashes and changed
+GPU packages. Cloud work stops at55 minutes and independent expiry starts at56.
+
+The74-package training overlay preserves all inference pins except fsspec,
+changed from2026.9.0 to2026.6.0 to satisfy Datasets5.0.1. It excludes provider GPU
+packages and installs with hashes and no dependency traversal. Full trainer
+import and package compatibility passed in the isolated Mac environment; Linux
+and actual AMD forward/backward remain cloud checks. Receipts:
+`reports/amd-training-environment.json`, `reports/coverage-smoke-preparation.json`.
+58 focused tests passed, including deletion ownership, early usage binding,
+artifact bounds and preservation of child-process result records.

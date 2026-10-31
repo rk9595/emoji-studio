@@ -3,9 +3,9 @@
 ## Next milestone: bounded Fluent coverage training
 
 User asked to continue training toward production. Queue `ready`; no GPU allocated
-and no new training started. Offline preparation is complete. Next implement the
-AMD training environment and private lifecycle, then a finite-loss smoke and the
-frozen training recipe under one allocation/60-minute/$2.25 proposed ceiling.
+and no new training started. Offline preparation, pinned training environment and private lifecycle are complete.
+Next dispatch the finite-loss smoke and frozen recipe under one fresh allocation/
+60-minute/$2.25 ceiling, after private upload and a fresh usage check.
 Use current availability/rate/usage checks; never reuse the completed API or
 comparison claims. No repeated permission request for routine implementation.
 
@@ -23,9 +23,12 @@ Accelerate1.15 CPU path preserved2496 draws and624 accumulation boundaries.
 25 tests passed. Immutable bundle recreated identically. No AMD backward pass yet.
 Local bundle `artifacts/trainers/coverage-v1/`, CPU env `var/coverage-validation/`.
 
-Next run needs a pinned training overlay (inference overlay is insufficient), a
-separate explicit smoke recipe, private checkpoint backups, independent watchdog
-and instance expiry. Evaluate at most48 new images (12 development prompts ×2
+Training overlay now pins74 packages, preserving inference versions except
+fsspec2026.6.0 for Datasets compatibility. Full trainer imports and dependency
+checks pass locally (Mac CPU, not Linux GPU). Eight-image/two-step smoke package
+is frozen. New controller/worker implement private incremental checkpoint backups,
+independent watchdog,55-minute work cutoff and56-minute instance expiry.
+58 focused tests pass. Live plan: `ops/amd-training-live-plan.json`. Evaluate at most48 new images (12 development prompts ×2
 seeds ×2 checkpoints); reuse verified historical baselines. This is development
 comparison, not a sealed test. Preserve serving pilotstep25 until documented
 quality review. Label AI review as AI; no human review has been claimed.

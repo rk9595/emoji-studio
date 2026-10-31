@@ -3,24 +3,24 @@
   "milestone": "Train and evaluate a bounded Fluent coverage diagnostic on AMD",
   "updated_date": "2026-10-31",
   "last_completed_task": {
-    "name": "Immutable coverage trainer preparation and real ImageFolder/Torch/Accelerate CPU verification",
+    "name": "Pinned AMD training overlay, eight-image smoke, guarded worker and independent lifecycle prepared",
     "status": "complete",
     "date": "2026-10-31",
     "receipts": [
-      "reports/coverage-training-preparation.json",
-      "reports/coverage-training-cpu-check.json"
-    ]
+      "reports/amd-training-environment.json",
+      "reports/coverage-smoke-preparation.json"
+    ],
+    "tests_passed": 58
   },
   "recipe": "configs/lora-coverage-v1.json",
   "next_actions": [
-    "Prepare a pinned AMD training dependency overlay and fresh private training controller using independent deletion, expiry and the existing 85% usage guard.",
-    "Prepare a separate small finite-loss/checkpoint-reload smoke. Verify available capacity, current rate and usage headroom before one bounded allocation; run main training only if smoke passes within the same cap.",
-    "Retain step500 and final624, verify private backups, delete GPU and compare at most48 new development evaluation images with retained historical baselines."
+    "Upload private frozen inputs; read fresh usage; arm exact-source gate and dispatch the one bounded training campaign.",
+    "While waiting use exact cloud receipts, not model polling. Verify checkpoints/evaluation artifacts and independent deletion before quality review."
   ],
   "waiting_reason": null,
   "gpu_allocated": false,
   "training_started": false,
-  "allocation_policy": "New experiment only: proposed one GPU, one allocation, at most3600seconds, rate<=1.99USD/hour and total<=2.25USD. Not execution-ready until training environment and independent cleanup are integrated. Never reuse consumed claims. No persistent hosting. Stop before85% Codex usage and confirm GPU deletion; never idle waiting for quota reset.",
+  "allocation_policy": "One fresh training allocation, at most3600seconds, rate<=1.99USD/hour and total<=2.25USD. Smoke2steps+reload gates main624steps; at most49 renders including smoke. Independent watchdog and instance expiry, early usage stop85%. No replacements, consumed-claim reuse, persistent hosting or automatic adapter promotion.",
   "promotion_requires": "Documented quality comparison; AI review must be labeled AI. Preserve serving pilot step25 until then.",
   "completed_api_milestone": {
     "release": "amd-api-smoke-20261030d",
@@ -55,5 +55,6 @@
     "ghcr": "Publication unresolved, gate closed; receipts retained in reports/amd-retention-recovery-failure.json and reports/amd-recovery-reconciliation.json. Direct provider image works.",
     "noto": "Raw PNG license scope unresolved; explicitly OFL font is a candidate alternative. No Noto import.",
     "production": "Cutouts, real durable-worker recovery, capacity and recurring hosting budget remain."
-  }
+  },
+  "live_plan": "ops/amd-training-live-plan.json"
 }

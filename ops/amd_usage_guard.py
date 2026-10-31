@@ -66,15 +66,21 @@ def request_stop(config, queue, release, reason):
     return request
 
 
+def campaign_binding(queue, release):
+    workflows = {"AMD two-image API smoke": ("active_api_attempt", 2400),
+                 "AMD coverage training": ("active_training_attempt", 4200)}
+    key, duration = workflows.get(queue.get("cloud_run_workflow"), (None, None))
+    if (queue.get("cloud_repository") != "rk9595/emoji-studio-ops" or key is None
+            or queue.get(key, {}).get("release") != release):
+        raise ValueError("Usage watcher must bind the active bounded run")
+    return duration
+
+
 def main(release):
     os.umask(0o077)
     config = json.loads((ROOT / "var/automation/supervisor.json").read_text())
     queue = json.loads((ROOT / "ops/work-queue.json").read_text())
-    if (queue["cloud_repository"] != "rk9595/emoji-studio-ops"
-            or queue["cloud_run_workflow"] != "AMD two-image API smoke"
-            or queue["active_api_attempt"]["release"] != release):
-        raise ValueError("Usage watcher must bind the active smoke run")
-    deadline = time.monotonic() + 2400
+    deadline = time.monotonic() + campaign_binding(queue, release)
     failures = 0
     stopped = False
     receipt = {"run_id": queue["cloud_run_id"], "campaign": release, "threshold_percent": 85}

@@ -10,6 +10,17 @@ spec.loader.exec_module(guard)
 
 
 class UsageGuardTest(unittest.TestCase):
+    def test_training_and_api_campaign_binding(self):
+        for workflow, key, seconds in (("AMD coverage training", "active_training_attempt", 4200),
+                                       ("AMD two-image API smoke", "active_api_attempt", 2400)):
+            queue = {"cloud_repository": "rk9595/emoji-studio-ops", "cloud_run_workflow": workflow,
+                     key: {"release": "fresh"}}
+            self.assertEqual(guard.campaign_binding(queue, "fresh"), seconds)
+            with self.assertRaises(ValueError):
+                guard.campaign_binding(queue, "consumed")
+        with self.assertRaises(ValueError):
+            guard.campaign_binding({"cloud_run_workflow": "unknown"}, "fresh")
+
     def test_weekly_or_primary_near_limit_stops(self):
         for first, second, expected in [(49, 39, False), (85, 39, True), (30, 90, True)]:
             with self.subTest(primary=first, secondary=second):

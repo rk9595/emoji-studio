@@ -76,6 +76,7 @@ def cloud_state(config, queue=None):
             ("rk9595/emoji-studio", "AMD runtime private retention"),
             ("rk9595/emoji-studio", "AMD runtime retention reconciliation"),
             ("rk9595/emoji-studio-ops", "AMD two-image API smoke"),
+            ("rk9595/emoji-studio-ops", "AMD coverage training"),
         }
         if ((repository, expected_workflow) not in allowed_receipts or not run_id.isascii() or not run_id.isdecimal()
                 or not isinstance(expected_head, str) or len(expected_head) != 40

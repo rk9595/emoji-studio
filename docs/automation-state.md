@@ -21,27 +21,32 @@ These are runtime estimates, not invoices. First run41203305217/GPU614520349 was
 also independently deleted after a dependency-check failure. No training has yet
 completed on AMD. Both immutable claims are consumed and cannot be reset.
 
-## Usage control and next ready work
+## Usage control and current evaluation
 
 On 2026-11-01 the user said the usage limit was Codex's and to keep building in
 Cursor. The Codex supervisor stays on waiting_usage so it does not start a turn.
-Do not arm the Codex usage guard for the new campaign. Independent watchdog and
-on-instance expiry still apply. No GPU is allocated.
+Do not arm the Codex usage guard. Independent watchdog and on-instance expiry
+still apply.
 
-Campaign amd-noto-fluent-20261101c is armed. The user raised the training reserve
-to $10 on 2026-11-01. This run is still one allocation, at most 3600 seconds and
-$1.99/hour. It trains the full Fluent coverage pool, 2,493 images, plus 128
-evenly spaced emoji rendered from the pinned OFL Noto 3D font
-`Noto-3D-128-noflags.ttf` (`0fdfec3d…13f7c`). Combined draws 2,624, optimizer
-steps 656, smoke plus 49 renders. CPU coverage prep passed with zero omitted
-images. Receipt `reports/fluent-noto-campaign.json`. Input archive
-`var/amd-training-live/fluent-noto-inputs.tar.gz`, sha256
-`101db872e362021c38f6cc69565928adfe34771dc18d0709cfbeb723dde82c68`.
-The raw 3D/png tree is not imported. The controller refuses consumed campaign b
-and still requires both prior deletion receipts. Codex usage guard stays off.
-Dispatched run 41282477874 from ee44a92e1a36690c2fdb89d6ef550bf952ee5422.
-https://github.com/rk9595/emoji-studio-ops/actions/runs/41282477874
-Training and watchdog jobs were in progress. No result is claimed yet.
+Campaign amd-noto-fluent-20261101c is consumed. Run 41282477874 finished the
+656-step train: 2,624 finite losses in 565 seconds. Adapter
+step-656.safetensors, sha256
+`8dc022f06b20e73a0c5cbaa935730225f54f6e191e3ef3a2a89e33d8ff0102f9`, is on release
+amd-noto-fluent-20261101c. Its evaluation failed because step-500.safetensors
+was not retained. GPU 614708454 cleanup confirmed by the controller and by
+watchdog-result.json. Estimated cost $0.504, aggregate $0.7115 of the $10
+reserve. No promotion.
+
+The user authorized a separate evaluation of that saved adapter. Release
+amd-noto-eval-20261101d, private source
+`51b989c0207d7b7d430c85c71b1808043154375d`, workflow run 41321034924, both jobs
+in progress. Plan `ops/amd-noto-eval-plan.json`. Input
+`var/amd-training-live/eval-inputs.tar.gz`, 26493030 bytes, sha256
+`cdc6039af41c4b40906e0c40082118d488ec4a6c02f8a8b8bbfa9b554e51996b`. Twelve
+development prompts, two seeds, 24 images, step-656 only, no training. Lifetime
+at most 2400 seconds, work cutoff 2100, self-expiry 2160, rate at most
+$1.99/hour, same $10 reserve. Do not claim the 24 images or GPU deletion until
+this run's receipts exist. Do not dispatch consumed campaigns b or c.
 
 The dependency correction remains prepared: v2 overlay changes packaging26.3→25.0
 for provider langchain-core compatibility, preserving73 other pins. New pre-install

@@ -78,6 +78,7 @@ def cloud_state(config, queue=None):
             ("rk9595/emoji-studio-ops", "AMD two-image API smoke"),
             ("rk9595/emoji-studio-ops", "AMD coverage training"),
             ("rk9595/emoji-studio-ops", "AMD Noto Fluent training"),
+            ("rk9595/emoji-studio-ops", "AMD Noto evaluation"),
             ("rk9595/emoji-studio-ops", "AMD training cleanup reconciliation"),
         }
         if ((repository, expected_workflow) not in allowed_receipts or not run_id.isascii() or not run_id.isdecimal()

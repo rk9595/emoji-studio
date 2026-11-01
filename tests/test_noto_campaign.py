@@ -80,6 +80,23 @@ class NotoCampaignTest(unittest.TestCase):
                 self.assertRaises(RuntimeError):
             live.aggregate_prior_cost(plan)
 
+    def test_saved_adapter_evaluation_is_a_separate_campaign(self):
+        with patch.dict(os.environ, {"AMD_TRAINING_RELEASE": live.EVAL_RELEASE}):
+            current = module("amd_training_live")
+        plan = {"campaign": current.EVAL_RELEASE, "max_allocations": 1, "max_concurrent_gpus": 1,
+                "max_lifetime_seconds": 2400, "work_cutoff_seconds": 2100,
+                "self_expiry_seconds": 2160, "max_hourly_dollars": 1.99,
+                "reserve_dollars": 10, "max_training_steps": 0, "smoke_steps": 0,
+                "max_physical_renders": 24, "mode": "evaluate_saved_adapter",
+                "adapter_name": "step-656.safetensors",
+                "training_recipe": "configs/lora-fluent-noto-v1.json",
+                "codex_usage_guard": False, "execution_authorized": True,
+                "previous_attempts": [dict(item) for item in current.EVAL_ATTEMPTS]}
+        current.validate_plan(plan)
+        with self.assertRaises(ValueError):
+            current.validate_plan(plan | {"max_physical_renders": 48})
+        self.assertEqual(current.EVAL_ATTEMPTS[-1]["droplet_id"], 614708454)
+
     def test_consumed_controller_cannot_allocate_again(self):
         with patch.dict(os.environ, {"AMD_TRAINING_SOURCE": "head", "GITHUB_SHA": "head",
                                      "GITHUB_RUN_ATTEMPT": "1"}), \

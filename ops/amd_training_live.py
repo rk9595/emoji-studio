@@ -19,16 +19,25 @@ from pathlib import Path
 API = "https://api.devcloud.amd.com/v2"
 SIZE = "gpu-mi300x1-192gb-devcloud"
 NOTO_RELEASE = "amd-noto-fluent-20261101c"
+EVAL_RELEASE = "amd-noto-eval-20261101d"
 RELEASE = os.environ.get("AMD_TRAINING_RELEASE", "amd-coverage-20261031b")
-NAME = "emoji-noto-fluent-20261101c" if RELEASE == NOTO_RELEASE else "emoji-coverage-20261031b"
+NAME = {"amd-noto-eval-20261101d": "emoji-noto-eval-20261101d",
+        "amd-noto-fluent-20261101c": "emoji-noto-fluent-20261101c"}.get(
+            RELEASE, "emoji-coverage-20261031b")
 REMOTE = "/shared-docker/emoji-training-smoke"
-PLAN = Path("ops/amd-noto-fluent-plan.json" if RELEASE == NOTO_RELEASE else "ops/amd-training-corrective-plan.json")
+PLAN = Path({"amd-noto-eval-20261101d": "ops/amd-noto-eval-plan.json",
+             "amd-noto-fluent-20261101c": "ops/amd-noto-fluent-plan.json"}.get(
+                 RELEASE, "ops/amd-training-corrective-plan.json"))
 NOTO_STEPS = 656
 CONSUMED_ATTEMPTS = (
     {"release": "amd-coverage-20261031a", "run_id": "41203305217", "droplet_id": 614520349,
      "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6"},
     {"release": "amd-coverage-20261031b", "run_id": "41273277371", "droplet_id": 614682073,
      "source": "0a960b92de7457a231ed348153b13b898d114db4"},
+)
+EVAL_ATTEMPTS = CONSUMED_ATTEMPTS + (
+    {"release": "amd-noto-fluent-20261101c", "run_id": "41282477874", "droplet_id": 614708454,
+     "source": "ee44a92e1a36690c2fdb89d6ef550bf952ee5422"},
 )
 
 
@@ -209,7 +218,7 @@ while True:
     for name, value in values.items():
         data += (f"  - path: /root/emoji-training-{name}\n    permissions: '0600'\n"
                  f"    encoding: b64\n    content: {base64.b64encode(value.encode()).decode()}\n")
-    expiry = int(intent["started_epoch"] + 3360)
+    expiry = int(intent.get("self_expiry_epoch", intent["started_epoch"] + 3360))
     data += ("runcmd:\n  - [systemd-run, --unit=emoji-training-expiry, "
              f"'--on-calendar=@{expiry}', /usr/bin/python3, /root/emoji-training-guard.py]\n")
     return data
@@ -270,14 +279,30 @@ def ssh_read(ip, script, timeout=30):
 
 
 def validate_plan(plan):
-    expected = {"max_allocations": 1, "max_concurrent_gpus": 1,
-                "max_lifetime_seconds": 3600, "work_cutoff_seconds": 3300,
-                "self_expiry_seconds": 3360, "max_hourly_dollars": 1.99,
-                "smoke_steps": 2, "max_physical_renders": 49}
+    if RELEASE == EVAL_RELEASE:
+        expected = {"max_allocations": 1, "max_concurrent_gpus": 1,
+                    "max_lifetime_seconds": 2400, "work_cutoff_seconds": 2100,
+                    "self_expiry_seconds": 2160, "max_hourly_dollars": 1.99,
+                    "smoke_steps": 0, "max_physical_renders": 24}
+    else:
+        expected = {"max_allocations": 1, "max_concurrent_gpus": 1,
+                    "max_lifetime_seconds": 3600, "work_cutoff_seconds": 3300,
+                    "self_expiry_seconds": 3360, "max_hourly_dollars": 1.99,
+                    "smoke_steps": 2, "max_physical_renders": 49}
     if any(plan.get(key) != value for key, value in expected.items()):
         raise ValueError("Training lifecycle bounds differ")
     if plan.get("campaign") != RELEASE:
         raise ValueError("Fresh training campaign required")
+    if RELEASE == EVAL_RELEASE:
+        if (plan.get("reserve_dollars") != 10 or plan.get("max_training_steps") != 0
+                or plan.get("mode") != "evaluate_saved_adapter"
+                or plan.get("adapter_name") != "step-656.safetensors"
+                or plan.get("training_recipe") != "configs/lora-fluent-noto-v1.json"
+                or plan.get("previous_attempts") != [dict(item) for item in EVAL_ATTEMPTS]
+                or plan.get("codex_usage_guard") is not False
+                or plan.get("execution_authorized") is not True):
+            raise ValueError("Fresh evaluation campaign required")
+        return
     if RELEASE == NOTO_RELEASE:
         if (plan.get("reserve_dollars") != 10
                 or plan.get("max_training_steps") != NOTO_STEPS
@@ -335,9 +360,10 @@ def previous_attempt_cost(plan):
     return cost
 
 
-def aggregate_prior_cost(plan):
-    """Sum both consumed attempts. Campaign b uses its reconciliation receipt."""
-    if [dict(item) for item in plan["previous_attempts"]] != [dict(item) for item in CONSUMED_ATTEMPTS]:
+def aggregate_prior_cost(plan, expected=None):
+    """Sum consumed attempts. Campaign b uses its reconciliation receipt."""
+    expected = [dict(item) for item in (CONSUMED_ATTEMPTS if expected is None else expected)]
+    if [dict(item) for item in plan["previous_attempts"]] != expected:
         raise ValueError("Prior attempts differ from the consumed training claims")
     total = 0.0
     for previous in plan["previous_attempts"]:
@@ -349,7 +375,7 @@ def aggregate_prior_cost(plan):
                 or state.get("source") != previous["source"] or state.get("campaign") != previous["release"]
                 or not state.get("cleanup_confirmed")):
             raise RuntimeError("Previous exact allocation cleanup is not verified")
-        if previous["release"] == "amd-coverage-20261031a":
+        if previous["release"] in {"amd-coverage-20261031a", "amd-noto-fluent-20261101c"}:
             watchdog = read("watchdog-result.json")
             if (watchdog.get("droplet_id") != previous["droplet_id"] or not watchdog.get("cleanup_confirmed")
                     or watchdog.get("independent") is not True):
@@ -414,6 +440,20 @@ def verify_results():
     report = json.loads(Path("training-results/report.json").read_bytes())
     plan = json.loads(PLAN.read_bytes())
     files = checked_files(report)
+    if plan.get("mode") == "evaluate_saved_adapter":
+        names = {f"evaluation-{index:02d}.png" for index in range(24)}
+        names.add(plan["adapter_name"])
+        if (report.get("status") != "completed" or report.get("gpu_count") != 1
+                or len(report.get("images", [])) != 24 or not names.issubset(files)
+                or report.get("plan_sha256") != hashlib.sha256(PLAN.read_bytes()).hexdigest()):
+            raise ValueError("Evaluation acceptance failed")
+        if any(image.get("condition") != "step-656" or image.get("steps") != 50 for image in report["images"]):
+            raise ValueError("Evaluation image record differs")
+        for name, value in files.items():
+            payload = Path("training-results", name).read_bytes()
+            if len(payload) != value["bytes"] or hashlib.sha256(payload).hexdigest() != value["sha256"]:
+                raise ValueError("Downloaded artifact changed")
+        return report
     recipe_path = plan.get("training_recipe", "configs/lora-coverage-v1.json")
     steps = plan["max_training_steps"]
     if (report.get("status") != "completed" or report.get("gpu_count") != 1
@@ -441,7 +481,7 @@ def run():
         raise RuntimeError("Exact approved source required")
     if os.environ.get("GITHUB_RUN_ATTEMPT") != "1":
         raise RuntimeError("Workflow reruns cannot allocate")
-    if RELEASE != NOTO_RELEASE:
+    if RELEASE != EVAL_RELEASE:
         raise RuntimeError("Consumed campaign cannot allocate")
     plan = json.loads(PLAN.read_text())
     if time.time() >= plan["allocation_expires_epoch"]:
@@ -451,7 +491,7 @@ def run():
     if not json.loads(command(["gh", "repo", "view", "--json", "isPrivate"]))["isPrivate"]:
         raise RuntimeError("Private export destination required")
     validate_plan(plan)
-    prior_cost = aggregate_prior_cost(plan) if RELEASE == NOTO_RELEASE else previous_attempt_cost(plan)
+    prior_cost = aggregate_prior_cost(plan, EVAL_ATTEMPTS) if RELEASE == EVAL_RELEASE else previous_attempt_cost(plan)
     inspection = preflight()
     size = inspection["sizes"][0]
     if (inspection["account"]["status"] != "active" or size["price_hourly"] > 1.99
@@ -476,7 +516,8 @@ def run():
     intent = {"campaign": RELEASE, "started_epoch": time.time(), "run_id": os.environ["GITHUB_RUN_ID"],
               "source": os.environ["GITHUB_SHA"], "max_allocations": 1,
               "plan_sha256": hashlib.sha256(PLAN.read_bytes()).hexdigest(),
-              "rate_hourly": size["price_hourly"]}
+              "rate_hourly": size["price_hourly"],
+              "self_expiry_epoch": time.time() + plan["self_expiry_seconds"]}
     # GitHub rejects a second asset with this name; never clobber this allocation claim.
     put("allocation-intent.json", intent)
     state = {**intent, "status": "allocating", "cleanup_confirmed": False}
@@ -491,8 +532,8 @@ def run():
         identifier = response["droplet"]["id"]
         state.update(status="booting", droplet_id=identifier)
         put("training-state.json", state, replace=True)
-        stop = intent["started_epoch"] + 3300
-        # Startup gets at most15 minutes inside the55-minute work cutoff.
+        stop = intent["started_epoch"] + plan["work_cutoff_seconds"]
+        # Startup gets at most15 minutes inside the work cutoff.
         while time.time() < min(stop - 300, intent["started_epoch"] + 900):
             check_stop()
             row = api("GET", f"/droplets/{identifier}")["droplet"]
@@ -525,22 +566,31 @@ def run():
         if ssh_read(ip, f"sha256sum {REMOTE}/ops/amd-training-live-plan.json").split()[0] != intent["plan_sha256"]:
             raise ValueError("Transferred plan checksum differs")
         remaining = int(stop - time.time())
-        if remaining < 2100:
+        minimum_remaining = 900 if plan.get("mode") == "evaluate_saved_adapter" else 2100
+        if remaining < minimum_remaining:
             raise TimeoutError("Insufficient training time")
         check_stop()
         # Kill the container at the work cutoff even if a CUDA/HIP call is hung.
         ssh(ip, f"systemd-run --unit=emoji-training-stop --on-calendar=@{int(stop)} /usr/bin/docker stop -t 5 rocm")
+        if plan.get("mode") == "evaluate_saved_adapter":
+            remote_script = (
+                "python3 ops/amd_training_worker.py inventory && "
+                f"python3 ops/amd_training_worker.py run --allocation {identifier} --deadline {stop}"
+            )
+        else:
+            remote_script = (
+                "python3 ops/amd_training_worker.py inventory && "
+                "python3 ops/amd_training_preflight.py "
+                "--lock configs/amd-training-overlay-linux-py312-v2.txt "
+                "--output training-retained-preflight.json && "
+                "python3 -m pip install --disable-pip-version-check --only-binary=:all: --no-deps --require-hashes "
+                "-r configs/amd-training-overlay-linux-py312-v2.txt && python3 -m pip check && "
+                f"python3 ops/amd_training_worker.py run --allocation {identifier} --deadline {stop}"
+            )
         script = (f"cd {REMOTE}; "
                   "docker exec -e PYTHONPATH=src -e HF_HOME=/shared-docker/hf-cache "
-                  f"-w {REMOTE} rocm bash -lc " + shlex.quote(
-                      "python3 ops/amd_training_worker.py inventory && "
-                      "python3 ops/amd_training_preflight.py "
-                      "--lock configs/amd-training-overlay-linux-py312-v2.txt "
-                      "--output training-retained-preflight.json && "
-                      "python3 -m pip install --disable-pip-version-check --only-binary=:all: --no-deps --require-hashes "
-                      "-r configs/amd-training-overlay-linux-py312-v2.txt && python3 -m pip check && "
-                      f"python3 ops/amd_training_worker.py run --allocation {identifier} --deadline {stop}"
-                  ) + "; code=$?; echo $code > worker.exit; exit $code")
+                  f"-w {REMOTE} rocm bash -lc " + shlex.quote(remote_script)
+                  + "; code=$?; echo $code > worker.exit; exit $code")
         # No systemd restart and no retry of worker launch.
         ssh(ip, "systemd-run --unit=emoji-training-worker "
             f"--property=RuntimeMaxSec={remaining} /bin/bash -c "
@@ -638,7 +688,7 @@ def watchdog():
             early_stop = stop_requested()
         except Exception:
             early_stop = False  # Expiry still applies if GitHub is unavailable.
-        if early_stop or time.time() >= intent["started_epoch"] + 3360:
+        if early_stop or time.time() >= intent.get("self_expiry_epoch", intent["started_epoch"] + 3360):
             try:
                 ids = {state["droplet_id"]} if state.get("droplet_id") else set()
                 if not ids:

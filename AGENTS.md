@@ -38,10 +38,14 @@ Campaignb claim consumed, gate failed-41273277371. reports/amd-coverage-second-a
 Original watchdog failed an ownership check; strict checks retained, bounded retry
 handling now tested. Do not claim its original watchdog succeeded. 26focused tests pass.
 On 2026-11-01 the user continued in Cursor and authorized the launch, raising the
-training reserve to $10. Campaign amd-noto-fluent-20261101c is one allocation, at
-most one hour and $1.99/hour: full Fluent coverage plus 128 OFL Noto 3D emoji
-renders, 656 steps. Codex usage guard stays off. Controller rejects consumed
-campaign b. Watchdog and instance expiry remain. No model promotion/hosting.
+training reserve to $10. Run 41282477874 completed the 656-step Fluent-plus-Noto
+train and saved step-656.safetensors. Evaluation failed: step-500 was not
+retained. GPU 614708454 is deleted. Estimated cost $0.504, aggregate $0.7115.
+Campaign c is consumed. The user then authorized a separate evaluation of that
+saved adapter: release amd-noto-eval-20261101d, run 41321034924, source
+51b989c0207d7b7d430c85c71b1808043154375d, 24 images, no retraining, lifetime at
+most 2400 seconds, same $10 reserve. Do not claim images or GPU deletion until
+observed. No promotion. Codex usage guard stays off.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

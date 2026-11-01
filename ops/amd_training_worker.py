@@ -53,9 +53,19 @@ def validate_adapter(path):
     return {"sha256": sha(path), "tensors": len(values), "all_finite": True}
 
 
+def checkpoint_dir():
+    recipe_path = "configs/lora-coverage-v1.json"
+    if PLAN.exists():
+        recipe_path = json.loads(PLAN.read_bytes()).get("training_recipe", recipe_path)
+    recipe_file = ROOT / recipe_path
+    if recipe_file.exists():
+        return ROOT / json.loads(recipe_file.read_bytes())["output"]
+    return ROOT / "runs/fluent-coverage-v1"
+
+
 def collect_checkpoints(report):
     for step in (125, 250, 375, 500):
-        path = ROOT / f"runs/fluent-coverage-v1/checkpoint-{step}/pytorch_lora_weights.safetensors"
+        path = checkpoint_dir() / f"checkpoint-{step}" / "pytorch_lora_weights.safetensors"
         name = f"step-{step}.safetensors"
         if name in report["files"] or not path.exists():
             continue
@@ -151,7 +161,11 @@ def render(kind, deadline):
         conditions = [("smoke", [{"id": "smoke", "prompt": smoke["reload_prompt"]}], [0], 4)]
     else:
         prompts = json.loads((ROOT / recipe["evaluation"]["benchmark"]).read_bytes())["prompts"]
-        conditions = [(f"step-{step}", prompts, [0, 1], 50) for step in (500, recipe["max_steps"])]
+        if plan.get("mode") == "evaluate_saved_adapter":
+            conditions = [(f"step-{recipe['max_steps']}", prompts, [0, 1], 50)]
+        else:
+            conditions = [(f"step-{step}", prompts, [0, 1], 50) for step in (500, recipe["max_steps"])]
+    image_cap = 24 if plan.get("mode") == "evaluate_saved_adapter" else 48
     index = 0
     for condition, prompts, seeds, steps in conditions:
         pipeline.load_lora_weights(str(OUT), weight_name=f"{condition}.safetensors")
@@ -160,7 +174,7 @@ def render(kind, deadline):
                 if time.time() >= deadline:
                     raise TimeoutError("Render cutoff")
                 filename = "smoke.png" if kind == "reload" else f"evaluation-{index:02d}.png"
-                if (OUT / filename).exists() or index >= 48:
+                if (OUT / filename).exists() or index >= image_cap:
                     raise ValueError("Render claim already consumed or image cap exceeded")
                 # Claim before invoking a GPU render; no retry after interruption.
                 (OUT / (filename + ".claim")).touch(exist_ok=False)
@@ -207,6 +221,35 @@ def run(deadline, allocation):
     protected = {name for name in before if name.startswith(("torch", "triton", "pytorch-triton", "rocm", "hip", "amd", "nvidia", "cuda")) or name == "apex"}
     if any(before[name] != after.get(name) for name in protected):
         raise ValueError("Provider GPU stack changed")
+    if plan.get("mode") == "evaluate_saved_adapter":
+        source = ROOT / "adapters" / plan["adapter_name"]
+        if sha(source) != plan["adapter_sha256"]:
+            raise ValueError("Saved adapter checksum differs")
+        validate_adapter(source)
+        report = {"status": "running", "allocation_id": allocation, "plan_sha256": sha(PLAN),
+                  "recipe_sha256": sha(plan["training_recipe"]), "files": {}, "images": [],
+                  "phases": {}, "environment": {"torch": torch.__version__, "hip": torch.version.hip,
+                                                 "gpu": torch.cuda.get_device_name(0)},
+                  "protected_packages_unchanged": sorted(protected), "gpu_count": 1,
+                  "mode": "evaluate_saved_adapter"}
+        save(report)
+        try:
+            retain(source, plan["adapter_name"], report)
+            phase([sys.executable, __file__, "evaluate", "--deadline", str(deadline)], deadline, report, "evaluation")
+            rendered = json.loads((OUT / "report.json").read_bytes())
+            report["files"], report["images"] = rendered["files"], rendered["images"]
+            if len(report["images"]) != 24:
+                raise ValueError("Expected 24 evaluation images")
+            report["status"] = "completed"
+        except BaseException as error:
+            report.update(status="failed", error=type(error).__name__ + ": " + str(error)[:500])
+            raise
+        finally:
+            child = json.loads((OUT / "report.json").read_bytes())
+            report["files"].update(child["files"])
+            report["images"] = child["images"]
+            save(report)
+        return
     bundle = plan.get("training_bundle", "coverage-v1")
     recipe_path = plan.get("training_recipe", "configs/lora-coverage-v1.json")
     if bundle not in {"coverage-v1", "fluent-noto-v1"} or recipe_path not in {

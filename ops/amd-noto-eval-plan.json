@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "campaign": "amd-noto-eval-20261101d",
+  "authorization": "User authorized a 24-image evaluation of the saved step-656 adapter on 2026-11-01. No retraining. Reserve remains 10USD. Lifetime at most 2400 seconds.",
+  "mode": "evaluate_saved_adapter",
+  "adapter_name": "step-656.safetensors",
+  "adapter_sha256": "8dc022f06b20e73a0c5cbaa935730225f54f6e191e3ef3a2a89e33d8ff0102f9",
+  "max_allocations": 1,
+  "max_concurrent_gpus": 1,
+  "max_training_steps": 0,
+  "smoke_steps": 0,
+  "max_physical_renders": 24,
+  "max_hourly_dollars": 1.99,
+  "reserve_dollars": 10,
+  "max_lifetime_seconds": 2400,
+  "work_cutoff_seconds": 2100,
+  "self_expiry_seconds": 2160,
+  "replacement_allocations": 0,
+  "automatic_post_retries": 0,
+  "region": "atl1",
+  "image_id": 222743415,
+  "private_repository": "rk9595/emoji-studio-ops",
+  "allocation_expires_epoch": 1793568205,
+  "input_sha256": "cdc6039af41c4b40906e0c40082118d488ec4a6c02f8a8b8bbfa9b554e51996b",
+  "input_bytes": 26493030,
+  "training_recipe": "configs/lora-fluent-noto-v1.json",
+  "codex_usage_guard": false,
+  "execution_authorized": true,
+  "source_files": {
+    "adapters/step-656.safetensors": "8dc022f06b20e73a0c5cbaa935730225f54f6e191e3ef3a2a89e33d8ff0102f9",
+    "ops/amd_training_worker.py": "3c9affe317677dc412679e6efb00792072fb7fd3b029e3a475fab62ce9e61cc2",
+    "configs/lora-fluent-noto-v1.json": "8ab24228bc24f4518f5d881cdad7c0462175feefc4c8142bfd3b5bd1186f7978",
+    "benchmarks/collection-eval.json": "78305fd298229ac2739ec9bd8d07ab4e0f89833bb3b68c702e357d1d27caedc3"
+  },
+  "previous_attempts": [
+    {
+      "release": "amd-coverage-20261031a",
+      "run_id": "41203305217",
+      "droplet_id": 614520349,
+      "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6"
+    },
+    {
+      "release": "amd-coverage-20261031b",
+      "run_id": "41273277371",
+      "droplet_id": 614682073,
+      "source": "0a960b92de7457a231ed348153b13b898d114db4"
+    },
+    {
+      "release": "amd-noto-fluent-20261101c",
+      "run_id": "41282477874",
+      "droplet_id": 614708454,
+      "source": "ee44a92e1a36690c2fdb89d6ef550bf952ee5422"
+    }
+  ],
+  "review": "Render 12 development prompts at two seeds with the saved 656-step adapter. Do not train. Delete the GPU within 40 minutes."
+}

@@ -77,6 +77,7 @@ def cloud_state(config, queue=None):
             ("rk9595/emoji-studio", "AMD runtime retention reconciliation"),
             ("rk9595/emoji-studio-ops", "AMD two-image API smoke"),
             ("rk9595/emoji-studio-ops", "AMD coverage training"),
+            ("rk9595/emoji-studio-ops", "AMD training cleanup reconciliation"),
         }
         if ((repository, expected_workflow) not in allowed_receipts or not run_id.isascii() or not run_id.isdecimal()
                 or not isinstance(expected_head, str) or len(expected_head) != 40
@@ -146,8 +147,11 @@ def tick(config, diagnostic=False):
             save(state)
             return
         if queue["status"] == "waiting_usage":
+            start_threshold = queue.get("usage_start_threshold_percent", 85)
+            if type(start_threshold) is not int or not 1 <= start_threshold <= 85:
+                raise ValueError("Invalid launch headroom threshold")
             not_before = max(queue.get("usage_not_before_epoch", 0),
-                             next_reset(limits, now, threshold=85))
+                             next_reset(limits, now, threshold=start_threshold))
             if not_before > now:
                 state.update(reason="waiting_for_usage_headroom", not_before_epoch=not_before)
                 save(state)

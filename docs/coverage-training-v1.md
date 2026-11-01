@@ -114,3 +114,16 @@ The reviewed corrective plan requires fresh confirmation of prior deletion and
 includes the first run's cost in the same$2.25 total ceiling. No new allocation
 is allowed while usage is above85%; the October31 check was91%, so the candidate
 is prepared but unlaunched, with queue waiting_usage.
+
+## Corrective run stopped at usage cutoff
+
+Run41273277371 stopped during boot when usage reached85%. The corrected
+dependency installation and training were not reached. Controller deletion was
+confirmed independently by read-only reconciliation run41274185805, exact404.
+The original watchdog failed an ownership check; its cause is not established.
+Bounded retry handling now keeps the watcher alive after such a refusal without
+relaxing ownership. A larger launch buffer requires usage below75% before future
+GPU allocations, while early cleanup remains85%.26 focused tests pass.
+Both training allocations are deleted; aggregate estimated cost$0.2075. Any future
+reviewed campaign must preserve the$2.25 aggregate cap and include both prior costs
+and the separate reconciliation receipt. No repeat of consumed claims is allowed.

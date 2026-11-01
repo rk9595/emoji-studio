@@ -100,6 +100,32 @@ class TrainingLifecycleTest(unittest.TestCase):
         self.assertIn("emoji-training-expiry", text)
         self.assertNotIn("amd-comparison-v1", text)
 
+    def test_watchdog_survives_refused_cleanup_then_confirms_absence(self):
+        intent = {"started_epoch": 0}
+        state = {"droplet_id": 123, "cleanup_confirmed": False}
+        with patch.dict(os.environ, {"GITHUB_RUN_ID": "run"}), \
+                patch.object(live, "get", side_effect=lambda name: intent if name == "allocation-intent.json" else state), \
+                patch.object(live, "put") as put, patch.object(live, "stop_requested", return_value=True), \
+                patch.object(live, "delete_exact", side_effect=[RuntimeError("Exact resource ownership mismatch"), True]) as delete, \
+                patch.object(live.time, "time", side_effect=iter(range(20))), patch.object(live.time, "sleep"):
+            live.watchdog()
+        self.assertEqual(delete.call_count, 2)
+        result = put.call_args.args[1]
+        self.assertTrue(result["cleanup_confirmed"])
+        self.assertTrue(result["independent"])
+        self.assertEqual(result["droplet_id"], 123)
+
+    def test_watchdog_retains_failure_receipt_without_relaxing_ownership(self):
+        with patch.dict(os.environ, {"GITHUB_RUN_ID": "run"}), \
+                patch.object(live, "get", side_effect=[{"started_epoch": 0}, {"droplet_id": 123}]), \
+                patch.object(live, "put") as put, patch.object(live, "stop_requested", return_value=True), \
+                patch.object(live, "delete_exact", side_effect=RuntimeError("Exact resource ownership mismatch")), \
+                patch.object(live.time, "time", side_effect=[0, 1, 4000]), patch.object(live.time, "sleep"), \
+                self.assertRaisesRegex(RuntimeError, "reconciliation"):
+            live.watchdog()
+        self.assertFalse(put.call_args.args[1]["cleanup_confirmed"])
+        self.assertEqual(put.call_args.args[1]["last_cleanup_error"], "RuntimeError")
+
     def test_child_render_records_survive_parent_phase_save(self):
         with tempfile.TemporaryDirectory() as temp, patch.object(worker, "OUT", Path(temp)), \
                 patch.object(worker, "collect_checkpoints"):

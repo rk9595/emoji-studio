@@ -1,0 +1,48 @@
+{
+  "status": "stopped_by_usage_guard_before_training",
+  "run_id": "41273277371",
+  "source": "0a960b92de7457a231ed348153b13b898d114db4",
+  "release": "amd-coverage-20261031b",
+  "allocation_id": 614682073,
+  "started_epoch": 1793507370.3650835,
+  "cleanup_epoch": 1793507495.789734,
+  "cleanup_confirmed": true,
+  "independent_cleanup_confirmed": true,
+  "reconciliation": {
+    "allocation_id": 614682073,
+    "original_run_id": "41273277371",
+    "reconciliation_run_id": "41274185805",
+    "source": "e3179cab15a132cb6e314cccbd1a7965bac769d9",
+    "independent": true,
+    "read_only": true,
+    "checked_epoch": 1793508215.148305,
+    "cleanup_confirmed": true,
+    "exact_resource_http_status": 404
+  },
+  "watchdog_original_status": "failed_ownership_check",
+  "ownership_failure_cause": "Not established; ownership constraints remain unchanged. Watchdog now retries checks until its deadline rather than aborting on this failure.",
+  "usage_stop": {
+    "campaign": "amd-coverage-20261031b",
+    "run_id": "41273277371",
+    "reason": "usage_at_or_above_85_percent",
+    "requested_epoch": 1793507481.410092
+  },
+  "training_started": false,
+  "images": 0,
+  "checkpoints": 0,
+  "estimated_cost_dollars": 0.0693,
+  "aggregate_estimated_cost_dollars": 0.2075,
+  "reserve_dollars": 2.25,
+  "cost_basis": "Elapsed-time estimate, not invoice",
+  "source_gate": "failed-41273277371",
+  "allocation_claim_consumed": true,
+  "receipt_sha256": {
+    "training-state.json": "91c357c7d74bb9201de740431f41e096cbf03bbe7dbc327ae8846be27bdc6983",
+    "independent-cleanup-reconciliation.json": "8f3d2d5f458b018b67509d64cbbe8b755ee790671dfee5e6802b49f8e747a862"
+  },
+  "fix_validation": {
+    "focused_tests_passed": 26,
+    "launch_threshold_percent": 75,
+    "cleanup_threshold_percent": 85
+  }
+}

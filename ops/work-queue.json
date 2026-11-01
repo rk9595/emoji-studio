@@ -1,24 +1,25 @@
 {
-  "status": "waiting_cloud",
+  "status": "waiting_usage",
   "milestone": "Train and evaluate a bounded Fluent coverage diagnostic on AMD",
   "updated_date": "2026-11-01",
   "last_completed_task": {
-    "name": "Diagnosed provider packaging conflict, verified GPU deletion and prepared corrected pinned overlay",
+    "name": "Independently confirmed second GPU deletion, fixed watchdog failure handling and added launch headroom",
     "status": "complete",
-    "tests_passed": 65,
+    "date": "2026-11-01",
     "receipts": [
-      "reports/amd-coverage-first-attempt.json",
-      "reports/amd-training-corrective-preparation.json"
-    ]
+      "reports/amd-coverage-second-attempt.json"
+    ],
+    "focused_tests_passed": 26
   },
   "recipe": "configs/lora-coverage-v1.json",
   "next_actions": [
-    "Wait on run41273277371 using exact cloud receipt; do not dispatch another allocation.",
-    "When complete download corrective training-state/watchdog/artifacts, verify independent deletion and report aggregate cost including first0.1382USD.",
-    "Review finite-loss, adapter hashes and images before promotion; preserve consumed claims."
+    "Wait for quota reset and fresh usage below75% in every window; never allocate or idle a GPU while waiting.",
+    "Before any further reviewed campaign, prepare a new immutable plan/claim; extend cumulative cost verification to both consumed attempts and the independent reconciliation receipt for campaignb. Existing controller still targets consumed campaignb and must not be dispatched.",
+    "Keep total training cost<=2.25USD including0.2075USD spent; require fresh exact404 checks, one bounded allocation, independent expiry and85% stop.",
+    "Preserve existing adapters and all API/comparison/training claims; promote nothing without quality evidence."
   ],
-  "waiting_reason": "Corrective run dispatched; wait on exact cloud receipt without model polling.",
-  "gpu_allocated": true,
+  "waiting_reason": "Weekly usage88%; future GPU launch requires all usage windows below75%, with85% cleanup cutoff. Both training GPUs independently confirmed deleted.",
+  "gpu_allocated": false,
   "training_started": false,
   "allocation_policy": "One fresh training allocation, at most3600seconds, rate<=1.99USD/hour and total<=2.25USD. Smoke2steps+reload gates main624steps; at most49 renders including smoke. Independent watchdog and instance expiry, early usage stop85%. No replacements, consumed-claim reuse, persistent hosting or automatic adapter promotion.",
   "promotion_requires": "Documented quality comparison; AI review must be labeled AI. Preserve serving pilot step25 until then.",
@@ -62,8 +63,8 @@
   "cloud_run_head": "0a960b92de7457a231ed348153b13b898d114db4",
   "cloud_run_workflow": "AMD coverage training",
   "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41273277371",
-  "last_observed_cloud_status": "booting",
-  "last_observed_epoch": 1793507443.5633411,
+  "last_observed_cloud_status": "stopped_and_independently_deleted",
+  "last_observed_epoch": 1793508359.2704508,
   "completed_first_training_attempt": {
     "release": "amd-coverage-20261031a",
     "run_id": "41203305217",
@@ -84,11 +85,10 @@
     "estimated_cost_dollars": 0.1382,
     "receipt": "reports/amd-coverage-first-attempt.json"
   },
-  "candidate_source": "0a960b92de7457a231ed348153b13b898d114db4",
-  "active_training_attempt": {
+  "completed_second_training_attempt": {
     "release": "amd-coverage-20261031b",
     "run_id": "41273277371",
-    "status": "booting",
+    "status": "stopped_by_usage_guard_before_training",
     "allocation_id": 614682073,
     "source": "0a960b92de7457a231ed348153b13b898d114db4",
     "usage_guard_receipt": "var/amd-api-live/usage-guard-41273277371.json",
@@ -97,8 +97,15 @@
     "self_expiry_epoch": 1793510730.3650835,
     "maximum_lifetime_epoch": 1793510970.3650835,
     "prior_attempt_cost_dollars": 0.13820614432295164,
-    "source_gate": "running-41273277371",
+    "source_gate": "failed-41273277371",
     "local_usage_guard_pid": 32970,
-    "independent_watchdog_registered": true
-  }
+    "independent_watchdog_registered": true,
+    "cleanup_confirmed": true,
+    "independent_cleanup_confirmed": true,
+    "estimated_cost_dollars": 0.0693,
+    "receipt": "reports/amd-coverage-second-attempt.json"
+  },
+  "training_aggregate_estimated_cost_dollars": 0.2075,
+  "usage_start_threshold_percent": 75,
+  "usage_not_before_epoch": 1793857555
 }

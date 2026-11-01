@@ -1,60 +1,58 @@
 # Current state — 2026-11-01
 
-## Active corrective training — waiting on cloud
+## Waiting for quota reset — both training GPUs deleted
 
-Run41273277371/source0a960b92de7457a231ed348153b13b898d114db4 is active:
-https://github.com/rk9595/emoji-studio-ops/actions/runs/41273277371
-Private releaseamd-coverage-20261031b; GPU614682073 last observed booting.
-Queue waiting_cloud; source gate closed running-41273277371. Do not dispatch again.
-Independent watchdog registered; detached local usage guard PID32970 is watching.
-Startup usage was below85% (primary4%, weekly80% at initial check; rechecked before
-allocation). Guard requests deletion at85% or two unavailable usage signals.
+Corrective run41273277371 stopped during boot at the85% usage cutoff. No worker,
+training steps, adapters or images. GPU614682073 controller deletion confirmed;
+independent read-only run41274185805 authenticated exact GET404 at epoch1793508215.
+`reports/amd-coverage-second-attempt.json`. Private releaseamd-coverage-20261031b,
+source0a960b92de7457a231ed348153b13b898d114db4. Claim consumed, gate failed-41273277371.
+The local guard finished normally after requesting cleanup. No active task GPU.
 
-Started04:29:30UTC November1 (09:59:30IST). Work cutoff05:24:30UTC,
-self-expiry05:25:30UTC; max lifetime05:29:30UTC. One GPU, rate ceiling$1.99/hour,
-SAME aggregate$2.25 reserve including prior$0.138206 runtime estimate. Controller
-freshly verified previous exact GPU404 and prior independent-cleanup receipts.
-No training success or current GPU deletion has yet been established.
-`reports/amd-coverage-corrective-dispatch.json`, `ops/amd-training-corrective-plan.json`.
+Original watchdog failed with Exact resource ownership mismatch. Cause is not
+established; do not claim a confirmed race or successful original watchdog. A
+separate cloud reconciliation succeeded, sourcee3179cab15a132cb6e314cccbd1a7965bac769d9.
+The watchdog now preserves strict ownership checks and keeps checking until its
+bounded deadline after a refusal/error; a later exact404 can confirm deletion.
+26 focused tests pass, including failure-to-retry and failure-receipt handling.
 
-When the exact run finishes, download training-state.json, watchdog-result.json,
-training-progress.json/results archive from the private release, plus the workflow
-artifact if failed. Verify hashes, finite losses, retained adapters and independent
-deletion. Record aggregate cost and close the gate as completed/failed. Review
-quality before promotion; never reset claims or automatically replace this GPU.
-Local supervisor requires awake Mac/app-server, cloud cleanup does not.
+Second cost estimate$0.0693; first$0.1382; aggregate$0.2075 against SAME$2.25 reserve.
+These are runtime estimates, not invoices. First run41203305217/GPU614520349 was
+also independently deleted after a dependency-check failure. No training has yet
+completed on AMD. Both immutable claims are consumed and cannot be reset.
 
-## Corrective inputs and prior failure
+## Usage control and next ready work
 
-First run41203305217 stopped before training: provider langchain-core0.3.83 needs
-packaging>=23.2,<26; overlay installed26.3. GPU614520349 independently deleted,
-estimated$0.1382, zero steps/checkpoints/images. Original campaigna consumed.
-`reports/amd-coverage-first-attempt.json`; logs under var/amd-training-live/.
+Queue waiting_usage. Latest primary61%, weekly88%; next-reset/not-before
+1793857555. Future GPU allocation requires ALL windows below75%, reserving headroom
+for handoff; the active-job stop remains85% or two missing signals. Supervisor
+supports usage_start_threshold_percent75. It requires an awake Mac/app-server;
+cloud cleanup is independent. No GPU may idle through reset.
 
-V2 overlay changes only packaging to25.0; all73 other pins unchanged. New
-pre-install check validates retained provider requirements; post-install pip check
-remains mandatory. Local dependency check, full trainer import and65 tests pass.
-Actual AMD backward pass still pending. `reports/amd-training-corrective-preparation.json`.
+After reset, check fresh quota. Before any further reviewed allocation, create a
+new campaign/plan rather than reuse campaignb. Extend cumulative-cost verification
+to both consumed attempts; campaignb uses its independent reconciliation receipt
+because its original watchdog failed. Fresh exact404 checks and aggregate$2.25
+ceiling remain required. Existing controller still names consumedb; do not dispatch.
 
-Frozen inputs3181 files/270449248bytes were reverified against both archive and
-local files November1. ArchiveSHA2563936fdac5a815eeeb2dd21332fe4387fc887d7e8efd0f945d3bebe23e1820089;
-GitHub private uploaded-asset digest also matches. Local copy:
-var/amd-training-live/corrective/inputs.tar.gz. Private source published, plan expiry
-refreshed and new dispatch made only after fresh quota headroom. Prior cutoff was
-respected: no GPU was left running through the October31 quota reset.
+The dependency correction remains prepared: v2 overlay changes packaging26.3→25.0
+for provider langchain-core compatibility, preserving73 other pins. New pre-install
+retained-package audit plus post-install pip check. Local trainer import/dependencies
+passed; actual corrected provider install/GPU backward pass was not reached.
+`reports/amd-training-corrective-preparation.json`, `docs/coverage-training-v1.md`.
+Inputs under var/amd-training-live/corrective/ are retained, not a new authorization.
+Public/private fixes are versioned; preserve old plans, receipts and input archives.
 
-## Unchanged experiment and prior completed work
+## Experiment and previously completed milestones
 
 Two-step/eight-image finite-loss/reload smoke gates624-step Fluent coverage run.
-Same pinned base/data/captions/split; keep checkpoint500 and final624. At most49
-renders including smoke. All2493 training assets covered in2496 draws; CPU sampler
-verified. `docs/coverage-training-v1.md`. Serving pilotstep25 remains unchanged.
-Quality and gesture accuracy are not established; AI review must be labeled AI.
+Same base/data/captions/split; retain checkpoint500 and final624; at most49renders
+including smoke. CPU coverage verification passed. Serving pilotstep25 unchanged.
+Quality and gesture accuracy are not established; label AI review as AI.
 
-Completed API milestone: two images, run41173826485, allfour GPUs deleted,
-$0.7751 estimated aggregate within separate$2 reserve. `reports/amd-api-live-result.json`.
-Completed comparison:144 images, allfour GPUs deleted, ~$0.99 within separate$3;
-run38352558272, `reports/amd-comparison-v1.md`. Neither may be repeated/reset.
-Noto PNG licensing/font-route investigation, cutouts, durable-worker recovery and
-hosting budget remain separate. GHCR deferred/gate closed. No persistent hosting.
-Keep memory short and stage only intentional files; preserve unrelated recovery work.
+Completed API: run41173826485, two images, allfour GPUs deleted, ~$0.7751 within its
+separate$2 reserve. Completed comparison: run38352558272,144 images, allfour GPUs
+deleted, ~$0.99 within separate$3. Never repeat/reset these consumed allocations.
+Noto licensing, cutouts, durable-worker recovery and production budget remain
+separate. GHCR remains deferred; no persistent hosting. Stage only intentional
+files and preserve unrelated recovery changes.

@@ -544,6 +544,7 @@ def watchdog():
     start = time.time()
     put("watchdog-ready.json", {"run_id": os.environ["GITHUB_RUN_ID"], "started_epoch": start}, replace=True)
     intent = None
+    last_cleanup_error = None
     while time.time() < start + 3900:
         try:
             intent = get("allocation-intent.json")
@@ -571,10 +572,18 @@ def watchdog():
         except Exception:
             early_stop = False  # Expiry still applies if GitHub is unavailable.
         if early_stop or time.time() >= intent["started_epoch"] + 3360:
-            ids = {state["droplet_id"]} if state.get("droplet_id") else set()
-            if not ids:
-                ids.update(row["id"] for row in candidates(intent))
-            confirmations = [delete_exact(identifier, intent) for identifier in ids]
+            try:
+                ids = {state["droplet_id"]} if state.get("droplet_id") else set()
+                if not ids:
+                    ids.update(row["id"] for row in candidates(intent))
+                confirmations = [delete_exact(identifier, intent) for identifier in ids]
+            except Exception as error:
+                # Keep ownership checks strict. Another cleanup actor may later
+                # remove the exact resource; a subsequent GET404 can confirm it.
+                # A failed check must not terminate this independent watcher.
+                last_cleanup_error = type(error).__name__
+                time.sleep(15)
+                continue
             if ids and all(confirmations):
                 put("watchdog-result.json", {"cleanup_confirmed": True, "ids": sorted(ids),
                                            "droplet_id": next(iter(ids)) if len(ids) == 1 else None,
@@ -582,7 +591,8 @@ def watchdog():
                                            "early_stop": early_stop}, replace=True)
                 return
         time.sleep(15)
-    put("watchdog-result.json", {"cleanup_confirmed": False, "status": "needs_reconciliation"}, replace=True)
+    put("watchdog-result.json", {"cleanup_confirmed": False, "status": "needs_reconciliation",
+                                 "last_cleanup_error": last_cleanup_error}, replace=True)
     raise RuntimeError("Watchdog requires exact-resource reconciliation")
 
 

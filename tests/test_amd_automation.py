@@ -112,6 +112,25 @@ class CleanupTest(unittest.TestCase):
 
 
 class SupervisorTest(unittest.TestCase):
+    def test_gpu_launch_waits_for_extra_headroom_below_usage_stop(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "ops").mkdir()
+            (root / "ops/work-queue.json").write_text(
+                '{"status":"waiting_usage","usage_start_threshold_percent":75}')
+            with patch.object(supervisor, "ROOT", root), patch.object(supervisor, "RUNTIME", root), \
+                    patch.object(supervisor, "AppServer") as server:
+                client = server.return_value
+                client.call.side_effect = [
+                    {"thread": {"status": {"type": "idle"}}},
+                    {"rateLimits": {"primary": {"usedPercent": 20},
+                                    "secondary": {"usedPercent": 80, "resetsAt": 9999999999}}},
+                ]
+                supervisor.tick({"enabled": True, "socket_path": "unused", "thread_id": "test"})
+                self.assertEqual(client.call.call_count, 2)
+                self.assertEqual(json.loads((root / "supervisor-state.json").read_text())["reason"],
+                                 "waiting_for_usage_headroom")
+
     def test_system_error_is_resumed_when_work_is_ready(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

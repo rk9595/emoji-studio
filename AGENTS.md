@@ -31,16 +31,18 @@ confirmed deleted; estimated$0.1382. Claim consumed; gate failed-41203305217.
 Corrective overlayv2 pins packaging25.0; other73pins unchanged. 65tests and local
 trainer import/dependency checks pass. Read reports/amd-coverage-first-attempt.json
 and reports/amd-training-corrective-preparation.json. No training/checkpoints yet.
-November1 corrective run41273277371 is active on GPU614682073 (last seen booting).
-Queue waiting_cloud; source0a960b92de7457a231ed348153b13b898d114db4,
-releaseamd-coverage-20261031b. Source gate closed running-41273277371.
-Prior GPU deletion freshly rechecked and$0.138206 cost included in SAME$2.25 total
-reserve. Work cutoff05:24:30UTC November1; expiry05:25:30UTC. Local85% usage guard
-PID32970 and independent cloud watchdog active. Read corrective dispatch receipt.
-Wait using cloud receipts; no model polling, repeated dispatch or old-claim reset.
-On completion verify private training artifacts and independent GPU deletion.
-Do not claim training success yet or change serving pilotstep25. No persistent
-hosting or Noto import; preserve recovered files and prior comparison/API claims.
+Corrective run41273277371 stopped during boot when usage reached85%; no training.
+GPU614682073 deletion independently confirmed by read-only run41274185805 (exact404).
+Both training GPUs deleted; aggregate estimated$0.2075 within SAME$2.25 reserve.
+Campaignb claim consumed, gate failed-41273277371. reports/amd-coverage-second-attempt.json.
+Original watchdog failed an ownership check; strict checks retained, bounded retry
+handling now tested. Do not claim its original watchdog succeeded. 26focused tests pass.
+Queue waiting_usage: weekly88%. Future GPU launch needs all windows below75%, while
+cleanup remains85%. Supervisor respects queue usage_start_threshold_percent75.
+Next reset epoch1793857555; recheck headroom. Never leave GPU idle through reset.
+Future campaign requires new immutable plan and aggregate accounting for BOTH prior
+attempts plus independent reconciliation. Existing controller still targets consumedb;
+do not dispatch it. Keep total training spend<=2.25USD. No model promotion/hosting.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

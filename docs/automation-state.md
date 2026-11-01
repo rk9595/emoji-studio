@@ -1,44 +1,47 @@
-# Current state — 2026-10-31
+# Current state — 2026-11-01
 
-## Waiting for usage headroom — no active GPU
+## Active corrective training — waiting on cloud
 
-Run41203305217/source82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6 failed
-before the training worker started. Provider langchain-core0.3.83 requires
-packaging>=23.2,<26; overlay installed26.3. Post-install pip check correctly stopped.
-No training steps, checkpoints or generated images. Controller and independent
-watchdog confirmed GPU614520349 deleted. Estimated cost$0.1382, not an invoice.
-Private releaseamd-coverage-20261031a; gate closed as failed-41203305217.
-Evidence: `reports/amd-coverage-first-attempt.json`; private downloaded logs and
-receipts under `var/amd-training-live/evidence-41203305217/` and `latest/`.
-The usage guard finished normally. Never reset this allocation claim.
+Run41273277371/source0a960b92de7457a231ed348153b13b898d114db4 is active:
+https://github.com/rk9595/emoji-studio-ops/actions/runs/41273277371
+Private releaseamd-coverage-20261031b; GPU614682073 last observed booting.
+Queue waiting_cloud; source gate closed running-41273277371. Do not dispatch again.
+Independent watchdog registered; detached local usage guard PID32970 is watching.
+Startup usage was below85% (primary4%, weekly80% at initial check; rechecked before
+allocation). Guard requests deletion at85% or two unavailable usage signals.
 
-Fresh usage check: primary91%, secondary77%, above85% cutoff. Queue waiting_usage,
-not-before epoch1793468612. No GPU may launch or idle through quota reset. Supervisor
-must recheck headroom after reset; local Mac/app-server must be awake to resume.
+Started04:29:30UTC November1 (09:59:30IST). Work cutoff05:24:30UTC,
+self-expiry05:25:30UTC; max lifetime05:29:30UTC. One GPU, rate ceiling$1.99/hour,
+SAME aggregate$2.25 reserve including prior$0.138206 runtime estimate. Controller
+freshly verified previous exact GPU404 and prior independent-cleanup receipts.
+No training success or current GPU deletion has yet been established.
+`reports/amd-coverage-corrective-dispatch.json`, `ops/amd-training-corrective-plan.json`.
 
-## Corrective candidate prepared, not dispatched
+When the exact run finishes, download training-state.json, watchdog-result.json,
+training-progress.json/results archive from the private release, plus the workflow
+artifact if failed. Verify hashes, finite losses, retained adapters and independent
+deletion. Record aggregate cost and close the gate as completed/failed. Review
+quality before promotion; never reset claims or automatically replace this GPU.
+Local supervisor requires awake Mac/app-server, cloud cleanup does not.
 
-`configs/amd-training-overlay-linux-py312-v2.txt` changes only packaging26.3→25.0;
-other73 pins unchanged. Local package check, full trainer import and65 focused
-tests pass. `ops/amd_training_preflight.py` checks retained provider requirements
-before installation; post-install pip check remains mandatory. This has not yet
-been tested on the actual provider image/GPU. Receipt:
-`reports/amd-training-corrective-preparation.json`.
+## Corrective inputs and prior failure
 
-New campaignamd-coverage-20261031b uses `ops/amd-training-corrective-plan.json`.
-Controller requires prior controller/watchdog receipts and a fresh exact404, and
-accounts for prior elapsed cost against the SAME$2.25 total reserve. At current
-$1.99/hour ceiling, first cost+maximum new hour≈$2.1282. One new allocation,
-55-minute work cutoff/56-minute expiry, independent watchdog and85% usage guard.
-User's existing AMD-credit/continuation delegation covers this reviewed correction;
-no automatic POST retry or reset of the old claim. No corrective GPU allocated.
+First run41203305217 stopped before training: provider langchain-core0.3.83 needs
+packaging>=23.2,<26; overlay installed26.3. GPU614520349 independently deleted,
+estimated$0.1382, zero steps/checkpoints/images. Original campaigna consumed.
+`reports/amd-coverage-first-attempt.json`; logs under var/amd-training-live/.
 
-Inputs: `var/amd-training-live/corrective/inputs.tar.gz`,3181 files,270449248bytes,
-SHA2563936fdac5a815eeeb2dd21332fe4387fc887d7e8efd0f945d3bebe23e1820089.
-Prepared private checkout `/tmp/emoji-api-smoke-ops-20261029` mirrors controller,
-preflight, corrective plan and workflow. After reset: refresh plan expiry, verify
-inputs/source, finish private publication/upload, arm exact source and dispatch
-once only after a fresh usage check. Source gate is currently closed.
+V2 overlay changes only packaging to25.0; all73 other pins unchanged. New
+pre-install check validates retained provider requirements; post-install pip check
+remains mandatory. Local dependency check, full trainer import and65 tests pass.
+Actual AMD backward pass still pending. `reports/amd-training-corrective-preparation.json`.
+
+Frozen inputs3181 files/270449248bytes were reverified against both archive and
+local files November1. ArchiveSHA2563936fdac5a815eeeb2dd21332fe4387fc887d7e8efd0f945d3bebe23e1820089;
+GitHub private uploaded-asset digest also matches. Local copy:
+var/amd-training-live/corrective/inputs.tar.gz. Private source published, plan expiry
+refreshed and new dispatch made only after fresh quota headroom. Prior cutoff was
+respected: no GPU was left running through the October31 quota reset.
 
 ## Unchanged experiment and prior completed work
 

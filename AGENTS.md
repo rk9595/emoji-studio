@@ -31,13 +31,16 @@ confirmed deleted; estimated$0.1382. Claim consumed; gate failed-41203305217.
 Corrective overlayv2 pins packaging25.0; other73pins unchanged. 65tests and local
 trainer import/dependency checks pass. Read reports/amd-coverage-first-attempt.json
 and reports/amd-training-corrective-preparation.json. No training/checkpoints yet.
-Queue waiting_usage: primary usage91% on October31. No GPU may launch at>=85%.
-Next reset epoch1793468612; recheck fresh headroom, do not assume reset restores it.
-A separately reviewed corrective campaign b is prepared but NOT dispatched.
-Keep original aggregate$2.25 reserve including first cost; fresh exact prior404,
-one new GPU/60minutes, no automatic replacement. Refresh plan expiry/source before
-arming. Old API/comparison and campaign a claims remain consumed. No adapter
-promotion, persistent hosting or Noto import. Preserve unrelated recovered files.
+November1 corrective run41273277371 is active on GPU614682073 (last seen booting).
+Queue waiting_cloud; source0a960b92de7457a231ed348153b13b898d114db4,
+releaseamd-coverage-20261031b. Source gate closed running-41273277371.
+Prior GPU deletion freshly rechecked and$0.138206 cost included in SAME$2.25 total
+reserve. Work cutoff05:24:30UTC November1; expiry05:25:30UTC. Local85% usage guard
+PID32970 and independent cloud watchdog active. Read corrective dispatch receipt.
+Wait using cloud receipts; no model polling, repeated dispatch or old-claim reset.
+On completion verify private training artifacts and independent GPU deletion.
+Do not claim training success yet or change serving pilotstep25. No persistent
+hosting or Noto import; preserve recovered files and prior comparison/API claims.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

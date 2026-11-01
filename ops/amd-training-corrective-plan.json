@@ -17,7 +17,7 @@
   "region": "atl1",
   "image_id": 222743415,
   "private_repository": "rk9595/emoji-studio-ops",
-  "allocation_expires_epoch": 1793473691,
+  "allocation_expires_epoch": 1793528845,
   "input_sha256": "3936fdac5a815eeeb2dd21332fe4387fc887d7e8efd0f945d3bebe23e1820089",
   "input_bytes": 270449248,
   "source_files": {
@@ -3219,5 +3219,6 @@
     "run_id": "41203305217",
     "droplet_id": 614520349,
     "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6"
-  }
+  },
+  "continued_authorization": "User continued November1; fresh quota primary4% secondary80%, below85%. Same aggregate2.25USD reserve; prior claim remains consumed."
 }

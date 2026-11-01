@@ -37,12 +37,11 @@ Both training GPUs deleted; aggregate estimated$0.2075 within SAME$2.25 reserve.
 Campaignb claim consumed, gate failed-41273277371. reports/amd-coverage-second-attempt.json.
 Original watchdog failed an ownership check; strict checks retained, bounded retry
 handling now tested. Do not claim its original watchdog succeeded. 26focused tests pass.
-Queue waiting_usage: weekly88%. Future GPU launch needs all windows below75%, while
-cleanup remains85%. Supervisor respects queue usage_start_threshold_percent75.
-Next reset epoch1793857555; recheck headroom. Never leave GPU idle through reset.
-Future campaign requires new immutable plan and aggregate accounting for BOTH prior
-attempts plus independent reconciliation. Existing controller still targets consumedb;
-do not dispatch it. Keep total training spend<=2.25USD. No model promotion/hosting.
+On 2026-11-01 the user continued in Cursor and authorized the launch, raising the
+training reserve to $10. Campaign amd-noto-fluent-20261101c is one allocation, at
+most one hour and $1.99/hour: full Fluent coverage plus 128 OFL Noto 3D emoji
+renders, 656 steps. Codex usage guard stays off. Controller rejects consumed
+campaign b. Watchdog and instance expiry remain. No model promotion/hosting.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

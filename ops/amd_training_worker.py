@@ -122,7 +122,7 @@ def train(bundle_name, deadline, report, name):
     adapter = output / "pytorch_lora_weights.safetensors"
     report["phases"][name].update(loss_values=len(losses), all_losses_finite=True,
                                   completed_steps=recipe["max_steps"], adapter=validate_adapter(adapter))
-    retain(adapter, "smoke.safetensors" if name == "smoke" else "step-624.safetensors", report)
+    retain(adapter, "smoke.safetensors" if name == "smoke" else f"step-{recipe['max_steps']}.safetensors", report)
     collect_checkpoints(report)
     save(report)
 
@@ -132,7 +132,11 @@ def render(kind, deadline):
     from diffusers import Flux2KleinPipeline
 
     report = json.loads((OUT / "report.json").read_bytes())
-    recipe = json.loads((ROOT / "configs/lora-coverage-v1.json").read_bytes())
+    plan = json.loads(PLAN.read_bytes())
+    recipe_path = plan.get("training_recipe", "configs/lora-coverage-v1.json")
+    if recipe_path not in {"configs/lora-coverage-v1.json", "configs/lora-fluent-noto-v1.json"}:
+        raise ValueError("Unexpected training recipe")
+    recipe = json.loads((ROOT / recipe_path).read_bytes())
     pipeline = Flux2KleinPipeline.from_pretrained(recipe["model_id"], revision=recipe["model_revision"],
                                                  torch_dtype=torch.bfloat16, use_safetensors=True).to("cuda")
     pipeline.set_progress_bar_config(disable=True)
@@ -147,7 +151,7 @@ def render(kind, deadline):
         conditions = [("smoke", [{"id": "smoke", "prompt": smoke["reload_prompt"]}], [0], 4)]
     else:
         prompts = json.loads((ROOT / recipe["evaluation"]["benchmark"]).read_bytes())["prompts"]
-        conditions = [(f"step-{step}", prompts, [0, 1], 50) for step in (500, 624)]
+        conditions = [(f"step-{step}", prompts, [0, 1], 50) for step in (500, recipe["max_steps"])]
     index = 0
     for condition, prompts, seeds, steps in conditions:
         pipeline.load_lora_weights(str(OUT), weight_name=f"{condition}.safetensors")
@@ -203,8 +207,13 @@ def run(deadline, allocation):
     protected = {name for name in before if name.startswith(("torch", "triton", "pytorch-triton", "rocm", "hip", "amd", "nvidia", "cuda")) or name == "apex"}
     if any(before[name] != after.get(name) for name in protected):
         raise ValueError("Provider GPU stack changed")
+    bundle = plan.get("training_bundle", "coverage-v1")
+    recipe_path = plan.get("training_recipe", "configs/lora-coverage-v1.json")
+    if bundle not in {"coverage-v1", "fluent-noto-v1"} or recipe_path not in {
+            "configs/lora-coverage-v1.json", "configs/lora-fluent-noto-v1.json"}:
+        raise ValueError("Unexpected training bundle")
     report = {"status": "running", "allocation_id": allocation, "plan_sha256": sha(PLAN),
-              "recipe_sha256": sha("configs/lora-coverage-v1.json"), "files": {}, "images": [],
+              "recipe_sha256": sha(recipe_path), "files": {}, "images": [],
               "phases": {}, "environment": {"torch": torch.__version__, "hip": torch.version.hip,
                                              "gpu": torch.cuda.get_device_name(0)},
               "protected_packages_unchanged": sorted(protected), "gpu_count": 1}
@@ -216,7 +225,7 @@ def run(deadline, allocation):
         # Child render process adds image records; reload before publishing later state.
         rendered = json.loads((OUT / "report.json").read_bytes())
         report["files"], report["images"] = rendered["files"], rendered["images"]
-        train("coverage-v1", deadline - 600, report, "training")
+        train(bundle, deadline - 600, report, "training")
         phase([sys.executable, __file__, "evaluate", "--deadline", str(deadline)], deadline, report, "evaluation")
         rendered = json.loads((OUT / "report.json").read_bytes())
         report["files"], report["images"] = rendered["files"], rendered["images"]

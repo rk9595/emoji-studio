@@ -1,0 +1,31 @@
+{
+  "bundle_sha256": {
+    "LICENSE": "f9e2070c247517b1ddf65f7b11b393484a18da91a958fd18a97bd0f241c3125c",
+    "recipe.json": "8ab24228bc24f4518f5d881cdad7c0462175feefc4c8142bfd3b5bd1186f7978",
+    "schedule.json": "6cd82ba0cc702f5832069da90fcaec833a45d9ecb157217238f6c9e86b64d8cd",
+    "train_coverage.py": "f3f83f9b1e10c89afa73829d1c24c8e7fa8c8dcc35730be594e697f8c02c60a2"
+  },
+  "caption_status_counts": {
+    "metadata_checked_visual_details_not_individually_reviewed": 2621
+  },
+  "draws": 2624,
+  "files_verified": 3277,
+  "gpu_allocated": false,
+  "limitations": [
+    "GPU forward/backward untested on AMD",
+    "Captions remain provisional",
+    "Development evaluation, not a sealed test",
+    "Requires a new bounded cloud lifecycle"
+  ],
+  "manifest_sha256": "04ceea8fbe448f4ae0441938f6f06f8c1c5b9a010bf61f7e1641dae7f3a3846e",
+  "maximum_repeats": 2,
+  "omitted_images": 0,
+  "recipe_sha256": "8ab24228bc24f4518f5d881cdad7c0462175feefc4c8142bfd3b5bd1186f7978",
+  "runtime_helper_sha256": "916f36c8d799bb75e28003eda0d19ab3c088e813964a65e72689ceabe2212727",
+  "status": "prepared_offline",
+  "training_started": false,
+  "unique_images": 2621,
+  "upstream_parser_passed": true,
+  "validation_images": 651,
+  "local_paths_omitted": true
+}

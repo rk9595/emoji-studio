@@ -23,17 +23,25 @@ completed on AMD. Both immutable claims are consumed and cannot be reset.
 
 ## Usage control and next ready work
 
-Queue waiting_usage. Latest primary61%, weekly88%; next-reset/not-before
-1793857555. Future GPU allocation requires ALL windows below75%, reserving headroom
-for handoff; the active-job stop remains85% or two missing signals. Supervisor
-supports usage_start_threshold_percent75. It requires an awake Mac/app-server;
-cloud cleanup is independent. No GPU may idle through reset.
+On 2026-11-01 the user said the usage limit was Codex's and to keep building in
+Cursor. The Codex supervisor stays on waiting_usage so it does not start a turn.
+Do not arm the Codex usage guard for the new campaign. Independent watchdog and
+on-instance expiry still apply. No GPU is allocated.
 
-After reset, check fresh quota. Before any further reviewed allocation, create a
-new campaign/plan rather than reuse campaignb. Extend cumulative-cost verification
-to both consumed attempts; campaignb uses its independent reconciliation receipt
-because its original watchdog failed. Fresh exact404 checks and aggregate$2.25
-ceiling remain required. Existing controller still names consumedb; do not dispatch.
+Campaign amd-noto-fluent-20261101c is armed. The user raised the training reserve
+to $10 on 2026-11-01. This run is still one allocation, at most 3600 seconds and
+$1.99/hour. It trains the full Fluent coverage pool, 2,493 images, plus 128
+evenly spaced emoji rendered from the pinned OFL Noto 3D font
+`Noto-3D-128-noflags.ttf` (`0fdfec3d…13f7c`). Combined draws 2,624, optimizer
+steps 656, smoke plus 49 renders. CPU coverage prep passed with zero omitted
+images. Receipt `reports/fluent-noto-campaign.json`. Input archive
+`var/amd-training-live/fluent-noto-inputs.tar.gz`, sha256
+`101db872e362021c38f6cc69565928adfe34771dc18d0709cfbeb723dde82c68`.
+The raw 3D/png tree is not imported. The controller refuses consumed campaign b
+and still requires both prior deletion receipts. Codex usage guard stays off.
+Dispatched run 41282477874 from ee44a92e1a36690c2fdb89d6ef550bf952ee5422.
+https://github.com/rk9595/emoji-studio-ops/actions/runs/41282477874
+Training and watchdog jobs were in progress. No result is claimed yet.
 
 The dependency correction remains prepared: v2 overlay changes packaging26.3→25.0
 for provider langchain-core compatibility, preserving73 other pins. New pre-install

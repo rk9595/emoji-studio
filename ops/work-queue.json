@@ -1,6 +1,6 @@
 {
   "status": "waiting_usage",
-  "milestone": "Train and evaluate a bounded Fluent coverage diagnostic on AMD",
+  "milestone": "Train Fluent coverage plus a bounded Noto 3D font subset on AMD",
   "updated_date": "2026-11-01",
   "last_completed_task": {
     "name": "Independently confirmed second GPU deletion, fixed watchdog failure handling and added launch headroom",
@@ -13,15 +13,15 @@
   },
   "recipe": "configs/lora-coverage-v1.json",
   "next_actions": [
-    "Wait for quota reset and fresh usage below75% in every window; never allocate or idle a GPU while waiting.",
-    "Before any further reviewed campaign, prepare a new immutable plan/claim; extend cumulative cost verification to both consumed attempts and the independent reconciliation receipt for campaignb. Existing controller still targets consumed campaignb and must not be dispatched.",
-    "Keep total training cost<=2.25USD including0.2075USD spent; require fresh exact404 checks, one bounded allocation, independent expiry and85% stop.",
-    "Preserve existing adapters and all API/comparison/training claims; promote nothing without quality evidence."
+    "Cursor is building campaign amd-noto-fluent-20261101c. The Codex supervisor must stay waiting_usage and must not arm the Codex usage guard or dispatch consumed campaign b.",
+    "Local build is ready and unarmed: 2493 Fluent training images plus 128 evenly spaced Noto 3D emoji renders, 656 steps, smoke and 49 renders. Receipt reports/fluent-noto-campaign.json. execution_authorized is false, so the controller cannot allocate yet.",
+    "Launch is authorized. Reserve is 10USD. The run stays one allocation, at most 3600 seconds, rate at most 1.99USD/hour. Publish the armed plan and input archive, then dispatch AMD Noto Fluent training once. Keep both prior exact404 checks, watchdog and instance expiry.",
+    "Do not import the raw Noto 3D/png tree. The subset is rendered from the pinned OFL font. Do not promote adapters."
   ],
-  "waiting_reason": "Weekly usage88%; future GPU launch requires all usage windows below75%, with85% cleanup cutoff. Both training GPUs independently confirmed deleted.",
+  "waiting_reason": "Run 41282477874 is in progress for campaign amd-noto-fluent-20261101c. Codex supervisor stays waiting_usage and must not arm a usage guard or dispatch campaign b.",
   "gpu_allocated": false,
   "training_started": false,
-  "allocation_policy": "One fresh training allocation, at most3600seconds, rate<=1.99USD/hour and total<=2.25USD. Smoke2steps+reload gates main624steps; at most49 renders including smoke. Independent watchdog and instance expiry, early usage stop85%. No replacements, consumed-claim reuse, persistent hosting or automatic adapter promotion.",
+  "allocation_policy": "One fresh training allocation, at most3600seconds, rate<=1.99USD/hour. User raised the training reserve to10USD on2026-11-01. Smoke2steps+reload gates the656-step Fluent-plus-Noto run. At most49 renders. Independent watchdog and instance expiry. No Codex usage guard, replacements, consumed-claim reuse, persistent hosting, or automatic adapter promotion.",
   "promotion_requires": "Documented quality comparison; AI review must be labeled AI. Preserve serving pilot step25 until then.",
   "completed_api_milestone": {
     "release": "amd-api-smoke-20261030d",
@@ -54,16 +54,16 @@
   },
   "deferred": {
     "ghcr": "Publication unresolved, gate closed; receipts retained in reports/amd-retention-recovery-failure.json and reports/amd-recovery-reconciliation.json. Direct provider image works.",
-    "noto": "Raw PNG license scope unresolved; explicitly OFL font is a candidate alternative. No Noto import.",
+    "noto": "128 emoji renders from the pinned OFL Noto 3D font are in the unarmed campaign. Raw 3D/png files were not imported. No weight promotion.",
     "production": "Cutouts, real durable-worker recovery, capacity and recurring hosting budget remain."
   },
-  "live_plan": "ops/amd-training-corrective-plan.json",
+  "live_plan": "ops/amd-noto-fluent-plan.json",
   "cloud_repository": "rk9595/emoji-studio-ops",
-  "cloud_run_id": "41273277371",
-  "cloud_run_head": "0a960b92de7457a231ed348153b13b898d114db4",
-  "cloud_run_workflow": "AMD coverage training",
-  "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41273277371",
-  "last_observed_cloud_status": "stopped_and_independently_deleted",
+  "cloud_run_id": "41282477874",
+  "cloud_run_head": "ee44a92e1a36690c2fdb89d6ef550bf952ee5422",
+  "cloud_run_workflow": "AMD Noto Fluent training",
+  "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41282477874",
+  "last_observed_cloud_status": "in_progress",
   "last_observed_epoch": 1793508359.2704508,
   "completed_first_training_attempt": {
     "release": "amd-coverage-20261031a",

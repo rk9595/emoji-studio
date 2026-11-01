@@ -1,0 +1,23 @@
+{
+  "status": "dispatched",
+  "campaign": "amd-noto-fluent-20261101c",
+  "execution_authorized": true,
+  "reserve_dollars": 10,
+  "run_id": "41282477874",
+  "source": "ee44a92e1a36690c2fdb89d6ef550bf952ee5422",
+  "run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41282477874",
+  "gpu_allocated": false,
+  "font_sha256": "0fdfec3dbefb214750465b5c17ac8f7c47286fc0c88d8605c12cd45e86613f7c",
+  "license": "SIL-OFL-1.1",
+  "noto_training_images": 128,
+  "fluent_training_images": 2493,
+  "combined_training_images": 2621,
+  "optimizer_steps": 656,
+  "draws": 2624,
+  "omitted_images": 0,
+  "input_sha256": "101db872e362021c38f6cc69565928adfe34771dc18d0709cfbeb723dde82c68",
+  "input_bytes": 283366009,
+  "allocation_expires_epoch": 1793544462,
+  "plan": "ops/amd-noto-fluent-plan.json",
+  "archive": "var/amd-training-live/fluent-noto-inputs.tar.gz"
+}

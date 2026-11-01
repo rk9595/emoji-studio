@@ -18,10 +18,18 @@ from pathlib import Path
 
 API = "https://api.devcloud.amd.com/v2"
 SIZE = "gpu-mi300x1-192gb-devcloud"
-RELEASE = "amd-coverage-20261031b"
-NAME = "emoji-coverage-20261031b"
+NOTO_RELEASE = "amd-noto-fluent-20261101c"
+RELEASE = os.environ.get("AMD_TRAINING_RELEASE", "amd-coverage-20261031b")
+NAME = "emoji-noto-fluent-20261101c" if RELEASE == NOTO_RELEASE else "emoji-coverage-20261031b"
 REMOTE = "/shared-docker/emoji-training-smoke"
-PLAN = Path("ops/amd-training-corrective-plan.json")
+PLAN = Path("ops/amd-noto-fluent-plan.json" if RELEASE == NOTO_RELEASE else "ops/amd-training-corrective-plan.json")
+NOTO_STEPS = 656
+CONSUMED_ATTEMPTS = (
+    {"release": "amd-coverage-20261031a", "run_id": "41203305217", "droplet_id": 614520349,
+     "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6"},
+    {"release": "amd-coverage-20261031b", "run_id": "41273277371", "droplet_id": 614682073,
+     "source": "0a960b92de7457a231ed348153b13b898d114db4"},
+)
 
 
 class ProviderError(RuntimeError):
@@ -265,15 +273,43 @@ def validate_plan(plan):
     expected = {"max_allocations": 1, "max_concurrent_gpus": 1,
                 "max_lifetime_seconds": 3600, "work_cutoff_seconds": 3300,
                 "self_expiry_seconds": 3360, "max_hourly_dollars": 1.99,
-                "reserve_dollars": 2.25, "max_training_steps": 624,
                 "smoke_steps": 2, "max_physical_renders": 49}
     if any(plan.get(key) != value for key, value in expected.items()):
         raise ValueError("Training lifecycle bounds differ")
-    if plan.get("campaign") != RELEASE or plan.get("previous_attempt") != {
-        "release": "amd-coverage-20261031a", "run_id": "41203305217", "droplet_id": 614520349,
-        "source": "82b486c9ba73ee47332f4f8f0e1f14b6de9ed6a6",
-    }:
+    if plan.get("campaign") != RELEASE:
         raise ValueError("Fresh training campaign required")
+    if RELEASE == NOTO_RELEASE:
+        if (plan.get("reserve_dollars") != 10
+                or plan.get("max_training_steps") != NOTO_STEPS
+                or plan.get("previous_attempts") != [dict(item) for item in CONSUMED_ATTEMPTS]
+                or plan.get("previous_attempt") is not None
+                or plan.get("training_bundle") != "fluent-noto-v1"
+                or plan.get("training_recipe") != "configs/lora-fluent-noto-v1.json"
+                or plan.get("codex_usage_guard") is not False
+                or plan.get("execution_authorized") is not True):
+            raise ValueError("Fresh training campaign required")
+        return
+    if (plan.get("reserve_dollars") != 2.25 or plan.get("max_training_steps") != 624
+            or plan.get("previous_attempt") != dict(CONSUMED_ATTEMPTS[0])):
+        raise ValueError("Fresh training campaign required")
+
+
+def _receipt_cost(plan, previous, state):
+    elapsed = state["cleanup_epoch"] - state["started_epoch"]
+    rate = state["rate_hourly"]
+    if not 0 <= elapsed <= 3600 or not 0 < rate <= plan["max_hourly_dollars"]:
+        raise ValueError("Invalid previous runtime receipt")
+    return elapsed * rate / 3600
+
+
+def _absent(droplet_id):
+    try:
+        api("GET", f"/droplets/{droplet_id}")
+    except ProviderError as error:
+        if error.code != 404:
+            raise
+    else:
+        raise RuntimeError("Previous allocation still exists")
 
 
 def previous_attempt_cost(plan):
@@ -291,26 +327,52 @@ def previous_attempt_cost(plan):
             or not state.get("cleanup_confirmed") or not watchdog.get("cleanup_confirmed")
             or watchdog.get("independent") is not True):
         raise RuntimeError("Previous exact allocation cleanup is not verified")
-    try:
-        api("GET", f"/droplets/{previous['droplet_id']}")
-    except ProviderError as error:
-        if error.code != 404:
-            raise
-    else:
-        raise RuntimeError("Previous allocation still exists")
-    elapsed = state["cleanup_epoch"] - state["started_epoch"]
-    rate = state["rate_hourly"]
-    if not 0 <= elapsed <= 3600 or not 0 < rate <= plan["max_hourly_dollars"]:
-        raise ValueError("Invalid previous runtime receipt")
-    cost = elapsed * rate / 3600
+    _absent(previous["droplet_id"])
+    cost = _receipt_cost(plan, previous, state)
     maximum_new_cost = plan["max_lifetime_seconds"] * plan["max_hourly_dollars"] / 3600
     if cost + maximum_new_cost > plan["reserve_dollars"]:
         raise RuntimeError("Insufficient remaining training reserve")
     return cost
 
 
+def aggregate_prior_cost(plan):
+    """Sum both consumed attempts. Campaign b uses its reconciliation receipt."""
+    if [dict(item) for item in plan["previous_attempts"]] != [dict(item) for item in CONSUMED_ATTEMPTS]:
+        raise ValueError("Prior attempts differ from the consumed training claims")
+    total = 0.0
+    for previous in plan["previous_attempts"]:
+        def read(name, release=previous["release"]):
+            return json.loads(command(["gh", "release", "download", release, "-p", name, "-O", "-"]))
+
+        state = read("training-state.json")
+        if (state.get("droplet_id") != previous["droplet_id"] or state.get("run_id") != previous["run_id"]
+                or state.get("source") != previous["source"] or state.get("campaign") != previous["release"]
+                or not state.get("cleanup_confirmed")):
+            raise RuntimeError("Previous exact allocation cleanup is not verified")
+        if previous["release"] == "amd-coverage-20261031a":
+            watchdog = read("watchdog-result.json")
+            if (watchdog.get("droplet_id") != previous["droplet_id"] or not watchdog.get("cleanup_confirmed")
+                    or watchdog.get("independent") is not True):
+                raise RuntimeError("Previous exact allocation cleanup is not verified")
+        else:
+            reconciliation = read("independent-cleanup-reconciliation.json")
+            if (reconciliation.get("allocation_id") != previous["droplet_id"]
+                    or reconciliation.get("original_run_id") != previous["run_id"]
+                    or reconciliation.get("cleanup_confirmed") is not True
+                    or reconciliation.get("independent") is not True
+                    or reconciliation.get("read_only") is not True
+                    or reconciliation.get("exact_resource_http_status") != 404):
+                raise RuntimeError("Campaign b reconciliation receipt is not verified")
+        _absent(previous["droplet_id"])
+        total += _receipt_cost(plan, previous, state)
+    maximum_new_cost = plan["max_lifetime_seconds"] * plan["max_hourly_dollars"] / 3600
+    if total + maximum_new_cost > plan["reserve_dollars"]:
+        raise RuntimeError("Insufficient remaining training reserve")
+    return total
+
+
 def checked_files(report):
-    allowed = {"smoke.safetensors", "smoke.png", "step-624.safetensors"}
+    allowed = {"smoke.safetensors", "smoke.png", "step-624.safetensors", "step-656.safetensors"}
     allowed.update(f"step-{step}.safetensors" for step in (125, 250, 375, 500))
     allowed.update(f"evaluation-{index:02d}.png" for index in range(48))
     files = report.get("files")
@@ -352,16 +414,18 @@ def verify_results():
     report = json.loads(Path("training-results/report.json").read_bytes())
     plan = json.loads(PLAN.read_bytes())
     files = checked_files(report)
+    recipe_path = plan.get("training_recipe", "configs/lora-coverage-v1.json")
+    steps = plan["max_training_steps"]
     if (report.get("status") != "completed" or report.get("gpu_count") != 1
             or report.get("plan_sha256") != hashlib.sha256(PLAN.read_bytes()).hexdigest()
-            or report.get("recipe_sha256") != plan["source_files"]["configs/lora-coverage-v1.json"]
-            or len(report.get("images", [])) != 49):
+            or report.get("recipe_sha256") != plan["source_files"][recipe_path]
+            or len(report.get("images", [])) != plan["max_physical_renders"]):
         raise ValueError("Training acceptance failed")
-    for phase, steps, losses in (("smoke", 2, 8), ("training", 624, 2496)):
+    for phase, phase_steps, losses in (("smoke", 2, 8), ("training", steps, steps * 4)):
         result = report["phases"][phase]
-        if result.get("completed_steps") != steps or result.get("loss_values") != losses or result.get("all_losses_finite") is not True:
+        if result.get("completed_steps") != phase_steps or result.get("loss_values") != losses or result.get("all_losses_finite") is not True:
             raise ValueError("Finite-loss training receipt differs")
-    required = {"smoke.safetensors", "smoke.png", "step-500.safetensors", "step-624.safetensors"}
+    required = {"smoke.safetensors", "smoke.png", "step-500.safetensors", f"step-{steps}.safetensors"}
     required.update(f"evaluation-{index:02d}.png" for index in range(48))
     if not required.issubset(files):
         raise ValueError("Missing training/evaluation artifacts")
@@ -377,6 +441,8 @@ def run():
         raise RuntimeError("Exact approved source required")
     if os.environ.get("GITHUB_RUN_ATTEMPT") != "1":
         raise RuntimeError("Workflow reruns cannot allocate")
+    if RELEASE != NOTO_RELEASE:
+        raise RuntimeError("Consumed campaign cannot allocate")
     plan = json.loads(PLAN.read_text())
     if time.time() >= plan["allocation_expires_epoch"]:
         raise RuntimeError("Allocation authorization expired")
@@ -385,7 +451,7 @@ def run():
     if not json.loads(command(["gh", "repo", "view", "--json", "isPrivate"]))["isPrivate"]:
         raise RuntimeError("Private export destination required")
     validate_plan(plan)
-    prior_cost = previous_attempt_cost(plan)
+    prior_cost = aggregate_prior_cost(plan) if RELEASE == NOTO_RELEASE else previous_attempt_cost(plan)
     inspection = preflight()
     size = inspection["sizes"][0]
     if (inspection["account"]["status"] != "active" or size["price_hourly"] > 1.99
@@ -498,7 +564,8 @@ def run():
                          "-O", "verified-results.tar.gz"], timeout=60)
                 if hashlib.sha256(Path("training-results.tar.gz").read_bytes()).digest() != hashlib.sha256(Path("verified-results.tar.gz").read_bytes()).digest():
                     raise ValueError("Private export download mismatch")
-                state.update(status="training_verified", images=len(report["images"]), training_steps=624,
+                state.update(status="training_verified", images=len(report["images"]),
+                             training_steps=plan["max_training_steps"],
                              results_sha256=hashlib.sha256(Path("training-results.tar.gz").read_bytes()).hexdigest())
                 break
         else:

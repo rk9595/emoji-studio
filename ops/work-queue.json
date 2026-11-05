@@ -1,26 +1,26 @@
 {
-  "status": "waiting_usage",
-  "milestone": "Train Fluent coverage plus a bounded Noto 3D font subset on AMD",
-  "updated_date": "2026-11-01",
+  "status": "running_cloud",
+  "milestone": "Evaluate the saved Fluent-plus-Noto step-656 adapter on AMD",
+  "updated_date": "2026-11-05",
   "last_completed_task": {
-    "name": "Independently confirmed second GPU deletion, fixed watchdog failure handling and added launch headroom",
+    "name": "Prepared, verified and dispatched corrected evaluation campaign e",
     "status": "complete",
-    "date": "2026-11-01",
+    "date": "2026-11-05",
     "receipts": [
-      "reports/amd-coverage-second-attempt.json"
+      "reports/amd-noto-eval-20261105e.json"
     ],
-    "focused_tests_passed": 26
+    "focused_tests_passed": 48
   },
   "recipe": "configs/lora-coverage-v1.json",
   "next_actions": [
-    "Watch run 41321034924, release amd-noto-eval-20261101d. It renders 24 images from the saved step-656 adapter and must delete the GPU. Do not retrain and do not dispatch consumed campaigns b or c.",
-    "The Codex supervisor must stay waiting_usage and must not arm the Codex usage guard.",
-    "After the run, record image count, adapter hash, independent deletion, and estimated cost. Do not promote the adapter."
+    "Do not redispatch or rerun campaign e or consumed campaigns b, c, or d. Read release amd-noto-eval-20261105e receipts for run 41998689039; avoid token-consuming polling.",
+    "Record exact image count, result hashes, cleanup receipts and actual estimated cost after the cloud jobs finish. If cleanup is not independently confirmed, reconcile exact resource deletion before any other GPU work.",
+    "Do not retrain or promote the adapter. AI visual review is allowed only after 24 images are verified."
   ],
-  "waiting_reason": "Evaluation run 41321034924 is in progress. Training run 41282477874 already saved step-656.safetensors and deleted GPU 614708454. Prior aggregate 0.7115USD of 10USD. Images and cleanup for the evaluation are not confirmed yet.",
-  "gpu_allocated": false,
+  "waiting_reason": "Cloud run 41998689039 is in progress with independent watchdog registered. Allocation intent exists; droplet id, images and cleanup are not yet observed.",
+  "gpu_allocated": true,
   "training_started": false,
-  "allocation_policy": "One fresh training allocation, at most3600seconds, rate<=1.99USD/hour. User raised the training reserve to10USD on2026-11-01. Smoke2steps+reload gates the656-step Fluent-plus-Noto run. At most49 renders. Independent watchdog and instance expiry. No Codex usage guard, replacements, consumed-claim reuse, persistent hosting, or automatic adapter promotion.",
+  "allocation_policy": "Campaign e permits one evaluation-only allocation, zero training steps, at most24 renders, at most2400seconds, rate<=1.99USD/hour, and stays inside the existing10USD aggregate reserve. Independent watchdog and instance expiry. No Codex usage guard, replacements, reruns, consumed-claim reuse, persistent hosting, or automatic adapter promotion.",
   "promotion_requires": "Documented quality comparison; AI review must be labeled AI. Preserve serving pilot step25 until then.",
   "completed_api_milestone": {
     "release": "amd-api-smoke-20261030d",
@@ -56,14 +56,14 @@
     "noto": "128 emoji renders from the pinned OFL Noto 3D font are in the unarmed campaign. Raw 3D/png files were not imported. No weight promotion.",
     "production": "Cutouts, real durable-worker recovery, capacity and recurring hosting budget remain."
   },
-  "live_plan": "ops/amd-noto-eval-plan.json",
+  "live_plan": "ops/amd-noto-eval-20261105e-plan.json",
   "cloud_repository": "rk9595/emoji-studio-ops",
-  "cloud_run_id": "41321034924",
-  "cloud_run_head": "51b989c0207d7b7d430c85c71b1808043154375d",
-  "cloud_run_workflow": "AMD Noto evaluation",
-  "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41321034924",
-  "last_observed_cloud_status": "in_progress",
-  "last_observed_epoch": 1793546735.0793128,
+  "cloud_run_id": "41998689039",
+  "cloud_run_head": "f973f98918eed2f26c6567cfe38b2866a018fc96",
+  "cloud_run_workflow": "AMD Noto evaluation e",
+  "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41998689039",
+  "last_observed_cloud_status": "in_progress_watchdog_registered",
+  "last_observed_epoch": 1793869175.6890352,
   "completed_first_training_attempt": {
     "release": "amd-coverage-20261031a",
     "run_id": "41203305217",
@@ -104,7 +104,8 @@
     "estimated_cost_dollars": 0.0693,
     "receipt": "reports/amd-coverage-second-attempt.json"
   },
-  "training_aggregate_estimated_cost_dollars": 0.7115,
+  "training_aggregate_estimated_cost_dollars": 0.8414,
+  "current_evaluation_max_cost_dollars": 1.3267,
   "usage_start_threshold_percent": 75,
   "usage_not_before_epoch": 1793857555
 }

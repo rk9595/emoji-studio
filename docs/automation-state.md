@@ -1,6 +1,25 @@
-# Current state — 2026-11-01
+# Current state — 2026-11-05
 
-## Waiting for quota reset — both training GPUs deleted
+## Corrected saved-adapter evaluation running in cloud
+
+Campaign `amd-noto-eval-20261105e` is dispatched once as run41998689039 from
+private source `f973f98918eed2f26c6567cfe38b2866a018fc96`. Both evaluation and
+watchdog jobs were in progress at epoch1793869175. Allocation intent and
+watchdog-ready receipts exist; no droplet id, images, or cleanup result had yet
+been observed. Do not redispatch or rerun. Use release receipts on the next turn
+instead of polling.
+
+This is evaluation only: the saved step-656 adapter is unchanged, training steps
+are zero, and the cap is24 images. The fixed path runs retained-package preflight,
+installs the hash-locked v2 overlay, runs pip check, and only then validates the
+adapter. The rebuilt 26,584,677-byte input archive was downloaded back and
+verified at sha256
+`6465c0d20db3db5999fedc9449c9be3bd4b6d7ca07426387454a933e1bcb837a`.
+Maximum lifetime2400 seconds, self-expiry epoch1793871335, one allocation,
+rate<=1.99USD/hour, independent watchdog, same10USD reserve. Prior aggregate is
+$0.8414; worst-case new cost is$1.3267. No promotion.
+
+## Closed earlier attempts
 
 Corrective run41273277371 stopped during boot at the85% usage cutoff. No worker,
 training steps, adapters or images. GPU614682073 controller deletion confirmed;
@@ -37,16 +56,14 @@ was not retained. GPU 614708454 cleanup confirmed by the controller and by
 watchdog-result.json. Estimated cost $0.504, aggregate $0.7115 of the $10
 reserve. No promotion.
 
-The user authorized a separate evaluation of that saved adapter. Release
-amd-noto-eval-20261101d, private source
-`51b989c0207d7b7d430c85c71b1808043154375d`, workflow run 41321034924, both jobs
-in progress. Plan `ops/amd-noto-eval-plan.json`. Input
-`var/amd-training-live/eval-inputs.tar.gz`, 26493030 bytes, sha256
-`cdc6039af41c4b40906e0c40082118d488ec4a6c02f8a8b8bbfa9b554e51996b`. Twelve
-development prompts, two seeds, 24 images, step-656 only, no training. Lifetime
-at most 2400 seconds, work cutoff 2100, self-expiry 2160, rate at most
-$1.99/hour, same $10 reserve. Do not claim the 24 images or GPU deletion until
-this run's receipts exist. Do not dispatch consumed campaigns b or c.
+Evaluation release amd-noto-eval-20261101d is consumed. Run 41321034924,
+source `51b989c0207d7b7d430c85c71b1808043154375d`, allocated GPU 614806003 at
+epoch 1793546665.6 and deleted it at 1793546900.6. The independent watchdog
+confirmed droplet 614806003 at epoch 1793546909.4. No images. The worker raised
+`ModuleNotFoundError: No module named 'safetensors'` because evaluate mode
+skipped the hashed overlay install. Estimated cost $0.1299. Aggregate with the
+three earlier attempts is $0.8414 of the $10 reserve. Receipt
+`reports/amd-noto-eval-campaign.json`. Do not dispatch campaigns b, c, or d.
 
 The dependency correction remains prepared: v2 overlay changes packaging26.3→25.0
 for provider langchain-core compatibility, preserving73 other pins. New pre-install

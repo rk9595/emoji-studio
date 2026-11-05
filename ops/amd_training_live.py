@@ -19,13 +19,14 @@ from pathlib import Path
 API = "https://api.devcloud.amd.com/v2"
 SIZE = "gpu-mi300x1-192gb-devcloud"
 NOTO_RELEASE = "amd-noto-fluent-20261101c"
-EVAL_RELEASE = "amd-noto-eval-20261101d"
+PRIOR_EVAL_RELEASE = "amd-noto-eval-20261101d"
+EVAL_RELEASE = "amd-noto-eval-20261105e"
 RELEASE = os.environ.get("AMD_TRAINING_RELEASE", "amd-coverage-20261031b")
-NAME = {"amd-noto-eval-20261101d": "emoji-noto-eval-20261101d",
+NAME = {"amd-noto-eval-20261105e": "emoji-noto-eval-20261105e",
         "amd-noto-fluent-20261101c": "emoji-noto-fluent-20261101c"}.get(
             RELEASE, "emoji-coverage-20261031b")
 REMOTE = "/shared-docker/emoji-training-smoke"
-PLAN = Path({"amd-noto-eval-20261101d": "ops/amd-noto-eval-plan.json",
+PLAN = Path({"amd-noto-eval-20261105e": "ops/amd-noto-eval-20261105e-plan.json",
              "amd-noto-fluent-20261101c": "ops/amd-noto-fluent-plan.json"}.get(
                  RELEASE, "ops/amd-training-corrective-plan.json"))
 NOTO_STEPS = 656
@@ -38,6 +39,8 @@ CONSUMED_ATTEMPTS = (
 EVAL_ATTEMPTS = CONSUMED_ATTEMPTS + (
     {"release": "amd-noto-fluent-20261101c", "run_id": "41282477874", "droplet_id": 614708454,
      "source": "ee44a92e1a36690c2fdb89d6ef550bf952ee5422"},
+    {"release": PRIOR_EVAL_RELEASE, "run_id": "41321034924", "droplet_id": 614806003,
+     "source": "51b989c0207d7b7d430c85c71b1808043154375d"},
 )
 
 
@@ -375,7 +378,8 @@ def aggregate_prior_cost(plan, expected=None):
                 or state.get("source") != previous["source"] or state.get("campaign") != previous["release"]
                 or not state.get("cleanup_confirmed")):
             raise RuntimeError("Previous exact allocation cleanup is not verified")
-        if previous["release"] in {"amd-coverage-20261031a", "amd-noto-fluent-20261101c"}:
+        if previous["release"] in {
+                "amd-coverage-20261031a", "amd-noto-fluent-20261101c", PRIOR_EVAL_RELEASE}:
             watchdog = read("watchdog-result.json")
             if (watchdog.get("droplet_id") != previous["droplet_id"] or not watchdog.get("cleanup_confirmed")
                     or watchdog.get("independent") is not True):
@@ -575,6 +579,11 @@ def run():
         if plan.get("mode") == "evaluate_saved_adapter":
             remote_script = (
                 "python3 ops/amd_training_worker.py inventory && "
+                "python3 ops/amd_training_preflight.py "
+                "--lock configs/amd-training-overlay-linux-py312-v2.txt "
+                "--output training-retained-preflight.json && "
+                "python3 -m pip install --disable-pip-version-check --only-binary=:all: --no-deps --require-hashes "
+                "-r configs/amd-training-overlay-linux-py312-v2.txt && python3 -m pip check && "
                 f"python3 ops/amd_training_worker.py run --allocation {identifier} --deadline {stop}"
             )
         else:

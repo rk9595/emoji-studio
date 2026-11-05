@@ -41,11 +41,19 @@ On 2026-11-01 the user continued in Cursor and authorized the launch, raising th
 training reserve to $10. Run 41282477874 completed the 656-step Fluent-plus-Noto
 train and saved step-656.safetensors. Evaluation failed: step-500 was not
 retained. GPU 614708454 is deleted. Estimated cost $0.504, aggregate $0.7115.
-Campaign c is consumed. The user then authorized a separate evaluation of that
-saved adapter: release amd-noto-eval-20261101d, run 41321034924, source
-51b989c0207d7b7d430c85c71b1808043154375d, 24 images, no retraining, lifetime at
-most 2400 seconds, same $10 reserve. Do not claim images or GPU deletion until
-observed. No promotion. Codex usage guard stays off.
+Campaign c is consumed. Evaluation release amd-noto-eval-20261101d, run
+41321034924, source 51b989c0207d7b7d430c85c71b1808043154375d, allocated GPU
+614806003 and deleted it. The worker failed before any image: eval mode skipped
+the overlay, so safetensors was missing. Estimated cost $0.1299, aggregate
+$0.8414 of the $10 reserve. Watchdog confirmed cleanup. No images. Claim
+consumed. No promotion. Codex usage guard stays off.
+Corrected evaluation campaign e is running: release amd-noto-eval-20261105e,
+run41998689039, source f973f98918eed2f26c6567cfe38b2866a018fc96. It installs
+the hash-locked v2 overlay before validating the same saved step-656 adapter,
+then permits exactly24 renders and no training. The rebuilt input archive was
+download/hash-verified (sha256 6465c0d20db3db5999fedc9449c9be3bd4b6d7ca07426387454a933e1bcb837a).
+Independent watchdog is registered and instance expiry is epoch1793871335. Do
+not redispatch or rerun campaign e. Await cloud receipts; do not token-poll.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

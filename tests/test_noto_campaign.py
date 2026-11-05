@@ -95,7 +95,8 @@ class NotoCampaignTest(unittest.TestCase):
         current.validate_plan(plan)
         with self.assertRaises(ValueError):
             current.validate_plan(plan | {"max_physical_renders": 48})
-        self.assertEqual(current.EVAL_ATTEMPTS[-1]["droplet_id"], 614708454)
+        self.assertEqual(current.EVAL_ATTEMPTS[-1]["droplet_id"], 614806003)
+        self.assertEqual(current.EVAL_ATTEMPTS[-1]["release"], current.PRIOR_EVAL_RELEASE)
 
     def test_consumed_controller_cannot_allocate_again(self):
         with patch.dict(os.environ, {"AMD_TRAINING_SOURCE": "head", "GITHUB_SHA": "head",

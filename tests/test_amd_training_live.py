@@ -11,8 +11,8 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def module(name):
-    spec = importlib.util.spec_from_file_location(name, ROOT / "ops" / f"{name}.py")
+def module(name, filename=None):
+    spec = importlib.util.spec_from_file_location(name, ROOT / "ops" / f"{filename or name}.py")
     result = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(result)
     return result
@@ -20,6 +20,8 @@ def module(name):
 
 live = module("amd_training_live")
 worker = module("amd_training_worker")
+with patch.dict(os.environ, {"AMD_TRAINING_RELEASE": "amd-noto-eval-20261105e"}):
+    eval_live = module("amd_training_live_eval_e", "amd_training_live")
 
 
 class TrainingLifecycleTest(unittest.TestCase):
@@ -149,6 +151,17 @@ class TrainingLifecycleTest(unittest.TestCase):
             self.assertEqual(saved["images"], child["images"])
             self.assertEqual(saved["files"], child["files"])
             self.assertEqual(saved["phases"]["reload"]["exit_code"], 0)
+
+    def test_fresh_evaluation_installs_locked_overlay_and_consumes_prior_eval(self):
+        plan = json.loads((ROOT / "ops/amd-noto-eval-20261105e-plan.json").read_bytes())
+        eval_live.validate_plan(plan)
+        self.assertEqual(plan["max_training_steps"], 0)
+        self.assertEqual(plan["max_physical_renders"], 24)
+        self.assertEqual(plan["previous_attempts"][-1]["release"], "amd-noto-eval-20261101d")
+        source = (ROOT / "ops/amd_training_live.py").read_text()
+        block = source[source.index('if plan.get("mode") == "evaluate_saved_adapter":',
+                                    source.index("minimum_remaining")):]
+        self.assertLess(block.index("pip install"), block.index("amd_training_worker.py run"))
 
 
 if __name__ == "__main__":

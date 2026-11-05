@@ -1,26 +1,27 @@
 {
-  "status": "running_cloud",
+  "status": "waiting_user",
   "milestone": "Evaluate the saved Fluent-plus-Noto step-656 adapter on AMD",
+  "milestone_status": "complete",
   "updated_date": "2026-11-05",
   "last_completed_task": {
-    "name": "Prepared, verified and dispatched corrected evaluation campaign e",
+    "name": "Verified campaign e results, GPU deletion, cost and AI quality review",
     "status": "complete",
     "date": "2026-11-05",
     "receipts": [
       "reports/amd-noto-eval-20261105e.json"
     ],
-    "focused_tests_passed": 48
+    "verified_images": 24
   },
   "recipe": "configs/lora-coverage-v1.json",
   "next_actions": [
-    "Do not redispatch or rerun campaign e or consumed campaigns b, c, or d. Read release amd-noto-eval-20261105e receipts for run 41998689039; avoid token-consuming polling.",
-    "Record exact image count, result hashes, cleanup receipts and actual estimated cost after the cloud jobs finish. If cleanup is not independently confirmed, reconcile exact resource deletion before any other GPU work.",
-    "Do not retrain or promote the adapter. AI visual review is allowed only after 24 images are verified."
+    "Do not redispatch or rerun consumed campaigns b, c, d, or e. Campaign e completed24 images and independently deleted GPU616116808.",
+    "Keep production serving on reviewed pilot step25. Campaign e has gesture failures and no matched baseline, so do not claim improvement or promote step656.",
+    "Wait for user judgment on the next direction: prepare a new gesture-focused dataset/experiment, perform a matched baseline evaluation, or stop model work. Any GPU run requires a fresh immutable plan and claim."
   ],
-  "waiting_reason": "Cloud run 41998689039 is in progress with independent watchdog registered. Allocation intent exists; droplet id, images and cleanup are not yet observed.",
-  "gpu_allocated": true,
+  "waiting_reason": "The evaluation milestone is complete, but choosing a new training direction or promoting a model requires user judgment. AI review does not support promotion.",
+  "gpu_allocated": false,
   "training_started": false,
-  "allocation_policy": "Campaign e permits one evaluation-only allocation, zero training steps, at most24 renders, at most2400seconds, rate<=1.99USD/hour, and stays inside the existing10USD aggregate reserve. Independent watchdog and instance expiry. No Codex usage guard, replacements, reruns, consumed-claim reuse, persistent hosting, or automatic adapter promotion.",
+  "allocation_policy": "Consumed campaign e permitted one evaluation-only allocation, zero training steps, at most24 renders, at most2400seconds, rate<=1.99USD/hour, inside the existing10USD aggregate reserve. Independent watchdog and instance expiry succeeded. No reruns, replacements, consumed-claim reuse, persistent hosting, or automatic adapter promotion.",
   "promotion_requires": "Documented quality comparison; AI review must be labeled AI. Preserve serving pilot step25 until then.",
   "completed_api_milestone": {
     "release": "amd-api-smoke-20261030d",
@@ -62,8 +63,8 @@
   "cloud_run_head": "f973f98918eed2f26c6567cfe38b2866a018fc96",
   "cloud_run_workflow": "AMD Noto evaluation e",
   "cloud_run_url": "https://github.com/rk9595/emoji-studio-ops/actions/runs/41998689039",
-  "last_observed_cloud_status": "in_progress_watchdog_registered",
-  "last_observed_epoch": 1793869175.6890352,
+  "last_observed_cloud_status": "complete_24_images_gpu_deleted_independently",
+  "last_observed_epoch": 1793869581.4613402,
   "completed_first_training_attempt": {
     "release": "amd-coverage-20261031a",
     "run_id": "41203305217",
@@ -104,8 +105,22 @@
     "estimated_cost_dollars": 0.0693,
     "receipt": "reports/amd-coverage-second-attempt.json"
   },
-  "training_aggregate_estimated_cost_dollars": 0.8414,
-  "current_evaluation_max_cost_dollars": 1.3267,
+  "training_aggregate_estimated_cost_dollars": 1.0613,
+  "current_evaluation_estimated_cost_dollars": 0.2199,
+  "completed_evaluation": {
+    "campaign": "amd-noto-eval-20261105e",
+    "run_id": "41998689039",
+    "allocation_id": 616116808,
+    "images": 24,
+    "image_dimensions": "512x512",
+    "training_steps": 0,
+    "results_sha256": "1a72454f8e11db3a51e069f0c1d0628e79339aad6e8ecaf4d0e4a691c75821c1",
+    "cleanup_confirmed": true,
+    "independent_cleanup_confirmed": true,
+    "estimated_cost_dollars": 0.2199,
+    "ai_review": "No promotion: coherent faces/objects, failed high-five semantics, ambiguous crossed fingers, mixed pinky promise, no matched baseline.",
+    "receipt": "reports/amd-noto-eval-20261105e.json"
+  },
   "usage_start_threshold_percent": 75,
   "usage_not_before_epoch": 1793857555
 }

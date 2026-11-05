@@ -30,7 +30,8 @@ requires packaging<26, but the overlay installed26.3. GPU614520349 independently
 confirmed deleted; estimated$0.1382. Claim consumed; gate failed-41203305217.
 Corrective overlayv2 pins packaging25.0; other73pins unchanged. 65tests and local
 trainer import/dependency checks pass. Read reports/amd-coverage-first-attempt.json
-and reports/amd-training-corrective-preparation.json. No training/checkpoints yet.
+and reports/amd-training-corrective-preparation.json. That attempt produced no
+training or checkpoints.
 Corrective run41273277371 stopped during boot when usage reached85%; no training.
 GPU614682073 deletion independently confirmed by read-only run41274185805 (exact404).
 Both training GPUs deleted; aggregate estimated$0.2075 within SAME$2.25 reserve.
@@ -47,13 +48,17 @@ Campaign c is consumed. Evaluation release amd-noto-eval-20261101d, run
 the overlay, so safetensors was missing. Estimated cost $0.1299, aggregate
 $0.8414 of the $10 reserve. Watchdog confirmed cleanup. No images. Claim
 consumed. No promotion. Codex usage guard stays off.
-Corrected evaluation campaign e is running: release amd-noto-eval-20261105e,
-run41998689039, source f973f98918eed2f26c6567cfe38b2866a018fc96. It installs
-the hash-locked v2 overlay before validating the same saved step-656 adapter,
-then permits exactly24 renders and no training. The rebuilt input archive was
-download/hash-verified (sha256 6465c0d20db3db5999fedc9449c9be3bd4b6d7ca07426387454a933e1bcb837a).
-Independent watchdog is registered and instance expiry is epoch1793871335. Do
-not redispatch or rerun campaign e. Await cloud receipts; do not token-poll.
+Corrected evaluation campaign e completed: release amd-noto-eval-20261105e,
+run41998689039, source f973f98918eed2f26c6567cfe38b2866a018fc96. Exactly24
+512px images and the saved step-656 adapter were archive/hash verified; no
+training. Results sha256 1a72454f8e11db3a51e069f0c1d0628e79339aad6e8ecaf4d0e4a691c75821c1.
+GPU616116808 was deleted and independently confirmed absent. Cost~$0.2199;
+training/evaluation aggregate~$1.0613 of$10. Claim consumed; never rerun.
+AI review: faces/objects are coherent, but high-fives read as prayer hands,
+crossed fingers are ambiguous/inconsistent, and pinky-promise quality is mixed.
+No matched baseline, improvement claim, or promotion. Serving stays pilotstep25.
+Current milestone is complete; a new training direction or promotion requires
+user judgment and a fresh immutable plan/claim.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

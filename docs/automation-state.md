@@ -1,23 +1,32 @@
 # Current state — 2026-11-05
 
-## Corrected saved-adapter evaluation running in cloud
+## Corrected saved-adapter evaluation complete — no promotion
 
-Campaign `amd-noto-eval-20261105e` is dispatched once as run41998689039 from
-private source `f973f98918eed2f26c6567cfe38b2866a018fc96`. Both evaluation and
-watchdog jobs were in progress at epoch1793869175. Allocation intent and
-watchdog-ready receipts exist; no droplet id, images, or cleanup result had yet
-been observed. Do not redispatch or rerun. Use release receipts on the next turn
-instead of polling.
+Campaign `amd-noto-eval-20261105e`, run41998689039, private source
+`f973f98918eed2f26c6567cfe38b2866a018fc96`, completed successfully. The archive
+contains the unchanged step-656 adapter and exactly24 PNGs at512x512. All25
+payload hashes and sizes match the completed report. Results archive sha256 is
+`1a72454f8e11db3a51e069f0c1d0628e79339aad6e8ecaf4d0e4a691c75821c1`.
+GPU616116808 cleanup was confirmed by the controller at epoch1793869573.6 and
+independently by the watchdog at epoch1793869581.5. New estimated cost$0.2199;
+aggregate$1.0613 of the$10 reserve. These are runtime estimates, not invoices.
+Campaign e is consumed; never dispatch or rerun it.
 
-This is evaluation only: the saved step-656 adapter is unchanged, training steps
-are zero, and the cap is24 images. The fixed path runs retained-package preflight,
-installs the hash-locked v2 overlay, runs pip check, and only then validates the
+This was evaluation only: the saved step-656 adapter is unchanged, training steps
+were zero, and the cap was24 images. The fixed path ran retained-package preflight,
+installed the hash-locked v2 overlay, ran pip check, and only then validated the
 adapter. The rebuilt 26,584,677-byte input archive was downloaded back and
 verified at sha256
 `6465c0d20db3db5999fedc9449c9be3bd4b6d7ca07426387454a933e1bcb837a`.
-Maximum lifetime2400 seconds, self-expiry epoch1793871335, one allocation,
-rate<=1.99USD/hour, independent watchdog, same10USD reserve. Prior aggregate is
-$0.8414; worst-case new cost is$1.3267. No promotion.
+No training occurred.
+
+AI review only: faces, firefighters, backpacks and bicycles are visually coherent.
+The two high-five outputs resemble prayer/pressed hands rather than two people
+meeting palms. Crossed-finger outputs are inconsistent or ambiguous, often
+reading as a raised index. Pinky-promise outputs are mixed. With no matched
+baseline in this run, do not claim improvement. The adapter is not promoted;
+serving remains reviewed pilotstep25. User judgment and a new immutable plan are
+required before another training direction or any promotion.
 
 ## Closed earlier attempts
 
@@ -37,10 +46,10 @@ bounded deadline after a refusal/error; a later exact404 can confirm deletion.
 
 Second cost estimate$0.0693; first$0.1382; aggregate$0.2075 against SAME$2.25 reserve.
 These are runtime estimates, not invoices. First run41203305217/GPU614520349 was
-also independently deleted after a dependency-check failure. No training has yet
-completed on AMD. Both immutable claims are consumed and cannot be reset.
+also independently deleted after a dependency-check failure. At that point, no
+training had completed on AMD. Both immutable claims are consumed and cannot be reset.
 
-## Usage control and current evaluation
+## Usage control and completed evaluation history
 
 On 2026-11-01 the user said the usage limit was Codex's and to keep building in
 Cursor. The Codex supervisor stays on waiting_usage so it does not start a turn.

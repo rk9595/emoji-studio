@@ -27,3 +27,12 @@ Next: assemble a private shuffled review of base, pilot-25 and step-656 using
 these existing files, score prompt criteria before decoding labels, and report
 gesture and non-gesture outcomes separately. Training and promotion remain
 separate decisions. Consumed campaigns stay closed.
+
+Gallery preparation completed: `runs/noto-retrospective-review-v1/index.html`.
+There are 24 groups and 72 images, with criteria and 32px thumbnails. All copied
+hashes, template coverage and HTML image references verified. Rebuild using
+`scripts/build_noto_review.py` with the same baseline/candidate arguments and a
+fresh `--output` directory. Existing output directories are refused.
+Mapping SHA-256: `1d04c90a0e444e4f1043ea10bc0510c60c9eac67f0b93158efe27d415dab90b7`.
+Observations remain unscored. Prior exposure to source images prevents claiming
+a fully blinded AI assessment, even though labels are shuffled.

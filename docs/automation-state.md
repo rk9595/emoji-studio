@@ -2,6 +2,14 @@
 
 ## Next ready work: offline retrospective comparison
 
+Private shuffled gallery now exists at `runs/noto-retrospective-review-v1/index.html`.
+Builder: `scripts/build_noto_review.py`; 24 groups and 72 copied image hashes,
+scoring-template coverage and HTML image references verified. The gallery has
+prompt criteria and 32px thumbnails. `observations-template.json` is unscored;
+`map.json` holds identities. Prior image exposure precludes a fully blinded AI
+claim. Next: record criterion-based observations before reading the mapping,
+then decode and summarize. No new GPU cost or promotion.
+
 User continued November 6. Verified all 144 historical and 24 candidate payloads.
 Existing base/pilot images match candidate prompts, seeds and rendering settings;
 48 baseline images are reusable with zero additional GPU renders. Recorded GPU,

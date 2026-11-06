@@ -3,7 +3,7 @@
   "milestone": "Evaluate the saved Fluent-plus-Noto step-656 adapter on AMD",
   "milestone_status": "complete",
   "updated_date": "2026-11-06",
-  "ready_task": "Prepare offline shuffled base/pilot-25/step-656 review from verified retained images; see reports/noto-baseline-reuse.md. Zero new GPU renders.",
+  "ready_task": "Score runs/noto-retrospective-review-v1/index.html against prompt criteria, save observations before reading map.json, then summarize. Prior image exposure means AI review is not fully blinded. Zero new GPU renders.",
   "last_completed_task": {
     "name": "Verified campaign e results, GPU deletion, cost and AI quality review",
     "status": "complete",

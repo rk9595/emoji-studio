@@ -1,15 +1,15 @@
 {
   "status": "ready",
   "milestone": "Offline diagnosis of gesture and expression training data",
-  "milestone_status": "review_complete_no_promotion",
+  "milestone_status": "complete",
   "updated_date": "2026-11-06",
-  "ready_task": "Inspect Fluent/Noto manifests, captions, and sampler records for expression regression, six-finger anatomy and interaction failures. Prepare an offline data/caption proposal; do not allocate a GPU until a fresh bounded plan is authorized.",
+  "ready_task": "Prepare offline caption proposals for code-only Noto labels and audit semantic overlap with Fluent validation concepts. Follow reports/fluent-noto-data-diagnosis.md; preserve frozen datasets and allocate no GPU.",
   "last_completed_task": {
-    "name": "Validated user's human review scores and decoded shuffled comparison",
+    "name": "Completed frozen manifest and coverage schedule diagnosis",
     "status": "complete",
     "date": "2026-11-05",
     "receipts": [
-      "reports/noto-human-review-summary.md"
+      "reports/fluent-noto-data-diagnosis.md"
     ],
     "reviewed_groups": 24
   },

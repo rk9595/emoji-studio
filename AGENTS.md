@@ -72,6 +72,11 @@ reports/noto-human-review-summary.md. Step656 regresses on expressions (0.50
 vs pilot25 2.00), ties average tone-specific gestures (0.90), and has no broad
 advantage. Keep pilot25. Next: prepare an offline data/caption diagnosis; any
 new GPU run requires fresh bounded authorization.
+Offline diagnosis complete: reports/fluent-noto-data-diagnosis.md. Coverage
+schedule sees all2621 assets; target expressions/crossed fingers are held out,
+high-five/pinky examples absent, and3 Noto captions are code-only. No causal
+regression claim. Next: offline caption proposal and cross-source semantic
+overlap audit, preserving frozen datasets and held-out families.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

@@ -1,5 +1,14 @@
 # Current state — 2026-11-06
 
+## Data diagnosis complete
+
+See `reports/fluent-noto-data-diagnosis.md`: 2624 scheduled draws cover2621
+assets; all128 Noto images seen once. Crossed fingers and target expressions
+are validation-only; high-five/pinky training concepts absent. Three Noto
+captions are Unicode codes. This establishes limitations, not regression cause.
+Next ready offline work: visually grounded caption proposal and semantic overlap
+audit across Fluent/Noto, preserving frozen data and validation. No new spending.
+
 ## Human review complete; no adapter promotion
 
 Validated user's 24-group/72-image export, decoded shuffled labels and saved

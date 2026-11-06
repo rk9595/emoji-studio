@@ -82,6 +82,10 @@ three AI visually grounded proposals, unapplied. Exact normalized names find17
 Noto-train/Fluent-validation concept overlaps; this is a lower bound, not proof
 of overlap in the12 review prompts. reports/noto-caption-overlap-audit.md.
 Next offline work: semantic crosswalk for128 Noto rows and separate split proposal.
+128-row crosswalk/split proposal now complete: configs/noto-semantic-crosswalk-v1.json
+and reports/noto-split-proposal.md. Counts:17 exact,6 candidate aliases,105
+unresolved. No Noto row cleared for new training; existing splits untouched.
+Next: paired visual alias review and semantic resolution of unresolved rows.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

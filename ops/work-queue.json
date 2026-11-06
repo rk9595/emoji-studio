@@ -1,17 +1,17 @@
 {
   "status": "ready",
-  "milestone": "Code-only caption proposals and exact concept overlap audit",
+  "milestone": "128-row Noto crosswalk and conservative split proposal",
   "milestone_status": "complete",
   "updated_date": "2026-11-06",
-  "ready_task": "Prepare a 128-row Noto semantic crosswalk with exact validation matches, candidate aliases and unresolved labels; propose a separate split that excludes validation concepts from training. See reports/noto-caption-overlap-audit.md. No GPU.",
+  "ready_task": "Review six candidate aliases with paired source images and resolve the 105 unresolved Noto rows against Fluent concept families. Record evidence before any new training allowlist. See reports/noto-split-proposal.md. No GPU.",
   "last_completed_task": {
-    "name": "Completed three visual caption proposals and exact-name overlap audit",
+    "name": "Completed 128-row crosswalk and conservative split proposal",
     "status": "complete",
-    "date": "2026-11-05",
+    "date": "2026-11-06",
     "receipts": [
-      "reports/noto-caption-overlap-audit.md"
+      "reports/noto-split-proposal.md"
     ],
-    "reviewed_groups": 24
+    "crosswalk_rows": 128
   },
   "recipe": "configs/lora-coverage-v1.json",
   "next_actions": [

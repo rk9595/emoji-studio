@@ -1,5 +1,14 @@
 # Current state — 2026-11-06
 
+## Crosswalk and conservative split proposal complete
+
+`configs/noto-semantic-crosswalk-v1.json` contains128 image-hash-bound rows:
+17 exact validation matches,6 candidate aliases,105 unresolved. See
+`reports/noto-split-proposal.md`. Proposed exclusions/quarantine clear zero Noto
+rows for training so far; Fluent2493/651 splits stay frozen. Next offline task:
+paired visual alias review and evidence-based resolution of unresolved rows.
+No GPU spending or source-data changes.
+
 ## Caption and overlap audit complete
 
 Three images visually inspected; unapplied AI proposals are hash-bound in

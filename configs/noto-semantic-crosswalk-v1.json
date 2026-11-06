@@ -1,0 +1,1350 @@
+{
+  "status": "proposal_only_not_applied",
+  "review_method": "AI name-based triage; candidate aliases not visually confirmed",
+  "manifest_sha256": "04ceea8fbe448f4ae0441938f6f06f8c1c5b9a010bf61f7e1641dae7f3a3846e",
+  "counts": {
+    "unresolved": 105,
+    "exact_name": 17,
+    "candidate_alias": 6
+  },
+  "policy": "Preserve 2493 Fluent training and 651 validation rows. Exclude matches; quarantine all unresolved Noto rows until reviewed. No Noto rows currently cleared for new training.",
+  "training_authorized": false,
+  "rows": [
+    {
+      "asset_id": "7d1f1897486693ec",
+      "image_sha256": "907a7aadb51bd25ad7cb049417acc68ad984f8631197dc9f4d55e438d0ecdbb6",
+      "original_caption": "black sun with rays, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "7b0dbd6dab466364",
+      "image_sha256": "f9be5ca80dabf2ccc336b9a89e58acec1f3c075d3a8cfc48b834f2503e78974e",
+      "original_caption": "white up pointing index, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "45eda198bc80a5ee",
+      "image_sha256": "7db22c3800378a5e954ac479b0b3b109db27e2cf9ea5883f06ffa4265157838d",
+      "original_caption": "female sign, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "044e7502d396bb53",
+      "image_sha256": "8d2b452935d9e2b0d739838cf58368c2697d4d6fd0ef3f395b52825eecb323b0",
+      "original_caption": "sagittarius, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "a24346cfece6fb27",
+      "image_sha256": "ffbae9f3a600cf71812ccdc81debb121fa5c8dd8492b4310caa3968d307507e4",
+      "original_caption": "permanent paper sign, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "abe07b1cc419ae50",
+      "image_sha256": "4810eba3866d95e6e94bbf116a2e4d25de69c7a8f1d3b34c1f928c54e59383a8",
+      "original_caption": "warning sign, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "300ef35826babfba",
+      "image_sha256": "032e31f0e815a67d205609ef3e6275cc75ea3309f1cce5d223d97e9f31bc1c4b",
+      "original_caption": "sun behind cloud, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "77f177abc1213130",
+      "image_sha256": "7672ab66842e7e6e7880fdf682b1b426f347c885de246eba69b4200678cae992",
+      "original_caption": "fountain, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "fountain",
+      "validation_asset_ids": [
+        "18da3f592592894d"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "7df439f3ad69309b",
+      "image_sha256": "a1439f74eac104c33951b5561ea610a1693c619503ed0816fcc84902687dafa8",
+      "original_caption": "airplane, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "75cfeef941b75759",
+      "image_sha256": "552301b012b43ef45174bde834cef1d3b3207114f413733569ad07100cc4b58c",
+      "original_caption": "latin cross, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "ffca70458943227c",
+      "image_sha256": "eb5590dbb11afa13e9851d106ff94353504dfc0cc9f5076538ba61f244bc33ef",
+      "original_caption": "white exclamation mark ornament, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "9c557dec633a7e95",
+      "image_sha256": "ecd0950591680c298a548ababefb74e78ba885629d145399897cfeaa23163dbb",
+      "original_caption": "playing card black joker, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "190b553910aa8661",
+      "image_sha256": "c1a8a342044e4e7d575ceb69a183bb788f91a3652382d53d86af18c7d3ce88aa",
+      "original_caption": "squared new, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "51659e50129cf467",
+      "image_sha256": "7806cb7111d01e086e9aa2efa020d02b46e53a074bf6f1b0805bfdad916a3e06",
+      "original_caption": "squared cjk unified ideograph-7a7a, noto 3D emoji illustration",
+      "status": "candidate_alias",
+      "candidate_concept": "Japanese vacancy button",
+      "validation_asset_ids": [
+        "8dba4f0706e77f64"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "a1c728df84dc50af",
+      "image_sha256": "eff14479f6d1b41d759298e6334167307e7c81901d67cfba736a879aafa4bcb9",
+      "original_caption": "foggy, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "foggy",
+      "validation_asset_ids": [
+        "de86b54c66046573"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3ba8735dea0973d7",
+      "image_sha256": "604336827949c1d06f26b6105ba2025155dcf312701c6f82d1ad987c09d3509e",
+      "original_caption": "volcano, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "8f5d1e84eca7ff3d",
+      "image_sha256": "28c93ae513aaa0f5f19088bf7e99196f6f5eb9d4cc91691e7d3a67eb77b04659",
+      "original_caption": "waning gibbous moon symbol, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "0964c3fd64024135",
+      "image_sha256": "2222a329b4eef7aa3e768ebd00b14e0d436b51572e7447809cef35f497131eab",
+      "original_caption": "thermometer, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "39488089dee997e9",
+      "image_sha256": "91c46971c9a41ae889fdecd65231a57d9182d697ee5ee1d2cd52b8b477afac73",
+      "original_caption": "hot dog, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "8b5dc5b5aa230c6e",
+      "image_sha256": "67269a67ba1ecbd6e33581149beaaafc3c167647977a7b1a593f1f7496e494ac",
+      "original_caption": "cherry blossom, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "cherry blossom",
+      "validation_asset_ids": [
+        "24587a28ce431ef2"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "57c2cf5607e3ecb5",
+      "image_sha256": "a947fe53d0fe3fad6f6dec8e7fde4b91bc5c8d1b26a29b7844242eecad93842b",
+      "original_caption": "leaf fluttering in wind, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "af6d6291c45d7fa4",
+      "image_sha256": "18881257ecadebccd08cebbc81d6adea41a6504687dcef2b7012e853784ab5c1",
+      "original_caption": "pineapple, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "pineapple",
+      "validation_asset_ids": [
+        "a6d98ef574498b32"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "8cd43f0a79cecc55",
+      "image_sha256": "19cfa307a9b2630ca53e8d3cccd667d9d3baef850f06abf5a195737a5251c188",
+      "original_caption": "rice cracker, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "fbbcbd62d7c22e58",
+      "image_sha256": "0461937c19f6f0be3d61c3df27ab049f3b3d54c7508063549c3916b944febf94",
+      "original_caption": "sushi, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "09f90e9ab2a455d2",
+      "image_sha256": "daaafc181a797f81afa72e316b9c1f0dd2e40ce5e338a1f7144be42eb8d33ad7",
+      "original_caption": "lollipop, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "93adef5417875315",
+      "image_sha256": "bd74a539868cd82e9905732a399152a0eb0d77761f8be1b4d3386bd5e1e70e3e",
+      "original_caption": "cocktail glass, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "6ada8d82b30ce3f3",
+      "image_sha256": "52c7692c1bd2a31e85e9eb1f7ca52a1036c1065ca887dfcbc5a637a54d337af3",
+      "original_caption": "jack-o-lantern, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "jack-o-lantern",
+      "validation_asset_ids": [
+        "affb061ef06897a1"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "edca2fe32cfd2fd9",
+      "image_sha256": "e5289f7e6b72e2b30809fc29fac073b7c54d1b1fdcc60d0869e30a3094df2baa",
+      "original_caption": "pine decoration, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "c2802b0c3091372a",
+      "image_sha256": "7cf0e91d1620d393f416b6da3500f9b5206d33b2a14a41764a3aecad0ef137a9",
+      "original_caption": "control knobs, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "0834a8c223aae9e1",
+      "image_sha256": "a80feedd93a8aeead0ccf4cd79c5ff2b24d8e32c597a455c5405cfadc4396110",
+      "original_caption": "artist palette, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "21223b002ba7d9fe",
+      "image_sha256": "076d93affc4d741b4f743db1b5cbcc28b25b0e18433fc9fd6af25bde5cfee308",
+      "original_caption": "game die, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "267a22c4837ffa2c",
+      "image_sha256": "bb31a00eb91b9734e42ceb1c88a5a8f43b0b32a05c3cf6b4e8907ffedb9b54b1",
+      "original_caption": "running shirt with sash, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "4131203d1e1605cf",
+      "image_sha256": "9f19472872576cdb335501b95b81019223348fb92e3bbbf47424f96cb8604119",
+      "original_caption": "american football, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "9b2fa8e4ce943237",
+      "image_sha256": "80c682feb65e7cc9dd82a8e54df8ba6c817f847269159cb4350d62428a90c4cd",
+      "original_caption": "ice hockey stick and puck, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3c523702117b75f6",
+      "image_sha256": "9fd527e8d070aeb9cbed6c308ec474902ec5277bfd2f0a431d503c669d4f0659",
+      "original_caption": "desert island, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "desert island",
+      "validation_asset_ids": [
+        "ca7fa43b4f88aa19"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "d97f499433dc9d42",
+      "image_sha256": "67ba98e6ce417ff11ee33e64fa6eabaef4922d478d64191f2235c45e8a9197a0",
+      "original_caption": "hotel, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "hotel",
+      "validation_asset_ids": [
+        "bdc243fd4dae1d62"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "9576a62555e94c69",
+      "image_sha256": "998d84bb518f70432ea37a04c3e383eb3b3d429ac9c069c654aa6c4b5de72c62",
+      "original_caption": "waving black flag, noto 3D emoji illustration",
+      "status": "candidate_alias",
+      "candidate_concept": "Black flag",
+      "validation_asset_ids": [
+        "6b757cbb740ed75e"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "d0835e1e1ddc14e7",
+      "image_sha256": "54532550a6adf31de186b74ba54b0fc19205dd4f9b8c5c605aa92520b6cf235f",
+      "original_caption": "rat, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "0d0fb676d4d35683",
+      "image_sha256": "1912c8b7b7fe8de3968bcdba64a9df6516e94bef8eb8dec1b2b10e953d491645",
+      "original_caption": "whale, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "whale",
+      "validation_asset_ids": [
+        "75e03d799c395f12"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "cd44fddbae3e3778",
+      "image_sha256": "0d6e4f74e4d22102ac2fb338f84b3e289f9453f59da4b255951cca217c40a850",
+      "original_caption": "dog, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "2fe9ef2fc2d311ab",
+      "image_sha256": "f9226d69d46d0b70a166973b85e12cc26a99d21534c8451ec53605f147640c10",
+      "original_caption": "tropical fish, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "tropical fish",
+      "validation_asset_ids": [
+        "88cdc49abec2d39b"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "57d0f248a94b24b9",
+      "image_sha256": "5f2d341596b3841819dc93131bcd50742495b4d3bb02197aa8c46520cbcd7e07",
+      "original_caption": "bactrian camel, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "4aa7730256ab131d",
+      "image_sha256": "a3e3bf9f80d41a756df20f47aaadcbff5d08f347fada63eb75102433f3e3edc5",
+      "original_caption": "monkey face, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "020be8577c7671dc",
+      "image_sha256": "c8cb54b94334866e61cf4414e4ba0d72a4c14a1ffdb47ff403aad31f219c355e",
+      "original_caption": "eyes, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3efa1859986cbe50",
+      "image_sha256": "dc965ad48a9d22c7dba8988cb64d654cadf33561fe5c9d898a1941e44bc5da36",
+      "original_caption": "waving hand sign, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "8b3214d1c5668aef",
+      "image_sha256": "bc73f590e2b60ed82730fb6f8d31a10f5e9c0676b02772862b46917aea0651e8",
+      "original_caption": "t-shirt, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "64bc43686371688f",
+      "image_sha256": "4023d2e9bd1684cb8d7ac4661aa5d8bb0ccd56c44f329b1f223f8e4c3e7cfe4b",
+      "original_caption": "high-heeled shoe, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "57116974f94473a4",
+      "image_sha256": "265a2e7d97a0ff03208e30edde1fec145e4c8be2f97bbc340f73604ade017d6e",
+      "original_caption": "man and woman holding hands, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3daf1408db6b6490",
+      "image_sha256": "c2b2d5755a45bc43b3f0ea25f8dfcc45aef2b8992d5dae685200a9a9fe28ccef",
+      "original_caption": "older woman, noto 3D emoji illustration",
+      "status": "candidate_alias",
+      "candidate_concept": "Old woman",
+      "validation_asset_ids": [
+        "423d3bf7bb5caee8",
+        "6923fdb01e796bd0",
+        "761bca071e99cd77",
+        "97b86d51bf1969fb",
+        "c40145ef32326aad",
+        "d84848ff45c90ba9"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "1620faa75fffe80b",
+      "image_sha256": "4fcb201a025bc5cdb64b3119308f309692cda09871a30acfa81b104f15e72471",
+      "original_caption": "skull, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "2fdcf64c335ef06e",
+      "image_sha256": "34e00b8586fee6343f9ed6ec4ad1108d4884febc950ae8ba14d79c7aecdf5ed6",
+      "original_caption": "kiss mark, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "d29c91d5f03efeca",
+      "image_sha256": "e9fc911dc66fabe1cb8fa44665796a8b1b2fd834104be4552d9dd9028e806d46",
+      "original_caption": "two hearts, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "67fa565a9c9f37fe",
+      "image_sha256": "14dcc4f727a57cd742bd3535f0818644970ae1e7e7f3e21cfad4ff3b7e2b4809",
+      "original_caption": "diamond shape with a dot inside, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "ddc8c98488d8ac48",
+      "image_sha256": "e724570f7527c4566cad5721c752796508aa9abf927ebf69d380bcb09c33b1a4",
+      "original_caption": "dizzy symbol, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "8f7a2e5fab0fade2",
+      "image_sha256": "ef54ffb74395959a160cea340b67acfeff45866724af535d403c36258151064d",
+      "original_caption": "banknote with dollar sign, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "b1f9243df5485d81",
+      "image_sha256": "af9bc11795fab28ba55d15f8bd6e13311f1809e5f8e0a9feb8a1f8f0c67a72dd",
+      "original_caption": "dvd, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "707def7c7679d2f7",
+      "image_sha256": "c6f11769e3fdf0bfcb0658e4ea17f501a0a6910f79276cec4c43cb3bbd23f688",
+      "original_caption": "clipboard, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "004a6007745700ae",
+      "image_sha256": "dca060eb4bea152ffa4f2d22b84602e3beeba53114c7446662bad19070b9ac39",
+      "original_caption": "closed book, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "2f1d78579e6197a8",
+      "image_sha256": "4e89f18eb90997f8e54087e7461af68f10c7790165dbe259ed59e365e4d14e40",
+      "original_caption": "fax machine, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "6441fb29abcf63e3",
+      "image_sha256": "e7bdbbdc601fc6991d4b948a11ad37b5f7f690de3c194ac348ceb1b0d1aeea41",
+      "original_caption": "closed mailbox with raised flag, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "e6d880d85046525a",
+      "image_sha256": "00a7dd310bbb31d8773005d54fb26578693b637e56fb644799b3b5861e1ea496",
+      "original_caption": "no mobile phones, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "e65c430f6678e304",
+      "image_sha256": "f2a624cd6567dadecb976d15844676037f8354fb4995edfe1aee277601d11092",
+      "original_caption": "clockwise rightwards and leftwards open circle arrows, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "f1f8ed2ab3cf6ced",
+      "image_sha256": "73c9a77002cb04bd438b90ea30c7282d72084b42b66ef973e9ef15f1ae248686",
+      "original_caption": "electric plug, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "4c7dd73dd7fbc51b",
+      "image_sha256": "f08d3d0a638d6bb80585729aa2749bf6f27d37fe462ae80304338c68602fbc68",
+      "original_caption": "bookmark, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "67bdb3bab3ece888",
+      "image_sha256": "0e96c0fa1a5c188f478d95de16d02cb226feec9a86b7c5a1ede22fe8da14520b",
+      "original_caption": "input symbol for latin small letters, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "e506c2ae25a98d50",
+      "image_sha256": "d139d403a2f1a11eb0d3261ad46dbded68181c140f9f9dc50329fd531ebac8de",
+      "original_caption": "pistol, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "4956de90f2d6681a",
+      "image_sha256": "a082657f2214840857893fa7177ff8fb9fdeafe1001c151335697d7b869f3055",
+      "original_caption": "large orange diamond, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "f659ba53fc3d9b9b",
+      "image_sha256": "b7b8370569af277096af5dac8c83584b72752e662b099633b0459471cfa131b9",
+      "original_caption": "mosque, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "ca3deb0f8fcfe275",
+      "image_sha256": "dd06707fc2fd12e4372539ae1996b5046dbf32e2bdc28f156eed955e9c1a5f84",
+      "original_caption": "clock face eight oclock, noto 3D emoji illustration",
+      "status": "candidate_alias",
+      "candidate_concept": "Eight oclock",
+      "validation_asset_ids": [
+        "2f3b309a9e6174ac"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "c3dccc1ce52726ec",
+      "image_sha256": "3fd250603713d58cb224618d272808bc373386ee49b2d80ff6b4b6c51c571987",
+      "original_caption": "clock face seven-thirty, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "77040b96bba36232",
+      "image_sha256": "3b46eab3f7b336cea52b5a38b3694c402d8440b4cf4b3df6dd618e6d833eb705",
+      "original_caption": "dark sunglasses, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "ba0b82dd93f01e0e",
+      "image_sha256": "75c1e26c7d95a9af5a3a684ebf8c2fba62c0e11e75f64a7269e77d6ed1c6fd95",
+      "original_caption": "raised hand with fingers splayed, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3e5d26a1917859cb",
+      "image_sha256": "015f7b2e3d00d926ebf48a18724091650e36139fcdc90242f62cdee83587ae7a",
+      "original_caption": "file cabinet, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3b1627e75a009651",
+      "image_sha256": "dbcf5b56235110afb2d8c86a81512b5d75bb9609b7529d3b1917f6aae516048e",
+      "original_caption": "ballot box with ballot, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "05acf3f6c53e3b4f",
+      "image_sha256": "3ee11540ef172610605a0e9fa36eb2a0a0e7fdc77b686ccfba9241889008945f",
+      "original_caption": "smiling face with open mouth, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "10053ba8d70968cf",
+      "image_sha256": "6c406787fc945b6c72f6624dad1ff6a6573496c829f84e780f891ebd3dd68dc3",
+      "original_caption": "smiling face with sunglasses, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "7e2d75bd14ac34cb",
+      "image_sha256": "9578bd6e1e0b7c1568c715f65f9598ab3ef30e9c7df2b1417f7ad52757ecf1e3",
+      "original_caption": "kissing face with smiling eyes, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "kissing face with smiling eyes",
+      "validation_asset_ids": [
+        "52db44326337caea"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "2f2b07d141bd7880",
+      "image_sha256": "708faaf1d9d0ae094430989b4ba9d45736136876417722336ae9a6df6557e908",
+      "original_caption": "persevering face, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "ed1e7c1b6ce1c3e8",
+      "image_sha256": "b2a11ab5c7a43b18d005d05866881506301de05fc1aa8169e0417358a943fa0f",
+      "original_caption": "face with open mouth, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "4f0337a52ead4949",
+      "image_sha256": "42834dba25552f3423ec22374ce7fb4d1d58ca3f77ffd76a611cc9f214cdbcae",
+      "original_caption": "cat face with tears of joy, noto 3D emoji illustration",
+      "status": "candidate_alias",
+      "candidate_concept": "Cat with tears of joy",
+      "validation_asset_ids": [
+        "70ecaf1c63352c3c"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "f45c19e682f9037c",
+      "image_sha256": "47426655ebab2efd26a8463bc7e4c0abba825c914d4a47aa573f0ea7386cca90",
+      "original_caption": "upside-down face, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "upside-down face",
+      "validation_asset_ids": [
+        "cdb1168615e70227"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "8cc9360df19832a4",
+      "image_sha256": "5dacae6d046823668ca2948438a3c7957d3ab0ab882f206d91e642b8e8f8925e",
+      "original_caption": "person with pouting face, noto 3D emoji illustration",
+      "status": "candidate_alias",
+      "candidate_concept": "Person pouting",
+      "validation_asset_ids": [
+        "062346d40052a5a3",
+        "121a743f6f7544f1",
+        "3956160d1f7abaeb",
+        "5278c78c83584ac9",
+        "7ac1e5793c937d09",
+        "ea4ef852fc5e6320"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "2af664eca4762983",
+      "image_sha256": "1754d53980b4f3f48c3ced424ca5364d183f0ae187bc07144974778d23fdd1f2",
+      "original_caption": "station, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "6141ab2c5c3563a3",
+      "image_sha256": "9759784369e95ab95de254415c15b0e0e80b837714056fa0ea6e7b85d88bb408",
+      "original_caption": "police car, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "2f71693ef37dc0f9",
+      "image_sha256": "8b99e2aaa65061f59897b061a1240b560084049f4866b73a979bd39acdae3183",
+      "original_caption": "mountain railway, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "f6094dfe085d9c5b",
+      "image_sha256": "c12a89dd7e9b7b15d20358ecb27130de6c0fde9951a7f127acc35e65cd4cbc48",
+      "original_caption": "triangular flag on post, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "d94a88b850116de0",
+      "image_sha256": "21210c1b3527582aa01848c5e2bd5e4924ece162e7ac7d3629cf3c993d0549fe",
+      "original_caption": "no bicycles, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "a39a3203920b2399",
+      "image_sha256": "354ae6bf23f14c6d6b930968be7ffccb410a6c720e069bec3097e2f51144dfbc",
+      "original_caption": "water closet, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "water closet",
+      "validation_asset_ids": [
+        "ced95dae8d0df519"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "7daf7b27f8e2295b",
+      "image_sha256": "e32501ab8107c6e35cb118874f11b64846fd115b5962fcd33a8f6961dfc46077",
+      "original_caption": "bellhop bell, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "bellhop bell",
+      "validation_asset_ids": [
+        "3e0bef4e71e057c1"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3631fd7e658374e6",
+      "image_sha256": "8b83391a2d5fe586ca002498ca6d3ec7ac52e848fe015ffe0cb9de0f74e40bc6",
+      "original_caption": "wireless, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "2f8b36e3cb176ca3",
+      "image_sha256": "47314ad7a99b07b7e57ddef451a333d4734c1d57977345a8058cd5e29dda9d12",
+      "original_caption": "airplane departure, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "8d0caf30679224eb",
+      "image_sha256": "dfdbfb4410d2f848ba2b640abf46ae1644a1269828184c30aa425447feed60ca",
+      "original_caption": "pickup truck, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "e52a8b43759ef9ac",
+      "image_sha256": "3ca3d1b3c387ce8940fa4a6613d1b6478de751b209e80d511836772ee1e05ba5",
+      "original_caption": "large yellow square, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "22ce937cbde83148",
+      "image_sha256": "56456ee353e47c84f15a4f29742fffec4b86e5cdf7b52248cabb2beaba715556",
+      "original_caption": "face with thermometer, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "e6348783fd8dfbab",
+      "image_sha256": "d3bd5027914f5fc4f87b34422e15478bf1835acdf98dda0ba8e119c85416e503",
+      "original_caption": "handshake, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "e0c2b9faaf7cc4eb",
+      "image_sha256": "af90d31a8f8d8d72438b2c97cd166742f8075f2bb2e365b03326fd4cbf65211c",
+      "original_caption": "sneezing face, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "b64db72da2a9c184",
+      "image_sha256": "8c107fb6de6e9190b99788944b1cd3c6dbea3a9d613fbc3f17d12afa8adfa523",
+      "original_caption": "palms up together, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "b2cea785be20d1c7",
+      "image_sha256": "2118721dd277db1378b35a1f08b62934d82ad164482839db5d58ba028a0aa561",
+      "original_caption": "handball, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3c9acbc07a0d25b1",
+      "image_sha256": "5e7f27be2fd9d43bbbaadc6caef51f29a6f681c308eec23299a4321b96788774",
+      "original_caption": "third place medal, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "0a2773675663e2ff",
+      "image_sha256": "2a56cbddcb526fe8f6968e085e467368865cb017731f86139bcc5d3acb5ff7b0",
+      "original_caption": "potato, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "potato",
+      "validation_asset_ids": [
+        "7efc62d2b88bf5dc"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "0be2f2e5aca1fcc9",
+      "image_sha256": "fbaba81ecfb7b31f60d8b64c5d125f91418d7ca1402836000a7f2f1cb41325c0",
+      "original_caption": "dumpling, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "dumpling",
+      "validation_asset_ids": [
+        "e6eadfa490578b4c"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "bdaf2e1a81db99d6",
+      "image_sha256": "369924dcf4573d99ed134770f34eb000286950294b9c29bc5615fa671ed9ed35",
+      "original_caption": "cut of meat, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "684cef2566b9e022",
+      "image_sha256": "9d9ca3da866bf03a614704df76d92a4a6bd3d00633a45e60339c9aa7c2424bbc",
+      "original_caption": "face with uneven eyes and wavy mouth, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "a4aba69286fc7e8a",
+      "image_sha256": "ac2e637b7d9fcf9a768dfe2319dbe3caab17ed51bd674b97bf78043f623adda7",
+      "original_caption": "flat shoe, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "2b9efcfeadd5eb7b",
+      "image_sha256": "5f588c47dc7934007d2cc6a4d327e9e2266ab83f16e65a629ddce21533e7f6e6",
+      "original_caption": "owl, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "owl",
+      "validation_asset_ids": [
+        "de8326d94246b595"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "c5fdf3c279f60293",
+      "image_sha256": "8aa97528507244fda0b4f18d17f5fa033fa0562a4165893d579b1644dfb5b27d",
+      "original_caption": "hedgehog, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "4cd47bcfa53a446e",
+      "image_sha256": "e1f007e5e27570c58e90ba226b4983afa77307dd3cf8c5b90ff055268f33cf59",
+      "original_caption": "mosquito, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "eb2adde5260b104e",
+      "image_sha256": "4f806d0157f54324040dab7f05c635db61874834fa026e6cbaaa2100dbbe2f9b",
+      "original_caption": "flamingo, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "6aca8306a7b2ebaa",
+      "image_sha256": "a11a183bc56a0ac5d72f3ccf5c740d430881be59ff84f6fd587391da0565a27e",
+      "original_caption": "bone, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "a1293c86b4f6759f",
+      "image_sha256": "5480b744cf4821290229859b91e2e46531ac518e705d24dea8c0cc0537186401",
+      "original_caption": "mechanical leg, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "381d804f67da190e",
+      "image_sha256": "e118fa1ae45498acaa9b8099d5280791572999e0c93b049a0dc79b32632c02ae",
+      "original_caption": "mate drink, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3afd521b5e523ba1",
+      "image_sha256": "9ec46ddf3cafc07712d94b757e873f7c25de949c4539780e2ad75cc50423b381",
+      "original_caption": "bearded person, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "3e74b7116ca667cc",
+      "image_sha256": "ae3af7b52b40023db8158a8874dbc03d5d58e22b0388ddb0eeea02e83f55e6dd",
+      "original_caption": "zombie, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "489fa000f573c0b1",
+      "image_sha256": "d465bf2bfe6c018e97d1179755afd8ea614f0b39e97a8fbb034e72c95e37a8e7",
+      "original_caption": "jigsaw puzzle piece, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "383c58d961d071ed",
+      "image_sha256": "9a3c1742b8c39f7a5af0e4c33cbf84e0233e87964ddc763f2d12985e1da716f1",
+      "original_caption": "lotion bottle, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "b9e4b8c7cf11d9b2",
+      "image_sha256": "aa33dd17952e35c7d58ea9e09a35ffaf01cb06b61dc18a0b60f543b86e63c259",
+      "original_caption": "nazar amulet, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "5634c5c484d3a2f1",
+      "image_sha256": "9151a32970443036ada0609426aca59b4f454653aa8ca582c4f7e8e00bbe505a",
+      "original_caption": "adhesive bandage, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "1aeeb4c95ea64d16",
+      "image_sha256": "ef7c2b43598652f6efed0c0ac5fdd9c10a74ba78b82dd80146acbb4d1220cc05",
+      "original_caption": "maracas, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "fc2516ede962d445",
+      "image_sha256": "ac8fcf288979c4024d99ade6e0229c1e98dd8fe9b4800e6985904c3313c3f03e",
+      "original_caption": "razor, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "4dc98c033021b63f",
+      "image_sha256": "d67991e6c3b7e2dd1a25633f254f9a75e089ffa0016667f150cfb7ac702ddf98",
+      "original_caption": "ladder, noto 3D emoji illustration",
+      "status": "exact_name",
+      "candidate_concept": "ladder",
+      "validation_asset_ids": [
+        "a403ce67eb7cfe94"
+      ],
+      "proposed_action": "exclude_from_training",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "ba028c1f564f5bfa",
+      "image_sha256": "a4e6c4ba5c0490ae401cbb66ec5e3241f4d52c46bf91a2ea75a184aa84ed8e63",
+      "original_caption": "placard, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "83d3f78dda2d256d",
+      "image_sha256": "1b3f6fd0d69881a099c425e20292e8dffa42deeaa7cd2e1753bd78a548e28040",
+      "original_caption": "beetle, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "96bf5f571629acbe",
+      "image_sha256": "b2bc8b5a9281366ecdcbba963ed2bba46f38dd095174346d20f13002edc04de8",
+      "original_caption": "jellyfish, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "36af1dd6021b8d8e",
+      "image_sha256": "93f36dee5e4e3b05436492d85c5e7626dab0e69fcf2abdde92fdb0cad4b94ed0",
+      "original_caption": "u+1fac8, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": "A shaggy brown ape-like figure walking upright, with a tan face, hands and feet, isolated 3D emoji illustration"
+    },
+    {
+      "asset_id": "817e4796b8f9ae2d",
+      "image_sha256": "8ee28afc179b87ad1753a0bf5c70b24c83d7154b7f901a574410f98b19eafa9b",
+      "original_caption": "teapot, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "346ca0373f1c1287",
+      "image_sha256": "194e8c92d89199000921bbcd9e63f16657daaa74e45fdd71a1176f516ff9dc13",
+      "original_caption": "saluting face, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": null
+    },
+    {
+      "asset_id": "e4af73e97bce2dc4",
+      "image_sha256": "d6d2449f409afd00c732aaa15d058ef567bdf7100683dbf1feaa708202464fbc",
+      "original_caption": "u+1faef, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": "A cartoon dust cloud surrounded by teal motion loops, yellow stars and red impact bursts, isolated 3D emoji illustration"
+    },
+    {
+      "asset_id": "f58fab41feef3bc0",
+      "image_sha256": "52f62b6a6d168a06a7780bde7ef0cc244aa285af8ed1a17f66a29bf070702f5f",
+      "original_caption": "u+1fafa, noto 3D emoji illustration",
+      "status": "unresolved",
+      "candidate_concept": null,
+      "validation_asset_ids": [],
+      "proposed_action": "quarantine_pending_semantic_review",
+      "caption_proposal": "A single golden-yellow hand with four fingers curled over the palm and the thumb extended sideways to the right, isolated 3D emoji illustration"
+    }
+  ]
+}

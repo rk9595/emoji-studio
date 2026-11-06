@@ -1,15 +1,15 @@
 {
   "status": "ready",
-  "milestone": "Offline diagnosis of gesture and expression training data",
+  "milestone": "Code-only caption proposals and exact concept overlap audit",
   "milestone_status": "complete",
   "updated_date": "2026-11-06",
-  "ready_task": "Prepare offline caption proposals for code-only Noto labels and audit semantic overlap with Fluent validation concepts. Follow reports/fluent-noto-data-diagnosis.md; preserve frozen datasets and allocate no GPU.",
+  "ready_task": "Prepare a 128-row Noto semantic crosswalk with exact validation matches, candidate aliases and unresolved labels; propose a separate split that excludes validation concepts from training. See reports/noto-caption-overlap-audit.md. No GPU.",
   "last_completed_task": {
-    "name": "Completed frozen manifest and coverage schedule diagnosis",
+    "name": "Completed three visual caption proposals and exact-name overlap audit",
     "status": "complete",
     "date": "2026-11-05",
     "receipts": [
-      "reports/fluent-noto-data-diagnosis.md"
+      "reports/noto-caption-overlap-audit.md"
     ],
     "reviewed_groups": 24
   },

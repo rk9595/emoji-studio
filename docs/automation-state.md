@@ -1,5 +1,14 @@
 # Current state — 2026-11-06
 
+## Caption and overlap audit complete
+
+Three images visually inspected; unapplied AI proposals are hash-bound in
+`configs/noto-caption-proposals-v1.json`. Exact names identify17 Noto training
+concepts in Fluent validation. See `reports/noto-caption-overlap-audit.md` and
+`scripts/audit_noto_overlap.py`. Full validation is not concept-held-out; aliases
+remain unaudited. Next: offline128-row semantic crosswalk and new split proposal.
+No frozen files changed, allocation occurred, or adapter was promoted.
+
 ## Data diagnosis complete
 
 See `reports/fluent-noto-data-diagnosis.md`: 2624 scheduled draws cover2621

@@ -1,0 +1,26 @@
+{
+  "status": "proposal_only_not_applied",
+  "reviewer": "AI visual review",
+  "manifest_sha256": "04ceea8fbe448f4ae0441938f6f06f8c1c5b9a010bf61f7e1641dae7f3a3846e",
+  "note": "Descriptions reflect inspected pixels; they do not assert official Unicode names.",
+  "proposals": [
+    {
+      "asset_id": "36af1dd6021b8d8e",
+      "image_sha256": "93f36dee5e4e3b05436492d85c5e7626dab0e69fcf2abdde92fdb0cad4b94ed0",
+      "old_caption": "u+1fac8, noto 3D emoji illustration",
+      "proposed_caption": "A shaggy brown ape-like figure walking upright, with a tan face, hands and feet, isolated 3D emoji illustration"
+    },
+    {
+      "asset_id": "e4af73e97bce2dc4",
+      "image_sha256": "d6d2449f409afd00c732aaa15d058ef567bdf7100683dbf1feaa708202464fbc",
+      "old_caption": "u+1faef, noto 3D emoji illustration",
+      "proposed_caption": "A cartoon dust cloud surrounded by teal motion loops, yellow stars and red impact bursts, isolated 3D emoji illustration"
+    },
+    {
+      "asset_id": "f58fab41feef3bc0",
+      "image_sha256": "52f62b6a6d168a06a7780bde7ef0cc244aa285af8ed1a17f66a29bf070702f5f",
+      "old_caption": "u+1fafa, noto 3D emoji illustration",
+      "proposed_caption": "A single golden-yellow hand with four fingers curled over the palm and the thumb extended sideways to the right, isolated 3D emoji illustration"
+    }
+  ]
+}

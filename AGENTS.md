@@ -77,6 +77,11 @@ schedule sees all2621 assets; target expressions/crossed fingers are held out,
 high-five/pinky examples absent, and3 Noto captions are code-only. No causal
 regression claim. Next: offline caption proposal and cross-source semantic
 overlap audit, preserving frozen datasets and held-out families.
+Caption/overlap milestone complete: configs/noto-caption-proposals-v1.json has
+three AI visually grounded proposals, unapplied. Exact normalized names find17
+Noto-train/Fluent-validation concept overlaps; this is a lower bound, not proof
+of overlap in the12 review prompts. reports/noto-caption-overlap-audit.md.
+Next offline work: semantic crosswalk for128 Noto rows and separate split proposal.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

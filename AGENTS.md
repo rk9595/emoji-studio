@@ -67,6 +67,11 @@ Private gallery prepared at runs/noto-retrospective-review-v1/index.html: 24
 groups, 72 verified images, criteria and 32px thumbnails. Rebuild using
 scripts/build_noto_review.py. Observations are still unscored. Prior image
 exposure means subsequent AI review cannot be called fully blinded.
+User supplied human scores November 6; 24 groups validated and summarized in
+reports/noto-human-review-summary.md. Step656 regresses on expressions (0.50
+vs pilot25 2.00), ties average tone-specific gestures (0.90), and has no broad
+advantage. Keep pilot25. Next: prepare an offline data/caption diagnosis; any
+new GPU run requires fresh bounded authorization.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

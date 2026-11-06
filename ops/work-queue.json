@@ -1,23 +1,25 @@
 {
   "status": "ready",
-  "milestone": "Evaluate the saved Fluent-plus-Noto step-656 adapter on AMD",
-  "milestone_status": "complete",
+  "milestone": "Offline diagnosis of gesture and expression training data",
+  "milestone_status": "review_complete_no_promotion",
   "updated_date": "2026-11-06",
-  "ready_task": "Score runs/noto-retrospective-review-v1/index.html against prompt criteria, save observations before reading map.json, then summarize. Prior image exposure means AI review is not fully blinded. Zero new GPU renders.",
+  "ready_task": "Inspect Fluent/Noto manifests, captions, and sampler records for expression regression, six-finger anatomy and interaction failures. Prepare an offline data/caption proposal; do not allocate a GPU until a fresh bounded plan is authorized.",
   "last_completed_task": {
-    "name": "Verified campaign e results, GPU deletion, cost and AI quality review",
+    "name": "Validated user's human review scores and decoded shuffled comparison",
     "status": "complete",
     "date": "2026-11-05",
     "receipts": [
-      "reports/amd-noto-eval-20261105e.json"
+      "reports/noto-human-review-summary.md"
     ],
-    "verified_images": 24
+    "reviewed_groups": 24
   },
   "recipe": "configs/lora-coverage-v1.json",
   "next_actions": [
     "Do not redispatch or rerun consumed campaigns b, c, d, or e. Campaign e completed24 images and independently deleted GPU616116808.",
     "Keep production serving on reviewed pilot step25. Campaign e has gesture failures and no matched baseline, so do not claim improvement or promote step656.",
-    "Prepare offline shuffled review using existing base/pilot outputs paired with campaign e; report cross-run dependency limitations. New training or promotion still requires a separate decision."
+    "Do not promote step656. Human review shows expression regression and no overall advantage over pilot25. Keep pilot25 serving.",
+    "Inspect captions, manifests and sampler coverage offline to identify likely gesture/anatomy/expression causes. Preserve old data and split.",
+    "Do not allocate GPU or reuse consumed claims. A new bounded run requires a fresh immutable plan and explicit authorization."
   ],
   "waiting_reason": null,
   "gpu_allocated": false,

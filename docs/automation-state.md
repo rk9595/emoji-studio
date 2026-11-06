@@ -1,5 +1,15 @@
 # Current state — 2026-11-06
 
+## Human review complete; no adapter promotion
+
+Validated user's 24-group/72-image export, decoded shuffled labels and saved
+`reports/noto-human-review-summary.md`. Step656 expression mean is0.50 versus
+pilot25 2.00; tone-specific gestures tie at0.90; object/bicycle controls tie;
+person and novel-composition are slightly lower. User noted one six-finger
+image. Keep pilot25 serving. Next ready task: offline data/caption diagnosis.
+Any paid retraining needs a fresh immutable bounded plan; consumed claims remain
+closed. No GPU is active.
+
 ## Next ready work: offline retrospective comparison
 
 Private shuffled gallery now exists at `runs/noto-retrospective-review-v1/index.html`.

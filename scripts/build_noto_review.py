@@ -34,11 +34,22 @@ def build(baseline, candidate, output):
             mapping[pair][label] = {'condition': condition, 'sha256': digest(source)}
             cards.append(f'<article><h3>{label}</h3><img src="assets/{filename}" alt="Candidate {label}"><img class="thumb" src="assets/{filename}" alt="32 pixel thumbnail"></article>')
         criteria = ''.join(f'<li>{html.escape(c)}</li>' for c in prompts[row['prompt_id']]['criteria'])
-        sections.append(f'<section><h2>{pair}</h2><p>{html.escape(row["prompt"])}</p><ul>{criteria}</ul><div class="grid">{"".join(cards)}</div></section>')
-    page = '''<!doctype html><meta charset="utf-8"><title>Saved emoji comparison</title>
-    <style>body{font:16px system-ui;max-width:1300px;margin:30px auto;padding:16px;background:#eee}section{background:white;padding:20px;margin:30px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}img{width:100%}.thumb{display:block;width:32px;height:32px;margin:12px}h3{margin:0}</style>
-    <h1>Retrospective emoji comparison</h1><p>24 prompt/seed groups; labels shuffled separately per group. Score each A/B/C before opening map.json: 0 = major failure, 1 = partial or uncertain, 2 = requested details met. Record uncertainty. This is a development diagnostic across separate runs; dependency equivalence is not established. Prior exposure to images prevents a claim of fully blinded AI review.</p>'''
-    (output / 'index.html').write_text(page + ''.join(sections))
+        cards = [card.replace('<h3>', '<h3>') for card in cards]
+        sections.append(f'<section data-pair="{html.escape(pair)}"><h2>{pair}</h2><p>{html.escape(row["prompt"])}</p><ul>{criteria}</ul><div class="grid">{"".join(cards)}</div><fieldset><legend>Score each image</legend>' + ''.join(f'<label>{label}: <select data-score="{label}"><option value="">Choose</option><option value="0">0 — major failure</option><option value="1">1 — partial / unsure</option><option value="2">2 — meets criteria</option></select></label>' for label in 'ABC') + '<label>Notes <input data-notes type="text" placeholder="Optional"></label></fieldset></section>')
+    page = '''<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Saved emoji comparison</title>
+    <style>body{font:16px system-ui;max-width:1300px;margin:30px auto;padding:16px;background:#eee}section{background:white;padding:20px;margin:30px 0;border-radius:10px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}img{width:100%;border-radius:6px}.thumb{display:block;width:32px;height:32px;margin:12px}h3{margin:0}fieldset{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:18px;padding:14px}select,input,button{font:inherit;padding:8px}header{position:sticky;top:0;background:#fff;padding:12px;z-index:2;border-radius:10px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}</style>
+    <h1>Retrospective emoji comparison</h1><p>For each prompt, compare A/B/C with the criteria. Choose a score for each: 0 = major failure, 1 = partial or unsure, 2 = meets the requested details. Labels are shuffled for every prompt. This development review compares separate runs; prior exposure means it is not a fully blinded AI review.</p>
+    <header><button id="export">Download scores</button><button id="clear">Clear scores</button><span id="progress"></span><span>Scores save automatically in this browser.</span></header>'''
+    page += ''.join(sections) + '''<script>
+    const key='noto-review-v1'; let saved={}; try{saved=JSON.parse(localStorage.getItem(key)||'{}')}catch{}
+    const sections=[...document.querySelectorAll('section[data-pair]')];
+    function render(){let done=0; for(const s of sections){const x=saved[s.dataset.pair]||{}; for(const q of s.querySelectorAll('[data-score]'))q.value=x[q.dataset.score]??''; s.querySelector('[data-notes]').value=x.notes||''; if('A'in x&&'B'in x&&'C'in x)done++} document.querySelector('#progress').textContent=`${done}/${sections.length} groups scored`}
+    function collect(){for(const s of sections){const x=saved[s.dataset.pair]||{}; for(const q of s.querySelectorAll('[data-score]')){if(q.value)x[q.dataset.score]=Number(q.value);else delete x[q.dataset.score]} x.notes=s.querySelector('[data-notes]').value; saved[s.dataset.pair]=x} localStorage.setItem(key,JSON.stringify(saved));render()}
+    document.addEventListener('change',collect); document.addEventListener('input',e=>{if(e.target.matches('[data-notes]'))collect()}); render();
+    document.querySelector('#export').onclick=()=>{collect(); const blob=new Blob([JSON.stringify({reviewer:'human',method:'manual criterion scoring; retrospective shuffled comparison',observations:saved},null,2)],{type:'application/json'}); const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='noto-review-scores.json';a.click();URL.revokeObjectURL(a.href)};
+    document.querySelector('#clear').onclick=()=>{if(confirm('Clear all saved scores?')){saved={};localStorage.removeItem(key);render()}};
+    </script>'''
+    (output / 'index.html').write_text(page)
     (output / 'map.json').write_text(json.dumps(mapping, indent=2) + '\n')
     (output / 'audit.json').write_text(json.dumps(verified, indent=2) + '\n')
     (output / 'observations-template.json').write_text(json.dumps({

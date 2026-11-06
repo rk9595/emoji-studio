@@ -59,6 +59,10 @@ crossed fingers are ambiguous/inconsistent, and pinky-promise quality is mixed.
 No matched baseline, improvement claim, or promotion. Serving stays pilotstep25.
 Current milestone is complete; a new training direction or promotion requires
 user judgment and a fresh immutable plan/claim.
+November 6 continuation verified that historical base/pilot images match all
+24 candidate prompt/seed pairs and rendering settings. See
+reports/noto-baseline-reuse.md and scripts/audit_noto_comparison.py. Next ready
+work is an offline shuffled review using retained images; no GPU required.
 
 Public code: `rk9595/emoji-studio`. Private execution and model artifacts:
 `rk9595/emoji-studio-ops`, release `amd-comparison-v1`.

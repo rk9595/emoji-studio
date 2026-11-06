@@ -1,4 +1,14 @@
-# Current state — 2026-11-05
+# Current state — 2026-11-06
+
+## Next ready work: offline retrospective comparison
+
+User continued November 6. Verified all 144 historical and 24 candidate payloads.
+Existing base/pilot images match candidate prompts, seeds and rendering settings;
+48 baseline images are reusable with zero additional GPU renders. Recorded GPU,
+Torch and HIP agree, but full dependency equivalence is not established.
+See `reports/noto-baseline-reuse.md` for hashes and reproducible audit command.
+Prepare a shuffled private review next. No training or promotion decision has
+been made; the completed evaluation and its consumed claim remain closed.
 
 ## Corrected saved-adapter evaluation complete — no promotion
 
